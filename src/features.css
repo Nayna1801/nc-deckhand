@@ -74,3 +74,29 @@
 .deck-legends.big { margin: 1rem 0; }
 .deck-legends.big img { width: 120px; margin-right: -40px; }
 .deck-legends.big img:last-child { margin-right: 0; }
+
+/* búsqueda avanzada */
+.searchbox { position: relative; display: flex; flex: 1 1 260px; }
+.searchbox .input { flex: 1; padding-right: 2.2rem; }
+.searchhelp { position: static; }
+.searchhelp summary { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; line-height: 20px; text-align: center; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); cursor: pointer; list-style: none; font-weight: 700; font-size: 0.8rem; }
+.searchhelp summary::-webkit-details-marker { display: none; }
+.searchhelp summary:hover, .searchhelp[open] summary { color: var(--yellow); border-color: var(--yellow); }
+.searchhelp-body { position: absolute; z-index: 30; top: calc(100% + 6px); left: 0; right: 0; min-width: min(560px, 92vw); background: var(--surface); border: 1px solid var(--yellow); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7); padding: 0.8rem 1rem; max-height: 70vh; overflow: auto; }
+.searchhelp-body table { border-collapse: collapse; width: 100%; margin-bottom: 0.6rem; }
+.searchhelp-body td { padding: 2px 8px 2px 0; vertical-align: top; }
+.searchhelp-body td:first-child { white-space: nowrap; }
+.searchhelp-body .link-btn { color: var(--cyan); }
+.search-errors { flex-basis: 100%; margin: 0; }
+
+/* variantes */
+.variants { margin: 0.8rem 0; border-top: 1px solid var(--line); padding-top: 0.5rem; }
+.variants summary { cursor: pointer; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--yellow); font-weight: 700; }
+.variants h4 { margin: 0.7rem 0 0.2rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.variant-row { display: flex; gap: 0.6rem; align-items: baseline; flex-wrap: wrap; padding: 2px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+.variant-row > span:first-child { flex: 1 1 200px; }
+.langs { display: inline-flex; gap: 4px; }
+.lang, .chip { display: inline-block; font: 600 0.68rem var(--mono); padding: 0 5px; border: 1px solid var(--line); color: var(--muted); }
+.lang-fr, .chip { color: var(--cyan); border-color: rgba(0, 240, 255, 0.4); }
+.crow-chips { display: inline-flex; gap: 4px; min-width: 4.2rem; }
+.btn.mono, .searchhelp-body .mono { text-transform: none; letter-spacing: 0; font-family: var(--mono); }

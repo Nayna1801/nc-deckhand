@@ -5,7 +5,7 @@
 //
 // Uso:  npm run sync            (catálogo + imágenes nuevas)
 //       npm run sync -- --force (re-descarga todas las imágenes)
-import { mkdir, writeFile, access } from 'node:fs/promises'
+import { mkdir, writeFile, access, readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -13,6 +13,12 @@ const ORIGIN = 'https://cyberpunk-tcg-sim.online'
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const force = process.argv.includes('--force')
 const CONCURRENCY = 6
+
+// --from <fichero>  usa un catálogo ya descargado (sin peticiones de red); implica no descargar imágenes
+// --no-images       solo regenera src/data/cards.json
+const fromIdx = process.argv.indexOf('--from')
+const fromFile = fromIdx > -1 ? process.argv[fromIdx + 1] : null
+const skipImages = process.argv.includes('--no-images') || fromFile !== null
 
 const exists = (p) => access(p).then(() => true, () => false)
 
@@ -24,6 +30,38 @@ async function getJson(url) {
 
 // El JSON viene con mojibake en "—" en algunos nombres de set (UTF-8 leído como latin1).
 const fixText = (s) => (typeof s === 'string' ? s.replace(/â€”/g, '—').replace(/â€“/g, '–') : s)
+
+/** "Welcome to Night City — Retail — FR" -> "Welcome to Night City — Retail" */
+const baseSetName = (name) => fixText(name ?? '').replace(/\s+—\s+(FR|French)$/i, '').trim()
+const isFrench = (setCode, setName) => /-fr$/i.test(setCode ?? '') || /\s—\s(FR|French)$/i.test(fixText(setName ?? ''))
+
+function normalizePrinting(p) {
+  return {
+    setCode: p.set_code,
+    setName: fixText(p.set_name),
+    baseSetName: baseSetName(p.set_name),
+    edition: p.edition ?? null,
+    collectorNumber: p.collector_number ?? null,
+    language: isFrench(p.set_code, p.set_name) ? 'fr' : 'en',
+    artist: p.artist ?? null,
+    isPrimary: p.is_primary === true,
+  }
+}
+
+// Solo metadatos de las artes alternativas: NO se descargan ni se publican sus imágenes.
+function normalizeAltArt(a) {
+  return {
+    id: a.id,
+    label: a.label ?? null,
+    collectorNumber: a.collector_number ?? null,
+    artist: a.artist ?? null,
+    rarity: a.rarity ?? null,
+    setCode: a.set_code ?? null,
+    setName: a.set_name ? fixText(a.set_name) : null,
+    baseSetName: a.set_name ? baseSetName(a.set_name) : null,
+    edition: a.edition ?? null,
+  }
+}
 
 function normalize(c) {
   return {
@@ -48,6 +86,8 @@ function normalize(c) {
     keywords: c.keywords ?? [],
     legality: c.legality ?? 'legal',
     isAlpha: c.is_alpha === true || c.set_code === 'alpha',
+    printings: (c.source?.printings ?? []).map(normalizePrinting),
+    altArts: (c.alt_arts ?? []).map(normalizeAltArt),
     // rutas de origen: solo se usan en este script, no se guardan en cards.json
     _imageUrl: c.assets?.image_url ?? null,
     _imageRemote: c.assets?.image_remote ?? null,
@@ -72,8 +112,7 @@ async function downloadImage(card) {
 }
 
 async function main() {
-  console.log('Descargando catálogo…')
-  const catalog = await getJson(`${ORIGIN}/api/cards/catalog`)
+  const catalog = fromFile ? JSON.parse(await readFile(fromFile, 'utf8')) : (console.log('Descargando catálogo…'), await getJson(`${ORIGIN}/api/cards/catalog`))
   const raw = catalog.cards
   if (!Array.isArray(raw) || raw.length === 0) throw new Error('Catálogo vacío')
   if (catalog.cardCount !== undefined && catalog.cardCount !== raw.length) {
@@ -89,7 +128,7 @@ async function main() {
   async function worker() {
     while (next < cards.length) {
       const card = cards[next++]
-      const r = await downloadImage(card)
+      const r = skipImages ? 'skip' : await downloadImage(card)
       stats[r]++
       if (r === 'fail') failed.push(card.id)
     }

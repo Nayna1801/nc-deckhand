@@ -10,6 +10,9 @@
 - **Compartir:** exportar/importar texto (formato del sim), CSV/JSON de faltantes, y código o enlace de mazo (`#/share/ncd1.…`) sin servidor.
 - **Inventario (con sesión):** copias Normal / Foil / Promo, estado (Mint/Played/Damaged) y bulk automático (de la 4ª copia en adelante, calculado a partir del total), lista de compra cruzando mazos con inventario.
 
+- **Búsqueda avanzada** (botón `?` junto al buscador): `t:unit c:red cost<=2 o:"draw"`, `-t:legend`, `t:legend or t:gear`, `k:blocker`, `f:arasaka`, `s:beta`, `lang:fr`, `has:alt`… Los valores son siempre texto literal (nunca regex). Una condición inválida se avisa y se ignora, sin vaciar los resultados.
+- **Variantes:** cada ficha lista sus impresiones por set (Beta, Retail, Pre-Release, Promos, Judge…, con idioma EN/FR) y sus artes alternativos. Son solo metadatos: las imágenes de las variantes no se descargan ni se publican. El filtro de set considera todas las impresiones.
+
 Decisión de diseño: los mazos se **autoguardan como borrador** aunque no sean legales (como hace la web original), y se marcan Legal / Ilegal / Borrador. Bloquear el guardado haría perder trabajo a mitad de construcción.
 
 ## Formato de mazos
@@ -40,8 +43,9 @@ npm run build
 ```bash
 npm run sync       # baja el catálogo y solo las imágenes nuevas
 npm run sync -- --force   # re-descarga todas las imágenes
+npm run sync -- --from catalogo.json   # regenera cards.json desde un catálogo ya descargado (sin red ni imágenes)
 ```
-Genera `src/data/cards.json` y `public/cards/*.webp`.
+Genera `src/data/cards.json` (con impresiones y artes alternativos) y `public/cards/*.webp`. Revisa antes los términos de la web de origen.
 
 ## Configurar Supabase
 1. Crea un proyecto en supabase.com, **o reutiliza el de otra app** (plan gratis = 2 proyectos): las tablas llevan prefijo `tcg_` y no tocan las existentes. Las cuentas (auth) se comparten entre apps; los datos no, gracias a RLS.

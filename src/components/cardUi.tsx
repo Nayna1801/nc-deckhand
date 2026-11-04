@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent, type MouseEvent, type ReactNode, type TouchEvent } from 'react'
-import { catalog, COLORS, normalizeText, RARITIES, setLabel, TYPES } from '../lib/catalog'
+import { catalog, COLORS, RARITIES, setLabel, TYPES } from '../lib/catalog'
 import { exceedsRam } from '../lib/deckRules'
+import { parseSearch, SEARCH_EXAMPLES, SEARCH_FIELDS, SEARCH_NOTES } from '../lib/search'
 import type { Card, Quantities } from '../lib/types'
 
 export const imgUrl = (card: Card): string => `${import.meta.env.BASE_URL}${card.image}`
@@ -30,7 +31,7 @@ export interface Filters {
 
 export const EMPTY_FILTERS: Filters = { q: '', type: '', color: '', rarity: '', set: '', faction: '', cost: '', ram: '', sort: 'set', owned: 'all', hideLocked: false }
 
-const SETS = [...new Map(catalog.cards.map((c) => [c.setCode, setLabel(c)])).entries()]
+const SETS = [...new Set(catalog.cards.flatMap((c) => c.printings.map((p) => p.baseSetName)))].sort((a, b) => a.localeCompare(b))
 const FACTIONS = [...new Set(catalog.cards.flatMap((c) => c.classifications))].sort((a, b) => a.localeCompare(b))
 const COSTS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9+']
 const RAMS = ['1', '2', '3', '4', '5', '6+']
@@ -56,23 +57,19 @@ export interface FilterContext {
 }
 
 export function applyFilters(cards: Card[], f: Filters, ctx: FilterContext = {}): Card[] {
-  const q = normalizeText(f.q)
+  const search = parseSearch(f.q)
   const out = cards.filter((c) => {
     if (f.type && c.type !== f.type) return false
     if (f.color && c.color !== f.color) return false
     if (f.rarity && c.rarity !== f.rarity) return false
-    if (f.set && c.setCode !== f.set) return false
+    if (f.set && !c.printings.some((p) => p.baseSetName === f.set)) return false
     if (f.faction && !c.classifications.includes(f.faction)) return false
     if (f.cost && !matchesBucket(c.cost, f.cost)) return false
     if (f.ram && !matchesBucket(c.ram, f.ram)) return false
     if (ctx.owned && f.owned === 'owned' && !(ctx.owned[c.id] > 0)) return false
     if (ctx.owned && f.owned === 'missing' && ctx.owned[c.id] > 0) return false
     if (f.hideLocked && ctx.legendIds && exceedsRam(c, ctx.legendIds, catalog)) return false
-    if (q) {
-      const hay = normalizeText([c.displayName, c.rules, c.classifications.join(' '), c.importId ?? ''].join(' '))
-      if (!hay.includes(q)) return false
-    }
-    return true
+    return search.match(c)
   })
   const sorter = SORTERS[f.sort]
   return sorter ? [...out].sort(sorter) : out
@@ -80,6 +77,7 @@ export function applyFilters(cards: Card[], f: Filters, ctx: FilterContext = {})
 
 export function FilterBar({ value, onChange, showOwned, showRam }: { value: Filters; onChange: (f: Filters) => void; showOwned: boolean; showRam?: boolean }) {
   const set = <K extends keyof Filters>(k: K, v: Filters[K]) => onChange({ ...value, [k]: v })
+  const queryErrors = useMemo(() => parseSearch(value.q).errors, [value.q])
   const active = JSON.stringify({ ...value, sort: 'set' }) !== JSON.stringify({ ...EMPTY_FILTERS, sort: 'set' })
   const sel = (k: 'type' | 'color' | 'rarity' | 'faction' | 'cost' | 'ram', label: string, opts: readonly string[]) => (
     <select className="input" value={value[k]} onChange={(e) => set(k, e.target.value)} aria-label={label}>
@@ -89,7 +87,10 @@ export function FilterBar({ value, onChange, showOwned, showRam }: { value: Filt
   )
   return (
     <div className="filters">
-      <input className="input grow" type="search" placeholder="Buscar nombre, texto, facción, código…" value={value.q} onChange={(e) => set('q', e.target.value)} />
+      <div className="searchbox grow">
+        <input className="input" type="search" placeholder={'Buscar… prueba t:unit c:red cost<=2 o:"draw"'} value={value.q} onChange={(e) => set('q', e.target.value)} aria-label="Buscar" aria-describedby={queryErrors.length ? 'search-errors' : undefined} />
+        <SearchHelp onPick={(q) => set('q', q)} />
+      </div>
       {sel('type', 'Tipo', TYPES)}
       {sel('color', 'Color', COLORS)}
       {sel('cost', 'Coste', COSTS)}
@@ -97,8 +98,8 @@ export function FilterBar({ value, onChange, showOwned, showRam }: { value: Filt
       {sel('faction', 'Facción', FACTIONS)}
       {sel('rarity', 'Rareza', RARITIES)}
       <select className="input" value={value.set} onChange={(e) => set('set', e.target.value)} aria-label="Set">
-        <option value="">Set</option>
-        {SETS.map(([code, label]) => <option key={code} value={code}>{label}</option>)}
+        <option value="">Set (todas las impresiones)</option>
+        {SETS.map((name) => <option key={name} value={name}>{name}</option>)}
       </select>
       <select className="input" value={value.sort} onChange={(e) => set('sort', e.target.value as SortKey)} aria-label="Ordenar por">
         <option value="set">Orden: set</option>
@@ -119,7 +120,36 @@ export function FilterBar({ value, onChange, showOwned, showRam }: { value: Filt
         </label>
       )}
       {active && <button className="btn ghost" onClick={() => onChange({ ...EMPTY_FILTERS, sort: value.sort })}>Limpiar</button>}
+      {queryErrors.length > 0 && (
+        <ul id="search-errors" className="warns search-errors" role="status">
+          {queryErrors.map((e) => <li key={e}>{e} (se ignora esa condición)</li>)}
+        </ul>
+      )}
     </div>
+  )
+}
+
+function SearchHelp({ onPick }: { onPick: (q: string) => void }) {
+  return (
+    <details className="searchhelp">
+      <summary title="Ayuda de búsqueda" aria-label="Ayuda de sintaxis de búsqueda">?</summary>
+      <div className="searchhelp-body">
+        <p className="muted small">Escribe palabras para buscar por nombre, texto o facción, o usa campos:</p>
+        <table>
+          <tbody>
+            {SEARCH_FIELDS.map((f) => (
+              <tr key={f.example}>
+                <td><button className="link-btn mono" onClick={() => onPick(f.example)}>{f.example}</button></td>
+                <td className="small">{f.description}{f.aliases.length > 1 && <span className="muted"> · alias: {f.aliases.join(', ')}</span>}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <ul className="plain small">{SEARCH_NOTES.map((n) => <li key={n}>{n}</li>)}</ul>
+        <p className="small"><strong>Ejemplos:</strong></p>
+        <div className="row wrap">{SEARCH_EXAMPLES.map((e) => <button key={e} className="btn sm mono" onClick={() => onPick(e)}>{e}</button>)}</div>
+      </div>
+    </details>
   )
 }
 
@@ -314,6 +344,10 @@ export function CardRow({ card, onClick, badge, right, dim, locked, lockReason, 
         <span className="crow-num" title="Coste">{card.cost ?? '–'}</span>
         <span className="crow-num" title="RAM">{card.ram ?? '–'}</span>
         <span className="crow-meta muted hide-sm">{card.classifications.slice(0, 2).join(', ')}</span>
+        <span className="crow-chips hide-sm">
+          {card.altArts.length > 0 && <span className="chip" title={`${card.altArts.length} artes alternativos`}>ALT</span>}
+          {card.printings.some((p) => p.language === 'fr') && <span className="chip" title="Tiene versión francesa">FR</span>}
+        </span>
         {badge != null && <span className="tile-badge static">{badge}</span>}
       </button>
       {right && <div className="crow-right">{right}</div>}
@@ -360,10 +394,56 @@ export function CardModal({ card, onClose, children }: { card: Card | null; onCl
           <p className="rules">{card.rules}</p>
           {card.flavor && <p className="flavor">{card.flavor}</p>}
           {card.artist && <p className="muted small">Ilustración: {card.artist}</p>}
+          <VariantsInfo card={card} />
           {children}
         </div>
       </div>
     </div>
+  )
+}
+
+/** Impresiones por set (agrupando idiomas) y artes alternativas. Solo información: no incluye imágenes de variantes. */
+export function VariantsInfo({ card }: { card: Card }) {
+  const sets = useMemo(() => {
+    const m = new Map<string, { name: string; nums: Set<string>; langs: Set<string> }>()
+    for (const p of card.printings) {
+      const e = m.get(p.baseSetName) ?? { name: p.baseSetName, nums: new Set<string>(), langs: new Set<string>() }
+      if (p.collectorNumber) e.nums.add(p.collectorNumber)
+      e.langs.add(p.language)
+      m.set(p.baseSetName, e)
+    }
+    return [...m.values()]
+  }, [card])
+  if (sets.length === 0 && card.altArts.length === 0) return null
+  return (
+    <details className="variants" open>
+      <summary>Variantes e impresiones ({sets.length} sets{card.altArts.length > 0 ? `, ${card.altArts.length} artes alternativos` : ''})</summary>
+      {sets.length > 0 && (
+        <ul className="plain small">
+          {sets.map((s) => (
+            <li key={s.name} className="variant-row">
+              <span>{s.name}</span>
+              <span className="muted mono">{[...s.nums].map((n) => `#${n}`).join(' ')}</span>
+              <span className="langs">{[...s.langs].sort().map((l) => <span key={l} className={`lang lang-${l}`}>{l.toUpperCase()}</span>)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      {card.altArts.length > 0 && (
+        <>
+          <h4 className="small">Artes alternativos</h4>
+          <ul className="plain small">
+            {card.altArts.map((a, i) => (
+              <li key={`${a.id}-${i}`} className="variant-row">
+                <span>{[a.rarity, a.label].filter(Boolean).join(' · ') || 'Arte alternativo'}</span>
+                <span className="muted">{[a.baseSetName, a.collectorNumber && `#${a.collectorNumber}`, a.artist].filter(Boolean).join(' · ')}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="muted small">Solo se muestra la información; las imágenes de las variantes no se incluyen.</p>
+        </>
+      )}
+    </details>
   )
 }
 

@@ -1,6 +1,31 @@
 export type CardType = 'Legend' | 'Unit' | 'Gear' | 'Program'
 export type CardColor = 'Red' | 'Yellow' | 'Blue' | 'Green'
 
+export interface Printing {
+  setCode: string
+  setName: string
+  /** Nombre del set sin sufijo de idioma ("… — FR"). */
+  baseSetName: string
+  edition: string | null
+  collectorNumber: string | null
+  language: 'en' | 'fr'
+  artist: string | null
+  isPrimary: boolean
+}
+
+/** Arte alternativo: solo metadatos (no se publican sus imágenes). */
+export interface AltArt {
+  id: string
+  label: string | null
+  collectorNumber: string | null
+  artist: string | null
+  rarity: string | null
+  setCode: string | null
+  setName: string | null
+  baseSetName: string | null
+  edition: string | null
+}
+
 export interface Card {
   id: string
   name: string
@@ -23,6 +48,8 @@ export interface Card {
   keywords: string[]
   legality: string
   isAlpha: boolean
+  printings: Printing[]
+  altArts: AltArt[]
   image: string
 }
 
