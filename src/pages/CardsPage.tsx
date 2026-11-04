@@ -12,7 +12,7 @@ const OWNED_VALUES: OwnedFilter[] = ['owned', 'missing', 'wanted']
 const ownedFromParam = (v: string | null): OwnedFilter => (OWNED_VALUES.includes(v as OwnedFilter) ? (v as OwnedFilter) : 'all')
 
 export function CardsPage() {
-  const { loggedIn, collection, changeCopies, decks, loading, wishlist, wishlistAvailable } = useData()
+  const { loggedIn, collection, changeCopies, decks, loading, ready, wishlist, wishlistAvailable } = useData()
   const [params] = useSearchParams()
   // El filtro de colección sigue a la URL: "/" = todas, "/?owned=missing" = las que me faltan.
   const urlOwned = loggedIn ? ownedFromParam(params.get('owned')) : 'all'
@@ -41,7 +41,7 @@ export function CardsPage() {
   const controls = (id: string) => (
     <div className="row between tile-controls">
       {/* total de copias: + añade una Normal; − quita Normal, luego Promo, luego Foil (el detalle da control por versión) */}
-      <Stepper value={collection[id] ?? 0} onChange={(v) => void changeCopies(id, v - (collection[id] ?? 0))} title="Copias totales. Con − se quitan primero las Normales; en el detalle puedes ajustar cada versión" />
+      <Stepper value={collection[id] ?? 0} disabled={!ready} onChange={(v) => void changeCopies(id, v - (collection[id] ?? 0))} title="Copias totales. Con − se quitan primero las Normales; en el detalle puedes ajustar cada versión" />
       <WishHeart cardId={id} />
     </div>
   )

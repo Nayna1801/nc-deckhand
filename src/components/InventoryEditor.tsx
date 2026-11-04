@@ -9,7 +9,7 @@ const copies = (n: number) => (n === 1 ? '1 copia' : `${n} copias`)
 
 /** Copias por versión, estado de conservación, playset / bulk y lista de deseos. */
 export function InventoryEditor({ cardId }: { cardId: string }) {
-  const { inventory, inventoryV2, setInventory } = useData()
+  const { inventory, inventoryV2, setInventory, ready } = useData()
   const [showAll, setShowAll] = useState(false)
   const card = catalog.byId[cardId]
   const e = inventory[cardId] ?? EMPTY_ENTRY
@@ -27,12 +27,12 @@ export function InventoryEditor({ cardId }: { cardId: string }) {
   return (
     <>
       <div className="panel inventory">
-        <div className="row between"><strong>Normal</strong><Stepper value={e.normal} onChange={(v) => void setInventory(cardId, { normal: v })} /></div>
+        <div className="row between"><strong>Normal</strong><Stepper value={e.normal} disabled={!ready} onChange={(v) => void setInventory(cardId, { normal: v })} /></div>
         {showPromo && (
-          <div className="row between"><strong>Promo / Full Art</strong><Stepper value={e.promo} onChange={(v) => void setInventory(cardId, { promo: v })} /></div>
+          <div className="row between"><strong>Promo / Full Art</strong><Stepper value={e.promo} disabled={!ready} onChange={(v) => void setInventory(cardId, { promo: v })} /></div>
         )}
         {showFoil && (
-          <div className="row between"><strong>Foil</strong><Stepper value={e.foil} onChange={(v) => void setInventory(cardId, { foil: v })} /></div>
+          <div className="row between"><strong>Foil</strong><Stepper value={e.foil} disabled={!ready} onChange={(v) => void setInventory(cardId, { foil: v })} /></div>
         )}
         {!inventoryV2 && (
           <p className="notice small">Para registrar Foil, Promo y estado, vuelve a ejecutar <code>supabase/schema.sql</code> en Supabase (es seguro repetirlo).</p>
@@ -61,7 +61,7 @@ export function InventoryEditor({ cardId }: { cardId: string }) {
         {inventoryV2 && bulk > 0 && (
           <label className="small field">
             Estado de las copias para cambio/venta
-            <select className="input" value={e.condition} onChange={(ev) => void setInventory(cardId, { condition: ev.target.value as Condition })}>
+            <select className="input" disabled={!ready} value={e.condition} onChange={(ev) => void setInventory(cardId, { condition: ev.target.value as Condition })}>
               {CONDITIONS.map((c) => <option key={c} value={c}>{CONDITION_LABEL[c]}</option>)}
             </select>
           </label>

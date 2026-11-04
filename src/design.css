@@ -233,3 +233,12 @@
   .modal-visual { max-width: 240px; margin: 0 auto; }
   .modal-img { max-width: none; }
 }
+
+/* aviso positivo (p. ej. email confirmado) */
+.banner.banner-ok { background: #0c2a1c; border-bottom-color: var(--green); color: #b8f5d3; }
+.auth .errors p, .auth .notice p { margin: 0 0 0.5rem; }
+.auth .errors .row, .auth .notice .row { margin-top: 0.3rem; }
+
+/* aviso de versión nueva y sello de versión */
+.banner.banner-update { background: #1d1a05; border-bottom-color: var(--yellow); color: var(--yellow); }
+.foot .build { font-family: var(--mono); white-space: nowrap; }

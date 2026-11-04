@@ -1,4 +1,5 @@
 import { HashRouter, NavLink, Navigate, Route, Routes } from 'react-router-dom'
+import { useUpdateAvailable } from './lib/useUpdateCheck'
 import { AuthProvider, useAuth } from './state/AuthContext'
 import { DataProvider, useData } from './state/DataContext'
 import { CardsPage } from './pages/CardsPage'
@@ -9,8 +10,9 @@ import { LoginPage } from './pages/LoginPage'
 import { SharePage } from './pages/SharePage'
 
 function Shell() {
-  const { user, signOut } = useAuth()
+  const { user, signOut, notice, dismissNotice } = useAuth()
   const { error, clearError } = useData()
+  const updateAvailable = useUpdateAvailable()
   return (
     <>
       <header className="topbar">
@@ -31,6 +33,16 @@ function Shell() {
           )}
         </div>
       </header>
+      {updateAvailable && (
+        <div className="banner banner-update" role="status">
+          Hay una versión nueva de la web. <button className="btn sm primary" onClick={() => window.location.reload()}>Recargar ahora</button>
+        </div>
+      )}
+      {notice && (
+        <div className={`banner ${notice.kind === 'ok' ? 'banner-ok' : ''}`} role={notice.kind === 'ok' ? 'status' : 'alert'}>
+          {notice.text} <button className="btn sm" onClick={dismissNotice}>Cerrar</button>
+        </div>
+      )}
       {error && (
         <div className="banner" role="alert">
           {error} <button className="btn sm" onClick={clearError}>Cerrar</button>
@@ -49,6 +61,7 @@ function Shell() {
       </main>
       <footer className="foot muted small">
         Herramienta de fans, no oficial. Datos e imágenes de cartas © sus respectivos propietarios (CD PROJEKT RED / Cyberpunk TCG). Catálogo obtenido de cyberpunk-tcg-sim.online.
+        <span className="build" title={`Compilada el ${__APP_BUILT__}`}> · Versión {__APP_VERSION__}</span>
       </footer>
     </>
   )

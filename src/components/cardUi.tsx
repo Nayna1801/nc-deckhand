@@ -261,12 +261,12 @@ export function CardRow({ card, onClick, badge, right, dim, locked, lockReason, 
   )
 }
 
-export function Stepper({ value, onChange, min = 0, max = 999, disableAdd, addTitle, title }: { value: number; onChange: (n: number) => void; min?: number; max?: number; disableAdd?: boolean; addTitle?: string; title?: string }) {
+export function Stepper({ value, onChange, min = 0, max = 999, disableAdd, addTitle, title, disabled }: { value: number; onChange: (n: number) => void; min?: number; max?: number; disableAdd?: boolean; addTitle?: string; title?: string; /** Bloquea ambos botones (p. ej. mientras cargan los datos). */ disabled?: boolean }) {
   return (
-    <div className="stepper" title={title}>
-      <button className="btn sm" onClick={() => onChange(Math.max(min, value - 1))} disabled={value <= min} aria-label="Quitar uno">−</button>
+    <div className="stepper" title={disabled ? 'Cargando tus datos…' : title}>
+      <button className="btn sm" onClick={() => onChange(Math.max(min, value - 1))} disabled={disabled || value <= min} aria-label="Quitar uno">−</button>
       <span className="stepper-n">{value}</span>
-      <button className="btn sm" onClick={() => onChange(Math.min(max, value + 1))} disabled={value >= max || disableAdd} title={disableAdd ? addTitle : undefined} aria-label="Añadir uno">+</button>
+      <button className="btn sm" onClick={() => onChange(Math.min(max, value + 1))} disabled={disabled || value >= max || disableAdd} title={disableAdd ? addTitle : undefined} aria-label="Añadir uno">+</button>
     </div>
   )
 }

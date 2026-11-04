@@ -11,7 +11,7 @@ import { useData } from '../state/DataContext'
 type Tab = 'wishlist' | 'wants' | 'bulk'
 
 export function CollectionPage() {
-  const { loggedIn, collection, inventory, inventoryV2, decks, setInventory, importCollection, wishlist: wantsMap, wishlistAvailable, setWanted } = useData()
+  const { loggedIn, collection, inventory, inventoryV2, decks, setInventory, importCollection, wishlist: wantsMap, wishlistAvailable, setWanted, ready } = useData()
   const modal = useCardModal()
   const { bind, layer } = usePreview()
   const [text, setText] = useState('')
@@ -95,8 +95,8 @@ export function CollectionPage() {
               <li key={r.cardId} className="deck-row">
                 <button className="link-btn" onClick={() => modal.open(r.cardId)} {...bind(catalog.byId[r.cardId])}>{r.name}</button>
                 <span className="muted small">tienes {r.owned}</span>
-                <Stepper value={r.wanted} min={1} max={99} onChange={(v) => void setWanted(r.cardId, v)} />
-                <button className="btn ghost sm" onClick={() => void setWanted(r.cardId, 0)} aria-label={`Quitar ${r.name} de deseos`}>Quitar</button>
+                <Stepper value={r.wanted} min={1} max={99} disabled={!ready} onChange={(v) => void setWanted(r.cardId, v)} />
+                <button className="btn ghost sm" disabled={!ready} onClick={() => void setWanted(r.cardId, 0)} aria-label={`Quitar ${r.name} de deseos`}>Quitar</button>
               </li>
             ))}
           </ul>
@@ -144,7 +144,7 @@ export function CollectionPage() {
                 <span className="pill warn">bulk ×{r.bulk}</span>
                 <span className="muted small">de {totalOf(inventory[r.cardId])}</span>
                 {inventoryV2 && (
-                  <select className="input" aria-label="Estado" value={r.condition} onChange={(e) => void setInventory(r.cardId, { condition: e.target.value as Condition })}>
+                  <select className="input" aria-label="Estado" disabled={!ready} value={r.condition} onChange={(e) => void setInventory(r.cardId, { condition: e.target.value as Condition })}>
                     {CONDITIONS.map((c) => <option key={c} value={c}>{CONDITION_LABEL[c]}</option>)}
                   </select>
                 )}

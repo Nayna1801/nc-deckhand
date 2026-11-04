@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { supabase } from '../lib/supabase'
+import { createKeyedWriter, type KeyedWriter } from '../lib/keyedWriter'
 import { loadLocalDecks, saveLocalDecks } from '../lib/localDecks'
 import { adjustCopies, EMPTY_ENTRY, sanitizeEntry, totalOf, totalsByCard, type Inventory, type InventoryEntry } from '../lib/inventory'
 import type { Collection, Deck, Quantities } from '../lib/types'
@@ -8,6 +9,8 @@ import { useAuth } from './AuthContext'
 interface DataState {
   loggedIn: boolean
   loading: boolean
+  /** true cuando ya se han leído tus datos del servidor; hasta entonces no se puede modificar el inventario ni los deseos. */
+  ready: boolean
   error: string | null
   decks: Deck[]
   /** Decks de invitado guardados en este navegador (solo se muestran al iniciar sesión, para subirlos). */
@@ -83,6 +86,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [wishlist, setWishlistState] = useState<Quantities>({})
   const [wishlistAvailable, setWishlistAvailable] = useState(true)
   const [loading, setLoading] = useState(false)
+  // true solo cuando YA se han leído tus datos del servidor: antes de eso no se permite escribir, porque una
+  // escritura sobre un inventario aún vacío pisaría lo que tienes guardado (p. ej. 3 copias -> 1).
+  const [loaded, setLoaded] = useState(false)
+  const loadedRef = useRef(false)
+  loadedRef.current = loaded
   const [error, setError] = useState<string | null>(null)
   const inventoryRef = useRef(inventory)
   inventoryRef.current = inventory
@@ -93,8 +101,53 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const collection = useMemo(() => totalsByCard(inventory), [inventory])
 
+  // Escrituras en orden y de una en una por carta/mazo: si no, con pulsaciones rápidas las peticiones se
+  // adelantan unas a otras y el servidor se queda con un valor viejo (la pantalla dice 2 y la base de datos 3).
+  const userIdRef = useRef(userId)
+  userIdRef.current = userId
+  const confirmedInv = useRef<Inventory>({}) // último estado CONFIRMADO por el servidor
+  const confirmedWish = useRef<Quantities>({})
+  const writers = useRef<{ inv: KeyedWriter<InventoryEntry>; wish: KeyedWriter<number>; deck: KeyedWriter<Deck> } | null>(null)
+  if (!writers.current) {
+    writers.current = {
+      inv: createKeyedWriter<InventoryEntry>(async (cardId, entry) => {
+        const uid = userIdRef.current
+        if (!uid || !supabase) return
+        const empty = totalOf(entry) === 0
+        const { error: e } = empty
+          ? await supabase.from('tcg_collection').delete().eq('user_id', uid).eq('card_id', cardId)
+          : await supabase.from('tcg_collection').upsert(rowFromEntry(uid, cardId, entry, v2Ref.current))
+        if (e) throw e
+        const next = { ...confirmedInv.current }
+        if (empty) delete next[cardId]
+        else next[cardId] = entry
+        confirmedInv.current = next
+      }),
+      wish: createKeyedWriter<number>(async (cardId, quantity) => {
+        const uid = userIdRef.current
+        if (!uid || !supabase) return
+        const { error: e } =
+          quantity === 0
+            ? await supabase.from('tcg_wishlist').delete().eq('user_id', uid).eq('card_id', cardId)
+            : await supabase.from('tcg_wishlist').upsert({ user_id: uid, card_id: cardId, quantity })
+        if (e) throw e
+        const next = { ...confirmedWish.current }
+        if (quantity === 0) delete next[cardId]
+        else next[cardId] = quantity
+        confirmedWish.current = next
+      }),
+      deck: createKeyedWriter<Deck>(async (_id, deck) => {
+        const uid = userIdRef.current
+        if (!uid || !supabase) return
+        const { error: e } = await supabase.from('tcg_decks').upsert(toRow(deck, uid))
+        if (e) throw e
+      }),
+    }
+  }
+
   // Carga al iniciar/cerrar sesión
   useEffect(() => {
+    setLoaded(false)
     if (!userId || !supabase) {
       setDecks(loadLocalDecks())
       setGuestDecks([])
@@ -129,10 +182,15 @@ export function DataProvider({ children }: { children: ReactNode }) {
         if (!active) return
         if (d.error) throw d.error
         setDecks((d.data as DeckRow[]).map(fromRow))
+        const invMap = Object.fromEntries(inv.rows.map((r) => [r.card_id, entryFromRow(r)]))
+        const wishMap = Object.fromEntries(wish.rows.map((r) => [r.card_id, r.quantity]))
+        confirmedInv.current = invMap
+        confirmedWish.current = wishMap
         setInventoryV2(inv.v2)
-        setInventoryState(Object.fromEntries(inv.rows.map((r) => [r.card_id, entryFromRow(r)])))
+        setInventoryState(invMap)
         setWishlistAvailable(wish.available)
-        setWishlistState(Object.fromEntries(wish.rows.map((r) => [r.card_id, r.quantity])))
+        setWishlistState(wishMap)
+        setLoaded(true)
       })
       .catch((e: unknown) => active && setError(e instanceof Error ? e.message : (e as { message?: string })?.message ?? 'No se pudieron cargar tus datos.'))
       .finally(() => active && setLoading(false))
@@ -152,13 +210,34 @@ export function DataProvider({ children }: { children: ReactNode }) {
         return next
       })
       if (userId && supabase) {
-        const { error: e } = await supabase.from('tcg_decks').upsert(toRow(stamped, userId))
-        if (e) fail(e, 'No se pudo guardar el mazo.')
+        try {
+          await writers.current!.deck.write(deck.id, stamped)
+        } catch (e) {
+          fail(e, 'No se pudo guardar el mazo.')
+        }
       }
     }
 
+    const restoreInventory = (cardId: string) =>
+      setInventoryState((s) => {
+        const n = { ...s }
+        const c = confirmedInv.current[cardId]
+        if (c) n[cardId] = c
+        else delete n[cardId]
+        return n
+      })
+
+    const restoreWishlist = (cardId: string) =>
+      setWishlistState((s) => {
+        const n = { ...s }
+        const c = confirmedWish.current[cardId]
+        if (c) n[cardId] = c
+        else delete n[cardId]
+        return n
+      })
+
     const setInventory = async (cardId: string, patch: Partial<InventoryEntry>) => {
-      if (!userId || !supabase) return
+      if (!userId || !supabase || !loadedRef.current) return
       const prev = inventoryRef.current
       const entry = sanitizeEntry({ ...(prev[cardId] ?? EMPTY_ENTRY), ...patch })
       // sin versión 2 solo existen las copias Normal
@@ -166,31 +245,27 @@ export function DataProvider({ children }: { children: ReactNode }) {
       const next = { ...prev }
       if (totalOf(stored) === 0) delete next[cardId]
       else next[cardId] = stored
-      setInventoryState(next) // optimista
-      const { error: e } =
-        totalOf(stored) === 0
-          ? await supabase.from('tcg_collection').delete().eq('user_id', userId).eq('card_id', cardId)
-          : await supabase.from('tcg_collection').upsert(rowFromEntry(userId, cardId, stored, v2Ref.current))
-      if (e) {
-        setInventoryState(prev) // revertir
+      setInventoryState(next) // optimista: la pantalla responde al instante
+      try {
+        await writers.current!.inv.write(cardId, stored)
+      } catch (e) {
+        restoreInventory(cardId) // vuelve a lo último que confirmó el servidor
         fail(e, 'No se pudo guardar el inventario.')
       }
     }
 
     const setWanted = async (cardId: string, quantity: number) => {
-      if (!userId || !supabase || !wishlistAvailable) return
+      if (!userId || !supabase || !wishlistAvailable || !loadedRef.current) return
       const q = Math.max(0, Math.min(99, Math.floor(Number(quantity) || 0)))
       const prev = wishlistRef.current
       const next = { ...prev }
       if (q === 0) delete next[cardId]
       else next[cardId] = q
       setWishlistState(next) // optimista
-      const { error: e } =
-        q === 0
-          ? await supabase.from('tcg_wishlist').delete().eq('user_id', userId).eq('card_id', cardId)
-          : await supabase.from('tcg_wishlist').upsert({ user_id: userId, card_id: cardId, quantity: q })
-      if (e) {
-        setWishlistState(prev) // revertir
+      try {
+        await writers.current!.wish.write(cardId, q)
+      } catch (e) {
+        restoreWishlist(cardId)
         fail(e, 'No se pudo guardar la lista de deseos.')
       }
     }
@@ -198,6 +273,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     return {
       loggedIn: userId !== null,
       loading,
+      ready: userId === null || loaded,
       error,
       decks,
       guestDecks,
@@ -216,6 +292,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       saveDeck,
       deleteDeck: async (id) => {
         if (userId && supabase) {
+          await writers.current!.deck.idle() // que no llegue un guardado pendiente DESPUÉS del borrado y lo resucite
           const { error: e } = await supabase.from('tcg_decks').delete().eq('id', id)
           if (e) return fail(e, 'No se pudo borrar el mazo.')
         }
@@ -231,7 +308,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
       },
       setInventory,
       importCollection: async (counts, mode) => {
-        if (!userId || !supabase) return
+        if (!userId || !supabase || !loadedRef.current) return
+        await writers.current!.inv.idle() // primero se asientan las pulsaciones pendientes
         const prev = inventoryRef.current
         const next: Inventory = mode === 'replace' ? {} : { ...prev }
         for (const [id, n] of Object.entries(counts)) {
@@ -252,6 +330,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
         if (failed?.error) {
           setInventoryState(prev)
           fail(failed.error, 'No se pudo guardar la colección.')
+        } else {
+          confirmedInv.current = next
         }
       },
       uploadGuestDecks: async () => {
@@ -266,7 +346,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         setDecks((prev) => [...(data as DeckRow[]).map(fromRow), ...prev])
       },
     }
-  }, [userId, loading, error, decks, guestDecks, collection, inventory, inventoryV2, wishlist, wishlistAvailable])
+  }, [userId, loading, loaded, error, decks, guestDecks, collection, inventory, inventoryV2, wishlist, wishlistAvailable])
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }

@@ -1,4 +1,5 @@
 /// <reference types="vitest/config" />
+import { execSync } from 'node:child_process'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -31,9 +32,29 @@ const securityHeaders = (): Plugin => ({
   },
 })
 
+// Versión de la compilación (commit corto): se enseña en el pie y permite avisar de que hay una versión nueva.
+const version = (() => {
+  try {
+    return execSync('git rev-parse --short HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() || 'dev'
+  } catch {
+    return 'dev'
+  }
+})()
+const built = new Date().toISOString()
+
+/** Publica version.json junto a la web: las pestañas ya abiertas lo consultan para saber si están desactualizadas. */
+const versionFile = (): Plugin => ({
+  name: 'nc-version-file',
+  apply: 'build',
+  generateBundle() {
+    this.emitFile({ type: 'asset', fileName: 'version.json', source: JSON.stringify({ version, built }) })
+  },
+})
+
 // base './' + HashRouter => funciona en cualquier ruta de GitHub Pages sin tocar nada
 export default defineConfig({
   base: './',
-  plugins: [react(), securityHeaders()],
+  define: { __APP_VERSION__: JSON.stringify(version), __APP_BUILT__: JSON.stringify(built) },
+  plugins: [react(), securityHeaders(), versionFile()],
   test: { environment: 'node', include: ['src/**/*.test.ts'] },
 })
