@@ -1,0 +1,39 @@
+name: Pruebas de navegador
+
+# Corre aparte del despliegue: si falla se ve en rojo, pero no impide publicar.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      # Compila contra un proyecto de Supabase FALSO y simula la red: no usa secretos ni toca ninguna base de datos.
+      - run: npm run e2e
+        env:
+          E2E_SHOTS: ${{ runner.temp }}/e2e-shots
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: capturas-e2e
+          path: ${{ runner.temp }}/e2e-shots
+          if-no-files-found: ignore
+          retention-days: 7

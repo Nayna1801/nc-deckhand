@@ -8,7 +8,10 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "sync": "node scripts/sync-catalog.mjs"
+    "sync": "node scripts/sync-catalog.mjs",
+    "e2e": "node e2e/run.mjs",
+    "e2e:live": "node e2e/run.mjs --live",
+    "verify": "npm run build && npm test && npm run e2e"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
@@ -21,6 +24,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^6.2.1",
+    "playwright": "^1.64.1",
     "typescript": "^5.5.4",
     "vite": "^8.3.5",
     "vitest": "^5.1.0"

@@ -46,9 +46,12 @@ Reglas validadas (Standard): 3 Legends únicas, 40–50 cartas, máx. 3 copias (
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # parser, export y reglas
+npm test           # lógica: parser, export, reglas, seguridad, orden de escrituras…
 npm run build
+npm run e2e        # pruebas de navegador (Playwright): la web entera, con red simulada (~1 min)
+npm run verify     # build + tests + navegador: lo que conviene pasar antes de subir
 ```
+La primera vez, `npx playwright install chromium`. Detalles y lista de suites en [`e2e/README.md`](e2e/README.md); `npm run e2e:live` las pasa contra la web publicada.
 
 ## Actualizar el catálogo (cuando salgan sets nuevos)
 ```bash
@@ -62,8 +65,15 @@ Genera `src/data/cards.json` (con impresiones y artes alternativos), `public/car
 ## Configurar Supabase
 1. Crea un proyecto en supabase.com, **o reutiliza el de otra app** (plan gratis = 2 proyectos): las tablas llevan prefijo `tcg_` y no tocan las existentes. Las cuentas (auth) se comparten entre apps; los datos no, gracias a RLS.
 2. SQL Editor → pega **el contenido** de `supabase/schema.sql` (no el nombre del fichero) y ejecútalo. Si ya lo habías ejecutado antes, vuelve a ejecutarlo: añade las columnas de Foil/Promo/estado (es idempotente). Sin esa actualización la app sigue funcionando, pero solo con copias Normal.
-3. Authentication → Providers → Email activado. (Para pruebas puedes desactivar "Confirm email".)
-4. Authentication → URL Configuration → *Site URL* = la URL de tu GitHub Pages.
+3. Authentication → Providers → Email activado. Recomendado: **activar "Confirm email"** para que nadie pueda crear cuentas con emails ajenos.
+4. Authentication → URL Configuration:
+   - *Site URL*: solo hay una por proyecto. Si el proyecto lo comparte otra app, déjala como está.
+   - **Redirect URLs**: añade `https://TU-USUARIO.github.io/nc-deckhand/**` (y `http://localhost:5173/**` para desarrollo). La app envía esa dirección en cada alta, y Supabase solo la respeta si está en esta lista; si no está, el enlace del correo llevaría a la *Site URL* (otra app).
+
+### Cuentas compartidas con otra app
+Los usuarios (`auth.users`) son comunes a todas las apps del proyecto: un email que ya existe en la otra app **ya tiene cuenta aquí**. Al crear cuenta con él, la web lo explica y ofrece ir a iniciar sesión con la contraseña de siempre (no se exige longitud mínima al iniciar sesión, porque la otra app puede admitir contraseñas más cortas).
+
+Para **probar el alta y la confirmación del correo** sin chocar con una cuenta existente, usa un email nuevo o un alias del tuyo: en Gmail, `tunombre+tcg@gmail.com` llega a tu bandeja pero cuenta como usuario distinto.
 5. Local: copia `.env.example` a `.env.local` con *Project URL* y *anon public key*.
 
 ## Desplegar en GitHub Pages
