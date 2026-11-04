@@ -153,6 +153,19 @@ function SearchHelp({ onPick }: { onPick: (q: string) => void }) {
   )
 }
 
+/**
+ * El filtro "tengo / me faltan" se evalúa sobre una instantánea de la colección que solo se refresca
+ * al cambiar de filtro. Así, al pulsar + sobre una carta que "te falta", no desaparece de la lista
+ * en mitad de la edición.
+ */
+export function useOwnedSnapshot(collection: Quantities, resetKey: string): Quantities {
+  const [snap, setSnap] = useState(collection)
+  const latest = useRef(collection)
+  latest.current = collection
+  useEffect(() => setSnap(latest.current), [resetKey])
+  return snap
+}
+
 /* ---------- vista cuadrícula / lista ---------- */
 
 export type ViewMode = 'grid' | 'list'

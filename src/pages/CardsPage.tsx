@@ -1,18 +1,23 @@
 import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { catalog } from '../lib/catalog'
 import { splitPlayset } from '../lib/inventory'
-import { applyFilters, CardModal, CardRow, CardTile, EMPTY_FILTERS, FilterBar, Stepper, useCardModal, usePreview, useViewMode, ViewToggle, type Filters } from '../components/cardUi'
+import { applyFilters, CardModal, CardRow, CardTile, EMPTY_FILTERS, FilterBar, Stepper, useCardModal, useOwnedSnapshot, usePreview, useViewMode, ViewToggle, type Filters } from '../components/cardUi'
 import { InventoryEditor } from '../components/InventoryEditor'
 import { useData } from '../state/DataContext'
 
 export function CardsPage() {
-  const { loggedIn, collection, setOwned, decks } = useData()
-  const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS)
+  const { loggedIn, collection, setOwned, decks, loading } = useData()
+  const [params] = useSearchParams()
+  const [filters, setFilters] = useState<Filters>(() => {
+    const o = params.get('owned')
+    return { ...EMPTY_FILTERS, owned: o === 'missing' || o === 'owned' ? o : 'all' }
+  })
   const [view, setView] = useViewMode()
   const modal = useCardModal()
   const { bind, layer } = usePreview()
-  const cards = useMemo(() => applyFilters(catalog.cards, filters, { owned: loggedIn ? collection : undefined }), [filters, collection, loggedIn])
+  const ownedSnap = useOwnedSnapshot(collection, JSON.stringify(filters) + String(loading))
+  const cards = useMemo(() => applyFilters(catalog.cards, filters, { owned: loggedIn ? ownedSnap : undefined }), [filters, ownedSnap, loggedIn])
 
   const usedIn = (cardId: string) =>
     decks

@@ -6,7 +6,7 @@ import { canAddCopy, exceedsRam, neededCards, RULES, validateDeck } from '../lib
 import { parseDeckText, serializeDeck } from '../lib/deckText'
 import { encodeDeck } from '../lib/shareCode'
 import type { Card, Deck, Quantities } from '../lib/types'
-import { applyFilters, CardImage, CardModal, CardRow, CardTile, ColorDot, downloadText, EMPTY_FILTERS, FilterBar, Stepper, useCardModal, usePreview, useViewMode, ViewToggle, type Filters } from '../components/cardUi'
+import { applyFilters, CardImage, CardModal, CardRow, CardTile, ColorDot, downloadText, EMPTY_FILTERS, FilterBar, Stepper, useCardModal, useOwnedSnapshot, usePreview, useViewMode, ViewToggle, type Filters } from '../components/cardUi'
 import { CostCurveChart, TypeDonut } from '../components/Charts'
 import { InventoryEditor } from '../components/InventoryEditor'
 import { useData } from '../state/DataContext'
@@ -88,9 +88,10 @@ export function DeckEditorPage() {
   const curve = useMemo(() => (deck ? costCurve(deck, catalog) : []), [deck])
   const ratio = useMemo(() => (deck ? typeRatio(deck, catalog) : []), [deck])
   const missingTotal = needs.reduce((a, n) => a + n.missing, 0)
+  const ownedSnap = useOwnedSnapshot(collection, JSON.stringify(filters) + String(loading))
   const cards = useMemo(
-    () => applyFilters(catalog.cards, filters, { owned: loggedIn ? collection : undefined, legendIds: deck?.legendIds }),
-    [filters, collection, loggedIn, deck?.legendIds],
+    () => applyFilters(catalog.cards, filters, { owned: loggedIn ? ownedSnap : undefined, legendIds: deck?.legendIds }),
+    [filters, ownedSnap, loggedIn, deck?.legendIds],
   )
 
   if (!deck || !report) {

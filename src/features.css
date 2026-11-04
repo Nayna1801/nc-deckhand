@@ -100,3 +100,6 @@
 .lang-fr, .chip { color: var(--cyan); border-color: rgba(0, 240, 255, 0.4); }
 .crow-chips { display: inline-flex; gap: 4px; min-width: 4.2rem; }
 .btn.mono, .searchhelp-body .mono { text-transform: none; letter-spacing: 0; font-family: var(--mono); }
+a.stat-link { text-decoration: none; color: inherit; border-color: rgba(0, 240, 255, 0.4); }
+a.stat-link:hover { border-color: var(--cyan); }
+a.stat-link strong { color: var(--cyan); }

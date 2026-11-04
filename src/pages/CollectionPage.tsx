@@ -4,20 +4,20 @@ import { catalog, setLabel } from '../lib/catalog'
 import { parseCollectionText, serializeCollection } from '../lib/deckText'
 import { bulkList, bulkToCsv, CONDITIONS, CONDITION_LABEL, splitPlayset, totalOf, type Condition } from '../lib/inventory'
 import { buildWishlist, wishlistToCsv, wishlistToJson } from '../lib/wishlist'
-import { CardModal, CardTile, downloadText, Stepper, useCardModal, usePreview } from '../components/cardUi'
+import { CardModal, downloadText, useCardModal, usePreview } from '../components/cardUi'
 import { InventoryEditor } from '../components/InventoryEditor'
 import { useData } from '../state/DataContext'
 
-type Tab = 'missing' | 'wishlist' | 'bulk'
+type Tab = 'wishlist' | 'bulk'
 
 export function CollectionPage() {
-  const { loggedIn, collection, inventory, inventoryV2, decks, setOwned, setInventory, importCollection } = useData()
+  const { loggedIn, collection, inventory, inventoryV2, decks, setInventory, importCollection } = useData()
   const modal = useCardModal()
   const { bind, layer } = usePreview()
   const [text, setText] = useState('')
   const [issues, setIssues] = useState<string[]>([])
   const [mode, setMode] = useState<'replace' | 'add'>('add')
-  const [tab, setTab] = useState<Tab>('missing')
+  const [tab, setTab] = useState<Tab>('wishlist')
 
   const stats = useMemo(() => {
     const unique = catalog.cards.filter((c) => collection[c.id] > 0).length
@@ -32,7 +32,7 @@ export function CollectionPage() {
     return { unique, total, playset, bulk, foil, bySet }
   }, [collection, inventory])
 
-  const missingAll = useMemo(() => catalog.cards.filter((c) => !(collection[c.id] > 0)), [collection])
+  const missingCount = catalog.cards.length - stats.unique
   const wishlist = useMemo(() => buildWishlist(decks, collection, catalog), [decks, collection])
   const bulk = useMemo(() => bulkList(inventory).sort((a, b) => (catalog.byId[a.cardId]?.displayName ?? '').localeCompare(catalog.byId[b.cardId]?.displayName ?? '')), [inventory])
   const bulkCopies = bulk.reduce((a, r) => a + r.bulk, 0)
@@ -64,6 +64,7 @@ export function CollectionPage() {
 
       <div className="stats-row">
         <div className="stat"><strong>{stats.unique}<small>/{catalog.cards.length}</small></strong><span>cartas distintas</span></div>
+        <Link className="stat stat-link" to="/?owned=missing"><strong>{missingCount}</strong><span>me faltan · ver en Cartas →</span></Link>
         <div className="stat"><strong>{stats.total}</strong><span>copias en total{stats.foil > 0 && ` · ${stats.foil} foil`}</span></div>
         <div className="stat"><strong>{Math.round((stats.playset / (catalog.cards.length * 3)) * 100)}%</strong><span>de playsets (×3)</span></div>
         <div className="stat"><strong>{stats.bulk}</strong><span>copias en bulk</span></div>
@@ -76,19 +77,9 @@ export function CollectionPage() {
       </div>
 
       <div className="seg" role="tablist">
-        <button role="tab" aria-selected={tab === 'missing'} className={tab === 'missing' ? 'on' : ''} onClick={() => setTab('missing')}>Me faltan ({missingAll.length})</button>
         <button role="tab" aria-selected={tab === 'wishlist'} className={tab === 'wishlist' ? 'on' : ''} onClick={() => setTab('wishlist')}>Lista de compra ({wishlist.length})</button>
         <button role="tab" aria-selected={tab === 'bulk'} className={tab === 'bulk' ? 'on' : ''} onClick={() => setTab('bulk')}>Bulk / intercambio ({bulkCopies})</button>
       </div>
-
-      {tab === 'missing' && (
-        <div className="grid compact">
-          {missingAll.map((c) => (
-            <CardTile key={c.id} card={c} dim preview={bind(c)} onClick={() => modal.open(c.id)} footer={<Stepper value={0} onChange={(v) => void setOwned(c.id, v)} />} />
-          ))}
-          {missingAll.length === 0 && <p className="empty">¡Tienes todas las cartas del catálogo!</p>}
-        </div>
-      )}
 
       {tab === 'wishlist' && (
         <div className="panel">
