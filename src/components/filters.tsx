@@ -237,6 +237,7 @@ function SearchHelp({ onPick }: { onPick: (q: string) => void }) {
     <details className="searchhelp">
       <summary title="Ayuda de búsqueda" aria-label="Ayuda de sintaxis de búsqueda">?</summary>
       <div className="searchhelp-body">
+       <div className="searchhelp-scroll">
         <p className="muted small">Escribe palabras para buscar por nombre, texto o facción, o usa campos:</p>
         <table>
           <tbody>
@@ -251,6 +252,7 @@ function SearchHelp({ onPick }: { onPick: (q: string) => void }) {
         <ul className="plain small">{SEARCH_NOTES.map((n) => <li key={n}>{n}</li>)}</ul>
         <p className="small"><strong>Ejemplos:</strong></p>
         <div className="row wrap">{SEARCH_EXAMPLES.map((e) => <button key={e} type="button" className="btn sm mono" onClick={() => onPick(e)}>{e}</button>)}</div>
+       </div>
       </div>
     </details>
   )

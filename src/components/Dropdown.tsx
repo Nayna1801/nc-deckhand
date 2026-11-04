@@ -139,6 +139,8 @@ export function Dropdown({ label, value, options, onChange }: Props) {
       </button>
       {open && (
         <div className={`dd-pop ${alignRight ? 'right' : ''}`}>
+          {/* .dd-frame lleva el borde y el relleno (no se desplaza); la lista hace scroll dentro */}
+          <div className="dd-frame">
           <ul
             ref={list}
             id={`${uid}-list`}
@@ -165,6 +167,7 @@ export function Dropdown({ label, value, options, onChange }: Props) {
               </li>
             ))}
           </ul>
+          </div>
         </div>
       )}
     </div>

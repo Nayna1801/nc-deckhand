@@ -26,6 +26,7 @@ const SUITES = [
   { name: 'features', file: 'features.mjs', info: 'orden por sets, filtros, desplegables, deseos, móvil y seguridad' },
   { name: 'fixes', file: 'fixes.mjs', info: 'modal estable, playset por tipo, versiones y − sobre el total' },
   { name: 'altart', file: 'altart.mjs', info: 'galería de artes alternativos' },
+  { name: 'visual', file: 'visual.mjs', info: 'fondos legibles en paneles con scroll (comprobación por píxeles)' },
   { name: 'auth', file: 'auth.mjs', info: 'alta, confirmación de email y vuelta desde el enlace' },
   { name: 'stepper', file: 'stepper.mjs', info: '+ y − con latencia, orden de escrituras y carga lenta' },
   { name: 'version', file: 'version.mjs', info: 'sello de versión y aviso de versión nueva', localOnly: true },

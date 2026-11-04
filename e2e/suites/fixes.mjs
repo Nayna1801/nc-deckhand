@@ -30,14 +30,14 @@ await p.goto(BASE); await p.waitForSelector('.tile')
 
 /* ---------- 1. el modal no salta arriba al pulsar + ---------- */
 await openCard(withAlt)
-const info = await p.evaluate(() => { const m = document.querySelector('.modal'); return { sh: m.scrollHeight, ch: m.clientHeight } })
+const info = await p.evaluate(() => { const m = document.querySelector('.modal-scroll'); return { sh: m.scrollHeight, ch: m.clientHeight } })
 ok(info.sh > info.ch + 150, `(el modal tiene scroll en esta pantalla: ${info.sh}px de contenido en ${info.ch}px)`)
-await p.locator('.modal').evaluate((m) => (m.scrollTop = 220))
+await p.locator('.modal-scroll').evaluate((m) => (m.scrollTop = 220))
 // Playwright desplaza el botón a la vista antes de pulsar: se hace ANTES de medir, para medir solo lo que haga la app
 await addIn('Normal').scrollIntoViewIfNeeded()
-const before = await p.locator('.modal').evaluate((m) => m.scrollTop)
+const before = await p.locator('.modal-scroll').evaluate((m) => m.scrollTop)
 for (let i = 0; i < 3; i++) { await addIn('Normal').click(); await p.waitForTimeout(150) }
-const after = await p.locator('.modal').evaluate((m) => m.scrollTop)
+const after = await p.locator('.modal-scroll').evaluate((m) => m.scrollTop)
 ok(before > 100 && Math.abs(after - before) <= 4, `el scroll se mantiene al pulsar + tres veces (antes ${Math.round(before)}px, después ${Math.round(after)}px)`)
 ok(!(await p.evaluate(() => document.activeElement?.classList.contains('modal-x'))), 'el foco no vuelve al botón ✕ de arriba')
 ok(row(withAlt.id)?.quantity === 3, 'y las 3 copias se guardaron')

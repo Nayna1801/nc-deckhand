@@ -38,6 +38,7 @@ Las capturas de pantalla van a la carpeta temporal del sistema (se muestra al fi
 | `features` | Orden por sets, filtros, desplegables con teclado, debounce, bloqueo por RAM, tarjetas de mazo, deseos, móvil, seguridad (XSS, datos manipulados, bombas de descompresión) |
 | `fixes` | El modal no salta al pulsar `+`, playset por tipo de carta, versiones que existen, `−` sobre el total |
 | `altart` | Galería de artes alternativos y carga de las 102 imágenes |
+| `visual` | Comprobación por **píxeles reales**: el fondo de los paneles con scroll (detalle de carta, desplegables, ayuda) cubre todo el contenido y no deja el texto sobre el color del borde |
 | `auth` | Alta con email nuevo/existente, correo sin confirmar, reenvío, vuelta desde el enlace del correo |
 | `stepper` | `+` y `−` con clics rápidos y latencia, versiones mezcladas, orden de las escrituras, carga lenta |
 | `version` | Sello de versión en el pie y aviso de versión nueva (solo en local) |
@@ -49,6 +50,10 @@ Las capturas de pantalla van a la carpeta temporal del sistema (se muestra al fi
 3. Imprime una línea `PASS …` o `FAIL …` por comprobación y termina con `process.exit(failed ? 1 : 0)`.
 4. Para esperar a que terminen las escrituras usa `settle()` de `lib/backend.mjs`: espera un **silencio sostenido** de red, no un instante sin tráfico (con la cola de escrituras hay huecos entre una petición y la siguiente).
 5. En las pruebas de un cambio concreto, comprueba antes que **fallan sin el arreglo**: así sabes que detectan lo que dicen detectar.
+
+## Pruebas visuales (píxeles)
+
+`lib/pixels.mjs` hace una captura y lee el color de puntos concretos. Sirve para fallos que el DOM no refleja, como un fondo que no cubre todo el contenido. Regla de diseño que protege: **el borde y el relleno con esquinas cortadas van en una caja fija y el scroll en una caja interior** (si no, el relleno solo cubre la parte visible).
 
 ## Dos trampas conocidas
 

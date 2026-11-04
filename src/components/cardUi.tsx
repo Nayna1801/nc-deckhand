@@ -321,6 +321,8 @@ export function CardModal({ card, onClose, children }: { card: Card | null; onCl
     <div className="modal-backdrop" onClick={onClose} role="presentation">
       <div ref={dialog} className="modal" role="dialog" aria-modal="true" aria-label={card.displayName} onClick={(e) => e.stopPropagation()}>
         <button className="modal-x btn ghost" onClick={onClose} aria-label="Cerrar">✕</button>
+        {/* .modal es el marco fijo (borde y relleno); el scroll ocurre en .modal-scroll, para que el fondo cubra TODO el contenido */}
+        <div className="modal-scroll">
         <div className="modal-visual">
           {shown?.image ? (
             <img className="modal-img" src={`${import.meta.env.BASE_URL}${shown.image}`} alt={`${card.displayName} — ${altLabel(shown)}`} draggable={false} />
@@ -356,6 +358,7 @@ export function CardModal({ card, onClose, children }: { card: Card | null; onCl
           {card.artist && <p className="muted small">Ilustración: {card.artist}</p>}
           <VariantsInfo card={card} activeArt={art} onPickArt={setArt} />
           {children}
+        </div>
         </div>
       </div>
     </div>
