@@ -11,6 +11,12 @@ create table if not exists public.tcg_collection (
   primary key (user_id, card_id)
 );
 
+-- v2: versiones Foil / Promo y estado de conservación (idempotente: se puede re-ejecutar).
+-- "quantity" son las copias Normal; el bulk (4ª copia en adelante) se calcula en la app.
+alter table public.tcg_collection add column if not exists qty_foil  integer not null default 0 check (qty_foil  between 0 and 999);
+alter table public.tcg_collection add column if not exists qty_promo integer not null default 0 check (qty_promo between 0 and 999);
+alter table public.tcg_collection add column if not exists condition text not null default 'mint' check (condition in ('mint', 'played', 'damaged'));
+
 create table if not exists public.tcg_decks (
   id         uuid primary key default gen_random_uuid(),
   user_id    uuid not null references auth.users (id) on delete cascade,

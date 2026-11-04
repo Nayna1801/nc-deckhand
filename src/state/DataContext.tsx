@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { supabase } from '../lib/supabase'
 import { loadLocalDecks, saveLocalDecks } from '../lib/localDecks'
+import { EMPTY_ENTRY, sanitizeEntry, totalOf, totalsByCard, type Inventory, type InventoryEntry } from '../lib/inventory'
 import type { Collection, Deck, Quantities } from '../lib/types'
 import { useAuth } from './AuthContext'
 
@@ -11,12 +12,20 @@ interface DataState {
   decks: Deck[]
   /** Decks de invitado guardados en este navegador (solo se muestran al iniciar sesión, para subirlos). */
   guestDecks: Deck[]
+  /** Total de copias por carta (Normal + Foil + Promo): lo que usan las reglas y los mazos. */
   collection: Collection
+  /** Detalle por versión y estado. */
+  inventory: Inventory
+  /** false si la base de datos aún no tiene las columnas de Foil/Promo/estado (falta re-ejecutar schema.sql). */
+  inventoryV2: boolean
   createDeck: (init?: Partial<Pick<Deck, 'name' | 'legendIds' | 'main' | 'side'>>) => Promise<Deck | null>
   saveDeck: (deck: Deck) => Promise<void>
   deleteDeck: (id: string) => Promise<void>
+  /** Cambia las copias Normal de una carta (botones rápidos +/−). */
   setOwned: (cardId: string, quantity: number) => Promise<void>
-  replaceCollection: (next: Quantities) => Promise<void>
+  setInventory: (cardId: string, patch: Partial<InventoryEntry>) => Promise<void>
+  /** Importa cantidades: 'add' las suma a las Normal; 'replace' sustituye todo el inventario. */
+  importCollection: (counts: Quantities, mode: 'add' | 'replace') => Promise<void>
   uploadGuestDecks: () => Promise<void>
   clearError: () => void
 }
@@ -32,44 +41,78 @@ interface DeckRow {
   updated_at: string
 }
 
+interface CollectionRow {
+  card_id: string
+  quantity: number
+  qty_foil?: number
+  qty_promo?: number
+  condition?: string
+}
+
 const fromRow = (r: DeckRow): Deck => ({ id: r.id, name: r.name, legendIds: r.legend_ids ?? [], main: r.main ?? {}, side: r.side ?? {}, updatedAt: r.updated_at })
 const toRow = (d: Deck, userId: string) => ({ id: d.id, user_id: userId, name: d.name, legend_ids: d.legendIds, main: d.main, side: d.side, updated_at: new Date().toISOString() })
 const newId = (): string => crypto.randomUUID()
+
+const entryFromRow = (r: CollectionRow): InventoryEntry =>
+  sanitizeEntry({ normal: r.quantity, foil: r.qty_foil, promo: r.qty_promo, condition: r.condition as InventoryEntry['condition'] })
+
+const rowFromEntry = (userId: string, cardId: string, e: InventoryEntry, v2: boolean) => ({
+  user_id: userId,
+  card_id: cardId,
+  quantity: e.normal,
+  ...(v2 ? { qty_foil: e.foil, qty_promo: e.promo, condition: e.condition } : {}),
+  updated_at: new Date().toISOString(),
+})
+
+const isMissingColumn = (e: { message?: string } | null): boolean => /qty_foil|qty_promo|condition|column/i.test(e?.message ?? '')
 
 export function DataProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth()
   const userId = user?.id ?? null
   const [decks, setDecks] = useState<Deck[]>(() => loadLocalDecks())
   const [guestDecks, setGuestDecks] = useState<Deck[]>(() => loadLocalDecks())
-  const [collection, setCollection] = useState<Collection>({})
+  const [inventory, setInventoryState] = useState<Inventory>({})
+  const [inventoryV2, setInventoryV2] = useState(true)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const collectionRef = useRef(collection)
-  collectionRef.current = collection
+  const inventoryRef = useRef(inventory)
+  inventoryRef.current = inventory
+  const v2Ref = useRef(true)
+  v2Ref.current = inventoryV2
+
+  const collection = useMemo(() => totalsByCard(inventory), [inventory])
 
   // Carga al iniciar/cerrar sesión
   useEffect(() => {
     if (!userId || !supabase) {
       setDecks(loadLocalDecks())
       setGuestDecks([])
-      setCollection({})
+      setInventoryState({})
       return
     }
+    const client = supabase
     let active = true
     setLoading(true)
     setGuestDecks(loadLocalDecks())
-    Promise.all([
-      supabase.from('tcg_decks').select('*').order('updated_at', { ascending: false }),
-      supabase.from('tcg_collection').select('card_id, quantity').limit(5000),
-    ])
-      .then(([d, c]) => {
+
+    async function loadInventory(): Promise<{ rows: CollectionRow[]; v2: boolean }> {
+      const full = await client.from('tcg_collection').select('card_id, quantity, qty_foil, qty_promo, condition').limit(5000)
+      if (!full.error) return { rows: full.data as CollectionRow[], v2: true }
+      if (!isMissingColumn(full.error)) throw full.error
+      const basic = await client.from('tcg_collection').select('card_id, quantity').limit(5000)
+      if (basic.error) throw basic.error
+      return { rows: basic.data as CollectionRow[], v2: false }
+    }
+
+    Promise.all([client.from('tcg_decks').select('*').order('updated_at', { ascending: false }), loadInventory()])
+      .then(([d, inv]) => {
         if (!active) return
         if (d.error) throw d.error
-        if (c.error) throw c.error
         setDecks((d.data as DeckRow[]).map(fromRow))
-        setCollection(Object.fromEntries((c.data as { card_id: string; quantity: number }[]).map((r) => [r.card_id, r.quantity])))
+        setInventoryV2(inv.v2)
+        setInventoryState(Object.fromEntries(inv.rows.map((r) => [r.card_id, entryFromRow(r)])))
       })
-      .catch((e: unknown) => active && setError(e instanceof Error ? e.message : 'No se pudieron cargar tus datos.'))
+      .catch((e: unknown) => active && setError(e instanceof Error ? e.message : (e as { message?: string })?.message ?? 'No se pudieron cargar tus datos.'))
       .finally(() => active && setLoading(false))
     return () => {
       active = false
@@ -92,6 +135,26 @@ export function DataProvider({ children }: { children: ReactNode }) {
       }
     }
 
+    const setInventory = async (cardId: string, patch: Partial<InventoryEntry>) => {
+      if (!userId || !supabase) return
+      const prev = inventoryRef.current
+      const entry = sanitizeEntry({ ...(prev[cardId] ?? EMPTY_ENTRY), ...patch })
+      // sin versión 2 solo existen las copias Normal
+      const stored = v2Ref.current ? entry : { ...entry, foil: 0, promo: 0, condition: 'mint' as const }
+      const next = { ...prev }
+      if (totalOf(stored) === 0) delete next[cardId]
+      else next[cardId] = stored
+      setInventoryState(next) // optimista
+      const { error: e } =
+        totalOf(stored) === 0
+          ? await supabase.from('tcg_collection').delete().eq('user_id', userId).eq('card_id', cardId)
+          : await supabase.from('tcg_collection').upsert(rowFromEntry(userId, cardId, stored, v2Ref.current))
+      if (e) {
+        setInventoryState(prev) // revertir
+        fail(e, 'No se pudo guardar el inventario.')
+      }
+    }
+
     return {
       loggedIn: userId !== null,
       loading,
@@ -99,6 +162,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
       decks,
       guestDecks,
       collection,
+      inventory,
+      inventoryV2,
       clearError: () => setError(null),
       createDeck: async (init = {}) => {
         const deck: Deck = { id: newId(), name: init.name ?? 'Nuevo mazo', legendIds: init.legendIds ?? [], main: init.main ?? {}, side: init.side ?? {}, updatedAt: new Date().toISOString() }
@@ -117,38 +182,29 @@ export function DataProvider({ children }: { children: ReactNode }) {
           return next
         })
       },
-      setOwned: async (cardId, quantity) => {
+      setOwned: (cardId, quantity) => setInventory(cardId, { normal: quantity }),
+      setInventory,
+      importCollection: async (counts, mode) => {
         if (!userId || !supabase) return
-        const q = Math.max(0, Math.min(999, Math.floor(quantity)))
-        const prev = collectionRef.current
-        const next = { ...prev }
-        if (q === 0) delete next[cardId]
-        else next[cardId] = q
-        setCollection(next) // optimista
-        const { error: e } =
-          q === 0
-            ? await supabase.from('tcg_collection').delete().eq('user_id', userId).eq('card_id', cardId)
-            : await supabase.from('tcg_collection').upsert({ user_id: userId, card_id: cardId, quantity: q, updated_at: new Date().toISOString() })
-        if (e) {
-          setCollection(prev) // revertir
-          fail(e, 'No se pudo guardar la cantidad.')
+        const prev = inventoryRef.current
+        const next: Inventory = mode === 'replace' ? {} : { ...prev }
+        for (const [id, n] of Object.entries(counts)) {
+          if (!(n > 0)) continue
+          const base = mode === 'replace' ? EMPTY_ENTRY : (prev[id] ?? EMPTY_ENTRY)
+          next[id] = sanitizeEntry({ ...base, normal: base.normal + n })
         }
-      },
-      replaceCollection: async (nextCol) => {
-        if (!userId || !supabase) return
-        const prev = collectionRef.current
-        const clean = Object.fromEntries(Object.entries(nextCol).filter(([, n]) => n > 0).map(([id, n]) => [id, Math.min(999, n)]))
-        setCollection(clean)
-        const rows = Object.entries(clean).map(([card_id, quantity]) => ({ user_id: userId, card_id, quantity, updated_at: new Date().toISOString() }))
-        const removed = Object.keys(prev).filter((id) => !(id in clean))
-        const ops = [
-          rows.length ? supabase.from('tcg_collection').upsert(rows) : null,
-          removed.length ? supabase.from('tcg_collection').delete().eq('user_id', userId).in('card_id', removed) : null,
-        ].filter((o) => o !== null)
-        const results = await Promise.all(ops)
+        setInventoryState(next)
+        const rows = Object.entries(next).map(([id, e]) => rowFromEntry(userId, id, e, v2Ref.current))
+        const removed = Object.keys(prev).filter((id) => !(id in next))
+        const results = await Promise.all(
+          [
+            rows.length ? supabase.from('tcg_collection').upsert(rows) : null,
+            removed.length ? supabase.from('tcg_collection').delete().eq('user_id', userId).in('card_id', removed) : null,
+          ].filter((o) => o !== null),
+        )
         const failed = results.find((r) => r.error)
         if (failed?.error) {
-          setCollection(prev)
+          setInventoryState(prev)
           fail(failed.error, 'No se pudo guardar la colección.')
         }
       },
@@ -164,7 +220,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         setDecks((prev) => [...(data as DeckRow[]).map(fromRow), ...prev])
       },
     }
-  }, [userId, loading, error, decks, guestDecks, collection])
+  }, [userId, loading, error, decks, guestDecks, collection, inventory, inventoryV2])
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { catalog } from '../lib/catalog'
 import { neededCards, validateDeck } from '../lib/deckRules'
 import { parseDeckText } from '../lib/deckText'
+import { decodeDeck } from '../lib/shareCode'
 import { CardImage } from '../components/cardUi'
 import { useData } from '../state/DataContext'
 
@@ -19,6 +20,13 @@ export function DecksPage() {
   }
 
   const doImport = async () => {
+    if (/ncd1\./.test(text)) {
+      const r = await decodeDeck(text, catalog)
+      if (!r.ok) return setReport([r.error])
+      const d = await createDeck({ name: r.deck.name, legendIds: r.deck.legendIds, main: r.deck.main, side: r.deck.side })
+      if (d) nav(`/decks/${d.id}`)
+      return
+    }
     const parsed = parseDeckText(text, catalog)
     const nothing = parsed.legendIds.length === 0 && Object.keys(parsed.main).length === 0 && Object.keys(parsed.side).length === 0
     if (nothing) {
@@ -53,7 +61,7 @@ export function DecksPage() {
 
       {importing && (
         <div className="panel">
-          <p className="muted small">Pega aquí un mazo exportado desde cyberpunk-tcg-sim.online (o cualquier web con el mismo formato).</p>
+          <p className="muted small">Pega aquí un mazo exportado desde cyberpunk-tcg-sim.online (o cualquier web con el mismo formato), o un código/enlace de mazo compartido desde esta web.</p>
           <textarea className="input mono" rows={10} value={text} onChange={(e) => setText(e.target.value)} placeholder={'# Name: Mi mazo\n\n# Legends\n1x 012 Goro Takemura: Hands Unclean\n\n# Main Deck\n1x 089 Saul Bright: Stormrider'} />
           {report.length > 0 && <ul className="errors">{report.map((r) => <li key={r}>{r}</li>)}</ul>}
           <div className="row"><button className="btn primary" onClick={() => void doImport()} disabled={!text.trim()}>Crear mazo</button></div>

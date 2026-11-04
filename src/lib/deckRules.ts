@@ -1,4 +1,4 @@
-import { copyKey, type Catalog } from './catalog'
+import { copyKey, normalizeText, type Catalog } from './catalog'
 import type { Card, Deck, Quantities } from './types'
 
 export const RULES = {
@@ -32,11 +32,13 @@ export function validateDeck(deck: DeckLike, catalog: Catalog): DeckReport {
   const ram: Record<string, number> = {}
 
   const legends = deck.legendIds.map((id) => catalog.byId[id]).filter(Boolean)
-  const seenNames = new Set<string>()
+  // Regla de la web: las Legends son únicas por NOMBRE DE PERSONAJE (lo anterior a ":"), no por versión.
+  const seenNames = new Map<string, Card>()
   for (const l of legends) {
-    const key = copyKey(l)
-    if (seenNames.has(key)) errors.push(`Las Legends deben ser únicas: ${l.displayName} está repetida.`)
-    seenNames.add(key)
+    const key = normalizeText(l.name)
+    const prev = seenNames.get(key)
+    if (prev) errors.push(`Las Legends deben ser únicas: ${prev.displayName} y ${l.displayName} comparten nombre.`)
+    seenNames.set(key, l)
     if (l.color && l.ram != null) ram[l.color] = (ram[l.color] ?? 0) + l.ram
   }
   if (legends.length > RULES.legends) errors.push(`Máximo ${RULES.legends} Legends (hay ${legends.length}).`)
@@ -85,6 +87,39 @@ export function validateDeck(deck: DeckLike, catalog: Catalog): DeckReport {
     isValid: errors.length === 0 && incomplete.length === 0,
   }
 }
+
+/** Suma la RAM que aportan las Legends elegidas, por color. */
+export function ramByColor(legendIds: string[], catalog: Catalog): Record<string, number> {
+  const ram: Record<string, number> = {}
+  for (const id of legendIds) {
+    const l = catalog.byId[id]
+    if (l?.color && l.ram != null) ram[l.color] = (ram[l.color] ?? 0) + l.ram
+  }
+  return ram
+}
+
+/**
+ * ¿La carta pide más RAM de la que dan las Legends? Sin Legends elegidas no se bloquea nada
+ * (todavía no hay límite que calcular).
+ */
+export function exceedsRam(card: Card, legendIds: string[], catalog: Catalog): boolean {
+  if (card.type === 'Legend' || !card.color || card.ram == null) return false
+  if (legendIds.every((id) => !catalog.byId[id])) return false
+  return card.ram > (ramByColor(legendIds, catalog)[card.color] ?? 0)
+}
+
+/** Copias de una carta (por nombre, entre mazo y sideboard). */
+export function copiesOf(deck: Pick<Deck, 'main' | 'side'>, card: Card, catalog: Catalog): number {
+  const key = copyKey(card)
+  let n = 0
+  for (const q of [deck.main, deck.side]) {
+    for (const [id, qty] of Object.entries(q)) if (catalog.byId[id] && copyKey(catalog.byId[id]) === key) n += qty
+  }
+  return n
+}
+
+export const canAddCopy = (deck: Pick<Deck, 'main' | 'side'>, card: Card, catalog: Catalog): boolean =>
+  card.type !== 'Legend' && copiesOf(deck, card, catalog) < RULES.maxCopies
 
 export interface Needed {
   cardId: string

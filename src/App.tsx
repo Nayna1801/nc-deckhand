@@ -6,6 +6,7 @@ import { CollectionPage } from './pages/CollectionPage'
 import { DeckEditorPage } from './pages/DeckEditorPage'
 import { DecksPage } from './pages/DecksPage'
 import { LoginPage } from './pages/LoginPage'
+import { SharePage } from './pages/SharePage'
 
 function Shell() {
   const { user, signOut } = useAuth()
@@ -40,6 +41,7 @@ function Shell() {
           <Route path="/" element={<CardsPage />} />
           <Route path="/decks" element={<DecksPage />} />
           <Route path="/decks/:id" element={<DeckEditorPage />} />
+          <Route path="/share/:code" element={<SharePage />} />
           <Route path="/collection" element={<CollectionPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />

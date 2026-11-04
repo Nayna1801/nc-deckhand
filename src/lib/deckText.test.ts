@@ -58,6 +58,19 @@ describe('validateDeck', () => {
     expect(r.isValid).toBe(false)
   })
 
+  it('rechaza dos Legends con el mismo nombre aunque sean versiones distintas (regla de la web)', () => {
+    const r = validateDeck(
+      { legendIds: ['goro_takemura_hands_unclean', 'goro_takemura_vengeful_bodyguard'], main: {}, side: {} },
+      catalog,
+    )
+    expect(r.errors.join(' ')).toMatch(/únicas/)
+  })
+
+  it('permite Legends con nombres distintos', () => {
+    const r = validateDeck({ legendIds: ['goro_takemura_hands_unclean', 'saburo_arasaka_stubborn_patriarch'], main: {}, side: {} }, catalog)
+    expect(r.errors.join(' ')).not.toMatch(/únicas/)
+  })
+
   it('rechaza más de 3 copias entre mazo y sideboard', () => {
     const r = validateDeck({ legendIds: [], main: { saul_bright_stormrider: 3 }, side: { saul_bright_stormrider: 1 } }, catalog)
     expect(r.errors.join(' ')).toMatch(/4 copias/)

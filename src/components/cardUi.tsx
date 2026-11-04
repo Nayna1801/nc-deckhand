@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent, type MouseEvent, type ReactNode, type TouchEvent } from 'react'
 import { catalog, COLORS, normalizeText, RARITIES, setLabel, TYPES } from '../lib/catalog'
+import { exceedsRam } from '../lib/deckRules'
 import type { Card, Quantities } from '../lib/types'
 
 export const imgUrl = (card: Card): string => `${import.meta.env.BASE_URL}${card.image}`
@@ -8,7 +9,9 @@ export function CardImage({ card, className }: { card: Card; className?: string 
   return <img className={className} src={imgUrl(card)} alt={card.displayName} loading="lazy" draggable={false} />
 }
 
-/* ---------- filtros ---------- */
+/* ---------- filtros y orden ---------- */
+
+export type SortKey = 'set' | 'cost' | 'name' | 'number'
 
 export interface Filters {
   q: string
@@ -16,51 +19,92 @@ export interface Filters {
   color: string
   rarity: string
   set: string
+  faction: string
+  cost: string
+  ram: string
+  sort: SortKey
   owned: 'all' | 'owned' | 'missing'
+  /** Oculta (en vez de atenuar) las cartas que superan la RAM de las Legends elegidas. */
+  hideLocked: boolean
 }
 
-export const EMPTY_FILTERS: Filters = { q: '', type: '', color: '', rarity: '', set: '', owned: 'all' }
+export const EMPTY_FILTERS: Filters = { q: '', type: '', color: '', rarity: '', set: '', faction: '', cost: '', ram: '', sort: 'set', owned: 'all', hideLocked: false }
 
 const SETS = [...new Map(catalog.cards.map((c) => [c.setCode, setLabel(c)])).entries()]
+const FACTIONS = [...new Set(catalog.cards.flatMap((c) => c.classifications))].sort((a, b) => a.localeCompare(b))
+const COSTS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9+']
+const RAMS = ['1', '2', '3', '4', '5', '6+']
 
-export function applyFilters(cards: Card[], f: Filters, owned?: Quantities): Card[] {
+const matchesBucket = (value: number | null, bucket: string): boolean => {
+  if (value == null) return false
+  return bucket.endsWith('+') ? value >= parseInt(bucket, 10) : value === parseInt(bucket, 10)
+}
+
+const numberOf = (c: Card): number => parseInt(c.importId ?? '', 10) || 0
+
+const SORTERS: Record<SortKey, ((a: Card, b: Card) => number) | null> = {
+  set: null,
+  cost: (a, b) => (a.cost ?? 99) - (b.cost ?? 99) || a.displayName.localeCompare(b.displayName),
+  name: (a, b) => a.displayName.localeCompare(b.displayName),
+  number: (a, b) => numberOf(a) - numberOf(b) || a.setCode.localeCompare(b.setCode),
+}
+
+export interface FilterContext {
+  owned?: Quantities
+  /** Legends elegidas en el constructor: activa el filtro de RAM restrictivo. */
+  legendIds?: string[]
+}
+
+export function applyFilters(cards: Card[], f: Filters, ctx: FilterContext = {}): Card[] {
   const q = normalizeText(f.q)
-  return cards.filter((c) => {
+  const out = cards.filter((c) => {
     if (f.type && c.type !== f.type) return false
     if (f.color && c.color !== f.color) return false
     if (f.rarity && c.rarity !== f.rarity) return false
     if (f.set && c.setCode !== f.set) return false
-    if (owned && f.owned === 'owned' && !(owned[c.id] > 0)) return false
-    if (owned && f.owned === 'missing' && owned[c.id] > 0) return false
+    if (f.faction && !c.classifications.includes(f.faction)) return false
+    if (f.cost && !matchesBucket(c.cost, f.cost)) return false
+    if (f.ram && !matchesBucket(c.ram, f.ram)) return false
+    if (ctx.owned && f.owned === 'owned' && !(ctx.owned[c.id] > 0)) return false
+    if (ctx.owned && f.owned === 'missing' && ctx.owned[c.id] > 0) return false
+    if (f.hideLocked && ctx.legendIds && exceedsRam(c, ctx.legendIds, catalog)) return false
     if (q) {
       const hay = normalizeText([c.displayName, c.rules, c.classifications.join(' '), c.importId ?? ''].join(' '))
       if (!hay.includes(q)) return false
     }
     return true
   })
+  const sorter = SORTERS[f.sort]
+  return sorter ? [...out].sort(sorter) : out
 }
 
-export function FilterBar({ value, onChange, showOwned }: { value: Filters; onChange: (f: Filters) => void; showOwned: boolean }) {
+export function FilterBar({ value, onChange, showOwned, showRam }: { value: Filters; onChange: (f: Filters) => void; showOwned: boolean; showRam?: boolean }) {
   const set = <K extends keyof Filters>(k: K, v: Filters[K]) => onChange({ ...value, [k]: v })
-  const active = JSON.stringify(value) !== JSON.stringify(EMPTY_FILTERS)
+  const active = JSON.stringify({ ...value, sort: 'set' }) !== JSON.stringify({ ...EMPTY_FILTERS, sort: 'set' })
+  const sel = (k: 'type' | 'color' | 'rarity' | 'faction' | 'cost' | 'ram', label: string, opts: readonly string[]) => (
+    <select className="input" value={value[k]} onChange={(e) => set(k, e.target.value)} aria-label={label}>
+      <option value="">{label}</option>
+      {opts.map((o) => <option key={o}>{o}</option>)}
+    </select>
+  )
   return (
     <div className="filters">
-      <input className="input grow" type="search" placeholder="Buscar nombre, texto, tribu, código…" value={value.q} onChange={(e) => set('q', e.target.value)} />
-      <select className="input" value={value.type} onChange={(e) => set('type', e.target.value)} aria-label="Tipo">
-        <option value="">Tipo</option>
-        {TYPES.map((t) => <option key={t}>{t}</option>)}
-      </select>
-      <select className="input" value={value.color} onChange={(e) => set('color', e.target.value)} aria-label="Color">
-        <option value="">Color</option>
-        {COLORS.map((c) => <option key={c}>{c}</option>)}
-      </select>
-      <select className="input" value={value.rarity} onChange={(e) => set('rarity', e.target.value)} aria-label="Rareza">
-        <option value="">Rareza</option>
-        {RARITIES.map((r) => <option key={r}>{r}</option>)}
-      </select>
+      <input className="input grow" type="search" placeholder="Buscar nombre, texto, facción, código…" value={value.q} onChange={(e) => set('q', e.target.value)} />
+      {sel('type', 'Tipo', TYPES)}
+      {sel('color', 'Color', COLORS)}
+      {sel('cost', 'Coste', COSTS)}
+      {sel('ram', 'RAM', RAMS)}
+      {sel('faction', 'Facción', FACTIONS)}
+      {sel('rarity', 'Rareza', RARITIES)}
       <select className="input" value={value.set} onChange={(e) => set('set', e.target.value)} aria-label="Set">
         <option value="">Set</option>
         {SETS.map(([code, label]) => <option key={code} value={code}>{label}</option>)}
+      </select>
+      <select className="input" value={value.sort} onChange={(e) => set('sort', e.target.value as SortKey)} aria-label="Ordenar por">
+        <option value="set">Orden: set</option>
+        <option value="cost">Orden: coste</option>
+        <option value="name">Orden: nombre</option>
+        <option value="number">Orden: número</option>
       </select>
       {showOwned && (
         <select className="input" value={value.owned} onChange={(e) => set('owned', e.target.value as Filters['owned'])} aria-label="Colección">
@@ -69,22 +113,186 @@ export function FilterBar({ value, onChange, showOwned }: { value: Filters; onCh
           <option value="missing">Las que me faltan</option>
         </select>
       )}
-      {active && <button className="btn ghost" onClick={() => onChange(EMPTY_FILTERS)}>Limpiar</button>}
+      {showRam && (
+        <label className="check" title="Oculta las cartas que superan la RAM de tus Legends">
+          <input type="checkbox" checked={value.hideLocked} onChange={(e) => set('hideLocked', e.target.checked)} /> Ocultar bloqueadas por RAM
+        </label>
+      )}
+      {active && <button className="btn ghost" onClick={() => onChange({ ...EMPTY_FILTERS, sort: value.sort })}>Limpiar</button>}
     </div>
   )
 }
 
-/* ---------- tarjeta ---------- */
+/* ---------- vista cuadrícula / lista ---------- */
+
+export type ViewMode = 'grid' | 'list'
+const VIEW_KEY = 'ncd.view.v1'
+
+export function useViewMode(): [ViewMode, (v: ViewMode) => void] {
+  const [mode, setMode] = useState<ViewMode>(() => {
+    try {
+      return localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'grid'
+    } catch {
+      return 'grid'
+    }
+  })
+  const update = useCallback((v: ViewMode) => {
+    setMode(v)
+    try {
+      localStorage.setItem(VIEW_KEY, v)
+    } catch {
+      /* sin almacenamiento: se mantiene en memoria */
+    }
+  }, [])
+  return [mode, update]
+}
+
+export function ViewToggle({ value, onChange }: { value: ViewMode; onChange: (v: ViewMode) => void }) {
+  return (
+    <div className="seg" role="group" aria-label="Tipo de vista">
+      <button className={value === 'grid' ? 'on' : ''} onClick={() => onChange('grid')} aria-pressed={value === 'grid'}>▦ Galería</button>
+      <button className={value === 'list' ? 'on' : ''} onClick={() => onChange('list')} aria-pressed={value === 'list'}>☰ Lista</button>
+    </div>
+  )
+}
+
+/* ---------- previsualización: hover (ratón) y pulsación larga (táctil) ---------- */
+
+const LONG_PRESS_MS = 450
+
+interface PreviewState {
+  card: Card
+  x: number
+  y: number
+  touch: boolean
+}
+
+export interface PreviewBind {
+  onMouseEnter: (e: MouseEvent) => void
+  onMouseMove: (e: MouseEvent) => void
+  onMouseLeave: () => void
+  onTouchStart: (e: TouchEvent) => void
+  onTouchEnd: () => void
+  onTouchMove: () => void
+  onTouchCancel: () => void
+  onClickCapture: (e: MouseEvent) => void
+  onContextMenu: (e: MouseEvent) => void
+}
+
+export function usePreview() {
+  const [state, setState] = useState<PreviewState | null>(null)
+  const timer = useRef<number | undefined>(undefined)
+  const suppressClick = useRef(false)
+  const canHover = useMemo(() => typeof window !== 'undefined' && window.matchMedia?.('(hover: hover)').matches, [])
+
+  const clearTimer = () => {
+    window.clearTimeout(timer.current)
+    timer.current = undefined
+  }
+  useEffect(() => clearTimer, [])
+
+  const bind = useCallback(
+    (card: Card): PreviewBind => ({
+      onMouseEnter: (e) => canHover && setState({ card, x: e.clientX, y: e.clientY, touch: false }),
+      onMouseMove: (e) => canHover && setState((s) => (s && !s.touch ? { ...s, x: e.clientX, y: e.clientY } : s)),
+      onMouseLeave: () => setState((s) => (s && !s.touch ? null : s)),
+      onTouchStart: () => {
+        clearTimer()
+        timer.current = window.setTimeout(() => {
+          suppressClick.current = true
+          setState({ card, x: 0, y: 0, touch: true })
+        }, LONG_PRESS_MS)
+      },
+      onTouchEnd: () => {
+        clearTimer()
+        setState((s) => (s?.touch ? null : s))
+      },
+      onTouchMove: clearTimer,
+      onTouchCancel: () => {
+        clearTimer()
+        setState((s) => (s?.touch ? null : s))
+      },
+      onClickCapture: (e) => {
+        if (suppressClick.current) {
+          suppressClick.current = false
+          e.stopPropagation()
+          e.preventDefault()
+        }
+      },
+      onContextMenu: (e) => {
+        // en móvil la pulsación larga abre el menú del navegador sobre la imagen: lo evitamos
+        if (!canHover) e.preventDefault()
+      },
+    }),
+    [canHover],
+  )
+
+  const layer = state ? <PreviewLayer state={state} /> : null
+  return { bind, layer }
+}
+
+function PreviewLayer({ state }: { state: PreviewState }) {
+  const W = 320
+  const H = Math.round(W * 1.4)
+  let style: React.CSSProperties
+  if (state.touch) {
+    style = { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }
+  } else {
+    const margin = 18
+    const right = state.x + margin + W < window.innerWidth
+    const left = right ? state.x + margin : Math.max(8, state.x - margin - W)
+    const top = Math.min(Math.max(8, state.y - H / 2), Math.max(8, window.innerHeight - H - 8))
+    style = { left, top }
+  }
+  return (
+    <div className={`preview ${state.touch ? 'touch' : ''}`} style={style} aria-hidden="true">
+      <img src={imgUrl(state.card)} alt="" width={W} />
+    </div>
+  )
+}
+
+/* ---------- ficha de carta y fila de lista ---------- */
 
 export function ColorDot({ color }: { color: string | null }) {
   return <span className={`dot dot-${(color ?? 'none').toLowerCase()}`} title={color ?? 'Sin color'} />
 }
 
-export function CardTile({ card, onClick, badge, footer, dim }: { card: Card; onClick?: () => void; badge?: ReactNode; footer?: ReactNode; dim?: boolean }) {
+interface DragProps {
+  dragData?: string
+  onDragStart?: (e: DragEvent) => void
+}
+
+export interface TileProps extends DragProps {
+  card: Card
+  onClick?: () => void
+  badge?: ReactNode
+  footer?: ReactNode
+  dim?: boolean
+  /** Bloqueada por una restricción (p. ej. RAM): se atenúa y muestra un candado. */
+  locked?: boolean
+  lockReason?: string
+  preview?: PreviewBind
+}
+
+const startDrag = (data: string | undefined) => (e: DragEvent) => {
+  if (!data) return
+  e.dataTransfer.setData('text/plain', data)
+  e.dataTransfer.effectAllowed = 'copyMove'
+}
+
+export function CardTile({ card, onClick, badge, footer, dim, locked, lockReason, preview, dragData }: TileProps) {
   return (
-    <div className={`tile ${dim ? 'dim' : ''}`}>
-      <button className="tile-art" onClick={onClick} aria-label={`Ver ${card.displayName}`}>
+    <div className={`tile ${dim ? 'dim' : ''} ${locked ? 'locked' : ''}`}>
+      <button
+        className="tile-art"
+        onClick={onClick}
+        aria-label={`${card.displayName}${locked && lockReason ? `. ${lockReason}` : ''}`}
+        draggable={!!dragData}
+        onDragStart={startDrag(dragData)}
+        {...preview}
+      >
         <CardImage card={card} />
+        {locked && <span className="tile-lock" title={lockReason} aria-hidden="true">🔒</span>}
         {badge != null && <span className="tile-badge">{badge}</span>}
       </button>
       {footer && <div className="tile-foot">{footer}</div>}
@@ -92,12 +300,33 @@ export function CardTile({ card, onClick, badge, footer, dim }: { card: Card; on
   )
 }
 
-export function Stepper({ value, onChange, min = 0, max = 999 }: { value: number; onChange: (n: number) => void; min?: number; max?: number }) {
+export function CardRow({ card, onClick, badge, right, dim, locked, lockReason, preview, dragData }: Omit<TileProps, 'footer'> & { right?: ReactNode }) {
+  return (
+    <div className={`crow ${dim ? 'dim' : ''} ${locked ? 'locked' : ''}`} draggable={!!dragData} onDragStart={startDrag(dragData)}>
+      <button className="crow-main" onClick={onClick} title={locked ? lockReason : undefined} {...preview}>
+        <img className="crow-thumb" src={imgUrl(card)} alt="" loading="lazy" draggable={false} />
+        <span className="crow-name">
+          {locked && <span aria-label="Bloqueada">🔒 </span>}
+          <ColorDot color={card.color} />
+          {card.displayName}
+        </span>
+        <span className="crow-meta muted">{card.type}</span>
+        <span className="crow-num" title="Coste">{card.cost ?? '–'}</span>
+        <span className="crow-num" title="RAM">{card.ram ?? '–'}</span>
+        <span className="crow-meta muted hide-sm">{card.classifications.slice(0, 2).join(', ')}</span>
+        {badge != null && <span className="tile-badge static">{badge}</span>}
+      </button>
+      {right && <div className="crow-right">{right}</div>}
+    </div>
+  )
+}
+
+export function Stepper({ value, onChange, min = 0, max = 999, disableAdd, addTitle }: { value: number; onChange: (n: number) => void; min?: number; max?: number; disableAdd?: boolean; addTitle?: string }) {
   return (
     <div className="stepper">
       <button className="btn sm" onClick={() => onChange(Math.max(min, value - 1))} disabled={value <= min} aria-label="Quitar uno">−</button>
       <span className="stepper-n">{value}</span>
-      <button className="btn sm" onClick={() => onChange(Math.min(max, value + 1))} disabled={value >= max} aria-label="Añadir uno">+</button>
+      <button className="btn sm" onClick={() => onChange(Math.min(max, value + 1))} disabled={value >= max || disableAdd} title={disableAdd ? addTitle : undefined} aria-label="Añadir uno">+</button>
     </div>
   )
 }
@@ -144,8 +373,8 @@ export function useCardModal() {
   return { card, open: setId, close: () => setId(null) }
 }
 
-export function downloadText(filename: string, text: string): void {
-  const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }))
+export function downloadText(filename: string, text: string, mime = 'text/plain'): void {
+  const url = URL.createObjectURL(new Blob([text], { type: `${mime};charset=utf-8` }))
   const a = document.createElement('a')
   a.href = url
   a.download = filename
