@@ -11,7 +11,7 @@
 - **Inventario (con sesión):** copias Normal / Foil / Promo, estado (Mint/Played/Damaged) y bulk automático (de la 4ª copia en adelante, calculado a partir del total), lista de compra cruzando mazos con inventario.
 
 - **Búsqueda avanzada** (botón `?` junto al buscador): `t:unit c:red cost<=2 o:"draw"`, `-t:legend`, `t:legend or t:gear`, `k:blocker`, `f:arasaka`, `s:beta`, `lang:fr`, `has:alt`… Los valores son siempre texto literal (nunca regex). Una condición inválida se avisa y se ignora, sin vaciar los resultados.
-- **Variantes:** cada ficha lista sus impresiones por set (Beta, Retail, Pre-Release, Promos, Judge…, con idioma EN/FR) y sus artes alternativos. Son solo metadatos: las imágenes de las variantes no se descargan ni se publican. El filtro de set considera todas las impresiones.
+- **Variantes:** cada ficha lista sus impresiones por set (Beta, Retail, Pre-Release, Promos, Judge…, con idioma EN/FR) y sus artes alternativos (promos, Iconic, Nova…). Los 102 artes alternativos tienen su imagen: en el detalle de la carta se ven en grande con una galería de miniaturas. Las 17 impresiones con arte propio que solo existen en el CDN con firma no se pueden obtener y se muestran solo como información. El filtro de set considera todas las impresiones.
 
 - **Orden y filtros:** por defecto las cartas salen divididas por set (con cabecera) y por número de coleccionista. Filtros por tipo, color, coste, RAM, poder, keyword, efecto, facción, rareza y set; buscador con debounce.
 - **Lista de deseos (con sesión):** ♥ en cada carta (y en su detalle) para marcar las que quieres conseguir, estén o no en un mazo. Se ve y se exporta (CSV/JSON/texto) en Colección → Mis deseos, y se puede filtrar en Cartas.
@@ -55,8 +55,9 @@ npm run build
 npm run sync       # baja el catálogo y solo las imágenes nuevas
 npm run sync -- --force   # re-descarga todas las imágenes
 npm run sync -- --from catalogo.json   # regenera cards.json desde un catálogo ya descargado (sin red ni imágenes)
+npm run sync -- --alt-images           # descarga también las imágenes de artes alternativos (public/cards/alt, solo las que falten)
 ```
-Genera `src/data/cards.json` (con impresiones y artes alternativos) y `public/cards/*.webp`. Revisa antes los términos de la web de origen.
+Genera `src/data/cards.json` (con impresiones y artes alternativos), `public/cards/*.webp` y, con `--alt-images`, `public/cards/alt/*.webp`. La extensión de cada imagen se decide por su contenido real y se descarta todo lo que no sea una imagen. Revisa antes los términos de la web de origen.
 
 ## Configurar Supabase
 1. Crea un proyecto en supabase.com, **o reutiliza el de otra app** (plan gratis = 2 proyectos): las tablas llevan prefijo `tcg_` y no tocan las existentes. Las cuentas (auth) se comparten entre apps; los datos no, gracias a RLS.

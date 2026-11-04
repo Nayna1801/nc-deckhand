@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { supabase } from '../lib/supabase'
 import { loadLocalDecks, saveLocalDecks } from '../lib/localDecks'
-import { EMPTY_ENTRY, sanitizeEntry, totalOf, totalsByCard, type Inventory, type InventoryEntry } from '../lib/inventory'
+import { adjustCopies, EMPTY_ENTRY, sanitizeEntry, totalOf, totalsByCard, type Inventory, type InventoryEntry } from '../lib/inventory'
 import type { Collection, Deck, Quantities } from '../lib/types'
 import { useAuth } from './AuthContext'
 
@@ -26,8 +26,8 @@ interface DataState {
   createDeck: (init?: Partial<Pick<Deck, 'name' | 'legendIds' | 'main' | 'side'>>) => Promise<Deck | null>
   saveDeck: (deck: Deck) => Promise<void>
   deleteDeck: (id: string) => Promise<void>
-  /** Cambia las copias Normal de una carta (botones rápidos +/−). */
-  setOwned: (cardId: string, quantity: number) => Promise<void>
+  /** Ajusta el TOTAL de copias (botones rápidos +/−): + añade una Normal; − quita Normal, luego Promo, luego Foil. */
+  changeCopies: (cardId: string, delta: number) => Promise<void>
   setInventory: (cardId: string, patch: Partial<InventoryEntry>) => Promise<void>
   /** Importa cantidades: 'add' las suma a las Normal; 'replace' sustituye todo el inventario. */
   importCollection: (counts: Quantities, mode: 'add' | 'replace') => Promise<void>
@@ -225,7 +225,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
           return next
         })
       },
-      setOwned: (cardId, quantity) => setInventory(cardId, { normal: quantity }),
+      changeCopies: async (cardId, delta) => {
+        const next = adjustCopies(inventoryRef.current[cardId] ?? EMPTY_ENTRY, delta)
+        await setInventory(cardId, { normal: next.normal, promo: next.promo, foil: next.foil })
+      },
       setInventory,
       importCollection: async (counts, mode) => {
         if (!userId || !supabase) return

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { catalog } from '../lib/catalog'
-import { splitPlayset } from '../lib/inventory'
+import { playsetSize, splitPlayset } from '../lib/inventory'
 import { CardList, CardModal, CardRow, CardTile, Stepper, useCardModal, usePreview, useViewMode, ViewToggle } from '../components/cardUi'
 import { applyFilters, EMPTY_FILTERS, FilterBar, useSnapshot, type Filters, type OwnedFilter } from '../components/filters'
 import { InventoryEditor } from '../components/InventoryEditor'
@@ -12,7 +12,7 @@ const OWNED_VALUES: OwnedFilter[] = ['owned', 'missing', 'wanted']
 const ownedFromParam = (v: string | null): OwnedFilter => (OWNED_VALUES.includes(v as OwnedFilter) ? (v as OwnedFilter) : 'all')
 
 export function CardsPage() {
-  const { loggedIn, collection, setOwned, decks, loading, wishlist, wishlistAvailable } = useData()
+  const { loggedIn, collection, changeCopies, decks, loading, wishlist, wishlistAvailable } = useData()
   const [params] = useSearchParams()
   // El filtro de colección sigue a la URL: "/" = todas, "/?owned=missing" = las que me faltan.
   const urlOwned = loggedIn ? ownedFromParam(params.get('owned')) : 'all'
@@ -37,10 +37,11 @@ export function CardsPage() {
       .map((d) => ({ deck: d, n: (d.main[cardId] ?? 0) + (d.side[cardId] ?? 0) + d.legendIds.filter((l) => l === cardId).length }))
       .filter((x) => x.n > 0)
 
-  const bulkOf = (id: string) => splitPlayset(collection[id] ?? 0).bulk
+  const bulkOf = (id: string) => splitPlayset(collection[id] ?? 0, playsetSize(catalog.byId[id])).bulk
   const controls = (id: string) => (
     <div className="row between tile-controls">
-      <Stepper value={collection[id] ?? 0} onChange={(v) => void setOwned(id, v)} />
+      {/* total de copias: + añade una Normal; − quita Normal, luego Promo, luego Foil (el detalle da control por versión) */}
+      <Stepper value={collection[id] ?? 0} onChange={(v) => void changeCopies(id, v - (collection[id] ?? 0))} title="Copias totales. Con − se quitan primero las Normales; en el detalle puedes ajustar cada versión" />
       <WishHeart cardId={id} />
     </div>
   )

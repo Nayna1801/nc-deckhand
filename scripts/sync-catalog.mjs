@@ -19,6 +19,12 @@ const CONCURRENCY = 6
 const fromIdx = process.argv.indexOf('--from')
 const fromFile = fromIdx > -1 ? process.argv[fromIdx + 1] : null
 const skipImages = process.argv.includes('--no-images') || fromFile !== null
+// --alt-images       descarga también las imágenes de los artes alternativos (public/cards/alt)
+// --alt-dir <dir>    carpeta de destino de esas imágenes (por defecto public/cards/alt)
+const altImages = process.argv.includes('--alt-images')
+const altDirIdx = process.argv.indexOf('--alt-dir')
+const ALT_DIR = altDirIdx > -1 ? process.argv[altDirIdx + 1] : null
+const ALT_CONCURRENCY = 2 // pocas peticiones a la vez: son archivos grandes de un servidor ajeno
 
 const exists = (p) => access(p).then(() => true, () => false)
 
@@ -44,18 +50,34 @@ function normalizePrinting(p) {
     collectorNumber: p.collector_number ?? null,
     language: isFrench(p.set_code, p.set_name) ? 'fr' : 'en',
     artist: p.artist ?? null,
+    finish: p.finish ?? null,
     isPrimary: p.is_primary === true,
   }
 }
 
-// Solo metadatos de las artes alternativas: NO se descargan ni se publican sus imágenes.
-function normalizeAltArt(a) {
+/** Nombre base (sin extensión) único y seguro para una imagen de arte alternativo. */
+const altBase = (a, cardId) =>
+  (a.image_file ? a.image_file.split('/').pop().replace(/\.[a-z0-9]+$/i, '') : `${cardId}__${a.id}`).replace(/[^\w.-]/g, '_')
+
+/** Formato real de una imagen según sus primeros bytes (la extensión que da el origen no es fiable). */
+function imageExt(buf) {
+  if (buf.subarray(0, 4).toString('latin1') === 'RIFF' && buf.subarray(8, 12).toString('latin1') === 'WEBP') return 'webp'
+  if (buf[0] === 0x89 && buf.subarray(1, 4).toString('latin1') === 'PNG') return 'png'
+  if (buf[0] === 0xff && buf[1] === 0xd8) return 'jpg'
+  return null
+}
+
+function normalizeAltArt(a, cardId) {
   return {
+    _base: altBase(a, cardId),
+    _url: a.image_url ?? null,
+    _path: a.image_file ?? null,
     id: a.id,
     label: a.label ?? null,
     collectorNumber: a.collector_number ?? null,
     artist: a.artist ?? null,
     rarity: a.rarity ?? null,
+    finish: a.finish ?? null,
     setCode: a.set_code ?? null,
     setName: a.set_name ? fixText(a.set_name) : null,
     baseSetName: a.set_name ? baseSetName(a.set_name) : null,
@@ -87,7 +109,7 @@ function normalize(c) {
     legality: c.legality ?? 'legal',
     isAlpha: c.is_alpha === true || c.set_code === 'alpha',
     printings: (c.source?.printings ?? []).map(normalizePrinting),
-    altArts: (c.alt_arts ?? []).map(normalizeAltArt),
+    altArts: (c.alt_arts ?? []).map((a) => normalizeAltArt(a, c.id)),
     // rutas de origen: solo se usan en este script, no se guardan en cards.json
     _imageUrl: c.assets?.image_url ?? null,
     _imageRemote: c.assets?.image_remote ?? null,
@@ -103,6 +125,36 @@ async function downloadImage(card) {
       const res = await fetch(url)
       if (!res.ok) continue
       await writeFile(dest, Buffer.from(await res.arrayBuffer()))
+      return 'ok'
+    } catch {
+      /* probamos la siguiente fuente */
+    }
+  }
+  return 'fail'
+}
+
+const altDir = ALT_DIR ?? join(root, 'public', 'cards', 'alt')
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+const EXTS = ['webp', 'png', 'jpg']
+
+/** Fichero ya descargado para ese nombre base, con la extensión que tenga. */
+async function findAltFile(base) {
+  for (const e of EXTS) if (await exists(join(altDir, `${base}.${e}`))) return `${base}.${e}`
+  return null
+}
+
+/** Descarga la imagen de un arte alternativo: primero /media (como hace la propia web), luego la ruta del fichero. */
+async function downloadAlt(a) {
+  if (!force && (await findAltFile(a._base))) return 'skip'
+  const candidates = [a._url && `${ORIGIN}${a._url}`, a._path && `${ORIGIN}/${a._path.replace(/^\/+/, '')}`].filter(Boolean)
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url)
+      if (!res.ok) continue
+      const buf = Buffer.from(await res.arrayBuffer())
+      const ext = imageExt(buf)
+      if (!ext || buf.byteLength < 1000) continue // no es una imagen (p. ej. una página de error): se descarta
+      await writeFile(join(altDir, `${a._base}.${ext}`), buf)
       return 'ok'
     } catch {
       /* probamos la siguiente fuente */
@@ -135,13 +187,47 @@ async function main() {
   }
   await Promise.all(Array.from({ length: CONCURRENCY }, worker))
 
-  const out = cards.map(({ _imageUrl, _imageRemote, ...c }) => ({ ...c, image: `cards/${c.id}.webp` }))
-  await mkdir(join(root, 'src', 'data'), { recursive: true })
-  await writeFile(join(root, 'src', 'data', 'cards.json'), JSON.stringify(out, null, 1) + '\n')
+  // imágenes de artes alternativos (opcional): pocas peticiones a la vez y con una pausa entre cada una
+  const altStats = { ok: 0, skip: 0, fail: 0 }
+  const altFailed = []
+  if (altImages) {
+    await mkdir(altDir, { recursive: true })
+    const alts = cards.flatMap((c) => c.altArts.map((a) => ({ a, cardId: c.id })))
+    let at = 0
+    async function altWorker() {
+      while (at < alts.length) {
+        const { a, cardId } = alts[at++]
+        const r = await downloadAlt(a)
+        altStats[r]++
+        if (r === 'fail') altFailed.push(`${cardId}/${a._base}`)
+        if (r === 'ok') await sleep(150)
+      }
+    }
+    await Promise.all(Array.from({ length: ALT_CONCURRENCY }, altWorker))
+  }
+
+  // cada arte alternativo apunta a su imagen solo si el fichero existe
+  const out = []
+  for (const { _imageUrl, _imageRemote, ...c } of cards) {
+    const altArts = []
+    for (const { _base, _url, _path, ...a } of c.altArts) {
+      const file = await findAltFile(_base)
+      altArts.push({ ...a, image: file ? `cards/alt/${file}` : null })
+    }
+    out.push({ ...c, altArts, image: `cards/${c.id}.webp` })
+  }
+
+  if (ALT_DIR) {
+    console.log('(modo prueba: --alt-dir indicado, no se escribe src/data/cards.json)')
+  } else {
+    await mkdir(join(root, 'src', 'data'), { recursive: true })
+    await writeFile(join(root, 'src', 'data', 'cards.json'), JSON.stringify(out, null, 1) + '\n')
+  }
 
   console.log(`Cartas: ${out.length} · imágenes nuevas: ${stats.ok} · ya existentes: ${stats.skip} · fallidas: ${stats.fail}`)
-  if (failed.length) {
-    console.error('Sin imagen:', failed.join(', '))
+  if (altImages) console.log(`Artes alternativos: nuevas ${altStats.ok} · ya existentes ${altStats.skip} · fallidas ${altStats.fail}`)
+  if (failed.length || altFailed.length) {
+    console.error('Sin imagen:', [...failed, ...altFailed].join(', '))
     process.exitCode = 1
   }
 }

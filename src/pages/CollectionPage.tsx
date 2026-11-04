@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { catalog, setLabel } from '../lib/catalog'
 import { MAX_IMPORT_CHARS, parseCollectionText, serializeCollection } from '../lib/deckText'
-import { bulkList, bulkToCsv, CONDITIONS, CONDITION_LABEL, splitPlayset, totalOf, type Condition } from '../lib/inventory'
+import { bulkList, bulkToCsv, CONDITIONS, CONDITION_LABEL, playsetSize, splitPlayset, totalOf, type Condition } from '../lib/inventory'
 import { buildWants, buildWishlist, wantsToCsv, wantsToJson, wishlistToCsv, wishlistToJson } from '../lib/wishlist'
 import { CardModal, downloadText, Stepper, useCardModal, usePreview } from '../components/cardUi'
 import { InventoryEditor } from '../components/InventoryEditor'
@@ -22,20 +22,22 @@ export function CollectionPage() {
   const stats = useMemo(() => {
     const unique = catalog.cards.filter((c) => collection[c.id] > 0).length
     const total = Object.values(collection).reduce((a, b) => a + b, 0)
-    const playset = catalog.cards.reduce((a, c) => a + Math.min(3, collection[c.id] ?? 0), 0)
-    const bulk = Object.values(collection).reduce((a, n) => a + splitPlayset(n).bulk, 0)
+    // playset: 3 copias por carta, 1 por Legend (solo se lleva una vez por mazo)
+    const playsetTotal = catalog.cards.reduce((a, c) => a + playsetSize(c), 0)
+    const playset = catalog.cards.reduce((a, c) => a + Math.min(playsetSize(c), collection[c.id] ?? 0), 0)
+    const bulk = Object.entries(collection).reduce((a, [id, n]) => a + splitPlayset(n, playsetSize(catalog.byId[id])).bulk, 0)
     const foil = Object.values(inventory).reduce((a, e) => a + e.foil, 0)
     const bySet = [...new Set(catalog.cards.map((c) => c.setCode))].map((code) => {
       const inSet = catalog.cards.filter((c) => c.setCode === code)
       return { code, label: setLabel(inSet[0]), have: inSet.filter((c) => collection[c.id] > 0).length, of: inSet.length }
     })
-    return { unique, total, playset, bulk, foil, bySet }
+    return { unique, total, playset, playsetTotal, bulk, foil, bySet }
   }, [collection, inventory])
 
   const missingCount = catalog.cards.length - stats.unique
   const wishlist = useMemo(() => buildWishlist(decks, collection, catalog), [decks, collection])
   const wants = useMemo(() => buildWants(wantsMap, collection, catalog), [wantsMap, collection])
-  const bulk = useMemo(() => bulkList(inventory).sort((a, b) => (catalog.byId[a.cardId]?.displayName ?? '').localeCompare(catalog.byId[b.cardId]?.displayName ?? '')), [inventory])
+  const bulk = useMemo(() => bulkList(inventory, (id) => playsetSize(catalog.byId[id])).sort((a, b) => (catalog.byId[a.cardId]?.displayName ?? '').localeCompare(catalog.byId[b.cardId]?.displayName ?? '')), [inventory])
   const bulkCopies = bulk.reduce((a, r) => a + r.bulk, 0)
 
   if (!loggedIn) {
@@ -67,7 +69,7 @@ export function CollectionPage() {
         <div className="stat"><strong>{stats.unique}<small>/{catalog.cards.length}</small></strong><span>cartas distintas</span></div>
         <Link className="stat stat-link" to="/?owned=missing"><strong>{missingCount}</strong><span>me faltan · ver en Cartas →</span></Link>
         <div className="stat"><strong>{stats.total}</strong><span>copias en total{stats.foil > 0 && ` · ${stats.foil} foil`}</span></div>
-        <div className="stat"><strong>{Math.round((stats.playset / (catalog.cards.length * 3)) * 100)}%</strong><span>de playsets (×3)</span></div>
+        <div className="stat"><strong>{Math.round((stats.playset / stats.playsetTotal) * 100)}%</strong><span>de playsets completos</span></div>
         <div className="stat"><strong>{stats.bulk}</strong><span>copias en bulk</span></div>
         {stats.bySet.map((s) => (
           <div className="stat" key={s.code}>
@@ -133,7 +135,7 @@ export function CollectionPage() {
 
       {tab === 'bulk' && (
         <div className="panel">
-          <p className="muted small">Un playset son 3 copias de una carta (lo máximo que se puede llevar en un mazo). De la 4ª copia en adelante pasan aquí automáticamente. Indica el estado de las que quieras cambiar o vender.</p>
+          <p className="muted small">Un playset son 3 copias de una carta (1 en las Legends, que solo se llevan una vez por mazo). Lo que pasa de ahí viene aquí automáticamente. Indica el estado de las que quieras cambiar o vender.</p>
           {bulk.length === 0 && <p>Todavía no tienes copias sobrantes. Con 4 o más copias de una carta aparecerán aquí.</p>}
           <ul className="plain">
             {bulk.map((r) => (

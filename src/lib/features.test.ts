@@ -208,3 +208,90 @@ describe('código de colores del mazo', () => {
     expect(colorCode(['inventada', byColor('Red')[0]], catalog).code).toBe('R')
   })
 })
+
+describe('playset según el tipo de carta', () => {
+  it('una Legend solo se lleva 1 vez por mazo: su playset es 1; el resto, 3', async () => {
+    const { playsetSize } = await import('./inventory')
+    expect(playsetSize(catalog.byId.adam_smasher_ender_of_legends)).toBe(1)
+    expect(playsetSize(catalog.byId.saul_bright_stormrider)).toBe(3)
+  })
+
+  it('el reparto activo/bulk usa el tamaño de playset de la carta', async () => {
+    const { splitPlayset } = await import('./inventory')
+    expect(splitPlayset(0, 1)).toEqual({ active: 0, bulk: 0 })
+    expect(splitPlayset(1, 1)).toEqual({ active: 1, bulk: 0 })
+    expect(splitPlayset(3, 1)).toEqual({ active: 1, bulk: 2 })
+    expect(splitPlayset(4)).toEqual({ active: 3, bulk: 1 }) // por defecto sigue siendo 3
+  })
+
+  it('el bulk de una Legend empieza en su 2ª copia', async () => {
+    const { bulkList, playsetSize } = await import('./inventory')
+    const inv = {
+      adam_smasher_ender_of_legends: { normal: 2, foil: 0, promo: 0, condition: 'mint' as const },
+      saul_bright_stormrider: { normal: 2, foil: 0, promo: 0, condition: 'mint' as const },
+    }
+    const rows = bulkList(inv, (id) => playsetSize(catalog.byId[id]))
+    expect(rows).toEqual([{ cardId: 'adam_smasher_ender_of_legends', total: 2, bulk: 1, condition: 'mint' }])
+  })
+})
+
+describe('versiones que existen para cada carta', () => {
+  it('una carta con artes alternativos tiene versión Promo / Full Art', async () => {
+    const { availableVersions } = await import('./inventory')
+    const withAlt = catalog.cards.find((c) => c.altArts.length > 0)!
+    expect(availableVersions(withAlt).promo).toBe(true)
+  })
+
+  it('una carta sin artes alternativos ni impresión promocional no la tiene', async () => {
+    const { availableVersions } = await import('./inventory')
+    const plain = catalog.cards.find((c) => c.altArts.length === 0 && !c.printings.some((p) => /promo|judge|topper/i.test(p.baseSetName)))!
+    expect(plain).toBeDefined()
+    expect(availableVersions(plain).promo).toBe(false)
+  })
+
+  it('el foil solo se ofrece si el catálogo lo indica (hoy ninguna carta lo indica)', async () => {
+    const { availableVersions } = await import('./inventory')
+    expect(catalog.cards.some((c) => availableVersions(c).foil)).toBe(false)
+    const fake = { ...catalog.byId.saul_bright_stormrider, printings: [{ ...catalog.byId.saul_bright_stormrider.printings[0], finish: 'Foil' }] }
+    expect(availableVersions(fake).foil).toBe(true)
+  })
+
+  it('el catálogo tiene el campo finish en todas las impresiones y artes alternativos', () => {
+    for (const c of catalog.cards) {
+      for (const p of c.printings) expect('finish' in p).toBe(true)
+      for (const a of c.altArts) expect('finish' in a).toBe(true)
+    }
+  })
+})
+
+describe('restar del total de copias (botón − de la carta)', () => {
+  const e = (normal: number, promo: number, foil: number): import('./inventory').InventoryEntry => ({ normal, promo, foil, condition: 'mint' })
+
+  it('sumar añade una copia Normal', async () => {
+    const { adjustCopies } = await import('./inventory')
+    expect(adjustCopies(e(1, 1, 1), +1)).toMatchObject({ normal: 2, promo: 1, foil: 1 })
+  })
+
+  it('restar quita primero las Normales', async () => {
+    const { adjustCopies } = await import('./inventory')
+    expect(adjustCopies(e(2, 1, 1), -1)).toMatchObject({ normal: 1, promo: 1, foil: 1 })
+  })
+
+  it('sin Normales, resta de Promo y luego de Foil (el caso que fallaba: solo copias no normales)', async () => {
+    const { adjustCopies, totalOf } = await import('./inventory')
+    const a = adjustCopies(e(0, 1, 1), -1)
+    expect(a).toMatchObject({ normal: 0, promo: 0, foil: 1 })
+    const b = adjustCopies(a, -1)
+    expect(totalOf(b)).toBe(0)
+  })
+
+  it('el total baja exactamente 1 en cada pulsación y nunca queda negativo', async () => {
+    const { adjustCopies, totalOf } = await import('./inventory')
+    let cur = e(1, 2, 1)
+    for (let t = totalOf(cur); t > 0; t--) {
+      cur = adjustCopies(cur, -1)
+      expect(totalOf(cur)).toBe(t - 1)
+    }
+    expect(totalOf(adjustCopies(cur, -1))).toBe(0)
+  })
+})

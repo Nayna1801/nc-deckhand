@@ -33,6 +33,7 @@
     "collectorNumber": "012",
     "language": "en",
     "artist": "Bad Moon Studio",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -43,6 +44,7 @@
     "collectorNumber": "008",
     "language": "en",
     "artist": "Bad Moon Studios",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -53,6 +55,7 @@
     "collectorNumber": "003",
     "language": "en",
     "artist": "Vincenzo Riccardi",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -63,6 +66,7 @@
     "collectorNumber": "041",
     "language": "en",
     "artist": "Vincenzo Riccardi",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -73,6 +77,7 @@
     "collectorNumber": "012",
     "language": "fr",
     "artist": "Bad Moon Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -83,6 +88,7 @@
     "collectorNumber": "003",
     "language": "fr",
     "artist": "Vincenzo Riccardi",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -93,10 +99,12 @@
     "collectorNumber": null,
     "artist": null,
     "rarity": null,
+    "finish": null,
     "setCode": null,
     "setName": null,
     "baseSetName": null,
-    "edition": null
+    "edition": null,
+    "image": "cards/alt/goro_takemura_hands_unclean_alt.webp"
    }
   ],
   "image": "cards/goro_takemura_hands_unclean.webp"
@@ -135,6 +143,7 @@
     "collectorNumber": "017",
     "language": "en",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -145,6 +154,7 @@
     "collectorNumber": "013",
     "language": "en",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -155,6 +165,7 @@
     "collectorNumber": "017",
     "language": "fr",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -196,6 +207,7 @@
     "collectorNumber": "003",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -206,6 +218,7 @@
     "collectorNumber": "002",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -216,6 +229,7 @@
     "collectorNumber": "002",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -226,6 +240,7 @@
     "collectorNumber": "020",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -236,6 +251,7 @@
     "collectorNumber": "003",
     "language": "fr",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -246,6 +262,7 @@
     "collectorNumber": "002",
     "language": "fr",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -256,6 +273,7 @@
     "collectorNumber": "020",
     "language": "fr",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -266,10 +284,12 @@
     "collectorNumber": "002",
     "artist": "CD Projekt Red",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/minotaur__nightcitybrawls1_002.webp"
    }
   ],
   "image": "cards/minotaur.webp"
@@ -308,6 +328,7 @@
     "collectorNumber": "013",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -318,6 +339,7 @@
     "collectorNumber": "009",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -328,6 +350,7 @@
     "collectorNumber": "004",
     "language": "en",
     "artist": "Vincenzo Riccardi",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -338,6 +361,7 @@
     "collectorNumber": "047",
     "language": "en",
     "artist": "Vincenzo Riccardi",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -348,6 +372,7 @@
     "collectorNumber": "013",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -358,6 +383,7 @@
     "collectorNumber": "004",
     "language": "fr",
     "artist": "Vincenzo Riccardi",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -368,10 +394,12 @@
     "collectorNumber": null,
     "artist": null,
     "rarity": null,
+    "finish": null,
     "setCode": null,
     "setName": null,
     "baseSetName": null,
-    "edition": null
+    "edition": null,
+    "image": "cards/alt/saburo_arasaka_stubborn_patriarch_alt.webp"
    }
   ],
   "image": "cards/saburo_arasaka_stubborn_patriarch.webp"
@@ -410,6 +438,7 @@
     "collectorNumber": "001",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -420,6 +449,7 @@
     "collectorNumber": "001",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -430,6 +460,7 @@
     "collectorNumber": "001",
     "language": "en",
     "artist": "Vincenzo Riccardi",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -440,6 +471,7 @@
     "collectorNumber": "034",
     "language": "en",
     "artist": "Vincenzo Riccardi",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -450,6 +482,7 @@
     "collectorNumber": "001",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -460,6 +493,7 @@
     "collectorNumber": "001",
     "language": "fr",
     "artist": "Vincenzo Riccardi",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -470,10 +504,12 @@
     "collectorNumber": null,
     "artist": null,
     "rarity": null,
+    "finish": null,
     "setCode": null,
     "setName": null,
     "baseSetName": null,
-    "edition": null
+    "edition": null,
+    "image": "cards/alt/yorinobu_arasaka_embracing_destruction_alt.webp"
    }
   ],
   "image": "cards/yorinobu_arasaka_embracing_destruction.webp"
@@ -511,6 +547,7 @@
     "collectorNumber": "002",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -521,6 +558,7 @@
     "collectorNumber": "002",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -531,6 +569,7 @@
     "collectorNumber": "002",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -570,6 +609,7 @@
     "collectorNumber": "011",
     "language": "en",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -580,6 +620,7 @@
     "collectorNumber": "007",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -590,6 +631,7 @@
     "collectorNumber": "005",
     "language": "en",
     "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -600,6 +642,7 @@
     "collectorNumber": "050",
     "language": "en",
     "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -610,6 +653,7 @@
     "collectorNumber": "011",
     "language": "fr",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -620,6 +664,7 @@
     "collectorNumber": "005",
     "language": "fr",
     "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -630,10 +675,12 @@
     "collectorNumber": "005",
     "artist": "Ito (Kirby's Comic Art)",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "boxtoppersretail",
     "setName": "Box Toppers — Retail",
     "baseSetName": "Box Toppers — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/jackie_welles_pour_one_out_for_me_alt.webp"
    }
   ],
   "image": "cards/jackie_welles_pour_one_out_for_me.webp"
@@ -672,6 +719,7 @@
     "collectorNumber": "015",
     "language": "en",
     "artist": "Federico Sabbatini",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -682,6 +730,7 @@
     "collectorNumber": "011",
     "language": "en",
     "artist": "Federico Sabbatini",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -692,6 +741,7 @@
     "collectorNumber": "015",
     "language": "fr",
     "artist": "Federico Sabbatini",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -732,6 +782,7 @@
     "collectorNumber": "012",
     "language": "en",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -742,6 +793,7 @@
     "collectorNumber": "008",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -752,6 +804,7 @@
     "collectorNumber": "006",
     "language": "en",
     "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -762,6 +815,7 @@
     "collectorNumber": "053",
     "language": "en",
     "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -772,6 +826,7 @@
     "collectorNumber": "012",
     "language": "fr",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -782,6 +837,7 @@
     "collectorNumber": "006",
     "language": "fr",
     "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -792,10 +848,12 @@
     "collectorNumber": "006",
     "artist": "Ito (Kirby's Comic Art)",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "boxtoppersretail",
     "setName": "Box Toppers — Retail",
     "baseSetName": "Box Toppers — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/v_corporate_exile_alt.webp"
    }
   ],
   "image": "cards/v_corporate_exile.webp"
@@ -833,6 +891,7 @@
     "collectorNumber": "001",
     "language": "en",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -843,6 +902,7 @@
     "collectorNumber": "001",
     "language": "en",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -853,6 +913,7 @@
     "collectorNumber": "002",
     "language": "en",
     "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -863,6 +924,7 @@
     "collectorNumber": "040",
     "language": "en",
     "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -873,6 +935,7 @@
     "collectorNumber": "001",
     "language": "fr",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -883,6 +946,7 @@
     "collectorNumber": "002",
     "language": "fr",
     "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -893,10 +957,12 @@
     "collectorNumber": null,
     "artist": null,
     "rarity": null,
+    "finish": null,
     "setCode": null,
     "setName": null,
     "baseSetName": null,
-    "edition": null
+    "edition": null,
+    "image": "cards/alt/viktor_vektor_sit_down_and_relax_alt.webp"
    }
   ],
   "image": "cards/viktor_vektor_sit_down_and_relax.webp"
@@ -935,6 +1001,7 @@
     "collectorNumber": "006",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -945,6 +1012,7 @@
     "collectorNumber": "006",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -985,6 +1053,7 @@
     "collectorNumber": "001",
     "language": "en",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -995,6 +1064,7 @@
     "collectorNumber": "141",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1005,6 +1075,7 @@
     "collectorNumber": "β141",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1015,6 +1086,7 @@
     "collectorNumber": "001",
     "language": "en",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1025,6 +1097,7 @@
     "collectorNumber": "008",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1035,6 +1108,7 @@
     "collectorNumber": "029",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1045,6 +1119,7 @@
     "collectorNumber": "001",
     "language": "fr",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1055,6 +1130,7 @@
     "collectorNumber": "141",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1065,6 +1141,7 @@
     "collectorNumber": "001",
     "language": "fr",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -1075,10 +1152,12 @@
     "collectorNumber": "008",
     "artist": "Pandart Studio",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "PRM01",
     "setName": "Set 1 Promos",
     "baseSetName": "Set 1 Promos",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/adam_smasher_ender_of_legends__prm01_008.webp"
    },
    {
     "id": "welcometonightcitybeta_141",
@@ -1086,10 +1165,12 @@
     "collectorNumber": "β141",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/adam_smasher_ender_of_legends__welcometonightcitybeta_141.webp"
    },
    {
     "id": "welcometonightcityretail_141",
@@ -1097,10 +1178,12 @@
     "collectorNumber": "141",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/adam_smasher_ender_of_legends__welcometonightcityretail_141.webp"
    }
   ],
   "image": "cards/adam_smasher_ender_of_legends.webp"
@@ -1139,6 +1222,7 @@
     "collectorNumber": "041",
     "language": "en",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -1149,6 +1233,7 @@
     "collectorNumber": "160",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1159,6 +1244,7 @@
     "collectorNumber": "β160",
     "language": "en",
     "artist": "Toni Infante",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1169,6 +1255,7 @@
     "collectorNumber": "002",
     "language": "en",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1179,6 +1266,7 @@
     "collectorNumber": "004",
     "language": "en",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1189,6 +1277,7 @@
     "collectorNumber": "041",
     "language": "fr",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1199,6 +1288,7 @@
     "collectorNumber": "160",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1209,6 +1299,7 @@
     "collectorNumber": "002",
     "language": "fr",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1219,6 +1310,7 @@
     "collectorNumber": "004",
     "language": "fr",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -1229,10 +1321,12 @@
     "collectorNumber": "160",
     "artist": "Łukasz Poller",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/adam_smasher_metal_over_meat_alt.webp"
    },
    {
     "id": "welcometonightcitybeta_160",
@@ -1240,10 +1334,12 @@
     "collectorNumber": "β160",
     "artist": "Toni Infante",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/adam_smasher_metal_over_meat__welcometonightcitybeta_160.webp"
    },
    {
     "id": "nightcityshowdowns1_002",
@@ -1251,10 +1347,12 @@
     "collectorNumber": "002",
     "artist": "Envar",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcityshowdowns1",
     "setName": "Night City Showdown S1",
     "baseSetName": "Night City Showdown S1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/adam_smasher_metal_over_meat__nightcityshowdowns1_002.webp"
    }
   ],
   "image": "cards/adam_smasher_metal_over_meat.webp"
@@ -1293,6 +1391,7 @@
     "collectorNumber": "059",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -1303,6 +1402,7 @@
     "collectorNumber": "059",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -1343,6 +1443,7 @@
     "collectorNumber": "065",
     "language": "en",
     "artist": "Alicja Użarowska",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -1353,6 +1454,7 @@
     "collectorNumber": "010",
     "language": "en",
     "artist": "Alicja Użarowska",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1363,6 +1465,7 @@
     "collectorNumber": "006",
     "language": "en",
     "artist": "Alicja Użarowska",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1373,6 +1476,7 @@
     "collectorNumber": "005",
     "language": "en",
     "artist": "Alicja Użarowska",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1383,6 +1487,7 @@
     "collectorNumber": "009",
     "language": "en",
     "artist": "Alicja Użarowska",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1393,6 +1498,7 @@
     "collectorNumber": "065",
     "language": "fr",
     "artist": "Alicja Użarowska",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1403,6 +1509,7 @@
     "collectorNumber": "010",
     "language": "fr",
     "artist": "Alicja Użarowska",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -1413,10 +1520,12 @@
     "collectorNumber": "005",
     "artist": "Alicja Użarowska",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "edgerunneropens1",
     "setName": "Edgerunner Open S 1",
     "baseSetName": "Edgerunner Open S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/afterparty_at_lizzie_s__edgerunneropens1_005.webp"
    }
   ],
   "image": "cards/afterparty_at_lizzie_s.webp"
@@ -1454,6 +1563,7 @@
     "collectorNumber": "027",
     "language": "en",
     "artist": "Fabrizio De Tommaso",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -1464,6 +1574,7 @@
     "collectorNumber": "027",
     "language": "fr",
     "artist": "Fabrizio De Tommaso",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -1504,6 +1615,7 @@
     "collectorNumber": "042",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -1514,6 +1626,7 @@
     "collectorNumber": "161",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1524,6 +1637,7 @@
     "collectorNumber": "β161",
     "language": "en",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1534,6 +1648,7 @@
     "collectorNumber": "042",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1544,6 +1659,7 @@
     "collectorNumber": "161",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -1554,10 +1670,12 @@
     "collectorNumber": "β161",
     "artist": "Dardo Studios",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/alt_cunningham_mother_of_daemons__welcometonightcitybeta_161.webp"
    },
    {
     "id": "welcometonightcityretail_161",
@@ -1565,10 +1683,12 @@
     "collectorNumber": "161",
     "artist": "Łukasz Poller",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/alt_cunningham_mother_of_daemons__welcometonightcityretail_161.webp"
    }
   ],
   "image": "cards/alt_cunningham_mother_of_daemons.webp"
@@ -1607,6 +1727,7 @@
     "collectorNumber": "106",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -1617,6 +1738,7 @@
     "collectorNumber": "155",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1627,6 +1749,7 @@
     "collectorNumber": "β155",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1637,6 +1760,7 @@
     "collectorNumber": "009",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1647,6 +1771,7 @@
     "collectorNumber": "048",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1657,6 +1782,7 @@
     "collectorNumber": "106",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1667,6 +1793,7 @@
     "collectorNumber": "155",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1677,6 +1804,7 @@
     "collectorNumber": "009",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -1687,10 +1815,12 @@
     "collectorNumber": "155",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/alt_cunningham_soulkilller_architect_alt.webp"
    },
    {
     "id": "welcometonightcitybeta_155",
@@ -1698,10 +1828,12 @@
     "collectorNumber": "β155",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/alt_cunningham_soulkiller_architect__welcometonightcitybeta_155.webp"
    }
   ],
   "image": "cards/alt_cunningham_soulkiller_architect.webp"
@@ -1740,6 +1872,7 @@
     "collectorNumber": "007",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -1750,6 +1883,7 @@
     "collectorNumber": "007",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -1789,6 +1923,7 @@
     "collectorNumber": "028",
     "language": "en",
     "artist": "Miguel Valderrama & Jason Wordie",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -1799,6 +1934,7 @@
     "collectorNumber": "028",
     "language": "fr",
     "artist": "Miguel Valderrama & Jason Wordie",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -1839,6 +1975,7 @@
     "collectorNumber": "023",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -1849,6 +1986,7 @@
     "collectorNumber": "006",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1859,6 +1997,7 @@
     "collectorNumber": "023",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -1869,6 +2008,7 @@
     "collectorNumber": "006",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -1909,6 +2049,7 @@
     "collectorNumber": "043",
     "language": "en",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -1919,6 +2060,7 @@
     "collectorNumber": "043",
     "language": "fr",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -1958,6 +2100,7 @@
     "collectorNumber": "029",
     "language": "en",
     "artist": "Rion Chow",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -1968,6 +2111,7 @@
     "collectorNumber": "029",
     "language": "fr",
     "artist": "Rion Chow",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2007,6 +2151,7 @@
     "collectorNumber": "066",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2017,6 +2162,7 @@
     "collectorNumber": "007",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2027,6 +2173,7 @@
     "collectorNumber": "025",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2037,6 +2184,7 @@
     "collectorNumber": "066",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2047,6 +2195,7 @@
     "collectorNumber": "007",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2057,6 +2206,7 @@
     "collectorNumber": "025",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2067,10 +2217,12 @@
     "collectorNumber": "007",
     "artist": "ADIA",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/bootleg_black_sapphire_show__nightcitybrawls1_007.webp"
    }
   ],
   "image": "cards/bootleg_black_sapphire_show.webp"
@@ -2109,6 +2261,7 @@
     "collectorNumber": "044",
     "language": "en",
     "artist": "André Lima Araújo & Chris O'Halloran",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2119,6 +2272,7 @@
     "collectorNumber": "044",
     "language": "fr",
     "artist": "André Lima Araújo & Chris O'Halloran",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2159,6 +2313,7 @@
     "collectorNumber": "030",
     "language": "en",
     "artist": "Matías Bergara",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2169,6 +2324,7 @@
     "collectorNumber": "030",
     "language": "fr",
     "artist": "Matías Bergara",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2210,6 +2366,7 @@
     "collectorNumber": "008",
     "language": "en",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2220,6 +2377,7 @@
     "collectorNumber": "002",
     "language": "en",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2230,6 +2388,7 @@
     "collectorNumber": "008",
     "language": "fr",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2240,6 +2399,7 @@
     "collectorNumber": "002",
     "language": "fr",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2279,6 +2439,7 @@
     "collectorNumber": "131",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2289,6 +2450,7 @@
     "collectorNumber": "131",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2328,6 +2490,7 @@
     "collectorNumber": "076",
     "language": "en",
     "artist": "CD PROJEKT RED",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2338,6 +2501,7 @@
     "collectorNumber": "014",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2348,6 +2512,7 @@
     "collectorNumber": "010",
     "language": "en",
     "artist": "CD PROJEKT RED",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2358,6 +2523,7 @@
     "collectorNumber": "009",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2368,6 +2534,7 @@
     "collectorNumber": "027",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2378,6 +2545,7 @@
     "collectorNumber": "076",
     "language": "fr",
     "artist": "CD PROJEKT RED",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2388,6 +2556,7 @@
     "collectorNumber": "014",
     "language": "fr",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2398,6 +2567,7 @@
     "collectorNumber": "009",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2408,6 +2578,7 @@
     "collectorNumber": "027",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2418,10 +2589,12 @@
     "collectorNumber": null,
     "artist": null,
     "rarity": null,
+    "finish": null,
     "setCode": null,
     "setName": null,
     "baseSetName": null,
-    "edition": null
+    "edition": null,
+    "image": "cards/alt/corpo_security_alpha.webp"
    },
    {
     "id": "nightcitybrawls1_009",
@@ -2429,10 +2602,12 @@
     "collectorNumber": "009",
     "artist": "Daniel Valaisis",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/corpo_security__nightcitybrawls1_009.webp"
    }
   ],
   "image": "cards/corpo_security.webp"
@@ -2470,6 +2645,7 @@
     "collectorNumber": "097",
     "language": "en",
     "artist": "John Liew",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2480,6 +2656,7 @@
     "collectorNumber": "020",
     "language": "en",
     "artist": "John Liew",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2490,6 +2667,7 @@
     "collectorNumber": "014",
     "language": "en",
     "artist": "John Liew",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2500,6 +2678,7 @@
     "collectorNumber": "097",
     "language": "fr",
     "artist": "John Liew",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2510,6 +2689,7 @@
     "collectorNumber": "020",
     "language": "fr",
     "artist": "John Liew",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2549,6 +2729,7 @@
     "collectorNumber": "067",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2559,6 +2740,7 @@
     "collectorNumber": "008",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2569,6 +2751,7 @@
     "collectorNumber": "026",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2579,6 +2762,7 @@
     "collectorNumber": "067",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2589,6 +2773,7 @@
     "collectorNumber": "008",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2599,6 +2784,7 @@
     "collectorNumber": "026",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2609,10 +2795,12 @@
     "collectorNumber": "008",
     "artist": "Michal Ivan",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/cyberpsychosis__nightcitybrawls1_008.webp"
    }
   ],
   "image": "cards/cyberpsychosis.webp"
@@ -2651,6 +2839,7 @@
     "collectorNumber": "024",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2661,6 +2850,7 @@
     "collectorNumber": "024",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2700,6 +2890,7 @@
     "collectorNumber": "112",
     "language": "en",
     "artist": "CD PROJEKT RED",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2710,6 +2901,7 @@
     "collectorNumber": "013",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2720,6 +2912,7 @@
     "collectorNumber": "009",
     "language": "en",
     "artist": "CD PROJEKT RED",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2730,6 +2923,7 @@
     "collectorNumber": "014",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2740,6 +2934,7 @@
     "collectorNumber": "032",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2750,6 +2945,7 @@
     "collectorNumber": "112",
     "language": "fr",
     "artist": "CD PROJEKT RED",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2760,6 +2956,7 @@
     "collectorNumber": "013",
     "language": "fr",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2770,6 +2967,7 @@
     "collectorNumber": "014",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2780,6 +2978,7 @@
     "collectorNumber": "032",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2790,10 +2989,12 @@
     "collectorNumber": "014",
     "artist": "Daniel Valaisis",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/delamain_cab__nightcitybrawls1_014.webp"
    }
   ],
   "image": "cards/delamain_cab.webp"
@@ -2831,6 +3032,7 @@
     "collectorNumber": "111",
     "language": "en",
     "artist": "Łukasz Wiktorzak",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2841,6 +3043,7 @@
     "collectorNumber": "003",
     "language": "en",
     "artist": "Łukasz Wiktorzak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2851,6 +3054,7 @@
     "collectorNumber": "111",
     "language": "fr",
     "artist": "Łukasz Wiktorzak",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2890,6 +3094,7 @@
     "collectorNumber": "031",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2900,6 +3105,7 @@
     "collectorNumber": "031",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -2939,6 +3145,7 @@
     "collectorNumber": "002",
     "language": "en",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -2949,6 +3156,7 @@
     "collectorNumber": "142",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2959,6 +3167,7 @@
     "collectorNumber": "β142",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2969,6 +3178,7 @@
     "collectorNumber": "002",
     "language": "en",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2979,6 +3189,7 @@
     "collectorNumber": "012",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2989,6 +3200,7 @@
     "collectorNumber": "016",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -2999,6 +3211,7 @@
     "collectorNumber": "020",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3009,6 +3222,7 @@
     "collectorNumber": "024",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3019,6 +3233,7 @@
     "collectorNumber": "030",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3029,6 +3244,7 @@
     "collectorNumber": "002",
     "language": "fr",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3039,6 +3255,7 @@
     "collectorNumber": "142",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3049,6 +3266,7 @@
     "collectorNumber": "002",
     "language": "fr",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -3059,10 +3277,12 @@
     "collectorNumber": "β142",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/dexter_deshawn_off_the_grid__welcometonightcitybeta_142.webp"
    },
    {
     "id": "welcometonightcityretail_142",
@@ -3070,10 +3290,12 @@
     "collectorNumber": "142",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/dexter_deshawn_off_the_grid__welcometonightcityretail_142.webp"
    },
    {
     "id": "edgerunneropens1_012",
@@ -3081,10 +3303,12 @@
     "collectorNumber": "012",
     "artist": "TOPDOG Entertainment",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "edgerunneropens1",
     "setName": "Edgerunner Open S 1",
     "baseSetName": "Edgerunner Open S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/dexter_deshawn_off_the_grid__edgerunneropens1_012.webp"
    }
   ],
   "image": "cards/dexter_deshawn_off_the_grid.webp"
@@ -3122,6 +3346,7 @@
     "collectorNumber": "098",
     "language": "en",
     "artist": "Alex Eckman-Lawn",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -3132,6 +3357,7 @@
     "collectorNumber": "012",
     "language": "en",
     "artist": "Alex Eckman-Lawn",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3142,6 +3368,7 @@
     "collectorNumber": "030",
     "language": "en",
     "artist": "Alex Eckman-Lawn",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3152,6 +3379,7 @@
     "collectorNumber": "098",
     "language": "fr",
     "artist": "Alex Eckman-Lawn",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3162,6 +3390,7 @@
     "collectorNumber": "012",
     "language": "fr",
     "artist": "Alex Eckman-Lawn",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3172,6 +3401,7 @@
     "collectorNumber": "030",
     "language": "fr",
     "artist": "Alex Eckman-Lawn",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -3182,10 +3412,12 @@
     "collectorNumber": "012",
     "artist": "Alex Eckman-Lawn",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/don_t_fear_the_reaper__nightcitybrawls1_012.webp"
    }
   ],
   "image": "cards/don_t_fear_the_reaper.webp"
@@ -3224,6 +3456,7 @@
     "collectorNumber": "036",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -3234,6 +3467,7 @@
     "collectorNumber": "145",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3244,6 +3478,7 @@
     "collectorNumber": "β145",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3254,6 +3489,7 @@
     "collectorNumber": "004",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3264,6 +3500,7 @@
     "collectorNumber": "035",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3274,6 +3511,7 @@
     "collectorNumber": "036",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3284,6 +3522,7 @@
     "collectorNumber": "145",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3294,6 +3533,7 @@
     "collectorNumber": "004",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -3304,10 +3544,12 @@
     "collectorNumber": "β145",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/dum_dum_maelstrom_triggerman_alt.webp"
    },
    {
     "id": "welcometonightcityretail_145",
@@ -3315,10 +3557,12 @@
     "collectorNumber": "145",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/dum_dum_maelstrom_triggerman__welcometonightcityretail_145.webp"
    }
   ],
   "image": "cards/dum_dum_maelstrom_triggerman.webp"
@@ -3357,6 +3601,7 @@
     "collectorNumber": "128",
     "language": "en",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -3367,6 +3612,7 @@
     "collectorNumber": "017",
     "language": "en",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3377,6 +3623,7 @@
     "collectorNumber": "013",
     "language": "en",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3387,6 +3634,7 @@
     "collectorNumber": "016",
     "language": "en",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3397,6 +3645,7 @@
     "collectorNumber": "034",
     "language": "en",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3407,6 +3656,7 @@
     "collectorNumber": "128",
     "language": "fr",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3417,6 +3667,7 @@
     "collectorNumber": "017",
     "language": "fr",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3427,6 +3678,7 @@
     "collectorNumber": "016",
     "language": "fr",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3437,6 +3689,7 @@
     "collectorNumber": "034",
     "language": "fr",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -3447,10 +3700,12 @@
     "collectorNumber": "016",
     "artist": "Ivan Shavrin",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/dying_night_v_s_pistol__nightcitybrawls1_016.webp"
    }
   ],
   "image": "cards/dying_night_v_s_pistol.webp"
@@ -3489,6 +3744,7 @@
     "collectorNumber": "009",
     "language": "en",
     "artist": "Rafael de Latorre & Clonerh",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -3499,6 +3755,7 @@
     "collectorNumber": "009",
     "language": "fr",
     "artist": "Rafael de Latorre & Clonerh",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -3540,6 +3797,7 @@
     "collectorNumber": "077",
     "language": "en",
     "artist": "Robert Sammelin",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -3550,6 +3808,7 @@
     "collectorNumber": "015",
     "language": "en",
     "artist": "Robert Sammelin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3560,6 +3819,7 @@
     "collectorNumber": "011",
     "language": "en",
     "artist": "Robert Sammelin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3570,6 +3830,7 @@
     "collectorNumber": "077",
     "language": "fr",
     "artist": "Robert Sammelin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3580,6 +3841,7 @@
     "collectorNumber": "015",
     "language": "fr",
     "artist": "Robert Sammelin",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -3619,6 +3881,7 @@
     "collectorNumber": "107",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -3629,6 +3892,7 @@
     "collectorNumber": "156",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3639,6 +3903,7 @@
     "collectorNumber": "β156",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3649,6 +3914,7 @@
     "collectorNumber": "049",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3659,6 +3925,7 @@
     "collectorNumber": "107",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3669,6 +3936,7 @@
     "collectorNumber": "156",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -3679,10 +3947,12 @@
     "collectorNumber": "β156",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/evelyn_parker_beautiful_enigma_alt.webp"
    },
    {
     "id": "welcometonightcityretail_156",
@@ -3690,10 +3960,12 @@
     "collectorNumber": "156",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/evelyn_parker_beautiful_enigma__welcometonightcityretail_156.webp"
    }
   ],
   "image": "cards/evelyn_parker_beautiful_enigma.webp"
@@ -3731,6 +4003,7 @@
     "collectorNumber": "113",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -3741,6 +4014,7 @@
     "collectorNumber": "014",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3751,6 +4025,7 @@
     "collectorNumber": "010",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3761,6 +4036,7 @@
     "collectorNumber": "113",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3771,6 +4047,7 @@
     "collectorNumber": "014",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -3812,6 +4089,7 @@
     "collectorNumber": "078",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -3822,6 +4100,7 @@
     "collectorNumber": "016",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3832,6 +4111,7 @@
     "collectorNumber": "012",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3842,6 +4122,7 @@
     "collectorNumber": "002",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3852,6 +4133,7 @@
     "collectorNumber": "078",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3862,6 +4144,7 @@
     "collectorNumber": "016",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -3902,6 +4185,7 @@
     "collectorNumber": "132",
     "language": "en",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -3912,6 +4196,7 @@
     "collectorNumber": "019",
     "language": "en",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3922,6 +4207,7 @@
     "collectorNumber": "014",
     "language": "en",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3932,6 +4218,7 @@
     "collectorNumber": "018",
     "language": "en",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3942,6 +4229,7 @@
     "collectorNumber": "036",
     "language": "en",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3952,6 +4240,7 @@
     "collectorNumber": "132",
     "language": "fr",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3962,6 +4251,7 @@
     "collectorNumber": "019",
     "language": "fr",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3972,6 +4262,7 @@
     "collectorNumber": "018",
     "language": "fr",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -3982,6 +4273,7 @@
     "collectorNumber": "036",
     "language": "fr",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -3992,10 +4284,12 @@
     "collectorNumber": "018",
     "artist": "DOFRESH",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/floor_it__nightcitybrawls1_018.webp"
    }
   ],
   "image": "cards/floor_it.webp"
@@ -4033,6 +4327,7 @@
     "collectorNumber": "099",
     "language": "en",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4043,6 +4338,7 @@
     "collectorNumber": "099",
     "language": "fr",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4083,6 +4379,7 @@
     "collectorNumber": "045",
     "language": "en",
     "artist": "Josan Gonzalez (Deathburger)",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4093,6 +4390,7 @@
     "collectorNumber": "045",
     "language": "fr",
     "artist": "Josan Gonzalez (Deathburger)",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4132,6 +4430,7 @@
     "collectorNumber": "060",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4142,6 +4441,7 @@
     "collectorNumber": "011",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4152,6 +4452,7 @@
     "collectorNumber": "060",
     "language": "fr",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4162,6 +4463,7 @@
     "collectorNumber": "011",
     "language": "fr",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4202,6 +4504,7 @@
     "collectorNumber": "071",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4212,6 +4515,7 @@
     "collectorNumber": "150",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4222,6 +4526,7 @@
     "collectorNumber": "β150",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4232,6 +4537,7 @@
     "collectorNumber": "007",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4242,6 +4548,7 @@
     "collectorNumber": "042",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4252,6 +4559,7 @@
     "collectorNumber": "071",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4262,6 +4570,7 @@
     "collectorNumber": "150",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4272,6 +4581,7 @@
     "collectorNumber": "007",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4282,10 +4592,12 @@
     "collectorNumber": "β150",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/goro_takemura_vengeful_bodyguard__welcometonightcitybeta_150.webp"
    },
    {
     "id": "welcometonightcityretail_150",
@@ -4293,10 +4605,12 @@
     "collectorNumber": "150",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/goro_takemura_vengeful_bodyguard__welcometonightcityretail_150.webp"
    }
   ],
   "image": "cards/goro_takemura_vengeful_bodyguard.webp"
@@ -4335,6 +4649,7 @@
     "collectorNumber": "032",
     "language": "en",
     "artist": "Rafael de Latorre",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4345,6 +4660,7 @@
     "collectorNumber": "032",
     "language": "fr",
     "artist": "Rafael de Latorre",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4385,6 +4701,7 @@
     "collectorNumber": "114",
     "language": "en",
     "artist": "Luke Poller",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4395,6 +4712,7 @@
     "collectorNumber": "114",
     "language": "fr",
     "artist": "Luke Poller",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4436,6 +4754,7 @@
     "collectorNumber": "072",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4446,6 +4765,7 @@
     "collectorNumber": "151",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4456,6 +4776,7 @@
     "collectorNumber": "β151",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4466,6 +4787,7 @@
     "collectorNumber": "043",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4476,6 +4798,7 @@
     "collectorNumber": "072",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4486,6 +4809,7 @@
     "collectorNumber": "151",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4496,10 +4820,12 @@
     "collectorNumber": "β151",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/hanako_arasaka_daughter_of_the_emperor__welcometonightcitybeta_151.webp"
    },
    {
     "id": "welcometonightcityretail_151",
@@ -4507,10 +4833,12 @@
     "collectorNumber": "151",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/hanako_arasaka_daughter_of_the_emperor__welcometonightcityretail_151.webp"
    }
   ],
   "image": "cards/hanako_arasaka_daughter_of_the_emperor.webp"
@@ -4550,6 +4878,7 @@
     "collectorNumber": "046",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4560,6 +4889,7 @@
     "collectorNumber": "162",
     "language": "en",
     "artist": "Akram",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4570,6 +4900,7 @@
     "collectorNumber": "β162",
     "language": "en",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4580,6 +4911,7 @@
     "collectorNumber": "046",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4590,6 +4922,7 @@
     "collectorNumber": "162",
     "language": "fr",
     "artist": "Akram",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4600,10 +4933,12 @@
     "collectorNumber": "β162",
     "artist": "Dardo Studios",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/hanako_arasaka_in_a_gilded_cage__welcometonightcitybeta_162.webp"
    },
    {
     "id": "welcometonightcityretail_162",
@@ -4611,10 +4946,12 @@
     "collectorNumber": "162",
     "artist": "Akram",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/hanako_arasaka_in_a_gilded_cage__welcometonightcityretail_162.webp"
    }
   ],
   "image": "cards/hanako_arasaka_in_a_gilded_cage.webp"
@@ -4652,6 +4989,7 @@
     "collectorNumber": "047",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4662,6 +5000,7 @@
     "collectorNumber": "003",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4672,6 +5011,7 @@
     "collectorNumber": "047",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4682,6 +5022,7 @@
     "collectorNumber": "003",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4722,6 +5063,7 @@
     "collectorNumber": "033",
     "language": "en",
     "artist": "Alexander Dudar",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4732,6 +5074,7 @@
     "collectorNumber": "009",
     "language": "en",
     "artist": "Alexander Duder",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4742,6 +5085,7 @@
     "collectorNumber": "006",
     "language": "en",
     "artist": "Alexander Dudar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4752,6 +5096,7 @@
     "collectorNumber": "004",
     "language": "en",
     "artist": "Alexander Dudar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4762,6 +5107,7 @@
     "collectorNumber": "008",
     "language": "en",
     "artist": "Alexander Dudar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4772,6 +5118,7 @@
     "collectorNumber": "033",
     "language": "fr",
     "artist": "Alexander Dudar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4782,6 +5129,7 @@
     "collectorNumber": "009",
     "language": "fr",
     "artist": "Alexander Duder",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4792,10 +5140,12 @@
     "collectorNumber": "004",
     "artist": "Alexander Dudar",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "edgerunneropens1",
     "setName": "Edgerunner Open S 1",
     "baseSetName": "Edgerunner Open S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/industrial_assembly__edgerunneropens1_004.webp"
    }
   ],
   "image": "cards/industrial_assembly.webp"
@@ -4834,6 +5184,7 @@
     "collectorNumber": "115",
     "language": "en",
     "artist": "Josan Gonzalez (Deathburger)",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4844,6 +5195,7 @@
     "collectorNumber": "115",
     "language": "fr",
     "artist": "Josan Gonzalez (Deathburger)",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4883,6 +5235,7 @@
     "collectorNumber": "073",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -4893,6 +5246,7 @@
     "collectorNumber": "152",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4903,6 +5257,7 @@
     "collectorNumber": "β152",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4913,6 +5268,7 @@
     "collectorNumber": "044",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4923,6 +5279,7 @@
     "collectorNumber": "073",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -4933,6 +5290,7 @@
     "collectorNumber": "152",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -4943,10 +5301,12 @@
     "collectorNumber": "β152",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/jackie_welles_mama_s_favorite__welcometonightcitybeta_152.webp"
    },
    {
     "id": "welcometonightcityretail_152",
@@ -4954,10 +5314,12 @@
     "collectorNumber": "152",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/jackie_welles_mama_s_favorite__welcometonightcityretail_152.webp"
    }
   ],
   "image": "cards/jackie_welles_mama_s_favorite.webp"
@@ -4996,6 +5358,7 @@
     "collectorNumber": "048",
     "language": "en",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -5006,6 +5369,7 @@
     "collectorNumber": "004",
     "language": "en",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5016,6 +5380,7 @@
     "collectorNumber": "022",
     "language": "en",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5026,6 +5391,7 @@
     "collectorNumber": "048",
     "language": "fr",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5036,6 +5402,7 @@
     "collectorNumber": "004",
     "language": "fr",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5046,6 +5413,7 @@
     "collectorNumber": "022",
     "language": "fr",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -5056,10 +5424,12 @@
     "collectorNumber": "004",
     "artist": "Ilya Kuvshinov",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/jackie_welles_ride_or_die_choom__nightcitybrawls1_004.webp"
    }
   ],
   "image": "cards/jackie_welles_ride_or_die_choom.webp"
@@ -5097,6 +5467,7 @@
     "collectorNumber": "010",
     "language": "en",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -5107,6 +5478,7 @@
     "collectorNumber": "010",
     "language": "fr",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -5148,6 +5520,7 @@
     "collectorNumber": "011",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -5158,6 +5531,7 @@
     "collectorNumber": "159",
     "language": "en",
     "artist": "Atomhawk",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5168,6 +5542,7 @@
     "collectorNumber": "β159",
     "language": "en",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5178,6 +5553,7 @@
     "collectorNumber": "011",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5188,6 +5564,7 @@
     "collectorNumber": "159",
     "language": "fr",
     "artist": "Atomhawk",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -5198,10 +5575,12 @@
     "collectorNumber": "β159",
     "artist": "Dardo Studios",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/johnny_silverhand_never_stop_fighting__welcometonightcitybeta_159.webp"
    },
    {
     "id": "welcometonightcityretail_159",
@@ -5209,10 +5588,12 @@
     "collectorNumber": "159",
     "artist": "Atomhawk",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/johnny_silverhand_never_stop_fighting__welcometonightcityretail_159.webp"
    }
   ],
   "image": "cards/johnny_silverhand_never_stop_fighting.webp"
@@ -5252,6 +5633,7 @@
     "collectorNumber": "003",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -5262,6 +5644,7 @@
     "collectorNumber": "168",
     "language": "en",
     "artist": "Divebound",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5272,6 +5655,7 @@
     "collectorNumber": "β168",
     "language": "en",
     "artist": "Divebound Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5282,6 +5666,7 @@
     "collectorNumber": "031",
     "language": "en",
     "artist": "Divebound Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5292,6 +5677,7 @@
     "collectorNumber": "003",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5302,6 +5688,7 @@
     "collectorNumber": "168",
     "language": "fr",
     "artist": "Divebound",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -5312,10 +5699,12 @@
     "collectorNumber": "β168",
     "artist": "Divebound Studio",
     "rarity": "Iconic Secret",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/johnny_silverhand_rocking_renegade__welcometonightcitybeta_168.webp"
    },
    {
     "id": "welcometonightcityretail_168",
@@ -5323,10 +5712,12 @@
     "collectorNumber": "168",
     "artist": "Divebound",
     "rarity": "Iconic Secret",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/johnny_silverhand_rocking_renegade__welcometonightcityretail_168.webp"
    }
   ],
   "image": "cards/johnny_silverhand_rocking_renegade.webp"
@@ -5366,6 +5757,7 @@
     "collectorNumber": "108",
     "language": "en",
     "artist": "Gautier Viller",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -5376,6 +5768,7 @@
     "collectorNumber": "157",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5386,6 +5779,7 @@
     "collectorNumber": "β157",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5396,6 +5790,7 @@
     "collectorNumber": "015",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5406,6 +5801,7 @@
     "collectorNumber": "019",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5416,6 +5812,7 @@
     "collectorNumber": "023",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5426,6 +5823,7 @@
     "collectorNumber": "027",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5436,6 +5834,7 @@
     "collectorNumber": "051",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5446,6 +5845,7 @@
     "collectorNumber": "108",
     "language": "fr",
     "artist": "Gautier Viller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5456,6 +5856,7 @@
     "collectorNumber": "157",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -5466,10 +5867,12 @@
     "collectorNumber": "β157",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/judy_alvarez_braindance_maestro__welcometonightcitybeta_157.webp"
    },
    {
     "id": "welcometonightcityretail_157",
@@ -5477,10 +5880,12 @@
     "collectorNumber": "157",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/judy_alvarez_braindance_maestro__welcometonightcityretail_157.webp"
    },
    {
     "id": "edgerunneropens1_015",
@@ -5488,10 +5893,12 @@
     "collectorNumber": "015",
     "artist": "Envar Studio",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "edgerunneropens1",
     "setName": "Edgerunner Open S 1",
     "baseSetName": "Edgerunner Open S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/judy_alvarez_braindance_maestro__edgerunneropens1_015.webp"
    }
   ],
   "image": "cards/judy_alvarez_braindance_maestro.webp"
@@ -5531,6 +5938,7 @@
     "collectorNumber": "116",
     "language": "en",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -5541,6 +5949,7 @@
     "collectorNumber": "171",
     "language": "en",
     "artist": "Divebound",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5551,6 +5960,7 @@
     "collectorNumber": "β171",
     "language": "en",
     "artist": "Divebound Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5561,6 +5971,7 @@
     "collectorNumber": "116",
     "language": "fr",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5571,6 +5982,7 @@
     "collectorNumber": "171",
     "language": "fr",
     "artist": "Divebound",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -5581,10 +5993,12 @@
     "collectorNumber": "β171",
     "artist": "Divebound Studio",
     "rarity": "Iconic Secret",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/judy_alvarez_nothing_to_doubt__welcometonightcitybeta_171.webp"
    },
    {
     "id": "welcometonightcityretail_171",
@@ -5592,10 +6006,12 @@
     "collectorNumber": "171",
     "artist": "Divebound",
     "rarity": "Iconic Secret",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/judy_alvarez_nothing_to_doubt__welcometonightcityretail_171.webp"
    }
   ],
   "image": "cards/judy_alvarez_nothing_to_doubt.webp"
@@ -5634,6 +6050,7 @@
     "collectorNumber": "037",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -5644,6 +6061,7 @@
     "collectorNumber": "146",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5654,6 +6072,7 @@
     "collectorNumber": "β146",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5664,6 +6083,7 @@
     "collectorNumber": "036",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5674,6 +6094,7 @@
     "collectorNumber": "037",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5684,6 +6105,7 @@
     "collectorNumber": "146",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -5694,10 +6116,12 @@
     "collectorNumber": "β146",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/kerry_eurodyne_axe_attitude_audience__welcometonightcitybeta_146.webp"
    },
    {
     "id": "welcometonightcityretail_146",
@@ -5705,10 +6129,12 @@
     "collectorNumber": "146",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/kerry_eurodyne_axe_attitude_audience__welcometonightcityretail_146.webp"
    }
   ],
   "image": "cards/kerry_eurodyne_axe_attitude_audience.webp"
@@ -5747,6 +6173,7 @@
     "collectorNumber": "012",
     "language": "en",
     "artist": "Bogna Gawrońska",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -5757,6 +6184,7 @@
     "collectorNumber": "001",
     "language": "en",
     "artist": "Bogna Gawrońska",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5767,6 +6195,7 @@
     "collectorNumber": "019",
     "language": "en",
     "artist": "Bogna Gawrońska",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5777,6 +6206,7 @@
     "collectorNumber": "012",
     "language": "fr",
     "artist": "Bogna Gawrońska",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5787,6 +6217,7 @@
     "collectorNumber": "001",
     "language": "fr",
     "artist": "Bogna Gawrońska",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5797,6 +6228,7 @@
     "collectorNumber": "019",
     "language": "fr",
     "artist": "Bogna Gawrońska",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -5807,10 +6239,12 @@
     "collectorNumber": "001",
     "artist": "Bogna Gawrońska",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/kerry_eurodyne_the_last_rockerboy__nightcitybrawls1_001.webp"
    }
   ],
   "image": "cards/kerry_eurodyne_the_last_rockerboy.webp"
@@ -5848,6 +6282,7 @@
     "collectorNumber": "061",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -5858,6 +6293,7 @@
     "collectorNumber": "007",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5868,6 +6304,7 @@
     "collectorNumber": "004",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5878,6 +6315,7 @@
     "collectorNumber": "061",
     "language": "fr",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -5888,6 +6326,7 @@
     "collectorNumber": "007",
     "language": "fr",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -5928,6 +6367,7 @@
     "collectorNumber": "013",
     "language": "en",
     "artist": "Jesus Hervás",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -5938,6 +6378,7 @@
     "collectorNumber": "013",
     "language": "fr",
     "artist": "Jesus Hervás",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -5977,6 +6418,7 @@
     "collectorNumber": "133",
     "language": "en",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -5987,6 +6429,7 @@
     "collectorNumber": "133",
     "language": "fr",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6026,6 +6469,7 @@
     "collectorNumber": "068",
     "language": "en",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6036,6 +6480,7 @@
     "collectorNumber": "068",
     "language": "fr",
     "artist": "DOFRESH",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6075,6 +6520,7 @@
     "collectorNumber": "117",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6085,6 +6531,7 @@
     "collectorNumber": "117",
     "language": "fr",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6125,6 +6572,7 @@
     "collectorNumber": "049",
     "language": "en",
     "artist": "Alexander Dudar",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6135,6 +6583,7 @@
     "collectorNumber": "049",
     "language": "fr",
     "artist": "Alexander Dudar",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6175,6 +6624,7 @@
     "collectorNumber": "079",
     "language": "en",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6185,6 +6635,7 @@
     "collectorNumber": "079",
     "language": "fr",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6226,6 +6677,7 @@
     "collectorNumber": "118",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6236,6 +6688,7 @@
     "collectorNumber": "015",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6246,6 +6699,7 @@
     "collectorNumber": "033",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6256,6 +6710,7 @@
     "collectorNumber": "037",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6266,6 +6721,7 @@
     "collectorNumber": "118",
     "language": "fr",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6276,6 +6732,7 @@
     "collectorNumber": "015",
     "language": "fr",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6286,6 +6743,7 @@
     "collectorNumber": "033",
     "language": "fr",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6296,6 +6754,7 @@
     "collectorNumber": "037",
     "language": "fr",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6306,10 +6765,12 @@
     "collectorNumber": "015",
     "artist": "TOPDOG Entertainment",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/maman_brigitte_spirit_of_death__nightcitybrawls1_015.webp"
    }
   ],
   "image": "cards/maman_brigitte_spirit_of_death.webp"
@@ -6347,6 +6808,7 @@
     "collectorNumber": "062",
     "language": "en",
     "artist": "Lea Leonowicz",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6357,6 +6819,7 @@
     "collectorNumber": "008",
     "language": "en",
     "artist": "Lea Leonowicz",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6367,6 +6830,7 @@
     "collectorNumber": "005",
     "language": "en",
     "artist": "Lea Leonowicz",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6377,6 +6841,7 @@
     "collectorNumber": "006",
     "language": "en",
     "artist": "Lea Leonowicz",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6387,6 +6852,7 @@
     "collectorNumber": "024",
     "language": "en",
     "artist": "Lea Leonowicz",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6397,6 +6863,7 @@
     "collectorNumber": "062",
     "language": "fr",
     "artist": "Lea Leonowicz",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6407,6 +6874,7 @@
     "collectorNumber": "008",
     "language": "fr",
     "artist": "Lea Leonowicz",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6417,6 +6885,7 @@
     "collectorNumber": "006",
     "language": "fr",
     "artist": "Lea Leonowicz",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6427,6 +6896,7 @@
     "collectorNumber": "024",
     "language": "fr",
     "artist": "Lea Leonowicz",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6437,10 +6907,12 @@
     "collectorNumber": "006",
     "artist": "Lea Leonowicz",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/mandibular_upgrade__nightcitybrawls1_006.webp"
    }
   ],
   "image": "cards/mandibular_upgrade.webp"
@@ -6478,6 +6950,7 @@
     "collectorNumber": "025",
     "language": "en",
     "artist": "Ricardo Padierne Silvera",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6488,6 +6961,7 @@
     "collectorNumber": "007",
     "language": "en",
     "artist": "Ricardo Padierne Silvera",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6498,6 +6972,7 @@
     "collectorNumber": "004",
     "language": "en",
     "artist": "Ricardo Padierne Silvera",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6508,6 +6983,7 @@
     "collectorNumber": "025",
     "language": "fr",
     "artist": "Ricardo Padierne Silvera",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6518,6 +6994,7 @@
     "collectorNumber": "007",
     "language": "fr",
     "artist": "Ricardo Padierne Silvera",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6528,10 +7005,12 @@
     "collectorNumber": null,
     "artist": null,
     "rarity": null,
+    "finish": null,
     "setCode": null,
     "setName": null,
     "baseSetName": null,
-    "edition": null
+    "edition": null,
+    "image": "cards/alt/mantis_blades_alpha.webp"
    },
    {
     "id": "alt",
@@ -6539,10 +7018,12 @@
     "collectorNumber": null,
     "artist": null,
     "rarity": null,
+    "finish": null,
     "setCode": null,
     "setName": null,
     "baseSetName": null,
-    "edition": null
+    "edition": null,
+    "image": "cards/alt/mantis_blades_alt.webp"
    }
   ],
   "image": "cards/mantis_blades.webp"
@@ -6581,6 +7062,7 @@
     "collectorNumber": "080",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6591,6 +7073,7 @@
     "collectorNumber": "018",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6601,6 +7084,7 @@
     "collectorNumber": "080",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6611,6 +7095,7 @@
     "collectorNumber": "018",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6650,6 +7135,7 @@
     "collectorNumber": "081",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6660,6 +7146,7 @@
     "collectorNumber": "081",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6699,6 +7186,7 @@
     "collectorNumber": "082",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6709,6 +7197,7 @@
     "collectorNumber": "010",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6719,6 +7208,7 @@
     "collectorNumber": "028",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6729,6 +7219,7 @@
     "collectorNumber": "002",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6739,6 +7230,7 @@
     "collectorNumber": "082",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6749,6 +7241,7 @@
     "collectorNumber": "010",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6759,6 +7252,7 @@
     "collectorNumber": "028",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6769,10 +7263,12 @@
     "collectorNumber": "010",
     "artist": "Olgierd Ciszak",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/maxtac_squadron__nightcitybrawls1_010.webp"
    }
   ],
   "image": "cards/maxtac_squadron.webp"
@@ -6810,6 +7306,7 @@
     "collectorNumber": "050",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6820,6 +7317,7 @@
     "collectorNumber": "050",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6859,6 +7357,7 @@
     "collectorNumber": "100",
     "language": "en",
     "artist": "Max Fiumara",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6869,6 +7368,7 @@
     "collectorNumber": "100",
     "language": "fr",
     "artist": "Max Fiumara",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6909,6 +7409,7 @@
     "collectorNumber": "014",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6919,6 +7420,7 @@
     "collectorNumber": "014",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6958,6 +7460,7 @@
     "collectorNumber": "119",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -6968,6 +7471,7 @@
     "collectorNumber": "006",
     "language": "en",
     "artist": "Bruno Ferreira (Bit Bot)",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -6978,6 +7482,7 @@
     "collectorNumber": "119",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -6988,10 +7493,12 @@
     "collectorNumber": "006",
     "artist": "Bruno Ferreira (Bit Bot)",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "PRM01",
     "setName": "Set 1 Promos",
     "baseSetName": "Set 1 Promos",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/misty_olszewski_mender_of_broken_spirits__prm01_006.webp"
    }
   ],
   "image": "cards/misty_olszewski_mender_of_broken_spirits.webp"
@@ -7030,6 +7537,7 @@
     "collectorNumber": "120",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7040,6 +7548,7 @@
     "collectorNumber": "120",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7079,6 +7588,7 @@
     "collectorNumber": "121",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7089,6 +7599,7 @@
     "collectorNumber": "121",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7129,6 +7640,7 @@
     "collectorNumber": "122",
     "language": "en",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7139,6 +7651,7 @@
     "collectorNumber": "122",
     "language": "fr",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7178,6 +7691,7 @@
     "collectorNumber": "038",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7188,6 +7702,7 @@
     "collectorNumber": "147",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7198,6 +7713,7 @@
     "collectorNumber": "β147",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7208,6 +7724,7 @@
     "collectorNumber": "005",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7218,6 +7735,7 @@
     "collectorNumber": "014",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7228,6 +7746,7 @@
     "collectorNumber": "018",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7238,6 +7757,7 @@
     "collectorNumber": "022",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7248,6 +7768,7 @@
     "collectorNumber": "026",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7258,6 +7779,7 @@
     "collectorNumber": "037",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7268,6 +7790,7 @@
     "collectorNumber": "038",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7278,6 +7801,7 @@
     "collectorNumber": "147",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7288,6 +7812,7 @@
     "collectorNumber": "005",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7298,10 +7823,12 @@
     "collectorNumber": "β147",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/muamar_reyes_el_capitan__welcometonightcitybeta_147.webp"
    },
    {
     "id": "welcometonightcityretail_147",
@@ -7309,10 +7836,12 @@
     "collectorNumber": "147",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/muamar_reyes_el_capitan__welcometonightcityretail_147.webp"
    },
    {
     "id": "edgerunneropens1_014",
@@ -7320,10 +7849,12 @@
     "collectorNumber": "014",
     "artist": "Envar Studio",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "edgerunneropens1",
     "setName": "Edgerunner Open S 1",
     "baseSetName": "Edgerunner Open S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/muamar_reyes_el_capitan__edgerunneropens1_014.webp"
    }
   ],
   "image": "cards/muamar_reyes_el_capitan.webp"
@@ -7362,6 +7893,7 @@
     "collectorNumber": "083",
     "language": "en",
     "artist": "Miguel Valderrama",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7372,6 +7904,7 @@
     "collectorNumber": "083",
     "language": "fr",
     "artist": "Miguel Valderrama",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7413,6 +7946,7 @@
     "collectorNumber": "129",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7423,6 +7957,7 @@
     "collectorNumber": "017",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7433,6 +7968,7 @@
     "collectorNumber": "035",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7443,6 +7979,7 @@
     "collectorNumber": "129",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7453,6 +7990,7 @@
     "collectorNumber": "017",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7463,6 +8001,7 @@
     "collectorNumber": "035",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7473,10 +8012,12 @@
     "collectorNumber": "017",
     "artist": "Mooncolony",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/netwatch_netdriver__nightcitybrawls1_017.webp"
    }
   ],
   "image": "cards/netwatch_netdriver.webp"
@@ -7515,6 +8056,7 @@
     "collectorNumber": "134",
     "language": "en",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7525,6 +8067,7 @@
     "collectorNumber": "134",
     "language": "fr",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7566,6 +8109,7 @@
     "collectorNumber": "015",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7576,6 +8120,7 @@
     "collectorNumber": "015",
     "language": "fr",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7616,6 +8161,7 @@
     "collectorNumber": "051",
     "language": "en",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7626,6 +8172,7 @@
     "collectorNumber": "004",
     "language": "en",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7636,6 +8183,7 @@
     "collectorNumber": "051",
     "language": "fr",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7646,6 +8194,7 @@
     "collectorNumber": "004",
     "language": "fr",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7685,6 +8234,7 @@
     "collectorNumber": "034",
     "language": "en",
     "artist": "Roberto Ricci",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7695,6 +8245,7 @@
     "collectorNumber": "10",
     "language": "en",
     "artist": "Roberto Ricci",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7705,6 +8256,7 @@
     "collectorNumber": "007",
     "language": "en",
     "artist": "Roberto Ricci",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7715,6 +8267,7 @@
     "collectorNumber": "034",
     "language": "fr",
     "artist": "Roberto Ricci",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7725,6 +8278,7 @@
     "collectorNumber": "010",
     "language": "fr",
     "artist": "Roberto Ricci",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7764,6 +8318,7 @@
     "collectorNumber": "093",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7774,6 +8329,7 @@
     "collectorNumber": "165",
     "language": "en",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7784,6 +8340,7 @@
     "collectorNumber": "β165",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7794,6 +8351,7 @@
     "collectorNumber": "093",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7804,6 +8362,7 @@
     "collectorNumber": "165",
     "language": "fr",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7814,10 +8373,12 @@
     "collectorNumber": "β165",
     "artist": "Michal Ivan",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/overwatch_panam_s_gift__welcometonightcitybeta_165.webp"
    },
    {
     "id": "welcometonightcityretail_165",
@@ -7825,10 +8386,12 @@
     "collectorNumber": "165",
     "artist": "Dardo Studios",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/overwatch_panam_s_gift__welcometonightcityretail_165.webp"
    }
   ],
   "image": "cards/overwatch_panam_s_gift.webp"
@@ -7866,6 +8429,7 @@
     "collectorNumber": "084",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7876,6 +8440,7 @@
     "collectorNumber": "084",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7917,6 +8482,7 @@
     "collectorNumber": "074",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -7927,6 +8493,7 @@
     "collectorNumber": "153",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7937,6 +8504,7 @@
     "collectorNumber": "β153",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7947,6 +8515,7 @@
     "collectorNumber": "008",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7957,6 +8526,7 @@
     "collectorNumber": "045",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7967,6 +8537,7 @@
     "collectorNumber": "074",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7977,6 +8548,7 @@
     "collectorNumber": "153",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -7987,6 +8559,7 @@
     "collectorNumber": "008",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -7997,10 +8570,12 @@
     "collectorNumber": "β153",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/padre_man_of_the_cross__welcometonightcitybeta_153.webp"
    },
    {
     "id": "welcometonightcityretail_153",
@@ -8008,10 +8583,12 @@
     "collectorNumber": "153",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/padre_man_of_the_cross__welcometonightcityretail_153.webp"
    }
   ],
   "image": "cards/padre_man_of_the_cross.webp"
@@ -8051,6 +8628,7 @@
     "collectorNumber": "075",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8061,6 +8639,7 @@
     "collectorNumber": "154",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8071,6 +8650,7 @@
     "collectorNumber": "β154",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8081,6 +8661,7 @@
     "collectorNumber": "046",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8091,6 +8672,7 @@
     "collectorNumber": "075",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8101,6 +8683,7 @@
     "collectorNumber": "154",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8111,10 +8694,12 @@
     "collectorNumber": "β154",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/panam_palmer_nomad_cavalry__welcometonightcitybeta_154.webp"
    },
    {
     "id": "welcometonightcityretail_154",
@@ -8122,10 +8707,12 @@
     "collectorNumber": "154",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/panam_palmer_nomad_cavalry__welcometonightcityretail_154.webp"
    }
   ],
   "image": "cards/panam_palmer_nomad_cavalry.webp"
@@ -8165,6 +8752,7 @@
     "collectorNumber": "085",
     "language": "en",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8175,6 +8763,7 @@
     "collectorNumber": "170",
     "language": "en",
     "artist": "Divebound",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8185,6 +8774,7 @@
     "collectorNumber": "β170",
     "language": "en",
     "artist": "Divebound Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8195,6 +8785,7 @@
     "collectorNumber": "085",
     "language": "fr",
     "artist": "Ilya Kuvshinov",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8205,6 +8796,7 @@
     "collectorNumber": "170",
     "language": "fr",
     "artist": "Divebound",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8215,10 +8807,12 @@
     "collectorNumber": "β170",
     "artist": "Divebound Studio",
     "rarity": "Iconic Secret",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/panam_palmer_strength_through_family__welcometonightcitybeta_170.webp"
    },
    {
     "id": "welcometonightcityretail_170",
@@ -8226,10 +8820,12 @@
     "collectorNumber": "170",
     "artist": "Divebound",
     "rarity": "Iconic Secret",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/panam_palmer_strength_through_family__welcometonightcityretail_170.webp"
    }
   ],
   "image": "cards/panam_palmer_strength_through_family.webp"
@@ -8267,6 +8863,7 @@
     "collectorNumber": "101",
     "language": "en",
     "artist": "Mattia De Iulis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8277,6 +8874,7 @@
     "collectorNumber": "006",
     "language": "en",
     "artist": "Mattia De Iulis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8287,6 +8885,7 @@
     "collectorNumber": "010",
     "language": "en",
     "artist": "Mattia De Iulis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8297,6 +8896,7 @@
     "collectorNumber": "101",
     "language": "fr",
     "artist": "Mattia De Iulis",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8307,10 +8907,12 @@
     "collectorNumber": "006",
     "artist": "Mattia De Iulis",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "edgerunneropens1",
     "setName": "Edgerunner Open S 1",
     "baseSetName": "Edgerunner Open S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/peace_offering__edgerunneropens1_006.webp"
    }
   ],
   "image": "cards/peace_offering.webp"
@@ -8348,6 +8950,7 @@
     "collectorNumber": "086",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8358,6 +8961,7 @@
     "collectorNumber": "086",
     "language": "fr",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8399,6 +9003,7 @@
     "collectorNumber": "123",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8409,6 +9014,7 @@
     "collectorNumber": "123",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8448,6 +9054,7 @@
     "collectorNumber": "124",
     "language": "en",
     "artist": "Kieran McKeown & Giada Marchisio",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8458,6 +9065,7 @@
     "collectorNumber": "016",
     "language": "en",
     "artist": "Kieran McKeown \n& Giada Marchisio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8468,6 +9076,7 @@
     "collectorNumber": "012",
     "language": "en",
     "artist": "Kieran McKeown & Giada Marchisio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8478,6 +9087,7 @@
     "collectorNumber": "124",
     "language": "fr",
     "artist": "Kieran McKeown & Giada Marchisio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8488,6 +9098,7 @@
     "collectorNumber": "016",
     "language": "fr",
     "artist": "Kieran McKeown \n& Giada Marchisio",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8527,6 +9138,7 @@
     "collectorNumber": "135",
     "language": "en",
     "artist": "Elizaveta Kazakova",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8537,6 +9149,7 @@
     "collectorNumber": "135",
     "language": "fr",
     "artist": "Elizaveta Kazakova",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8576,6 +9189,7 @@
     "collectorNumber": "136",
     "language": "en",
     "artist": "Miguel Valderrama",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8586,6 +9200,7 @@
     "collectorNumber": "020",
     "language": "en",
     "artist": "Miguel Valderrama",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8596,6 +9211,7 @@
     "collectorNumber": "015",
     "language": "en",
     "artist": "Miguel Valderrama",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8606,6 +9222,7 @@
     "collectorNumber": "136",
     "language": "fr",
     "artist": "Miguel Valderrama",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8616,6 +9233,7 @@
     "collectorNumber": "020",
     "language": "fr",
     "artist": "Miguel Valderrama",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8655,6 +9273,7 @@
     "collectorNumber": "087",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8665,6 +9284,7 @@
     "collectorNumber": "003",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8675,6 +9295,7 @@
     "collectorNumber": "087",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8714,6 +9335,7 @@
     "collectorNumber": "094",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8724,6 +9346,7 @@
     "collectorNumber": "094",
     "language": "fr",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8764,6 +9387,7 @@
     "collectorNumber": "125",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8774,6 +9398,7 @@
     "collectorNumber": "125",
     "language": "fr",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8813,6 +9438,7 @@
     "collectorNumber": "039",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8823,6 +9449,7 @@
     "collectorNumber": "148",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8833,6 +9460,7 @@
     "collectorNumber": "β148",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8843,6 +9471,7 @@
     "collectorNumber": "038",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8853,6 +9482,7 @@
     "collectorNumber": "039",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8863,6 +9493,7 @@
     "collectorNumber": "148",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8873,10 +9504,12 @@
     "collectorNumber": "β148",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/river_ward_detective_on_the_hunt_alt.webp"
    },
    {
     "id": "welcometonightcityretail_148",
@@ -8884,10 +9517,12 @@
     "collectorNumber": "148",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/river_ward_detective_on_the_hunt__welcometonightcityretail_148.webp"
    }
   ],
   "image": "cards/river_ward_detective_on_the_hunt.webp"
@@ -8925,6 +9560,7 @@
     "collectorNumber": "052",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8935,6 +9571,7 @@
     "collectorNumber": "052",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -8974,6 +9611,7 @@
     "collectorNumber": "040",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -8984,6 +9622,7 @@
     "collectorNumber": "149",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -8994,6 +9633,7 @@
     "collectorNumber": "β149",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9004,6 +9644,7 @@
     "collectorNumber": "006",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9014,6 +9655,7 @@
     "collectorNumber": "039",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9024,6 +9666,7 @@
     "collectorNumber": "040",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9034,6 +9677,7 @@
     "collectorNumber": "149",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9044,6 +9688,7 @@
     "collectorNumber": "006",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -9054,10 +9699,12 @@
     "collectorNumber": "β149",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/rogue_amendiares_preem_solo__welcometonightcitybeta_149.webp"
    },
    {
     "id": "welcometonightcityretail_149",
@@ -9065,10 +9712,12 @@
     "collectorNumber": "149",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/rogue_amendiares_preem_solo__welcometonightcityretail_149.webp"
    }
   ],
   "image": "cards/rogue_amendiares_preem_solo.webp"
@@ -9107,6 +9756,7 @@
     "collectorNumber": "126",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -9117,6 +9767,7 @@
     "collectorNumber": "166",
     "language": "en",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9127,6 +9778,7 @@
     "collectorNumber": "β166",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9137,6 +9789,7 @@
     "collectorNumber": "126",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9147,6 +9800,7 @@
     "collectorNumber": "166",
     "language": "fr",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -9157,10 +9811,12 @@
     "collectorNumber": "β166",
     "artist": "ADIA",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/rogue_amendiares_queen_of_the_afterlife__welcometonightcitybeta_166.webp"
    },
    {
     "id": "welcometonightcityretail_166",
@@ -9168,10 +9824,12 @@
     "collectorNumber": "166",
     "artist": "Dardo Studios",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/rogue_amendiares_queen_of_the_afterlife__welcometonightcityretail_166.webp"
    }
   ],
   "image": "cards/rogue_amendiares_queen_of_the_afterlife.webp"
@@ -9210,6 +9868,7 @@
     "collectorNumber": "016",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -9220,6 +9879,7 @@
     "collectorNumber": "001",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9230,6 +9890,7 @@
     "collectorNumber": "016",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -9270,6 +9931,7 @@
     "collectorNumber": "004",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -9280,6 +9942,7 @@
     "collectorNumber": "143",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9290,6 +9953,7 @@
     "collectorNumber": "β143",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9300,6 +9964,7 @@
     "collectorNumber": "003",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9310,6 +9975,7 @@
     "collectorNumber": "032",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9320,6 +9986,7 @@
     "collectorNumber": "004",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9330,6 +9997,7 @@
     "collectorNumber": "143",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9340,6 +10008,7 @@
     "collectorNumber": "003",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -9350,10 +10019,12 @@
     "collectorNumber": "β143",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/royce_psycho_on_the_edge__welcometonightcitybeta_143.webp"
    },
    {
     "id": "welcometonightcityretail_143",
@@ -9361,10 +10032,12 @@
     "collectorNumber": "143",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/royce_psycho_on_the_edge__welcometonightcityretail_143.webp"
    }
   ],
   "image": "cards/royce_psycho_on_the_edge.webp"
@@ -9403,6 +10076,7 @@
     "collectorNumber": "017",
     "language": "en",
     "artist": "Jeffrey Alan Love",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -9413,6 +10087,7 @@
     "collectorNumber": "004",
     "language": "en",
     "artist": "Jeffrey Alan Love",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9423,6 +10098,7 @@
     "collectorNumber": "017",
     "language": "fr",
     "artist": "Jeffrey Alan Love",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9433,6 +10109,7 @@
     "collectorNumber": "004",
     "language": "fr",
     "artist": "Jeffrey Alan Love",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -9472,6 +10149,7 @@
     "collectorNumber": "069",
     "language": "en",
     "artist": "Miguel Valderrama",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -9482,6 +10160,7 @@
     "collectorNumber": "069",
     "language": "fr",
     "artist": "Miguel Valderrama",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -9522,6 +10201,7 @@
     "collectorNumber": "088",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -9532,6 +10212,7 @@
     "collectorNumber": "164",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9542,6 +10223,7 @@
     "collectorNumber": "β164",
     "language": "en",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9552,6 +10234,7 @@
     "collectorNumber": "088",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9562,6 +10245,7 @@
     "collectorNumber": "164",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -9572,10 +10256,12 @@
     "collectorNumber": "β164",
     "artist": "Dardo Studios",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/sandayu_oda_hanako_s_guardian__welcometonightcitybeta_164.webp"
    },
    {
     "id": "welcometonightcityretail_164",
@@ -9583,10 +10269,12 @@
     "collectorNumber": "164",
     "artist": "Mooncolony",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/sandayu_oda_hanako_s_guardian__welcometonightcityretail_164.webp"
    }
   ],
   "image": "cards/sandayu_oda_hanako_s_guardian.webp"
@@ -9624,6 +10312,7 @@
     "collectorNumber": "095",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -9634,6 +10323,7 @@
     "collectorNumber": "019",
     "language": "en",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9644,6 +10334,7 @@
     "collectorNumber": "001",
     "language": "en",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9654,6 +10345,7 @@
     "collectorNumber": "003",
     "language": "en",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9664,6 +10356,7 @@
     "collectorNumber": "005",
     "language": "en",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9674,6 +10367,7 @@
     "collectorNumber": "095",
     "language": "fr",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9684,6 +10378,7 @@
     "collectorNumber": "019",
     "language": "fr",
     "artist": "CD Projekt Red",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9694,6 +10389,7 @@
     "collectorNumber": "001",
     "language": "fr",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9704,6 +10400,7 @@
     "collectorNumber": "003",
     "language": "fr",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9714,6 +10411,7 @@
     "collectorNumber": "005",
     "language": "fr",
     "artist": "Envar",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -9724,10 +10422,12 @@
     "collectorNumber": "001",
     "artist": "Envar",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcityshowdowns1",
     "setName": "Night City Showdown S1",
     "baseSetName": "Night City Showdown S1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/sandevistan__nightcityshowdowns1_001.webp"
    }
   ],
   "image": "cards/sandevistan.webp"
@@ -9767,6 +10467,7 @@
     "collectorNumber": "109",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -9777,6 +10478,7 @@
     "collectorNumber": "169",
     "language": "en",
     "artist": "Divebound",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9787,6 +10489,7 @@
     "collectorNumber": "β169",
     "language": "en",
     "artist": "Divebound Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9797,6 +10500,7 @@
     "collectorNumber": "052",
     "language": "en",
     "artist": "Divebound Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9807,6 +10511,7 @@
     "collectorNumber": "109",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9817,6 +10522,7 @@
     "collectorNumber": "169",
     "language": "fr",
     "artist": "Divebound",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -9827,10 +10533,12 @@
     "collectorNumber": "β169",
     "artist": "Divebound Studio",
     "rarity": "Iconic Secret",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/sasha_yakovleva_won_t_let_you_down__welcometonightcitybeta_169.webp"
    },
    {
     "id": "welcometonightcityretail_169",
@@ -9838,10 +10546,12 @@
     "collectorNumber": "169",
     "artist": "Divebound",
     "rarity": "Iconic Secret",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/sasha_yakovleva_won_t_let_you_down__welcometonightcityretail_169.webp"
    }
   ],
   "image": "cards/sasha_yakovleva_won_t_let_you_down.webp"
@@ -9880,6 +10590,7 @@
     "collectorNumber": "026",
     "language": "en",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -9890,6 +10601,7 @@
     "collectorNumber": "008",
     "language": "en",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9900,6 +10612,7 @@
     "collectorNumber": "005",
     "language": "en",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9910,6 +10623,7 @@
     "collectorNumber": "003",
     "language": "en",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9920,6 +10634,7 @@
     "collectorNumber": "021",
     "language": "en",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9930,6 +10645,7 @@
     "collectorNumber": "026",
     "language": "fr",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9940,6 +10656,7 @@
     "collectorNumber": "008",
     "language": "fr",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9950,6 +10667,7 @@
     "collectorNumber": "003",
     "language": "fr",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -9960,6 +10678,7 @@
     "collectorNumber": "021",
     "language": "fr",
     "artist": "Ivan Shavrin",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -9970,10 +10689,12 @@
     "collectorNumber": "003",
     "artist": "Ivan Shavrin",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/satori_sword_of_saburo__nightcitybrawls1_003.webp"
    }
   ],
   "image": "cards/satori_sword_of_saburo.webp"
@@ -10012,6 +10733,7 @@
     "collectorNumber": "089",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10022,6 +10744,7 @@
     "collectorNumber": "089",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10062,6 +10785,7 @@
     "collectorNumber": "018",
     "language": "en",
     "artist": "Rion Chow",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10072,6 +10796,7 @@
     "collectorNumber": "018",
     "language": "fr",
     "artist": "Rion Chow",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10112,6 +10837,7 @@
     "collectorNumber": "053",
     "language": "en",
     "artist": "Luca Claretti",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10122,6 +10848,7 @@
     "collectorNumber": "005",
     "language": "en",
     "artist": "Luca Claretti",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10132,6 +10859,7 @@
     "collectorNumber": "003",
     "language": "en",
     "artist": "Luca Claretti",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10142,6 +10870,7 @@
     "collectorNumber": "005",
     "language": "en",
     "artist": "Luca Claretti",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10152,6 +10881,7 @@
     "collectorNumber": "023",
     "language": "en",
     "artist": "Luca Claretti",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10162,6 +10892,7 @@
     "collectorNumber": "001",
     "language": "en",
     "artist": "Luca Claretti",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10172,6 +10903,7 @@
     "collectorNumber": "053",
     "language": "fr",
     "artist": "Luca Claretti",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10182,6 +10914,7 @@
     "collectorNumber": "005",
     "language": "fr",
     "artist": "Luca Claretti",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10192,6 +10925,7 @@
     "collectorNumber": "005",
     "language": "fr",
     "artist": "Luca Claretti",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10202,6 +10936,7 @@
     "collectorNumber": "023",
     "language": "fr",
     "artist": "Luca Claretti",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10212,10 +10947,12 @@
     "collectorNumber": "005",
     "artist": "Luca Claretti",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/secondhand_bombus__nightcitybrawls1_005.webp"
    }
   ],
   "image": "cards/secondhand_bombus.webp"
@@ -10253,6 +10990,7 @@
     "collectorNumber": "035",
     "language": "en",
     "artist": "Max Fiumara",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10263,6 +11001,7 @@
     "collectorNumber": "011",
     "language": "en",
     "artist": "Max Fiumara",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10273,6 +11012,7 @@
     "collectorNumber": "035",
     "language": "fr",
     "artist": "Max Fiumara",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10283,6 +11023,7 @@
     "collectorNumber": "011",
     "language": "fr",
     "artist": "Max Fiumara",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10324,6 +11065,7 @@
     "collectorNumber": "054",
     "language": "en",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10334,6 +11076,7 @@
     "collectorNumber": "054",
     "language": "fr",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10373,6 +11116,7 @@
     "collectorNumber": "019",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10383,6 +11127,7 @@
     "collectorNumber": "005",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10393,6 +11138,7 @@
     "collectorNumber": "003",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10403,6 +11149,7 @@
     "collectorNumber": "019",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10413,6 +11160,7 @@
     "collectorNumber": "005",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10452,6 +11200,7 @@
     "collectorNumber": "102",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10462,6 +11211,7 @@
     "collectorNumber": "102",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10502,6 +11252,7 @@
     "collectorNumber": "055",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10512,6 +11263,7 @@
     "collectorNumber": "006",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10522,6 +11274,7 @@
     "collectorNumber": "055",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10532,6 +11285,7 @@
     "collectorNumber": "006",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10571,6 +11325,7 @@
     "collectorNumber": "103",
     "language": "en",
     "artist": "RUDCEF",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10581,6 +11336,7 @@
     "collectorNumber": "103",
     "language": "fr",
     "artist": "RUDCEF",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10620,6 +11376,7 @@
     "collectorNumber": "130",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10630,6 +11387,7 @@
     "collectorNumber": "018",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10640,6 +11398,7 @@
     "collectorNumber": "130",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10650,6 +11409,7 @@
     "collectorNumber": "018",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10689,6 +11449,7 @@
     "collectorNumber": "070",
     "language": "en",
     "artist": "Dilara Özden",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10699,6 +11460,7 @@
     "collectorNumber": "070",
     "language": "fr",
     "artist": "Dilara Özden",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10739,6 +11501,7 @@
     "collectorNumber": "063",
     "language": "en",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10749,6 +11512,7 @@
     "collectorNumber": "163",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10759,6 +11523,7 @@
     "collectorNumber": "β163",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10769,6 +11534,7 @@
     "collectorNumber": "063",
     "language": "fr",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10779,6 +11545,7 @@
     "collectorNumber": "163",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10789,10 +11556,12 @@
     "collectorNumber": "β163",
     "artist": "Mooncolony",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/the_relic_experimental_biochip__welcometonightcitybeta_163.webp"
    },
    {
     "id": "welcometonightcityretail_163",
@@ -10800,10 +11569,12 @@
     "collectorNumber": "163",
     "artist": "Łukasz Poller",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/the_relic_experimental_biochip__welcometonightcityretail_163.webp"
    }
   ],
   "image": "cards/the_relic_experimental_biochip.webp"
@@ -10842,6 +11613,7 @@
     "collectorNumber": "137",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10852,6 +11624,7 @@
     "collectorNumber": "137",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10891,6 +11664,7 @@
     "collectorNumber": "138",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -10901,6 +11675,7 @@
     "collectorNumber": "167",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10911,6 +11686,7 @@
     "collectorNumber": "β167",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10921,6 +11697,7 @@
     "collectorNumber": "138",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -10931,6 +11708,7 @@
     "collectorNumber": "167",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -10941,10 +11719,12 @@
     "collectorNumber": "β167",
     "artist": "ADIA",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/towerfall__welcometonightcitybeta_167.webp"
    },
    {
     "id": "welcometonightcityretail_167",
@@ -10952,10 +11732,12 @@
     "collectorNumber": "167",
     "artist": "Mooncolony",
     "rarity": "Iconic Other",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/towerfall__welcometonightcityretail_167.webp"
    }
   ],
   "image": "cards/towerfall.webp"
@@ -10994,6 +11776,7 @@
     "collectorNumber": "056",
     "language": "en",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11004,6 +11787,7 @@
     "collectorNumber": "056",
     "language": "fr",
     "artist": "Michal Ivan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11043,6 +11827,7 @@
     "collectorNumber": "139",
     "language": "en",
     "artist": "Jesús Hervás",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11053,6 +11838,7 @@
     "collectorNumber": "007",
     "language": "en",
     "artist": "Jesús Hervás",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11063,6 +11849,7 @@
     "collectorNumber": "011",
     "language": "en",
     "artist": "Jesús Hervás",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11073,6 +11860,7 @@
     "collectorNumber": "139",
     "language": "fr",
     "artist": "Jesús Hervás",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11083,10 +11871,12 @@
     "collectorNumber": "007",
     "artist": "Jesús Hervás",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "edgerunneropens1",
     "setName": "Edgerunner Open S 1",
     "baseSetName": "Edgerunner Open S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/trust_no_one__edgerunneropens1_007.webp"
    }
   ],
   "image": "cards/trust_no_one.webp"
@@ -11125,6 +11915,7 @@
     "collectorNumber": "090",
     "language": "en",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11135,6 +11926,7 @@
     "collectorNumber": "090",
     "language": "fr",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11175,6 +11967,7 @@
     "collectorNumber": "140",
     "language": "en",
     "artist": "Fabrizio De Tommaso",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11185,6 +11978,7 @@
     "collectorNumber": "140",
     "language": "fr",
     "artist": "Fabrizio De Tommaso",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11225,6 +12019,7 @@
     "collectorNumber": "020",
     "language": "en",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11235,6 +12030,7 @@
     "collectorNumber": "020",
     "language": "fr",
     "artist": "Dardo Studios",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11274,6 +12070,7 @@
     "collectorNumber": "005a",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11284,6 +12081,7 @@
     "collectorNumber": "005b",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11294,6 +12092,7 @@
     "collectorNumber": "144",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11304,6 +12103,7 @@
     "collectorNumber": "β144",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11314,6 +12114,7 @@
     "collectorNumber": "013",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11324,6 +12125,7 @@
     "collectorNumber": "017",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11334,6 +12136,7 @@
     "collectorNumber": "021",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11344,6 +12147,7 @@
     "collectorNumber": "025",
     "language": "en",
     "artist": "Envar Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11354,6 +12158,7 @@
     "collectorNumber": "033",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11364,6 +12169,7 @@
     "collectorNumber": "005a",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11374,6 +12180,7 @@
     "collectorNumber": "005b",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11384,6 +12191,7 @@
     "collectorNumber": "144",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11394,10 +12202,12 @@
     "collectorNumber": null,
     "artist": null,
     "rarity": null,
+    "finish": null,
     "setCode": null,
     "setName": null,
     "baseSetName": null,
-    "edition": null
+    "edition": null,
+    "image": "cards/alt/v_streetkid_alt.webp"
    },
    {
     "id": "alt2",
@@ -11405,10 +12215,12 @@
     "collectorNumber": null,
     "artist": null,
     "rarity": null,
+    "finish": null,
     "setCode": null,
     "setName": null,
     "baseSetName": null,
-    "edition": null
+    "edition": null,
+    "image": "cards/alt/v_streetkid_alt_2.webp"
    },
    {
     "id": "alt3",
@@ -11416,10 +12228,12 @@
     "collectorNumber": "β144",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/v_streetkid_alt_3.webp"
    },
    {
     "id": "edgerunneropens1_013",
@@ -11427,10 +12241,12 @@
     "collectorNumber": "013",
     "artist": "Envar Studio",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "edgerunneropens1",
     "setName": "Edgerunner Open S 1",
     "baseSetName": "Edgerunner Open S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/v_streetkid__edgerunneropens1_013.webp"
    }
   ],
   "image": "cards/v_streetkid.webp"
@@ -11469,6 +12285,7 @@
     "collectorNumber": "021",
     "language": "en",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11479,6 +12296,7 @@
     "collectorNumber": "021",
     "language": "fr",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11519,6 +12337,7 @@
     "collectorNumber": "091",
     "language": "en",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11529,6 +12348,7 @@
     "collectorNumber": "091",
     "language": "fr",
     "artist": "Michał Dziekan",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11568,6 +12388,7 @@
     "collectorNumber": "057",
     "language": "en",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11578,6 +12399,7 @@
     "collectorNumber": "057",
     "language": "fr",
     "artist": "TOPDOG Entertainment",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11617,6 +12439,7 @@
     "collectorNumber": "058",
     "language": "en",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11627,6 +12450,7 @@
     "collectorNumber": "058",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11667,6 +12491,7 @@
     "collectorNumber": "110",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11677,6 +12502,7 @@
     "collectorNumber": "158",
     "language": "en",
     "artist": "TBD",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11687,6 +12513,7 @@
     "collectorNumber": "β158",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11697,6 +12524,7 @@
     "collectorNumber": "010",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11707,6 +12535,7 @@
     "collectorNumber": "054",
     "language": "en",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11717,6 +12546,7 @@
     "collectorNumber": "110",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11727,6 +12557,7 @@
     "collectorNumber": "158",
     "language": "fr",
     "artist": "Pandart Studio",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11737,6 +12568,7 @@
     "collectorNumber": "010",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11747,10 +12579,12 @@
     "collectorNumber": "β158",
     "artist": "Pandart Studio",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcitybeta",
     "setName": "Welcome to Night City — Beta",
     "baseSetName": "Welcome to Night City — Beta",
-    "edition": "beta"
+    "edition": "beta",
+    "image": "cards/alt/wakako_okada_peace_and_harmony__welcometonightcitybeta_158.webp"
    },
    {
     "id": "welcometonightcityretail_158",
@@ -11758,10 +12592,12 @@
     "collectorNumber": "158",
     "artist": "TBD",
     "rarity": "Iconic Legend",
+    "finish": null,
     "setCode": "welcometonightcityretail",
     "setName": "Welcome to Night City — Retail",
     "baseSetName": "Welcome to Night City — Retail",
-    "edition": "retail"
+    "edition": "retail",
+    "image": "cards/alt/wakako_okada_peace_and_harmony__welcometonightcityretail_158.webp"
    }
   ],
   "image": "cards/wakako_okada_peace_and_harmony.webp"
@@ -11800,6 +12636,7 @@
     "collectorNumber": "104",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11810,6 +12647,7 @@
     "collectorNumber": "013",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11820,6 +12658,7 @@
     "collectorNumber": "031",
     "language": "en",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11830,6 +12669,7 @@
     "collectorNumber": "104",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11840,6 +12680,7 @@
     "collectorNumber": "013",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -11850,6 +12691,7 @@
     "collectorNumber": "031",
     "language": "fr",
     "artist": "Olgierd Ciszak",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11860,10 +12702,12 @@
     "collectorNumber": "013",
     "artist": "Olgierd Ciszak",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/we_gotta_live_together__nightcitybrawls1_013.webp"
    }
   ],
   "image": "cards/we_gotta_live_together.webp"
@@ -11901,6 +12745,7 @@
     "collectorNumber": "127",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11911,6 +12756,7 @@
     "collectorNumber": "127",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -11950,6 +12796,7 @@
     "collectorNumber": "105",
     "language": "en",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -11960,6 +12807,7 @@
     "collectorNumber": "105",
     "language": "fr",
     "artist": "Bernard Kowalczuk",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -12001,6 +12849,7 @@
     "collectorNumber": "092",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -12011,6 +12860,7 @@
     "collectorNumber": "011",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -12021,6 +12871,7 @@
     "collectorNumber": "029",
     "language": "en",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -12031,6 +12882,7 @@
     "collectorNumber": "092",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -12041,6 +12893,7 @@
     "collectorNumber": "011",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -12051,6 +12904,7 @@
     "collectorNumber": "029",
     "language": "fr",
     "artist": "Daniel Valaisis",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -12061,10 +12915,12 @@
     "collectorNumber": "011",
     "artist": "Daniel Valaisis",
     "rarity": "Nova Rare",
+    "finish": null,
     "setCode": "nightcitybrawls1",
     "setName": "Night City Brawl S 1",
     "baseSetName": "Night City Brawl S 1",
-    "edition": "other"
+    "edition": "other",
+    "image": "cards/alt/wraith_marauders__nightcitybrawls1_011.webp"
    }
   ],
   "image": "cards/wraith_marauders.webp"
@@ -12103,6 +12959,7 @@
     "collectorNumber": "022",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -12113,6 +12970,7 @@
     "collectorNumber": "022",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -12153,6 +13011,7 @@
     "collectorNumber": "096",
     "language": "en",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -12163,6 +13022,7 @@
     "collectorNumber": "096",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
     "isPrimary": false
    }
   ],
@@ -12203,6 +13063,7 @@
     "collectorNumber": "064",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": true
    },
    {
@@ -12213,6 +13074,7 @@
     "collectorNumber": "009",
     "language": "en",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -12223,6 +13085,7 @@
     "collectorNumber": "064",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    },
    {
@@ -12233,6 +13096,7 @@
     "collectorNumber": "009",
     "language": "fr",
     "artist": "ADIA",
+    "finish": null,
     "isPrimary": false
    }
   ],

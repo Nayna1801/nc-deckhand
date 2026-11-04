@@ -10,16 +10,21 @@ export interface Printing {
   collectorNumber: string | null
   language: 'en' | 'fr'
   artist: string | null
+  /** Acabado (p. ej. 'foil'); null si el catálogo no lo indica. */
+  finish: string | null
   isPrimary: boolean
 }
 
-/** Arte alternativo: solo metadatos (no se publican sus imágenes). */
+/** Arte alternativo (promo, Iconic, Nova…), con su imagen si está disponible. */
 export interface AltArt {
   id: string
+  /** Ruta de la imagen dentro de /public (p. ej. cards/alt/…webp); null si no hay. */
+  image: string | null
   label: string | null
   collectorNumber: string | null
   artist: string | null
   rarity: string | null
+  finish: string | null
   setCode: string | null
   setName: string | null
   baseSetName: string | null

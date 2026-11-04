@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent, type MouseEvent, type ReactNode, type TouchEvent } from 'react'
 import { catalog, setLabel } from '../lib/catalog'
-import type { Card } from '../lib/types'
+import type { AltArt, Card } from '../lib/types'
 
 export const imgUrl = (card: Card): string => `${import.meta.env.BASE_URL}${card.image}`
 
@@ -261,9 +261,9 @@ export function CardRow({ card, onClick, badge, right, dim, locked, lockReason, 
   )
 }
 
-export function Stepper({ value, onChange, min = 0, max = 999, disableAdd, addTitle }: { value: number; onChange: (n: number) => void; min?: number; max?: number; disableAdd?: boolean; addTitle?: string }) {
+export function Stepper({ value, onChange, min = 0, max = 999, disableAdd, addTitle, title }: { value: number; onChange: (n: number) => void; min?: number; max?: number; disableAdd?: boolean; addTitle?: string; title?: string }) {
   return (
-    <div className="stepper">
+    <div className="stepper" title={title}>
       <button className="btn sm" onClick={() => onChange(Math.max(min, value - 1))} disabled={value <= min} aria-label="Quitar uno">−</button>
       <span className="stepper-n">{value}</span>
       <button className="btn sm" onClick={() => onChange(Math.min(max, value + 1))} disabled={value >= max || disableAdd} title={disableAdd ? addTitle : undefined} aria-label="Añadir uno">+</button>
@@ -278,6 +278,14 @@ const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), selec
 export function CardModal({ card, onClose, children }: { card: Card | null; onClose: () => void; children?: ReactNode }) {
   const dialog = useRef<HTMLDivElement>(null)
   const isOpen = card !== null
+  // onClose puede cambiar de identidad en cada render del padre: se guarda en una ref para que el efecto
+  // de foco solo se ejecute al abrir/cerrar (si no, cada clic en + devolvía el foco —y el scroll— arriba).
+  const onCloseRef = useRef(onClose)
+  onCloseRef.current = onClose
+
+  // arte que se ve en grande: -1 = el original; 0… = un arte alternativo. Se restablece al cambiar de carta.
+  const [art, setArt] = useState(-1)
+  useEffect(() => setArt(-1), [card?.id])
 
   // foco: entra en el diálogo, se queda dentro (Tab) y vuelve a donde estaba al cerrar
   useEffect(() => {
@@ -285,7 +293,7 @@ export function CardModal({ card, onClose, children }: { card: Card | null; onCl
     const previous = document.activeElement as HTMLElement | null
     dialog.current?.querySelector<HTMLElement>('.modal-x')?.focus()
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') return onClose()
+      if (e.key === 'Escape') return onCloseRef.current()
       if (e.key !== 'Tab' || !dialog.current) return
       const items = [...dialog.current.querySelectorAll<HTMLElement>(FOCUSABLE)]
       if (items.length === 0) return
@@ -304,14 +312,34 @@ export function CardModal({ card, onClose, children }: { card: Card | null; onCl
       window.removeEventListener('keydown', onKey)
       previous?.focus?.()
     }
-  }, [isOpen, onClose])
+  }, [isOpen])
 
   if (!card) return null
+  const shown = art >= 0 ? card.altArts[art] : undefined
+  const gallery = card.altArts.map((a, i) => ({ a, i })).filter((x) => x.a.image)
   return (
     <div className="modal-backdrop" onClick={onClose} role="presentation">
       <div ref={dialog} className="modal" role="dialog" aria-modal="true" aria-label={card.displayName} onClick={(e) => e.stopPropagation()}>
         <button className="modal-x btn ghost" onClick={onClose} aria-label="Cerrar">✕</button>
-        <CardImage card={card} className="modal-img" />
+        <div className="modal-visual">
+          {shown?.image ? (
+            <img className="modal-img" src={`${import.meta.env.BASE_URL}${shown.image}`} alt={`${card.displayName} — ${altLabel(shown)}`} draggable={false} />
+          ) : (
+            <CardImage card={card} className="modal-img" />
+          )}
+          {gallery.length > 0 && (
+            <div className="thumbs" role="group" aria-label="Variantes de arte">
+              <button type="button" className="thumb" aria-pressed={art < 0} aria-label="Arte original" title="Arte original" onClick={() => setArt(-1)}>
+                <img src={imgUrl(card)} alt="" loading="lazy" draggable={false} />
+              </button>
+              {gallery.map(({ a, i }) => (
+                <button key={`${a.id}-${i}`} type="button" className="thumb" aria-pressed={art === i} aria-label={altLabel(a)} title={altLabel(a)} onClick={() => setArt(i)}>
+                  <img src={`${import.meta.env.BASE_URL}${a.image}`} alt="" loading="lazy" draggable={false} />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
         <div className="modal-info">
           <h2>{card.displayName}</h2>
           <p className="meta">
@@ -326,7 +354,7 @@ export function CardModal({ card, onClose, children }: { card: Card | null; onCl
           <p className="rules">{card.rules}</p>
           {card.flavor && <p className="flavor">{card.flavor}</p>}
           {card.artist && <p className="muted small">Ilustración: {card.artist}</p>}
-          <VariantsInfo card={card} />
+          <VariantsInfo card={card} activeArt={art} onPickArt={setArt} />
           {children}
         </div>
       </div>
@@ -334,8 +362,10 @@ export function CardModal({ card, onClose, children }: { card: Card | null; onCl
   )
 }
 
-/** Impresiones por set (agrupando idiomas) y artes alternativas. Solo información: no incluye imágenes de variantes. */
-export function VariantsInfo({ card }: { card: Card }) {
+const altLabel = (a: AltArt): string => [a.rarity, a.label].filter(Boolean).join(' · ') || 'Arte alternativo'
+
+/** Impresiones por set (agrupando idiomas) y artes alternativos; los que tienen imagen se pueden ver en grande. */
+export function VariantsInfo({ card, activeArt, onPickArt }: { card: Card; activeArt?: number; onPickArt?: (index: number) => void }) {
   const sets = useMemo(() => {
     const m = new Map<string, { name: string; nums: Set<string>; langs: Set<string> }>()
     for (const p of card.printings) {
@@ -366,13 +396,17 @@ export function VariantsInfo({ card }: { card: Card }) {
           <h4 className="small">Artes alternativos</h4>
           <ul className="plain small">
             {card.altArts.map((a, i) => (
-              <li key={`${a.id}-${i}`} className="variant-row">
-                <span>{[a.rarity, a.label].filter(Boolean).join(' · ') || 'Arte alternativo'}</span>
+              <li key={`${a.id}-${i}`} className={`variant-row ${activeArt === i ? 'active' : ''}`}>
+                {a.image && onPickArt ? (
+                  <button type="button" className="link-btn" aria-pressed={activeArt === i} onClick={() => onPickArt(i)}>{altLabel(a)}</button>
+                ) : (
+                  <span>{altLabel(a)}</span>
+                )}
                 <span className="muted">{[a.baseSetName, a.collectorNumber && `#${a.collectorNumber}`, a.artist].filter(Boolean).join(' · ')}</span>
               </li>
             ))}
           </ul>
-          <p className="muted small">Solo se muestra la información; las imágenes de las variantes no se incluyen.</p>
+          {onPickArt && card.altArts.some((a) => a.image) && <p className="muted small">Pulsa una miniatura o una variante de la lista para verla en grande.</p>}
         </>
       )}
     </details>
@@ -382,7 +416,8 @@ export function VariantsInfo({ card }: { card: Card }) {
 export function useCardModal() {
   const [id, setId] = useState<string | null>(null)
   const card = useMemo(() => (id ? catalog.byId[id] ?? null : null), [id])
-  return { card, open: setId, close: () => setId(null) }
+  const close = useCallback(() => setId(null), [])
+  return { card, open: setId, close }
 }
 
 export function downloadText(filename: string, text: string, mime = 'text/plain'): void {
