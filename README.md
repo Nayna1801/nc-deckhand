@@ -13,6 +13,17 @@
 - **Búsqueda avanzada** (botón `?` junto al buscador): `t:unit c:red cost<=2 o:"draw"`, `-t:legend`, `t:legend or t:gear`, `k:blocker`, `f:arasaka`, `s:beta`, `lang:fr`, `has:alt`… Los valores son siempre texto literal (nunca regex). Una condición inválida se avisa y se ignora, sin vaciar los resultados.
 - **Variantes:** cada ficha lista sus impresiones por set (Beta, Retail, Pre-Release, Promos, Judge…, con idioma EN/FR) y sus artes alternativos. Son solo metadatos: las imágenes de las variantes no se descargan ni se publican. El filtro de set considera todas las impresiones.
 
+- **Orden y filtros:** por defecto las cartas salen divididas por set (con cabecera) y por número de coleccionista. Filtros por tipo, color, coste, RAM, poder, keyword, efecto, facción, rareza y set; buscador con debounce.
+- **Lista de deseos (con sesión):** ♥ en cada carta (y en su detalle) para marcar las que quieres conseguir, estén o no en un mazo. Se ve y se exporta (CSV/JSON/texto) en Colección → Mis deseos, y se puede filtrar en Cartas.
+- **Mazos:** cada tarjeta muestra la identidad de color en iniciales destacadas (`GGR`, `BBG`…) con los nombres completos, las 3 Legends completas y botones para copiar o exportar la lista.
+- **Móvil:** filtros plegables, desplegables a pantalla, constructor con selector Catálogo / Mazo.
+
+## Seguridad
+- **CSP** en la web compilada: scripts solo propios (sin `unsafe-inline` ni `eval`), conexiones solo a la propia web y a Supabase.
+- **Entradas no fiables validadas:** códigos de mazo (tope de tamaño y lectura limitada contra "bombas" de descompresión), texto importado (tope de caracteres y cantidades), mazos guardados en el navegador (se sanean al cargar) y consultas de búsqueda (siempre literales, nunca regex).
+- **Servidor:** Row Level Security en todas las tablas `tcg_*` y restricciones de forma y tamaño en `schema.sql`.
+- Dependencias sin vulnerabilidades conocidas (`npm audit`). Pendiente de decidir por el titular del proyecto: activar la confirmación de email en Supabase (ahora entra sin confirmar).
+
 Decisión de diseño: los mazos se **autoguardan como borrador** aunque no sean legales (como hace la web original), y se marcan Legal / Ilegal / Borrador. Bloquear el guardado haría perder trabajo a mitad de construcción.
 
 ## Formato de mazos

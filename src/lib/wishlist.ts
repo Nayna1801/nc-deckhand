@@ -52,6 +52,43 @@ export const wishlistToCsv = (rows: WishRow[]): string =>
     rows.map((r) => [r.code, r.name, r.set, r.rarity, r.needed, r.owned, r.missing, r.decks.join(' | ')]),
   )
 
+export interface WantRow {
+  cardId: string
+  code: string
+  name: string
+  set: string
+  rarity: string
+  /** Copias que quieres conseguir. */
+  wanted: number
+  /** Copias que ya tienes (informativo). */
+  owned: number
+}
+
+/** Lista de deseos manual: cartas que quieres conseguir, estén o no en un mazo. */
+export function buildWants(wants: Quantities, owned: Quantities, catalog: Catalog): WantRow[] {
+  const rows: WantRow[] = []
+  for (const [cardId, wanted] of Object.entries(wants)) {
+    const card = catalog.byId[cardId]
+    if (!card || !(wanted > 0)) continue
+    rows.push({
+      cardId,
+      code: card.importId ?? '',
+      name: card.displayName,
+      set: card.setName,
+      rarity: card.rarity ?? '',
+      wanted,
+      owned: owned[cardId] ?? 0,
+    })
+  }
+  return rows.sort((a, b) => a.name.localeCompare(b.name))
+}
+
+export const wantsToCsv = (rows: WantRow[]): string =>
+  toCsv(['code', 'name', 'set', 'rarity', 'wanted', 'owned'], rows.map((r) => [r.code, r.name, r.set, r.rarity, r.wanted, r.owned]))
+
+export const wantsToJson = (rows: WantRow[]): string =>
+  JSON.stringify(rows.map(({ cardId, ...rest }) => ({ id: cardId, ...rest })), null, 2)
+
 export function wishlistToJson(rows: WishRow[]): string {
   return JSON.stringify(rows.map(({ cardId, ...rest }) => ({ id: cardId, ...rest })), null, 2)
 }

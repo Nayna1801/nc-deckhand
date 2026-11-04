@@ -1,169 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent, type MouseEvent, type ReactNode, type TouchEvent } from 'react'
-import { catalog, COLORS, RARITIES, setLabel, TYPES } from '../lib/catalog'
-import { exceedsRam } from '../lib/deckRules'
-import { parseSearch, SEARCH_EXAMPLES, SEARCH_FIELDS, SEARCH_NOTES } from '../lib/search'
-import type { Card, Quantities } from '../lib/types'
+import { catalog, setLabel } from '../lib/catalog'
+import type { Card } from '../lib/types'
 
 export const imgUrl = (card: Card): string => `${import.meta.env.BASE_URL}${card.image}`
 
 export function CardImage({ card, className }: { card: Card; className?: string }) {
   return <img className={className} src={imgUrl(card)} alt={card.displayName} loading="lazy" draggable={false} />
-}
-
-/* ---------- filtros y orden ---------- */
-
-export type SortKey = 'set' | 'cost' | 'name' | 'number'
-
-export interface Filters {
-  q: string
-  type: string
-  color: string
-  rarity: string
-  set: string
-  faction: string
-  cost: string
-  ram: string
-  sort: SortKey
-  owned: 'all' | 'owned' | 'missing'
-  /** Oculta (en vez de atenuar) las cartas que superan la RAM de las Legends elegidas. */
-  hideLocked: boolean
-}
-
-export const EMPTY_FILTERS: Filters = { q: '', type: '', color: '', rarity: '', set: '', faction: '', cost: '', ram: '', sort: 'set', owned: 'all', hideLocked: false }
-
-const SETS = [...new Set(catalog.cards.flatMap((c) => c.printings.map((p) => p.baseSetName)))].sort((a, b) => a.localeCompare(b))
-const FACTIONS = [...new Set(catalog.cards.flatMap((c) => c.classifications))].sort((a, b) => a.localeCompare(b))
-const COSTS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9+']
-const RAMS = ['1', '2', '3', '4', '5', '6+']
-
-const matchesBucket = (value: number | null, bucket: string): boolean => {
-  if (value == null) return false
-  return bucket.endsWith('+') ? value >= parseInt(bucket, 10) : value === parseInt(bucket, 10)
-}
-
-const numberOf = (c: Card): number => parseInt(c.importId ?? '', 10) || 0
-
-const SORTERS: Record<SortKey, ((a: Card, b: Card) => number) | null> = {
-  set: null,
-  cost: (a, b) => (a.cost ?? 99) - (b.cost ?? 99) || a.displayName.localeCompare(b.displayName),
-  name: (a, b) => a.displayName.localeCompare(b.displayName),
-  number: (a, b) => numberOf(a) - numberOf(b) || a.setCode.localeCompare(b.setCode),
-}
-
-export interface FilterContext {
-  owned?: Quantities
-  /** Legends elegidas en el constructor: activa el filtro de RAM restrictivo. */
-  legendIds?: string[]
-}
-
-export function applyFilters(cards: Card[], f: Filters, ctx: FilterContext = {}): Card[] {
-  const search = parseSearch(f.q)
-  const out = cards.filter((c) => {
-    if (f.type && c.type !== f.type) return false
-    if (f.color && c.color !== f.color) return false
-    if (f.rarity && c.rarity !== f.rarity) return false
-    if (f.set && !c.printings.some((p) => p.baseSetName === f.set)) return false
-    if (f.faction && !c.classifications.includes(f.faction)) return false
-    if (f.cost && !matchesBucket(c.cost, f.cost)) return false
-    if (f.ram && !matchesBucket(c.ram, f.ram)) return false
-    if (ctx.owned && f.owned === 'owned' && !(ctx.owned[c.id] > 0)) return false
-    if (ctx.owned && f.owned === 'missing' && ctx.owned[c.id] > 0) return false
-    if (f.hideLocked && ctx.legendIds && exceedsRam(c, ctx.legendIds, catalog)) return false
-    return search.match(c)
-  })
-  const sorter = SORTERS[f.sort]
-  return sorter ? [...out].sort(sorter) : out
-}
-
-export function FilterBar({ value, onChange, showOwned, showRam }: { value: Filters; onChange: (f: Filters) => void; showOwned: boolean; showRam?: boolean }) {
-  const set = <K extends keyof Filters>(k: K, v: Filters[K]) => onChange({ ...value, [k]: v })
-  const queryErrors = useMemo(() => parseSearch(value.q).errors, [value.q])
-  const active = JSON.stringify({ ...value, sort: 'set' }) !== JSON.stringify({ ...EMPTY_FILTERS, sort: 'set' })
-  const sel = (k: 'type' | 'color' | 'rarity' | 'faction' | 'cost' | 'ram', label: string, opts: readonly string[]) => (
-    <select className="input" value={value[k]} onChange={(e) => set(k, e.target.value)} aria-label={label}>
-      <option value="">{label}</option>
-      {opts.map((o) => <option key={o}>{o}</option>)}
-    </select>
-  )
-  return (
-    <div className="filters">
-      <div className="searchbox grow">
-        <input className="input" type="search" placeholder={'Buscar… prueba t:unit c:red cost<=2 o:"draw"'} value={value.q} onChange={(e) => set('q', e.target.value)} aria-label="Buscar" aria-describedby={queryErrors.length ? 'search-errors' : undefined} />
-        <SearchHelp onPick={(q) => set('q', q)} />
-      </div>
-      {sel('type', 'Tipo', TYPES)}
-      {sel('color', 'Color', COLORS)}
-      {sel('cost', 'Coste', COSTS)}
-      {sel('ram', 'RAM', RAMS)}
-      {sel('faction', 'Facción', FACTIONS)}
-      {sel('rarity', 'Rareza', RARITIES)}
-      <select className="input" value={value.set} onChange={(e) => set('set', e.target.value)} aria-label="Set">
-        <option value="">Set (todas las impresiones)</option>
-        {SETS.map((name) => <option key={name} value={name}>{name}</option>)}
-      </select>
-      <select className="input" value={value.sort} onChange={(e) => set('sort', e.target.value as SortKey)} aria-label="Ordenar por">
-        <option value="set">Orden: set</option>
-        <option value="cost">Orden: coste</option>
-        <option value="name">Orden: nombre</option>
-        <option value="number">Orden: número</option>
-      </select>
-      {showOwned && (
-        <select className="input" value={value.owned} onChange={(e) => set('owned', e.target.value as Filters['owned'])} aria-label="Colección">
-          <option value="all">Todas</option>
-          <option value="owned">Las que tengo</option>
-          <option value="missing">Las que me faltan</option>
-        </select>
-      )}
-      {showRam && (
-        <label className="check" title="Oculta las cartas que superan la RAM de tus Legends">
-          <input type="checkbox" checked={value.hideLocked} onChange={(e) => set('hideLocked', e.target.checked)} /> Ocultar bloqueadas por RAM
-        </label>
-      )}
-      {active && <button className="btn ghost" onClick={() => onChange({ ...EMPTY_FILTERS, sort: value.sort })}>Limpiar</button>}
-      {queryErrors.length > 0 && (
-        <ul id="search-errors" className="warns search-errors" role="status">
-          {queryErrors.map((e) => <li key={e}>{e} (se ignora esa condición)</li>)}
-        </ul>
-      )}
-    </div>
-  )
-}
-
-function SearchHelp({ onPick }: { onPick: (q: string) => void }) {
-  return (
-    <details className="searchhelp">
-      <summary title="Ayuda de búsqueda" aria-label="Ayuda de sintaxis de búsqueda">?</summary>
-      <div className="searchhelp-body">
-        <p className="muted small">Escribe palabras para buscar por nombre, texto o facción, o usa campos:</p>
-        <table>
-          <tbody>
-            {SEARCH_FIELDS.map((f) => (
-              <tr key={f.example}>
-                <td><button className="link-btn mono" onClick={() => onPick(f.example)}>{f.example}</button></td>
-                <td className="small">{f.description}{f.aliases.length > 1 && <span className="muted"> · alias: {f.aliases.join(', ')}</span>}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <ul className="plain small">{SEARCH_NOTES.map((n) => <li key={n}>{n}</li>)}</ul>
-        <p className="small"><strong>Ejemplos:</strong></p>
-        <div className="row wrap">{SEARCH_EXAMPLES.map((e) => <button key={e} className="btn sm mono" onClick={() => onPick(e)}>{e}</button>)}</div>
-      </div>
-    </details>
-  )
-}
-
-/**
- * El filtro "tengo / me faltan" se evalúa sobre una instantánea de la colección que solo se refresca
- * al cambiar de filtro. Así, al pulsar + sobre una carta que "te falta", no desaparece de la lista
- * en mitad de la edición.
- */
-export function useOwnedSnapshot(collection: Quantities, resetKey: string): Quantities {
-  const [snap, setSnap] = useState(collection)
-  const latest = useRef(collection)
-  latest.current = collection
-  useEffect(() => setSnap(latest.current), [resetKey])
-  return snap
 }
 
 /* ---------- vista cuadrícula / lista ---------- */
@@ -296,6 +138,50 @@ function PreviewLayer({ state }: { state: PreviewState }) {
 
 /* ---------- ficha de carta y fila de lista ---------- */
 
+interface CardListProps {
+  cards: Card[]
+  /** Con orden "set y número" se separan los sets con encabezados. */
+  grouped: boolean
+  view: ViewMode
+  compact?: boolean
+  renderTile: (card: Card) => ReactNode
+  renderRow: (card: Card) => ReactNode
+}
+
+/** Galería o lista de cartas; con orden por set, dividida en bloques con su encabezado. */
+export function CardList({ cards, grouped, view, compact, renderTile, renderRow }: CardListProps) {
+  const groups = useMemo(() => {
+    if (!grouped) return [{ key: 'all', label: '', cards }]
+    const out: { key: string; label: string; cards: Card[] }[] = []
+    for (const c of cards) {
+      const last = out[out.length - 1]
+      if (last && last.key === c.setCode) last.cards.push(c)
+      else out.push({ key: c.setCode, label: setLabel(c), cards: [c] })
+    }
+    return out
+  }, [cards, grouped])
+
+  return (
+    <>
+      {groups.map((g) => (
+        <section key={g.key} className="setgroup">
+          {g.label && (
+            <h2 className="set-head">
+              <span>{g.label}</span>
+              <small>{g.cards.length} cartas</small>
+            </h2>
+          )}
+          {view === 'grid' ? (
+            <div className={`grid ${compact ? 'compact' : ''}`}>{g.cards.map(renderTile)}</div>
+          ) : (
+            <div className="list">{g.cards.map(renderRow)}</div>
+          )}
+        </section>
+      ))}
+    </>
+  )
+}
+
 export function ColorDot({ color }: { color: string | null }) {
   return <span className={`dot dot-${(color ?? 'none').toLowerCase()}`} title={color ?? 'Sin color'} />
 }
@@ -314,6 +200,8 @@ export interface TileProps extends DragProps {
   /** Bloqueada por una restricción (p. ej. RAM): se atenúa y muestra un candado. */
   locked?: boolean
   lockReason?: string
+  /** Texto corto bajo "BLOQUEADA" (p. ej. "RAM Blue 3 > 2"). */
+  lockLabel?: string
   preview?: PreviewBind
 }
 
@@ -323,7 +211,7 @@ const startDrag = (data: string | undefined) => (e: DragEvent) => {
   e.dataTransfer.effectAllowed = 'copyMove'
 }
 
-export function CardTile({ card, onClick, badge, footer, dim, locked, lockReason, preview, dragData }: TileProps) {
+export function CardTile({ card, onClick, badge, footer, dim, locked, lockReason, lockLabel, preview, dragData }: TileProps) {
   return (
     <div className={`tile ${dim ? 'dim' : ''} ${locked ? 'locked' : ''}`}>
       <button
@@ -335,7 +223,12 @@ export function CardTile({ card, onClick, badge, footer, dim, locked, lockReason
         {...preview}
       >
         <CardImage card={card} />
-        {locked && <span className="tile-lock" title={lockReason} aria-hidden="true">🔒</span>}
+        {locked && (
+          <span className="tile-lockbox" title={lockReason} aria-hidden="true">
+            <b>🔒 BLOQUEADA</b>
+            {lockLabel && <small>{lockLabel}</small>}
+          </span>
+        )}
         {badge != null && <span className="tile-badge">{badge}</span>}
       </button>
       {footer && <div className="tile-foot">{footer}</div>}
@@ -380,17 +273,43 @@ export function Stepper({ value, onChange, min = 0, max = 999, disableAdd, addTi
 
 /* ---------- modal ---------- */
 
+const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
 export function CardModal({ card, onClose, children }: { card: Card | null; onClose: () => void; children?: ReactNode }) {
+  const dialog = useRef<HTMLDivElement>(null)
+  const isOpen = card !== null
+
+  // foco: entra en el diálogo, se queda dentro (Tab) y vuelve a donde estaba al cerrar
   useEffect(() => {
-    if (!card) return
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
+    if (!isOpen) return
+    const previous = document.activeElement as HTMLElement | null
+    dialog.current?.querySelector<HTMLElement>('.modal-x')?.focus()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') return onClose()
+      if (e.key !== 'Tab' || !dialog.current) return
+      const items = [...dialog.current.querySelectorAll<HTMLElement>(FOCUSABLE)]
+      if (items.length === 0) return
+      const first = items[0]
+      const last = items[items.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [card, onClose])
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      previous?.focus?.()
+    }
+  }, [isOpen, onClose])
+
   if (!card) return null
   return (
     <div className="modal-backdrop" onClick={onClose} role="presentation">
-      <div className="modal" role="dialog" aria-modal="true" aria-label={card.displayName} onClick={(e) => e.stopPropagation()}>
+      <div ref={dialog} className="modal" role="dialog" aria-modal="true" aria-label={card.displayName} onClick={(e) => e.stopPropagation()}>
         <button className="modal-x btn ghost" onClick={onClose} aria-label="Cerrar">✕</button>
         <CardImage card={card} className="modal-img" />
         <div className="modal-info">

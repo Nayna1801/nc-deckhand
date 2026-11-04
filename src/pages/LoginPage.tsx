@@ -38,7 +38,7 @@ export function LoginPage() {
       <p className="muted">Sin sesión puedes construir mazos. Con sesión se guardan en tu cuenta y llevas el registro de tus cartas.</p>
       <form onSubmit={submit} className="form">
         <label>Email<input className="input" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} /></label>
-        <label>Contraseña<input className="input" type="password" required minLength={6} autoComplete={mode === 'in' ? 'current-password' : 'new-password'} value={password} onChange={(e) => setPassword(e.target.value)} /></label>
+        <label>Contraseña<input className="input" type="password" required minLength={8} maxLength={72} autoComplete={mode === 'in' ? 'current-password' : 'new-password'} value={password} onChange={(e) => setPassword(e.target.value)} /></label>
         {msg && <p className={msg.kind === 'err' ? 'errors' : 'notice'} role="alert">{msg.text}</p>}
         <button className="btn primary" disabled={busy || loading}>{busy ? 'Un momento…' : mode === 'in' ? 'Entrar' : 'Crear cuenta'}</button>
       </form>

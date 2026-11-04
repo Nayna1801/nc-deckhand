@@ -29,8 +29,37 @@ create table if not exists public.tcg_decks (
 
 create index if not exists tcg_decks_user_idx on public.tcg_decks (user_id, updated_at desc);
 
+-- Lista de deseos manual: cartas que el usuario quiere conseguir, estén o no en un mazo.
+-- quantity = copias que quiere conseguir.
+create table if not exists public.tcg_wishlist (
+  user_id    uuid not null references auth.users (id) on delete cascade,
+  card_id    text not null,
+  quantity   integer not null default 1 check (quantity between 1 and 99),
+  created_at timestamptz not null default now(),
+  primary key (user_id, card_id)
+);
+
+-- Validación también en el servidor (el navegador se puede saltar llamando a la API directamente).
+alter table public.tcg_collection drop constraint if exists tcg_collection_card_id_len;
+alter table public.tcg_collection add constraint tcg_collection_card_id_len check (char_length(card_id) between 1 and 100);
+alter table public.tcg_wishlist   drop constraint if exists tcg_wishlist_card_id_len;
+alter table public.tcg_wishlist   add constraint tcg_wishlist_card_id_len check (char_length(card_id) between 1 and 100);
+alter table public.tcg_decks      drop constraint if exists tcg_decks_shape;
+alter table public.tcg_decks      add constraint tcg_decks_shape check (
+  jsonb_typeof(main) = 'object' and jsonb_typeof(side) = 'object'
+  and cardinality(legend_ids) <= 3
+  and pg_column_size(main) < 20000 and pg_column_size(side) < 20000
+);
+
 alter table public.tcg_collection enable row level security;
 alter table public.tcg_decks      enable row level security;
+alter table public.tcg_wishlist   enable row level security;
+
+drop policy if exists "tcg_wishlist: owner full access" on public.tcg_wishlist;
+create policy "tcg_wishlist: owner full access" on public.tcg_wishlist
+  for all to authenticated
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
 
 drop policy if exists "tcg_collection: owner full access" on public.tcg_collection;
 create policy "tcg_collection: owner full access" on public.tcg_collection

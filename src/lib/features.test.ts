@@ -156,3 +156,55 @@ describe('bulk CSV', () => {
     expect(csv.split('\n')).toEqual(['code,name,set,bulk_copies,condition', '001,"Carta, rara",S,2,Played'])
   })
 })
+
+describe('lista de deseos manual', () => {
+  it('lista las cartas deseadas con lo que ya tienes, ordenadas por nombre', async () => {
+    const { buildWants } = await import('./wishlist')
+    const rows = buildWants({ saul_bright_stormrider: 2, goro_takemura_hands_unclean: 1 }, { saul_bright_stormrider: 1 }, catalog)
+    expect(rows.map((r) => r.name)).toEqual(['Goro Takemura: Hands Unclean', 'Saul Bright: Stormrider'])
+    expect(rows[1]).toMatchObject({ wanted: 2, owned: 1, code: '089' })
+  })
+
+  it('ignora cartas desconocidas y cantidades no positivas', async () => {
+    const { buildWants } = await import('./wishlist')
+    expect(buildWants({ inventada: 3, saul_bright_stormrider: 0, constructor: 2 } as never, {}, catalog)).toEqual([])
+  })
+
+  it('exporta a CSV y JSON válidos', async () => {
+    const { buildWants, wantsToCsv, wantsToJson } = await import('./wishlist')
+    const rows = buildWants({ saul_bright_stormrider: 2 }, {}, catalog)
+    expect(wantsToCsv(rows).split('\n')[0]).toBe('code,name,set,rarity,wanted,owned')
+    expect(JSON.parse(wantsToJson(rows))[0]).toMatchObject({ id: 'saul_bright_stormrider', wanted: 2 })
+  })
+})
+
+describe('código de colores del mazo', () => {
+  const byColor = (color: string) => catalog.cards.filter((c) => c.type === 'Legend' && c.color === color).map((c) => c.id)
+
+  it('dos Green y un Red -> GGR (el color dominante primero)', async () => {
+    const { colorCode } = await import('./colorCode')
+    const [g1, g2] = byColor('Green')
+    const [r1] = byColor('Red')
+    const cc = colorCode([r1, g1, g2], catalog)
+    expect(cc.code).toBe('GGR')
+    expect(cc.label).toBe('GREEN · GREEN · RED')
+  })
+
+  it('dos Blue y un Green -> BBG', async () => {
+    const { colorCode } = await import('./colorCode')
+    const [b1, b2] = byColor('Blue')
+    const [g1] = byColor('Green')
+    expect(colorCode([g1, b1, b2], catalog).code).toBe('BBG')
+  })
+
+  it('tres colores distintos usan el orden canónico R-Y-B-G', async () => {
+    const { colorCode } = await import('./colorCode')
+    expect(colorCode([byColor('Blue')[0], byColor('Yellow')[0], byColor('Red')[0]], catalog).code).toBe('RYB')
+  })
+
+  it('con menos de 3 Legends o ids desconocidos no falla', async () => {
+    const { colorCode } = await import('./colorCode')
+    expect(colorCode([], catalog).code).toBe('')
+    expect(colorCode(['inventada', byColor('Red')[0]], catalog).code).toBe('R')
+  })
+})

@@ -29,9 +29,10 @@ export interface Catalog {
 }
 
 export function buildCatalog(cards: Card[]): Catalog {
-  const byId: Record<string, Card> = {}
-  const byCode: Record<string, Card[]> = {}
-  const byName: Record<string, Card[]> = {}
+  // sin prototipo: 'constructor', '__proto__'… no cuentan como ids ni nombres válidos
+  const byId: Record<string, Card> = Object.create(null)
+  const byCode: Record<string, Card[]> = Object.create(null)
+  const byName: Record<string, Card[]> = Object.create(null)
   for (const card of cards) {
     byId[card.id] = card
     const code = card.importId ? normalizeCode(card.importId) : ''
@@ -45,7 +46,29 @@ export function buildCatalog(cards: Card[]): Catalog {
 
 export const catalog: Catalog = buildCatalog(raw as Card[])
 
-export const COLORS = ['Red', 'Yellow', 'Blue', 'Green'] as const
+/** Orden de los sets al listar: el set principal primero y después los mazos de inicio. */
+export const SET_ORDER = ['welcometonightcityretail', 'embracingpowerretailstarterdeck', 'theheistretailstarterdeck']
+
+export const setIndex = (c: Pick<Card, 'setCode'>): number => {
+  const i = SET_ORDER.indexOf(c.setCode)
+  return i === -1 ? SET_ORDER.length : i
+}
+
+const collectorNumber = (c: Pick<Card, 'importId'>): number => parseInt(c.importId ?? '', 10) || 0
+
+/** Orden por defecto: por set y, dentro de cada set, por número de coleccionista. */
+export function compareBySetAndNumber(a: Card, b: Card): number {
+  return (
+    setIndex(a) - setIndex(b) ||
+    a.setCode.localeCompare(b.setCode) ||
+    collectorNumber(a) - collectorNumber(b) ||
+    a.displayName.localeCompare(b.displayName)
+  )
+}
+
+export const isCardId =(id: unknown, cat: Catalog = catalog): id is string => typeof id === 'string' && id in cat.byId
+
+export const COLORS =['Red', 'Yellow', 'Blue', 'Green'] as const
 export const TYPES = ['Legend', 'Unit', 'Gear', 'Program'] as const
 export const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Secret'] as const
 

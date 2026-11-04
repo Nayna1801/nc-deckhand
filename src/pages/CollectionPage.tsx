@@ -1,17 +1,17 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { catalog, setLabel } from '../lib/catalog'
-import { parseCollectionText, serializeCollection } from '../lib/deckText'
+import { MAX_IMPORT_CHARS, parseCollectionText, serializeCollection } from '../lib/deckText'
 import { bulkList, bulkToCsv, CONDITIONS, CONDITION_LABEL, splitPlayset, totalOf, type Condition } from '../lib/inventory'
-import { buildWishlist, wishlistToCsv, wishlistToJson } from '../lib/wishlist'
-import { CardModal, downloadText, useCardModal, usePreview } from '../components/cardUi'
+import { buildWants, buildWishlist, wantsToCsv, wantsToJson, wishlistToCsv, wishlistToJson } from '../lib/wishlist'
+import { CardModal, downloadText, Stepper, useCardModal, usePreview } from '../components/cardUi'
 import { InventoryEditor } from '../components/InventoryEditor'
 import { useData } from '../state/DataContext'
 
-type Tab = 'wishlist' | 'bulk'
+type Tab = 'wishlist' | 'wants' | 'bulk'
 
 export function CollectionPage() {
-  const { loggedIn, collection, inventory, inventoryV2, decks, setInventory, importCollection } = useData()
+  const { loggedIn, collection, inventory, inventoryV2, decks, setInventory, importCollection, wishlist: wantsMap, wishlistAvailable, setWanted } = useData()
   const modal = useCardModal()
   const { bind, layer } = usePreview()
   const [text, setText] = useState('')
@@ -34,6 +34,7 @@ export function CollectionPage() {
 
   const missingCount = catalog.cards.length - stats.unique
   const wishlist = useMemo(() => buildWishlist(decks, collection, catalog), [decks, collection])
+  const wants = useMemo(() => buildWants(wantsMap, collection, catalog), [wantsMap, collection])
   const bulk = useMemo(() => bulkList(inventory).sort((a, b) => (catalog.byId[a.cardId]?.displayName ?? '').localeCompare(catalog.byId[b.cardId]?.displayName ?? '')), [inventory])
   const bulkCopies = bulk.reduce((a, r) => a + r.bulk, 0)
 
@@ -48,7 +49,7 @@ export function CollectionPage() {
 
   const doImport = async () => {
     const r = parseCollectionText(text, catalog)
-    setIssues(r.issues.map((i) => `Línea ${i.line}: ${i.reason}`))
+    setIssues(r.issues.map((i) => (i.line ? `Línea ${i.line}: ${i.reason}` : i.reason)))
     if (Object.keys(r.collection).length === 0) return
     if (mode === 'replace' && !window.confirm('Esto reemplaza toda tu colección actual (incluidas versiones Foil/Promo). ¿Continuar?')) return
     await importCollection(r.collection, mode)
@@ -77,9 +78,35 @@ export function CollectionPage() {
       </div>
 
       <div className="seg" role="tablist">
-        <button role="tab" aria-selected={tab === 'wishlist'} className={tab === 'wishlist' ? 'on' : ''} onClick={() => setTab('wishlist')}>Lista de compra ({wishlist.length})</button>
+        <button role="tab" aria-selected={tab === 'wishlist'} className={tab === 'wishlist' ? 'on' : ''} onClick={() => setTab('wishlist')}>Para mis mazos ({wishlist.length})</button>
+        <button role="tab" aria-selected={tab === 'wants'} className={tab === 'wants' ? 'on' : ''} onClick={() => setTab('wants')}>♥ Mis deseos ({wants.length})</button>
         <button role="tab" aria-selected={tab === 'bulk'} className={tab === 'bulk' ? 'on' : ''} onClick={() => setTab('bulk')}>Bulk / intercambio ({bulkCopies})</button>
       </div>
+
+      {tab === 'wants' && (
+        <div className="panel">
+          <p className="muted small">Cartas que quieres conseguir, estén o no en un mazo. Márcalas con el ♥ en la página de Cartas o desde el detalle de cada carta.</p>
+          {!wishlistAvailable && <p className="notice small">Para usar la lista de deseos, vuelve a ejecutar <code>supabase/schema.sql</code> en Supabase (es seguro repetirlo).</p>}
+          {wishlistAvailable && wants.length === 0 && <p>Todavía no has marcado ninguna carta. Pulsa el ♥ de una carta para añadirla.</p>}
+          <ul className="plain">
+            {wants.map((r) => (
+              <li key={r.cardId} className="deck-row">
+                <button className="link-btn" onClick={() => modal.open(r.cardId)} {...bind(catalog.byId[r.cardId])}>{r.name}</button>
+                <span className="muted small">tienes {r.owned}</span>
+                <Stepper value={r.wanted} min={1} max={99} onChange={(v) => void setWanted(r.cardId, v)} />
+                <button className="btn ghost sm" onClick={() => void setWanted(r.cardId, 0)} aria-label={`Quitar ${r.name} de deseos`}>Quitar</button>
+              </li>
+            ))}
+          </ul>
+          {wants.length > 0 && (
+            <div className="row wrap">
+              <button className="btn primary" onClick={() => downloadText('deseos.csv', wantsToCsv(wants), 'text/csv')}>Exportar CSV</button>
+              <button className="btn" onClick={() => downloadText('deseos.json', wantsToJson(wants), 'application/json')}>Exportar JSON</button>
+              <button className="btn" onClick={() => downloadText('deseos.txt', wants.map((r) => line(r.wanted, r.cardId)).join('\n'))}>Exportar texto</button>
+            </div>
+          )}
+        </div>
+      )}
 
       {tab === 'wishlist' && (
         <div className="panel">
@@ -106,7 +133,7 @@ export function CollectionPage() {
 
       {tab === 'bulk' && (
         <div className="panel">
-          <p className="muted small">De la 4ª copia en adelante pasan automáticamente aquí: las 3 primeras forman tu colección activa. Indica el estado de las copias que quieras cambiar o vender.</p>
+          <p className="muted small">Un playset son 3 copias de una carta (lo máximo que se puede llevar en un mazo). De la 4ª copia en adelante pasan aquí automáticamente. Indica el estado de las que quieras cambiar o vender.</p>
           {bulk.length === 0 && <p>Todavía no tienes copias sobrantes. Con 4 o más copias de una carta aparecerán aquí.</p>}
           <ul className="plain">
             {bulk.map((r) => (
@@ -133,7 +160,7 @@ export function CollectionPage() {
 
       <h2>Importar / exportar</h2>
       <div className="panel">
-        <textarea className="input mono" rows={8} value={text} onChange={(e) => setText(e.target.value)} placeholder={'1x 012 Goro Takemura: Hands Unclean\n3x 089 Saul Bright: Stormrider'} />
+        <textarea className="input mono" rows={8} maxLength={MAX_IMPORT_CHARS} value={text} onChange={(e) => setText(e.target.value)} placeholder={'1x 012 Goro Takemura: Hands Unclean\n3x 089 Saul Bright: Stormrider'} />
         {issues.length > 0 && <ul className="errors">{issues.map((r) => <li key={r}>{r}</li>)}</ul>}
         <div className="row wrap">
           <div className="seg">

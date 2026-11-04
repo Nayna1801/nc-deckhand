@@ -1,0 +1,217 @@
+/* =====================================================================
+   Sistema de formas cyberpunk
+   .cut-* = esquinas cortadas (arriba-izquierda y abajo-derecha) con borde que SÍ sigue el corte:
+   el elemento pinta el color del borde y un ::before, recortado igual, pinta el relleno 1px más adentro.
+   ===================================================================== */
+:root {
+  --edge: var(--line);
+  --fill: var(--surface);
+  --glow-y: 0 0 18px rgba(252, 238, 10, 0.22);
+  --glow-c: 0 0 18px rgba(0, 240, 255, 0.25);
+}
+
+.panel, .stat, .deck-card, .modal, .dd-btn, .dd-list, .searchhelp-body, .toast {
+  --c: 12px;
+  --c1: 11.4px;
+  position: relative;
+  isolation: isolate;
+  background: var(--edge);
+  border: 0;
+  clip-path: polygon(var(--c) 0, 100% 0, 100% calc(100% - var(--c)), calc(100% - var(--c)) 100%, 0 100%, 0 var(--c));
+}
+.panel::before, .stat::before, .deck-card::before, .modal::before, .dd-btn::before, .dd-list::before, .searchhelp-body::before, .toast::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: var(--fill);
+  clip-path: polygon(var(--c1) 0, 100% 0, 100% calc(100% - var(--c1)), calc(100% - var(--c1)) 100%, 0 100%, 0 var(--c1));
+}
+.dd-btn { --c: 9px; --c1: 8.4px; }
+/* la regla de formas fija position: relative; estos elementos flotan, así que vuelven a absolute */
+.searchhelp-body { position: absolute; }
+
+/* Contenedores con menús flotantes dentro (filtros, buscador): NO pueden recortar a sus hijos,
+   así que dibujan la forma con dos capas de fondo en vez de clip-path. */
+.fpanel, .searchbox { position: relative; isolation: isolate; background: transparent; border: 0; }
+/* por encima del contenido (los menús se abren sobre las cartas) pero por debajo de la barra superior (z 20) */
+.fpanel { z-index: 15; }
+.fpanel::before, .searchbox::before, .fpanel::after, .searchbox::after { content: ''; position: absolute; z-index: -2; pointer-events: none; }
+.fpanel::before, .searchbox::before { inset: 0; background: var(--edge); clip-path: polygon(var(--c) 0, 100% 0, 100% calc(100% - var(--c)), calc(100% - var(--c)) 100%, 0 100%, 0 var(--c)); }
+.fpanel::after, .searchbox::after { inset: 1px; z-index: -1; background: var(--fill); clip-path: polygon(var(--c1) 0, 100% 0, 100% calc(100% - var(--c1)), calc(100% - var(--c1)) 100%, 0 100%, 0 var(--c1)); }
+.fpanel { --c: 16px; --c1: 15.4px; --edge: rgba(252, 238, 10, 0.35); --fill: var(--surface); }
+.searchbox { --c: 9px; --c1: 8.4px; --fill: var(--bg); }
+.modal { --c: 20px; --c1: 19.4px; --edge: var(--yellow); }
+.deck-card { --c: 16px; --c1: 15.4px; }
+.deck-card:hover { --edge: var(--cyan); }
+.toast { --edge: var(--yellow); --fill: #1d1a05; }
+
+/* los paneles pierden su borde antiguo de CSS */
+.panel, .stat, .deck-card, .modal { border: 0; }
+.stat { background: var(--edge); }
+
+/* ---------- panel de filtros ---------- */
+.fpanel { margin: 0.9rem 0 1.4rem; padding: 0.85rem 1rem 0.95rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.fpanel .frow { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: stretch; }
+.fadv { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.6rem; align-items: center; }
+.fp-toggle { display: none; }
+
+.searchbox { --edge: var(--line); flex: 1 1 280px; display: flex; min-width: 0; }
+.searchbox:focus-within { --edge: var(--cyan); }
+.searchbox:focus-within::before { filter: drop-shadow(var(--glow-c)); }
+.searchbox .input { flex: 1; background: transparent; border: 0; padding: 0.55rem 2.4rem 0.55rem 0.9rem; min-width: 0; }
+.searchbox .input:focus-visible { outline: none; }
+.searchbox .input::placeholder { color: var(--muted); }
+
+/* ---------- desplegable propio ---------- */
+.dd { position: relative; min-width: 0; }
+.dd-btn { width: 100%; padding: 0; color: var(--text); font: inherit; text-align: left; cursor: pointer; transition: --edge 0.12s; }
+.dd-btn:hover, .dd.open .dd-btn { --edge: var(--cyan); }
+.dd-btn:focus-visible { outline: none; --edge: var(--cyan); filter: drop-shadow(var(--glow-c)); }
+.dd.is-set .dd-btn { --edge: var(--yellow); }
+.dd.is-set .dd-val { color: var(--yellow); }
+.dd-in { display: grid; grid-template-columns: 1fr auto; column-gap: 0.5rem; align-items: center; padding: 0.32rem 0.8rem 0.38rem 0.95rem; }
+.dd-cap { grid-column: 1; font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); line-height: 1.2; }
+.dd-val { grid-column: 1; font-weight: 600; font-size: 0.9rem; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dd-chev { grid-column: 2; grid-row: 1 / 3; color: var(--yellow); font-size: 0.8rem; transition: transform 0.15s; }
+.dd.open .dd-chev { transform: rotate(180deg); }
+
+.dd-pop { position: absolute; top: calc(100% + 6px); left: 0; z-index: 60; min-width: 100%; width: max-content; max-width: min(340px, 92vw); filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.75)) drop-shadow(var(--glow-c)); }
+.dd-pop.right { left: auto; right: 0; }
+.dd-list { --edge: var(--cyan); --fill: #0d0d14; --c: 14px; --c1: 13.4px; list-style: none; margin: 0; padding: 8px 6px; max-height: min(320px, 55vh); overflow: auto; outline: none; }
+.dd-opt { position: relative; padding: 0.46rem 0.8rem 0.46rem 1.35rem; cursor: pointer; font-size: 0.9rem; border-left: 2px solid transparent; }
+.dd-opt.active { background: linear-gradient(90deg, rgba(0, 240, 255, 0.18), transparent); color: var(--cyan); border-left-color: var(--cyan); }
+.dd-opt.selected { color: var(--yellow); font-weight: 700; }
+.dd-opt.selected::before { content: '▸'; position: absolute; left: 0.45rem; color: var(--yellow); }
+
+/* ---------- cabeceras de set ---------- */
+.setgroup { margin-bottom: 0.4rem; }
+.set-head { display: flex; align-items: center; gap: 0.9rem; margin: 1.8rem 0 0.9rem; padding: 0; position: relative; }
+.set-head::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--yellow), var(--line) 30%, transparent); }
+.set-head span { background: var(--yellow); color: #000; padding: 0.28rem 2rem 0.28rem 1rem; font-size: 0.95rem; letter-spacing: 0.1em; clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%); }
+.set-head small { order: 3; color: var(--muted); font: 0.75rem var(--mono); letter-spacing: 0.05em; text-transform: none; }
+.setgroup:first-child .set-head { margin-top: 0.4rem; }
+
+/* ---------- carta bloqueada: aviso en el centro, sin tapar el coste ---------- */
+.tile-lockbox { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2; pointer-events: none; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 5px 9px; max-width: 92%; text-align: center; line-height: 1.15; background: rgba(8, 8, 12, 0.9); border: 1px solid var(--red); clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); box-shadow: 0 0 14px rgba(255, 42, 85, 0.35); }
+.tile-lockbox b { color: #ff8da1; font-size: 0.66rem; letter-spacing: 0.1em; white-space: nowrap; }
+.tile-lockbox small { color: var(--muted); font: 0.6rem var(--mono); }
+.tile-lock { display: none; }
+
+/* ---------- controles de la carta: cantidad + deseo ---------- */
+.tile-controls { width: 100%; gap: 0.3rem; flex-wrap: wrap; justify-content: center; }
+.heart { width: 30px; height: 28px; display: inline-grid; place-items: center; background: transparent; border: 1px solid var(--line); color: var(--muted); font-size: 1rem; line-height: 1; cursor: pointer; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%); transition: color 0.12s, border-color 0.12s, background 0.12s; }
+.heart:hover { color: var(--magenta); border-color: var(--magenta); }
+.heart.on { color: #fff; background: var(--magenta); border-color: var(--magenta); }
+.heart:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.wish { border-color: rgba(255, 42, 157, 0.4); }
+
+/* ---------- identidad de color (GGR, BBG…) ---------- */
+.colorcode { display: inline-flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; }
+.cc-letters { display: inline-flex; gap: 3px; }
+.cc { display: inline-grid; place-items: center; width: 1.85rem; height: 1.85rem; font: 700 1.05rem var(--mono); color: #000; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%); }
+.cc-red { background: var(--c-red); } .cc-yellow { background: var(--c-yellow); } .cc-blue { background: var(--c-blue); } .cc-green { background: var(--c-green); }
+.cc-names { font: 600 0.68rem var(--mono); letter-spacing: 0.12em; color: var(--muted); }
+
+/* ---------- tarjetas de mazo ---------- */
+.deck-list { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.1rem; }
+.deck-card { display: flex; flex-direction: column; gap: 0.85rem; padding: 1rem; min-width: 0; }
+.deck-legends3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; text-decoration: none; }
+.deck-legends3 img { width: 100%; aspect-ratio: 5 / 7; height: auto; object-fit: cover; border: 1px solid #000; background: #000; transition: transform 0.15s; }
+.deck-legends3:hover img { transform: translateY(-2px); }
+.legend-empty { aspect-ratio: 5 / 7; display: grid; place-items: center; border: 1px dashed var(--line); color: var(--muted); font-size: 0.75rem; text-align: center; padding: 4px; }
+.deck-body { min-width: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.deck-title { text-decoration: none; min-width: 0; }
+.deck-title h3 { margin: 0; color: var(--text); font-size: 1.15rem; letter-spacing: 0.01em; text-transform: none; overflow-wrap: anywhere; }
+.deck-title:hover h3 { color: var(--cyan); }
+.deck-counts { margin: 0; overflow-wrap: anywhere; }
+.deck-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.deck-pills .pill { margin: 0; }
+.deck-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.deck-msg { min-height: 1.3em; margin: 0; color: var(--green); }
+.deck-id { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+.deck-card, .deck-body, .editor-deck { overflow-wrap: anywhere; }
+
+/* ---------- constructor: pestañas en móvil y aviso flotante ---------- */
+.pane-switch { display: none; }
+.toast.floating { position: fixed; z-index: 90; left: 50%; bottom: 20px; transform: translateX(-50%); width: max-content; max-width: 92vw; margin: 0; padding: 0.55rem 1.2rem; box-shadow: var(--glow-y); filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.7)); }
+.toast.floating::before { background: var(--fill); }
+
+/* ---------- detalles generales ---------- */
+.input { clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px)); }
+.searchbox .input { clip-path: none; }
+.panel { padding: 0.95rem 1rem; }
+.stat { --c: 10px; --c1: 9.4px; }
+.topbar nav a.active { clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding-right: 1.1rem; }
+.btn.fp-toggle.on { background: var(--yellow); color: #000; border-color: var(--yellow); }
+.check { white-space: nowrap; }
+
+/* =====================================================================
+   Móvil
+   ===================================================================== */
+@media (max-width: 1000px) {
+  .pane-switch { display: flex; position: sticky; top: 0; z-index: 25; width: 100%; margin: 0 0 0.8rem; background: var(--bg); }
+  .pane-switch button { flex: 1; padding: 0.65rem 0.4rem; }
+  .editor[data-pane='cards'] .editor-deck { display: none; }
+  .editor[data-pane='deck'] .editor-cards { display: none; }
+  .editor-deck { position: static; max-height: none; order: 0; }
+}
+
+@media (max-width: 700px) {
+  .topbar { position: static; padding: 0.55rem 0.8rem; }
+  .topbar nav { order: 3; flex-basis: 100%; overflow-x: auto; scrollbar-width: none; }
+  .topbar nav a { padding: 0.5rem 0.9rem; white-space: nowrap; }
+  main { padding: 0.9rem 0.75rem 3rem; }
+  h1 { font-size: 1.4rem; }
+
+  .fpanel { padding: 0.7rem; gap: 0.6rem; }
+  .fpanel .frow { gap: 0.5rem; }
+  .fpanel .frow > .dd { flex: 1 1 8rem; }
+  .fp-toggle { display: inline-block; align-self: stretch; }
+  .fadv { display: none; grid-template-columns: 1fr 1fr; }
+  .fadv.open { display: grid; }
+  .fadv > .btn, .fadv > .check { grid-column: 1 / -1; }
+
+  .searchhelp-body { position: fixed; left: 3vw; right: 3vw; top: 14vh; min-width: 0; max-height: 72vh; }
+  .dd-pop { position: fixed; left: 4vw; right: 4vw; top: auto; bottom: 4vh; width: auto; min-width: 0; max-width: none; }
+  .dd-list { max-height: 55vh; }
+  .dd-opt { padding: 0.75rem 0.8rem 0.75rem 1.5rem; font-size: 1rem; }
+
+  .input, textarea.input, select.input { font-size: 16px; }
+  .btn { min-height: 38px; }
+  .btn.sm { min-height: 34px; padding: 0.2rem 0.7rem; }
+  .stepper .btn.sm { min-width: 34px; }
+  .heart { width: 34px; height: 34px; }
+
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; }
+  .grid.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+  .set-head span { font-size: 0.8rem; padding-right: 1.6rem; }
+  .crow { flex-wrap: wrap; }
+  .crow-right { width: 100%; justify-content: flex-end; padding-bottom: 3px; }
+
+  .deck-list { grid-template-columns: 1fr; }
+  .page-head { gap: 0.6rem; }
+  .page-head .row { width: 100%; }
+  .page-head .row .btn { flex: 1; }
+
+  .modal-backdrop { padding: 0.5rem; align-items: flex-end; }
+  .modal { max-height: 94vh; padding: 0.9rem; gap: 0.9rem; }
+  .modal-img { max-width: 220px; }
+  .stats { grid-template-columns: repeat(3, auto 1fr); }
+
+  .stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat strong { font-size: 1.5rem; }
+  .seg { width: 100%; }
+  .seg button { flex: 1; padding: 0.6rem 0.3rem; font-size: 0.74rem; }
+
+  .editor-deck { padding: 0.75rem; }
+  .legend-slots { gap: 0.4rem; }
+  .deck-row { flex-wrap: wrap; }
+  .toast.floating { bottom: 14px; }
+  .donut { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 380px) {
+  .grid, .grid.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+  .cc { width: 1.6rem; height: 1.6rem; }
+}

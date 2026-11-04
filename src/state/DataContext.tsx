@@ -18,6 +18,11 @@ interface DataState {
   inventory: Inventory
   /** false si la base de datos aún no tiene las columnas de Foil/Promo/estado (falta re-ejecutar schema.sql). */
   inventoryV2: boolean
+  /** Cartas que quieres conseguir (copias por carta), estén o no en un mazo. */
+  wishlist: Quantities
+  /** false si la tabla de deseos aún no existe en la base de datos (falta re-ejecutar schema.sql). */
+  wishlistAvailable: boolean
+  setWanted: (cardId: string, quantity: number) => Promise<void>
   createDeck: (init?: Partial<Pick<Deck, 'name' | 'legendIds' | 'main' | 'side'>>) => Promise<Deck | null>
   saveDeck: (deck: Deck) => Promise<void>
   deleteDeck: (id: string) => Promise<void>
@@ -65,6 +70,8 @@ const rowFromEntry = (userId: string, cardId: string, e: InventoryEntry, v2: boo
 })
 
 const isMissingColumn = (e: { message?: string } | null): boolean => /qty_foil|qty_promo|condition|column/i.test(e?.message ?? '')
+const isMissingTable = (e: { message?: string; code?: string } | null): boolean =>
+  e?.code === 'PGRST205' || e?.code === '42P01' || /tcg_wishlist|schema cache|does not exist|relation/i.test(e?.message ?? '')
 
 export function DataProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth()
@@ -73,12 +80,16 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [guestDecks, setGuestDecks] = useState<Deck[]>(() => loadLocalDecks())
   const [inventory, setInventoryState] = useState<Inventory>({})
   const [inventoryV2, setInventoryV2] = useState(true)
+  const [wishlist, setWishlistState] = useState<Quantities>({})
+  const [wishlistAvailable, setWishlistAvailable] = useState(true)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const inventoryRef = useRef(inventory)
   inventoryRef.current = inventory
   const v2Ref = useRef(true)
   v2Ref.current = inventoryV2
+  const wishlistRef = useRef(wishlist)
+  wishlistRef.current = wishlist
 
   const collection = useMemo(() => totalsByCard(inventory), [inventory])
 
@@ -88,6 +99,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       setDecks(loadLocalDecks())
       setGuestDecks([])
       setInventoryState({})
+      setWishlistState({})
       return
     }
     const client = supabase
@@ -104,13 +116,23 @@ export function DataProvider({ children }: { children: ReactNode }) {
       return { rows: basic.data as CollectionRow[], v2: false }
     }
 
-    Promise.all([client.from('tcg_decks').select('*').order('updated_at', { ascending: false }), loadInventory()])
-      .then(([d, inv]) => {
+    async function loadWishlist(): Promise<{ rows: { card_id: string; quantity: number }[]; available: boolean }> {
+      const w = await client.from('tcg_wishlist').select('card_id, quantity').limit(5000)
+      if (!w.error) return { rows: w.data as { card_id: string; quantity: number }[], available: true }
+      // tabla inexistente (schema.sql sin re-ejecutar): la función se desactiva sin romper el resto
+      if (isMissingTable(w.error)) return { rows: [], available: false }
+      throw w.error
+    }
+
+    Promise.all([client.from('tcg_decks').select('*').order('updated_at', { ascending: false }), loadInventory(), loadWishlist()])
+      .then(([d, inv, wish]) => {
         if (!active) return
         if (d.error) throw d.error
         setDecks((d.data as DeckRow[]).map(fromRow))
         setInventoryV2(inv.v2)
         setInventoryState(Object.fromEntries(inv.rows.map((r) => [r.card_id, entryFromRow(r)])))
+        setWishlistAvailable(wish.available)
+        setWishlistState(Object.fromEntries(wish.rows.map((r) => [r.card_id, r.quantity])))
       })
       .catch((e: unknown) => active && setError(e instanceof Error ? e.message : (e as { message?: string })?.message ?? 'No se pudieron cargar tus datos.'))
       .finally(() => active && setLoading(false))
@@ -155,6 +177,24 @@ export function DataProvider({ children }: { children: ReactNode }) {
       }
     }
 
+    const setWanted = async (cardId: string, quantity: number) => {
+      if (!userId || !supabase || !wishlistAvailable) return
+      const q = Math.max(0, Math.min(99, Math.floor(Number(quantity) || 0)))
+      const prev = wishlistRef.current
+      const next = { ...prev }
+      if (q === 0) delete next[cardId]
+      else next[cardId] = q
+      setWishlistState(next) // optimista
+      const { error: e } =
+        q === 0
+          ? await supabase.from('tcg_wishlist').delete().eq('user_id', userId).eq('card_id', cardId)
+          : await supabase.from('tcg_wishlist').upsert({ user_id: userId, card_id: cardId, quantity: q })
+      if (e) {
+        setWishlistState(prev) // revertir
+        fail(e, 'No se pudo guardar la lista de deseos.')
+      }
+    }
+
     return {
       loggedIn: userId !== null,
       loading,
@@ -164,6 +204,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
       collection,
       inventory,
       inventoryV2,
+      wishlist,
+      wishlistAvailable,
+      setWanted,
       clearError: () => setError(null),
       createDeck: async (init = {}) => {
         const deck: Deck = { id: newId(), name: init.name ?? 'Nuevo mazo', legendIds: init.legendIds ?? [], main: init.main ?? {}, side: init.side ?? {}, updatedAt: new Date().toISOString() }
@@ -220,7 +263,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         setDecks((prev) => [...(data as DeckRow[]).map(fromRow), ...prev])
       },
     }
-  }, [userId, loading, error, decks, guestDecks, collection, inventory, inventoryV2])
+  }, [userId, loading, error, decks, guestDecks, collection, inventory, inventoryV2, wishlist, wishlistAvailable])
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }

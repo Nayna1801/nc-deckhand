@@ -106,7 +106,7 @@ function bareTerm(needle: string): Pred {
 const keyOf = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]/g, '')
 const stripZeros = (s: string): string => s.trim().toLowerCase().replace(/^0+(?=[0-9a-z])/, '')
 
-function keywordsOf(c: Card): Set<string> {
+export function keywordsOf(c: Card): Set<string> {
   const out = new Set<string>()
   for (const m of c.rules.matchAll(/\{([^}]+)\}/g)) out.add(keyOf(m[1]))
   return out

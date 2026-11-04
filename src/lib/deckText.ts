@@ -3,6 +3,10 @@ import type { Card, Deck, ParsedDeck, Quantities } from './types'
 
 type Section = 'legend' | 'main' | 'side'
 
+export const MAX_IMPORT_CHARS = 100_000
+const MAX_QTY = 99
+const MAX_LEGENDS = 3
+
 const LEGEND_RE = /^(legends?|l)$/
 const MAIN_RE = /^(main\s+deck|deck|main|m|d|units?|gears?|programs?)$/
 const SIDE_RE = /^(side\s*board|side|s)$/
@@ -23,6 +27,10 @@ function disambiguate(candidates: Card[], section: Section, nameHint: string): C
 
 export function parseDeckText(text: string, catalog: Catalog, fallbackName = 'Mazo importado'): ParsedDeck {
   const out: ParsedDeck = { name: fallbackName, legendIds: [], main: {}, side: {}, issues: [], warnings: [] }
+  if (text.length > MAX_IMPORT_CHARS) {
+    out.issues.push({ line: 0, text: '', reason: `El texto es demasiado grande (máximo ${MAX_IMPORT_CHARS.toLocaleString('es-ES')} caracteres).` })
+    return out
+  }
   const lines = text.replace(/\r\n/g, '\n').split('\n')
   const firstContent = lines.findIndex((l) => l.trim())
   let section: Section = 'main'
@@ -48,7 +56,9 @@ export function parseDeckText(text: string, catalog: Catalog, fallbackName = 'Ma
       out.issues.push({ line: lineNo, text: line, reason: 'No se entiende la cantidad ni la carta.' })
       return
     }
-    const qty = parseInt(m[1], 10)
+    const requested = parseInt(m[1], 10)
+    const qty = Math.min(requested, MAX_QTY)
+    if (requested > MAX_QTY) out.warnings.push(`Línea ${lineNo}: la cantidad ${requested} se limitó a ${MAX_QTY}.`)
     const rest = m[2].trim()
     if (!(qty > 0)) {
       out.issues.push({ line: lineNo, text: line, reason: 'La cantidad debe ser un entero positivo.' })
@@ -88,7 +98,7 @@ export function parseDeckText(text: string, catalog: Catalog, fallbackName = 'Ma
     }
 
     if (section === 'legend' || (card.type === 'Legend' && section !== 'side')) {
-      for (let k = 0; k < qty; k++) out.legendIds.push(card.id)
+      for (let k = 0; k < Math.min(qty, MAX_LEGENDS) && out.legendIds.length < MAX_LEGENDS * 2; k++) out.legendIds.push(card.id)
       if (section !== 'legend') out.warnings.push(`Línea ${lineNo}: ${card.displayName} se ha tratado como Legend.`)
       return
     }
