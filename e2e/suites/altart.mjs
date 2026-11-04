@@ -26,7 +26,9 @@ const open = async (c) => {
 }
 const close = async () => { await p.keyboard.press('Escape'); await p.locator('.modal').waitFor({ state: 'detached' }) }
 const mainSrc = () => p.locator('.modal .modal-img').getAttribute('src')
-const loaded = () => p.locator('.modal .modal-img').evaluate((i) => i.complete && i.naturalWidth > 0)
+// por la red real la imagen tarda unos milisegundos en cargar: se espera (en local es instantáneo y no se nota)
+const loaded = () =>
+  p.waitForFunction(() => { const i = document.querySelector('.modal .modal-img'); return !!i && i.complete && i.naturalWidth > 0 }, null, { timeout: 8000 }).then(() => true, () => false)
 
 await p.goto(BASE); await p.waitForSelector('.tile')
 
