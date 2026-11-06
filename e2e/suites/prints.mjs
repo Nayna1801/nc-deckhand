@@ -56,6 +56,10 @@ ok(!/__/.test(await modalSrc()), 'con la imagen de la carta original')
 await modal.locator('.thumb').nth(1).click()
 ok((await modal.locator('.print-row.current').count()) === 1, 'elegir una miniatura de arte también marca su impresión')
 await page.keyboard.press('Escape')
+await adamTile.locator('.tile-art').click()
+await modal.waitFor()
+ok(/Set 1 Promos · #008/.test(await modal.locator('.meta').innerText()) && /prm01_008/.test(await modalSrc()), 'al reabrir la carta vuelve a la impresión pulsada, no a la última elegida dentro del detalle')
+await page.keyboard.press('Escape')
 
 /* ---- varios sets ---- */
 await pick(page, 'Set', '')

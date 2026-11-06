@@ -370,27 +370,27 @@ export function CardModal({ card, printKey, onClose, children }: { card: Card | 
   const onCloseRef = useRef(onClose)
   onCloseRef.current = onClose
 
-  // arte que se ve en grande: -1 = el original; 0… = un arte alternativo. Se restablece al cambiar de carta.
-  const [art, setArt] = useState(-1)
-  // impresión (set + número) que se está mirando; se puede cambiar desde el propio detalle
-  const [pickedKey, setPickedKey] = useState<string | null>(null)
+  // Impresión (set + número) y arte que se ven en grande (-1 = el original; 0… = un arte alternativo).
+  // Al abrir se calculan desde la impresión pedida EN EL MISMO RENDER (sin efecto): así el detalle nunca
+  // enseña un instante la imagen base antes de saltar a la de la promo. Lo que el usuario elige dentro del
+  // detalle se guarda aparte y solo vale para esa apertura.
   const prints = useMemo(() => (card ? printsOf(card) : []), [card])
-  useEffect(() => {
+  const openKey = `${card?.id ?? ''}|${printKey ?? ''}`
+  const initial = useMemo(() => {
     const first = printKey ? prints.find((p) => p.key === printKey) : undefined
-    setPickedKey(first?.key ?? null)
-    setArt(first?.altIndex ?? -1)
-    // solo al abrir otra carta o una impresión distinta desde fuera
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [card?.id, printKey])
-  const print = prints.find((p) => p.key === pickedKey) ?? null
-  const pickPrint = (e: PrintEntry) => {
-    setPickedKey(e.key)
-    setArt(e.altIndex)
-  }
-  const pickArt = (i: number) => {
-    setArt(i)
-    setPickedKey((i < 0 ? prints.find((p) => p.isOriginal) : prints.find((p) => p.altIndex === i && p.art === 'exact'))?.key ?? null)
-  }
+    return { openKey, key: first?.key ?? null, art: first?.altIndex ?? -1 }
+  }, [openKey, printKey, prints])
+  const [chosen, setChosen] = useState<{ openKey: string; key: string | null; art: number } | null>(null)
+  const view = chosen && chosen.openKey === openKey ? chosen : initial
+  const art = view.art
+  const print = prints.find((p) => p.key === view.key) ?? null
+  // al cerrar se olvida lo elegido: la próxima apertura vuelve a empezar en la impresión pedida
+  useEffect(() => {
+    if (!card) setChosen(null)
+  }, [card])
+  const pickPrint = (e: PrintEntry) => setChosen({ openKey, key: e.key, art: e.altIndex })
+  const pickArt = (i: number) =>
+    setChosen({ openKey, art: i, key: (i < 0 ? prints.find((p) => p.isOriginal) : prints.find((p) => p.altIndex === i && p.art === 'exact'))?.key ?? null })
 
   // foco: entra en el diálogo, se queda dentro (Tab) y vuelve a donde estaba al cerrar
   useEffect(() => {
