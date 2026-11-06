@@ -120,3 +120,16 @@ a.stat-link strong { color: var(--cyan); }
 .pager-pages { display: flex; align-items: center; gap: 0.25rem; list-style: none; margin: 0; padding: 0; }
 .pager-gap { color: var(--muted); padding: 0 0.2rem; }
 .pager-info { flex-basis: 100%; text-align: center; }
+
+/* copias Promo antiguas (sin arte concreto) */
+.legacy-promo { padding: 0.4rem 0; border-top: 1px dashed var(--line); }
+.legacy-promo .field { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.3rem; }
+
+/* bulk: desplegable para elegir qué copias retirar cuando la carta tiene varias versiones o artes */
+.bulk-row { border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+.bulk-row > .deck-row { border-bottom: 0; }
+.bulk-pick { margin: 0 0 0.4rem 1.6rem; }
+.bulk-pick > summary { cursor: pointer; font-size: 0.85rem; color: var(--cyan); }
+.bulk-pick-body { padding: 0.4rem 0 0.2rem; }
+.bulk-pick-foot { gap: 0.6rem; flex-wrap: wrap; margin-top: 0.4rem; }
+.kind-dot { width: 10px; height: 10px; flex: none; margin: 0 12px; background: var(--yellow); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }

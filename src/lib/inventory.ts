@@ -128,15 +128,81 @@ export function sanitizeEntry(e: Partial<InventoryEntry>): InventoryEntry {
   }
 }
 
+/** Copias concretas a retirar de una carta, por tipo (para cuando tiene varias versiones o artes). */
+export interface PickedCopies {
+  normal?: number
+  foil?: number
+  promo?: number
+  /** Artes alternativos: clave de `variantsOf` -> copias. */
+  arts?: ArtCopies
+}
+
 export interface Withdrawal {
   cardId: string
-  qty: number
+  /** Copias a retirar sin elegir cuáles: se quitan primero las Normales, luego Promo, Foil y por último los artes. */
+  qty?: number
+  /** Copias exactas a retirar, por tipo. Se aplica antes que `qty`. */
+  pick?: PickedCopies
+}
+
+/** Total de copias de una selección. */
+export const pickedTotal = (p: PickedCopies | undefined): number =>
+  p ? (p.normal ?? 0) + (p.foil ?? 0) + (p.promo ?? 0) + Object.values(p.arts ?? {}).reduce((a, n) => a + n, 0) : 0
+
+/** Una "clase" de copia que tiene el usuario de una carta: el diseño base (Normal/Foil/Promo) o un arte concreto. */
+export interface OwnedKind {
+  /** 'normal' | 'foil' | 'promo' o la clave del arte. */
+  id: string
+  kind: 'normal' | 'foil' | 'promo' | 'art'
+  owned: number
+}
+
+/** Qué clases de copia tiene el usuario de una carta (solo las que tiene), en un orden estable: base y luego artes. */
+export function ownedKinds(e: InventoryEntry | undefined): OwnedKind[] {
+  if (!e) return []
+  const out: OwnedKind[] = []
+  if (e.normal > 0) out.push({ id: 'normal', kind: 'normal', owned: e.normal })
+  if (e.promo > 0) out.push({ id: 'promo', kind: 'promo', owned: e.promo })
+  if (e.foil > 0) out.push({ id: 'foil', kind: 'foil', owned: e.foil })
+  for (const key of Object.keys(e.arts).sort()) if (e.arts[key] > 0) out.push({ id: key, kind: 'art', owned: e.arts[key] })
+  return out
+}
+
+/** Copias elegidas de una clase ('normal' | 'foil' | 'promo' o la clave de un arte). */
+export const pickedOf = (p: PickedCopies | undefined, id: string): number =>
+  id === 'normal' || id === 'foil' || id === 'promo' ? (p?.[id] ?? 0) : (p?.arts?.[id] ?? 0)
+
+/** Devuelve una selección nueva con `n` copias elegidas de una clase. */
+export function withPicked(p: PickedCopies | undefined, id: string, n: number): PickedCopies {
+  const count = Math.max(0, Math.floor(Number(n) || 0))
+  if (id === 'normal' || id === 'foil' || id === 'promo') return { ...p, [id]: count }
+  return { ...p, arts: { ...p?.arts, [id]: count } }
 }
 
 /**
+ * Ajusta una selección a lo que hay: nunca más de lo que se tiene de cada clase ni más copias que las que sobran
+ * (bulk) en total. Si hay que recortar, se conserva lo elegido en las primeras clases (base y luego artes).
+ */
+export function clampPick(p: PickedCopies | undefined, e: InventoryEntry | undefined, bulk: number): PickedCopies {
+  const out: PickedCopies = {}
+  let left = Math.max(0, Math.floor(bulk))
+  for (const k of ownedKinds(e)) {
+    const take = Math.min(Math.max(0, Math.floor(pickedOf(p, k.id) || 0)), k.owned, left)
+    if (take <= 0) continue
+    left -= take
+    if (k.kind === 'art') out.arts = { ...out.arts, [k.id]: take }
+    else out[k.kind] = take
+  }
+  return out
+}
+
+const toInt = (v: unknown): number => Math.max(0, Math.floor(Number(v) || 0))
+
+/**
  * Retira copias del bulk (vendidas, regaladas o cambiadas) descontándolas de la colección.
- * Nunca se baja del playset: de cada carta solo se pueden retirar las copias que sobran. Se quitan
- * primero las Normales, luego las Promo y por último las Foil, igual que el botón −.
+ * Nunca se baja del playset: de cada carta solo se pueden retirar las copias que sobran (el total menos el playset).
+ * Con `pick` se quitan exactamente esas copias (nunca más de las que hay ni de las que sobran); con `qty`, el orden
+ * habitual del botón −: primero las Normales, luego Promo, Foil y por último los artes alternativos.
  * Devuelve el inventario nuevo y las cartas que han cambiado (las que hay que guardar).
  */
 export function withdrawBulk(
@@ -146,14 +212,35 @@ export function withdrawBulk(
 ): { next: Inventory; changed: string[] } {
   const next: Inventory = { ...inv }
   const changed: string[] = []
-  const wanted: Record<string, number> = {}
-  for (const { cardId, qty } of items) wanted[cardId] = (wanted[cardId] ?? 0) + Math.max(0, Math.floor(Number(qty) || 0))
-  for (const [cardId, qty] of Object.entries(wanted)) {
+  const byCard = new Map<string, Withdrawal[]>()
+  for (const it of items) byCard.set(it.cardId, [...(byCard.get(it.cardId) ?? []), it])
+
+  for (const [cardId, list] of byCard) {
     const entry = inv[cardId]
     if (!entry) continue
-    const take = Math.min(qty, splitPlayset(totalOf(entry), sizeOf(cardId)).bulk)
-    if (take <= 0) continue
-    const after = adjustCopies(entry, -take)
+    let left = splitPlayset(totalOf(entry), sizeOf(cardId)).bulk
+    if (left <= 0) continue
+    let cur: InventoryEntry = { ...entry, arts: { ...entry.arts } }
+
+    for (const { pick } of list) {
+      if (!pick) continue
+      for (const k of ['normal', 'promo', 'foil'] as const) {
+        const take = Math.min(toInt(pick[k]), cur[k], left)
+        cur[k] -= take
+        left -= take
+      }
+      for (const key of Object.keys(pick.arts ?? {}).sort()) {
+        const take = Math.min(toInt(pick.arts?.[key]), cur.arts[key] ?? 0, left)
+        if (take > 0) cur.arts[key] -= take
+        left -= take
+      }
+    }
+    const qty = list.reduce((a, it) => a + toInt(it.qty), 0)
+    const byOrder = Math.min(qty, left)
+    if (byOrder > 0) cur = adjustCopies(cur, -byOrder)
+
+    const after = sanitizeEntry(cur)
+    if (totalOf(after) === totalOf(entry)) continue
     if (totalOf(after) === 0) delete next[cardId]
     else next[cardId] = after
     changed.push(cardId)

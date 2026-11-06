@@ -27,20 +27,21 @@ const browser = await chromium.launch()
   const firstId = [...store.collection.keys()][0]
   ok(store.collection.get(firstId)?.quantity === 4, 'se guarda quantity=4 en la base de datos')
 
-  // modal: Foil, Promo y estado
+  // modal: Foil, un arte alternativo y estado
   await page.locator('.tile-art').first().click()
   const modal = page.locator('.modal')
   await modal.waitFor()
   ok(/playset: 1 de 1 copia/i.test(await modal.innerText()) && /sobran 3/i.test(await modal.innerText()), 'modal: Legend con 4 copias -> Playset 1 de 1 y sobran 3')
-  await modal.getByRole('button', { name: /Mostrar todas/ }).click()
+  await modal.getByRole('button', { name: /Mostrar/ }).click()
   await modal.locator('.inventory .row', { hasText: 'Foil' }).getByRole('button', { name: 'Añadir uno' }).click()
-  await modal.locator('.inventory .row', { hasText: 'Promo' }).getByRole('button', { name: 'Añadir uno' }).click()
+  ok((await modal.locator('.inventory .row', { hasText: /promo/i }).count()) === 0, 'no hay fila de "Promo / Full Art": cada arte tiene su contador')
+  await modal.locator('.art-row').first().getByRole('button', { name: 'Añadir uno' }).click()
   await page.waitForTimeout(300)
-  ok(/sobran 5/i.test(await modal.innerText()), 'Normal+Foil+Promo suman 6 -> sobran 5')
+  ok(/sobran 5/i.test(await modal.innerText()), 'Normal + Foil + un arte suman 6 -> sobran 5')
   await modal.locator('select').selectOption('played')
   await page.waitForTimeout(300)
   const row = store.collection.get(firstId)
-  ok(row.quantity === 4 && row.qty_foil === 1 && row.qty_promo === 1 && row.condition === 'played', `se guardan versiones y estado (${JSON.stringify({ q: row.quantity, f: row.qty_foil, p: row.qty_promo, c: row.condition })})`)
+  ok(row.quantity === 4 && row.qty_foil === 1 && Object.values(row.arts ?? {}).join() === '1' && row.condition === 'played', `se guardan versiones, arte y estado (${JSON.stringify({ q: row.quantity, f: row.qty_foil, a: row.arts, c: row.condition })})`)
   await page.keyboard.press('Escape')
 
   // colección: bulk + CSV

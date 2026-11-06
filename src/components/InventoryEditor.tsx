@@ -22,17 +22,34 @@ export function InventoryEditor({ cardId }: { cardId: string }) {
 
   // Solo se ofrecen las versiones que existen para esta carta (o las que ya tienes anotadas)
   const avail = card ? availableVersions(card) : { foil: false, promo: false }
-  const showPromo = inventoryV2 && (showAll || avail.promo || e.promo > 0)
+  // «Promo / Full Art» ya no se ofrece: cada arte alternativo o promo tiene su contador. Solo se ve si ya había
+  // copias anotadas ahí (sin arte concreto), para poder repartirlas entre los artes.
+  const showLegacyPromo = inventoryV2 && e.promo > 0
   const showFoil = inventoryV2 && (showAll || avail.foil || e.foil > 0)
-  const hiddenVersions = inventoryV2 && !(showPromo && showFoil)
+  const hiddenVersions = inventoryV2 && !showFoil
   const variants = card ? variantsOf(card) : []
+  const movePromoTo = (key: string) => void setInventory(cardId, { promo: e.promo - 1, arts: { ...e.arts, [key]: (e.arts[key] ?? 0) + 1 } })
 
   return (
     <>
       <div className="panel inventory">
         <div className="row between"><strong title="Cuenta la carta con su diseño base, sea de la edición Beta o de la Retail">Normal</strong><Stepper value={e.normal} disabled={!ready} onChange={(v) => void setInventory(cardId, { normal: v })} /></div>
-        {showPromo && (
-          <div className="row between"><strong>Promo / Full Art</strong><Stepper value={e.promo} disabled={!ready} onChange={(v) => void setInventory(cardId, { promo: v })} /></div>
+        {showLegacyPromo && (
+          <div className="legacy-promo">
+            <div className="row between">
+              <strong title="Copias que anotaste como Promo antes de poder elegir el arte">Promo (sin arte concreto)</strong>
+              <Stepper value={e.promo} disabled={!ready} onChange={(v) => void setInventory(cardId, { promo: v })} />
+            </div>
+            {variants.length > 0 && artsAvailable && (
+              <label className="small field">
+                <span className="muted">Pasar una de estas copias a su arte:</span>
+                <select className="input" aria-label="Pasar una copia promo a un arte" disabled={!ready} value="" onChange={(ev) => ev.target.value && movePromoTo(ev.target.value)}>
+                  <option value="">Elige el arte…</option>
+                  {variants.map((v) => <option key={v.key} value={v.key}>{v.label} · {v.detail}</option>)}
+                </select>
+              </label>
+            )}
+          </div>
         )}
         {showFoil && (
           <div className="row between"><strong>Foil</strong><Stepper value={e.foil} disabled={!ready} onChange={(v) => void setInventory(cardId, { foil: v })} /></div>
@@ -56,13 +73,13 @@ export function InventoryEditor({ cardId }: { cardId: string }) {
           </div>
         )}
         {!inventoryV2 && (
-          <p className="notice small">Para registrar Foil, Promo y estado, vuelve a ejecutar <code>supabase/schema.sql</code> en Supabase (es seguro repetirlo).</p>
+          <p className="notice small">Para registrar Foil y estado, vuelve a ejecutar <code>supabase/schema.sql</code> en Supabase (es seguro repetirlo).</p>
         )}
         {hiddenVersions && (
           <p className="muted small versions-note">
-            {showAll ? 'Mostrando todas las versiones. ' : `${!avail.promo && !avail.foil ? 'Esta carta solo existe en versión normal' : 'Solo se muestran las versiones que existen para esta carta'} según el catálogo. `}
+            {showAll ? 'Mostrando todas las versiones. ' : `${variants.length === 0 && !avail.foil ? 'Esta carta solo existe en versión normal' : 'Solo se muestran las versiones que existen para esta carta'} según el catálogo. `}
             <button type="button" className="link-btn small" onClick={() => setShowAll((v) => !v)}>
-              {showAll ? 'Ocultar las que no existen' : '¿Tienes otra versión? Mostrar todas'}
+              {showAll ? 'Ocultar las que no existen' : '¿Tienes una versión Foil? Mostrar'}
             </button>
           </p>
         )}
