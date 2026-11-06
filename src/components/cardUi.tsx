@@ -392,6 +392,13 @@ export function CardModal({ card, printKey, onClose, children }: { card: Card | 
   const pickArt = (i: number) =>
     setChosen({ openKey, art: i, key: (i < 0 ? prints.find((p) => p.isOriginal) : prints.find((p) => p.altIndex === i && p.art === 'exact'))?.key ?? null })
 
+  // con la ficha abierta, la página de detrás no debe moverse (en pantallas táctiles lo aplica el CSS)
+  useEffect(() => {
+    if (!isOpen) return
+    document.documentElement.classList.add('modal-open')
+    return () => document.documentElement.classList.remove('modal-open')
+  }, [isOpen])
+
   // foco: entra en el diálogo, se queda dentro (Tab) y vuelve a donde estaba al cerrar
   useEffect(() => {
     if (!isOpen) return
@@ -465,6 +472,7 @@ export function CardModal({ card, printKey, onClose, children }: { card: Card | 
           {(print?.artist ?? card.artist) && <p className="muted small">Ilustración: {print?.artist ?? card.artist}</p>}
           <VariantsInfo card={card} prints={prints} activePrint={print?.key ?? null} onPickPrint={pickPrint} activeArt={art} onPickArt={pickArt} />
           {children}
+          <button type="button" className="btn modal-close-bottom" onClick={onClose}>Cerrar ficha</button>
         </div>
         </div>
       </div>

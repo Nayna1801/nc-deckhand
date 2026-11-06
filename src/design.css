@@ -196,7 +196,7 @@
   .page-head .row .btn { flex: 1; }
 
   .modal-backdrop { padding: 0.5rem; align-items: flex-end; }
-  .modal { max-height: 94vh; padding: 0.9rem; gap: 0.9rem; }
+  .modal { padding: 0.9rem; gap: 0.9rem; }
   .modal-img { max-width: 220px; }
   .stats { grid-template-columns: repeat(3, auto 1fr); }
 
@@ -257,7 +257,7 @@
 /* sin min-width:0 una columna con texto largo (sin saltos) ensancha la ficha por encima de la pantalla */
 .modal-scroll > * { min-width: 0; }
 .modal-info { overflow-wrap: anywhere; }
-@media (max-width: 700px) { .modal { max-height: 94vh; } .modal-scroll { padding: 0.9rem; gap: 0.9rem; } }
+@media (max-width: 700px) { .modal-scroll { padding: 0.9rem; gap: 0.9rem; } }
 
 /* desplegable: .dd-frame = borde y relleno; .dd-list = opciones con scroll */
 .dd-list { background: transparent; clip-path: none; isolation: auto; }
@@ -279,3 +279,21 @@
 .print-row.current > .print-btn { color: var(--yellow); font-weight: 700; }
 .print-row.current::before { content: '▸ '; color: var(--yellow); }
 .print-row > .print-btn { flex: 1 1 200px; }
+
+/* ---- ficha de carta en el móvil: siempre alcanzable ----
+   La altura máxima se mide contra el hueco VISIBLE (el fondo fijo), no contra 100vh: con la barra de direcciones del
+   navegador a la vista, 100vh es mayor que la pantalla real y la parte de arriba de la ficha —con el botón de
+   cerrar— quedaba fuera de la pantalla. Arriba queda una franja libre: tocarla también cierra. */
+.modal-backdrop { box-sizing: border-box; overscroll-behavior: contain; }
+.modal { max-height: min(92vh, 100%); }
+.modal-x { z-index: 3; background: rgba(5, 5, 10, 0.78); }
+.modal-close-bottom { display: none; }
+@media (max-width: 700px) {
+  .modal-backdrop { padding: 2.75rem 0.5rem 0.5rem; }
+  .modal { max-height: 100%; }
+  .modal-close-bottom { display: block; width: 100%; margin-top: 1rem; }
+}
+/* con la ficha abierta en una pantalla táctil, la página de detrás no se desplaza (ni se recarga al tirar hacia abajo) */
+@media (pointer: coarse) {
+  html.modal-open, html.modal-open body { overflow: hidden; overscroll-behavior: none; }
+}

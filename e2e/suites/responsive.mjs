@@ -112,6 +112,72 @@ for (const W of WIDTHS) {
   await ctx.close()
 }
 
+/* ---- la ficha de carta en el móvil se puede cerrar siempre ---- */
+for (const [W, H] of [[320, 568], [360, 640], [390, 844]]) {
+  const { page: p, store, ctx } = await newSession(browser, { legacy: false, context: { viewport: { width: W, height: H }, isMobile: true, hasTouch: true } })
+  seed(store)
+  p.setDefaultTimeout(10000)
+  const cdp = await ctx.newCDPSession(p)
+  // dedo real: toca, arrastra en pasos pequeños y suelta (el gesto sintético de CDP no desplaza nada en este navegador)
+  const swipe = async (dy) => {
+    const x = W / 2, y = H / 2, steps = 24
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] })
+    for (let i = 1; i <= steps; i++) { await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y + (dy * i) / steps }] }); await new Promise((r) => setTimeout(r, 10)) }
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
+    await p.waitForTimeout(500)
+  }
+  // un toque mientras la ficha todavía resbala por la inercia solo la detiene: como haría una persona, se vuelve a tocar
+  const tapClose = async (x, y) => {
+    for (let i = 0; i < 4 && (await isOpen()); i++) { await p.touchscreen.tap(x, y); await p.waitForTimeout(700) }
+  }
+  const open = async () => { await p.locator('.tile-art').first().click(); await p.locator('.modal').waitFor(); await p.waitForTimeout(250) }
+  // la barra de direcciones del navegador móvil se come parte de la pantalla: el fondo fijo mide menos que 100vh
+  const barOn = () => p.evaluate(() => { const b = document.querySelector('.modal-backdrop'); b.style.height = `${innerHeight * 0.88}px`; b.style.bottom = 'auto' })
+  const reach = () => p.evaluate(() => { const m = document.querySelector('.modal').getBoundingClientRect(), x = document.querySelector('.modal-x').getBoundingClientRect(); return { top: m.top, bottom: m.bottom, xTop: x.top, xBottom: x.bottom, xLeft: x.left, xRight: x.right, vh: innerHeight } })
+  const isOpen = () => p.locator('.modal').count().then((n) => n > 0)
+
+  await p.goto(BASE); await p.waitForSelector('.tile')
+  await open(); await barOn(); await p.waitForTimeout(200)
+  let r = await reach()
+  ok(r.top >= 0 && r.xTop >= 0 && r.xBottom <= r.vh, `${W}x${H} · con la barra del navegador visible, la ficha y su botón de cerrar caben en la pantalla (ficha ${Math.round(r.top)}..${Math.round(r.bottom)}, X ${Math.round(r.xTop)}..${Math.round(r.xBottom)})`)
+  ok(r.top >= 24, `${W}x${H} · queda una franja libre arriba para tocar fuera (${Math.round(r.top)} px)`)
+  ok(r.xRight - r.xLeft >= 40 && r.xBottom - r.xTop >= 40, `${W}x${H} · el botón X es grande (${Math.round(r.xRight - r.xLeft)}x${Math.round(r.xBottom - r.xTop)} px)`)
+  const scrollY0 = await p.evaluate(() => scrollY)
+  ok(await p.evaluate(() => getComputedStyle(document.documentElement).overflow === 'hidden'), `${W}x${H} · con la ficha abierta la página de detrás queda bloqueada`)
+
+  // deslizar con el dedo dentro de la ficha, hacia abajo y de vuelta hacia arriba
+  await swipe(-500)
+  const mid = await p.locator('.modal-scroll').evaluate((m) => m.scrollTop)
+  await swipe(900)
+  const back = await p.locator('.modal-scroll').evaluate((m) => m.scrollTop)
+  ok(mid > 50 && back < 5, `${W}x${H} · se puede deslizar la ficha hacia abajo (${Math.round(mid)} px) y volver arriba (${Math.round(back)} px)`)
+  ok((await p.evaluate(() => scrollY)) === scrollY0, `${W}x${H} · al deslizar la ficha no se mueve la página de detrás`)
+  r = await reach()
+  ok(r.xTop >= 0 && r.xBottom <= r.vh, `${W}x${H} · el botón de cerrar sigue a la vista tras deslizar`)
+
+  // cerrar tocando la X
+  await tapClose((r.xLeft + r.xRight) / 2, (r.xTop + r.xBottom) / 2)
+  ok(!(await isOpen()), `${W}x${H} · tocar la X cierra la ficha`)
+  ok(await p.evaluate(() => getComputedStyle(document.documentElement).overflow !== 'hidden'), `${W}x${H} · al cerrar, la página vuelve a poder desplazarse`)
+
+  // cerrar tocando fuera (la franja de arriba)
+  await open(); await barOn(); await p.waitForTimeout(200)
+  await p.touchscreen.tap(W / 2, 12)
+  await p.waitForTimeout(250)
+  ok(!(await isOpen()), `${W}x${H} · tocar fuera de la ficha, en la franja de arriba, la cierra`)
+
+  // cerrar con el botón del final de la ficha (sin volver arriba)
+  await open(); await barOn(); await p.waitForTimeout(200)
+  await p.locator('.modal-scroll').evaluate((m) => (m.scrollTop = m.scrollHeight)) // hasta el final de la ficha
+  await p.waitForTimeout(300)
+  const bottomBtn = p.getByRole('button', { name: 'Cerrar ficha' })
+  const bb = await bottomBtn.boundingBox()
+  ok(bb && bb.y >= 0 && bb.y + bb.height <= H && bb.height >= 40, `${W}x${H} · al final de la ficha hay un botón «Cerrar ficha» a la vista (${Math.round(bb?.y ?? -1)}..${Math.round((bb?.y ?? 0) + (bb?.height ?? 0))} de ${H} px)`)
+  await tapClose(bb.x + bb.width / 2, bb.y + bb.height / 2)
+  ok(!(await isOpen()), `${W}x${H} · «Cerrar ficha» cierra la ficha`)
+  await ctx.close()
+}
+
 await browser.close()
 console.log(failed ? `\n${failed} FALLOS` : '\nTODO OK')
 process.exit(failed ? 1 : 0)
