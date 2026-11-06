@@ -132,7 +132,7 @@ textarea.input { width: 100%; resize: vertical; margin-bottom: 0.6rem; }
 .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; padding: 1rem; z-index: 50; }
 .modal { position: relative; display: grid; grid-template-columns: minmax(200px, 340px) 1fr; gap: 1.4rem; background: var(--surface); border: 1px solid var(--yellow); max-width: 860px; width: 100%; max-height: 92vh; overflow: auto; padding: 1.2rem; }
 .modal-x { position: absolute; top: 6px; right: 6px; }
-.modal-img { width: 100%; height: auto; align-self: start; }
+.modal-img { width: 100%; height: auto; aspect-ratio: 733 / 1024; align-self: start; } /* reserva la altura: sin esto el contenido de abajo salta al cargar la imagen */
 .modal-info h2 { margin: 0 0 0.3rem; color: var(--text); text-transform: none; letter-spacing: 0; }
 .meta { color: var(--muted); margin: 0 0 0.8rem; }
 .stats { display: grid; grid-template-columns: repeat(3, auto 1fr); gap: 0.2rem 0.6rem; margin: 0 0 0.8rem; }

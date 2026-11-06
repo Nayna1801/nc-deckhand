@@ -1,7 +1,7 @@
 import { chromium } from 'playwright'
 import { BASE } from '../config.mjs'
 import { newSession } from '../lib/mock.mjs'
-import { pick, results } from '../lib/helpers.mjs'
+import { pick, results, until } from '../lib/helpers.mjs'
 import { ALTS } from '../lib/data.mjs'
 
 let failed = 0
@@ -80,11 +80,11 @@ const badge = async (t) => ((await t.locator('.tile-badge').count()) ? (await t.
   ok(/^3\s*\/\s*\d+/.test((await stat.locator('strong').innerText()).replace(/\s+/g, ' ').trim()) && /4 copias/i.test(await stat.innerText()), `Colección: 3 artes distintos y 4 copias ("${(await stat.innerText()).replace(/\s+/g, ' ')}")`)
   await stat.click()
   await p.waitForSelector('.tile')
-  ok((await results(p)) === 3 && (await p.getByRole('checkbox', { name: /Solo artes alternativos/ }).isChecked()), 'el enlace de la estadística lista solo esos 3 artes')
+  ok((await until(() => results(p), 3)) === 3 && (await p.getByRole('checkbox', { name: /Solo artes alternativos/ }).isChecked()), 'el enlace de la estadística lista solo esos 3 artes')
 
   // recarga: persiste
   await p.reload(); await p.waitForSelector('.tile')
-  ok((await results(p)) === 3, 'tras recargar siguen los 3 artes')
+  ok((await until(() => results(p), 3)) === 3, 'tras recargar siguen los 3 artes')
 
   // sin el bulk-bar roto: la retirada de bulk no toca los artes mientras haya copias base
   await p.goto(BASE + '#/collection'); await p.waitForSelector('.stats-row')

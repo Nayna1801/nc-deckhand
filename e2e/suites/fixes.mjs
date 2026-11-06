@@ -22,6 +22,8 @@ const openCard = async (c) => {
   await search.fill(`name:"${c.displayName}"`); await p.waitForTimeout(450)
   await p.locator('.tile-art').first().click()
   await p.locator('.modal').waitFor()
+  // se mide con la imagen ya cargada: si no, al llegar empuja el contenido y falsea la medida
+  await p.waitForFunction(() => document.querySelector('.modal-img')?.complete === true)
 }
 const closeModal = async () => { await p.keyboard.press('Escape'); await p.locator('.modal').waitFor({ state: 'detached' }) }
 const addIn = (label) => p.locator('.modal .inventory .row', { hasText: label }).getByRole('button', { name: 'Añadir uno' })
@@ -32,6 +34,10 @@ await p.goto(BASE); await p.waitForSelector('.tile')
 await openCard(withAlt)
 const info = await p.evaluate(() => { const m = document.querySelector('.modal-scroll'); return { sh: m.scrollHeight, ch: m.clientHeight } })
 ok(info.sh > info.ch + 150, `(el modal tiene scroll en esta pantalla: ${info.sh}px de contenido en ${info.ch}px)`)
+// el hueco de la imagen está reservado: la altura del contenido no cambia al cargar
+const h0 = await p.locator('.modal-scroll').evaluate((m) => m.scrollHeight)
+await p.waitForTimeout(400)
+ok((await p.locator('.modal-scroll').evaluate((m) => m.scrollHeight)) === h0, 'la altura del detalle no cambia después de abrirse (la imagen reserva su espacio)')
 await p.locator('.modal-scroll').evaluate((m) => (m.scrollTop = 220))
 // Playwright desplaza el botón a la vista antes de pulsar: se hace ANTES de medir, para medir solo lo que haga la app
 await addIn('Normal').scrollIntoViewIfNeeded()

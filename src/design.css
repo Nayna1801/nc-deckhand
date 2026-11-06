@@ -219,7 +219,7 @@
 
 /* ---------- galería de variantes en el detalle de carta ---------- */
 .modal-visual { display: flex; flex-direction: column; gap: 0.7rem; align-self: start; min-width: 0; }
-.modal-visual .modal-img { width: 100%; height: auto; display: block; }
+.modal-visual .modal-img { width: 100%; height: auto; aspect-ratio: 733 / 1024; display: block; }
 .thumbs { display: flex; flex-wrap: wrap; gap: 6px; }
 .thumb { padding: 0; width: 52px; flex: 0 0 auto; line-height: 0; background: #000; border: 1px solid var(--line); cursor: pointer; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%); transition: border-color 0.12s, transform 0.12s; }
 .thumb img { width: 100%; aspect-ratio: 5 / 7; height: auto; object-fit: cover; display: block; filter: brightness(0.7); transition: filter 0.12s; }
