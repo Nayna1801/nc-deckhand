@@ -7,6 +7,7 @@ import { CollectionPage } from './pages/CollectionPage'
 import { DeckEditorPage } from './pages/DeckEditorPage'
 import { DecksPage } from './pages/DecksPage'
 import { LoginPage } from './pages/LoginPage'
+import { ScanPage } from './pages/ScanPage'
 import { SharePage } from './pages/SharePage'
 
 function Shell() {
@@ -56,6 +57,7 @@ function Shell() {
           <Route path="/share/:code" element={<SharePage />} />
           <Route path="/collection" element={<CollectionPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/scan" element={<ScanPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

@@ -133,3 +133,16 @@ a.stat-link strong { color: var(--cyan); }
 .bulk-pick-body { padding: 0.4rem 0 0.2rem; }
 .bulk-pick-foot { gap: 0.6rem; flex-wrap: wrap; margin-top: 0.4rem; }
 .kind-dot { width: 10px; height: 10px; flex: none; margin: 0 12px; background: var(--yellow); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+
+/* escáner de cartas con la cámara (prueba) */
+.scan-stage { position: relative; max-width: 720px; margin: 0.5rem 0; background: #000; overflow: hidden; border: 1px solid var(--line); }
+.scan-stage[hidden] { display: none; }
+.scan-stage video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.scan-guide { position: absolute; border: 2px solid var(--yellow); box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45), 0 0 14px rgba(252, 238, 10, 0.5); pointer-events: none; }
+.scan-actions { margin: 0.6rem 0; }
+.scan-results { list-style: none; margin: 0 0 0.6rem; padding: 0; display: grid; gap: 0.5rem; }
+.scan-result { display: flex; align-items: center; gap: 0.7rem; padding: 0.4rem 0.6rem; background: var(--surface); border: 1px solid var(--line); }
+.scan-result img { width: 54px; aspect-ratio: 5 / 7; object-fit: cover; flex: none; }
+.scan-info { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.scan-stats { margin-top: 1rem; }
+.scan-stats summary { cursor: pointer; color: var(--cyan); font-size: 0.9rem; }

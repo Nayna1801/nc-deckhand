@@ -120,6 +120,7 @@ export function CardsPage() {
               <input type="checkbox" checked={onlyArts} onChange={(e) => setOnlyArts(e.target.checked)} /> Solo artes alternativos
             </label>
           )}
+          <Link className="btn sm" to="/scan" title="Reconoce una carta con la cámara (prueba)">📷 Escanear</Link>
           <ViewToggle value={view} onChange={setView} />
         </div>
       </header>

@@ -16,6 +16,14 @@ export async function newSession(browser, opts) {
     if (method === 'OPTIONS') return route.fulfill({ status: 204, headers: cors })
     if (url.pathname.startsWith('/auth/v1')) return route.fulfill({ status: 200, headers: cors, body: JSON.stringify(url.pathname.endsWith('/user') ? user : session) })
     const table = url.pathname.split('/').pop()
+    // el servidor rechaza el token recién renovado ("JWT issued at future") las primeras `jwtFuture` peticiones de datos
+    // (una prueba también puede activarlo después de cargar con `store.jwtBlock = n`)
+    if ((opts.jwtFuture && (store.jwtRejected ?? 0) < opts.jwtFuture) || (store.jwtBlock ?? 0) > 0) {
+      if ((store.jwtBlock ?? 0) > 0) store.jwtBlock--
+      else store.jwtRejected = (store.jwtRejected ?? 0) + 1
+      store.jwtTotal = (store.jwtTotal ?? 0) + 1
+      return route.fulfill({ status: 401, headers: cors, body: JSON.stringify({ code: 'PGRST303', details: null, hint: null, message: 'JWT issued at future' }) })
+    }
     if (table === 'tcg_wishlist' && opts.noWishlist) return route.fulfill({ status: 404, headers: cors, body: JSON.stringify({ code: 'PGRST205', message: "Could not find the table 'public.tcg_wishlist' in the schema cache" }) })
     const map = table === 'tcg_collection' ? store.collection : table === 'tcg_decks' ? store.decks : table === 'tcg_wishlist' ? store.wishlist : null
     if (!map) return route.fulfill({ status: 404, headers: cors, body: '{}' })
