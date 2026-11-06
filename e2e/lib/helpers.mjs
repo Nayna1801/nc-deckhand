@@ -2,6 +2,19 @@
 export async function pick(page, label, value) {
   await page.getByRole('button', { name: label, exact: true }).click()
   await page.locator(`.dd-list [role=option][data-value="${value}"]`).click()
+  await closeMulti(page)
+}
+
+/** Marca varias opciones de un desplegable múltiple sin cerrarlo entre una y otra, y lo cierra al final. */
+export async function pickMany(page, label, values) {
+  await page.getByRole('button', { name: label, exact: true }).click()
+  for (const v of values) await page.locator(`.dd-list [role=option][data-value="${v}"]`).click()
+  await closeMulti(page)
+}
+
+/** Los desplegables múltiples se quedan abiertos al elegir: Escape los cierra (los simples ya se cerraron solos). */
+async function closeMulti(page) {
+  if (await page.locator('.dd-list[aria-multiselectable=true]').count()) await page.keyboard.press('Escape')
 }
 
 /** Valor mostrado actualmente en un desplegable. */

@@ -21,6 +21,9 @@ export async function newSession(browser, opts) {
     if (!map) return route.fulfill({ status: 404, headers: cors, body: '{}' })
     const key = table === 'tcg_decks' ? 'id' : 'card_id'
     if (method === 'GET') {
+      if (table === 'tcg_collection' && opts.noArts && (url.searchParams.get('select') || '').includes('arts')) {
+        return route.fulfill({ status: 400, headers: cors, body: JSON.stringify({ code: '42703', message: 'column tcg_collection.arts does not exist' }) })
+      }
       if (table === 'tcg_collection' && legacy && (url.searchParams.get('select') || '').includes('qty_foil')) {
         return route.fulfill({ status: 400, headers: cors, body: JSON.stringify({ code: '42703', message: 'column tcg_collection.qty_foil does not exist' }) })
       }

@@ -2,7 +2,8 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, type R
 import { supabase } from '../lib/supabase'
 import { createKeyedWriter, type KeyedWriter } from '../lib/keyedWriter'
 import { loadLocalDecks, saveLocalDecks } from '../lib/localDecks'
-import { adjustCopies, EMPTY_ENTRY, sanitizeEntry, totalOf, totalsByCard, type Inventory, type InventoryEntry } from '../lib/inventory'
+import { catalog } from '../lib/catalog'
+import { adjustCopies, EMPTY_ENTRY, playsetSize, sanitizeArts, sanitizeEntry, totalOf, totalsByCard, withdrawBulk, type Inventory, type InventoryEntry, type Withdrawal } from '../lib/inventory'
 import type { Collection, Deck, Quantities } from '../lib/types'
 import { useAuth } from './AuthContext'
 
@@ -21,6 +22,10 @@ interface DataState {
   inventory: Inventory
   /** false si la base de datos aún no tiene las columnas de Foil/Promo/estado (falta re-ejecutar schema.sql). */
   inventoryV2: boolean
+  /** false si la base de datos aún no tiene la columna `arts` (contar artes alternativos); falta re-ejecutar schema.sql. */
+  artsAvailable: boolean
+  /** Fija las copias de un arte alternativo o promo concreto (clave de `variantsOf`). */
+  setArtCopies: (cardId: string, artKey: string, quantity: number) => Promise<void>
   /** Cartas que quieres conseguir (copias por carta), estén o no en un mazo. */
   wishlist: Quantities
   /** false si la tabla de deseos aún no existe en la base de datos (falta re-ejecutar schema.sql). */
@@ -32,6 +37,8 @@ interface DataState {
   /** Ajusta el TOTAL de copias (botones rápidos +/−): + añade una Normal; − quita Normal, luego Promo, luego Foil. */
   changeCopies: (cardId: string, delta: number) => Promise<void>
   setInventory: (cardId: string, patch: Partial<InventoryEntry>) => Promise<void>
+  /** Retira copias del bulk de varias cartas a la vez (vendidas, regaladas o cambiadas); nunca baja del playset. */
+  withdrawBulk: (items: Withdrawal[]) => Promise<void>
   /** Importa cantidades: 'add' las suma a las Normal; 'replace' sustituye todo el inventario. */
   importCollection: (counts: Quantities, mode: 'add' | 'replace') => Promise<void>
   uploadGuestDecks: () => Promise<void>
@@ -55,6 +62,7 @@ interface CollectionRow {
   qty_foil?: number
   qty_promo?: number
   condition?: string
+  arts?: unknown
 }
 
 const fromRow = (r: DeckRow): Deck => ({ id: r.id, name: r.name, legendIds: r.legend_ids ?? [], main: r.main ?? {}, side: r.side ?? {}, updatedAt: r.updated_at })
@@ -62,17 +70,24 @@ const toRow = (d: Deck, userId: string) => ({ id: d.id, user_id: userId, name: d
 const newId = (): string => crypto.randomUUID()
 
 const entryFromRow = (r: CollectionRow): InventoryEntry =>
-  sanitizeEntry({ normal: r.quantity, foil: r.qty_foil, promo: r.qty_promo, condition: r.condition as InventoryEntry['condition'] })
+  sanitizeEntry({ normal: r.quantity, foil: r.qty_foil, promo: r.qty_promo, arts: sanitizeArts(r.arts), condition: r.condition as InventoryEntry['condition'] })
 
-const rowFromEntry = (userId: string, cardId: string, e: InventoryEntry, v2: boolean) => ({
+/** Qué columnas opcionales tiene la tabla: v2 = Foil/Promo/estado; arts = copias por arte alternativo. */
+interface Capabilities {
+  v2: boolean
+  arts: boolean
+}
+
+const rowFromEntry = (userId: string, cardId: string, e: InventoryEntry, cap: Capabilities) => ({
   user_id: userId,
   card_id: cardId,
   quantity: e.normal,
-  ...(v2 ? { qty_foil: e.foil, qty_promo: e.promo, condition: e.condition } : {}),
+  ...(cap.v2 ? { qty_foil: e.foil, qty_promo: e.promo, condition: e.condition } : {}),
+  ...(cap.arts ? { arts: e.arts } : {}),
   updated_at: new Date().toISOString(),
 })
 
-const isMissingColumn = (e: { message?: string } | null): boolean => /qty_foil|qty_promo|condition|column/i.test(e?.message ?? '')
+const isMissingColumn = (e: { message?: string } | null): boolean => /qty_foil|qty_promo|condition|arts|column/i.test(e?.message ?? '')
 const isMissingTable = (e: { message?: string; code?: string } | null): boolean =>
   e?.code === 'PGRST205' || e?.code === '42P01' || /tcg_wishlist|schema cache|does not exist|relation/i.test(e?.message ?? '')
 
@@ -83,6 +98,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [guestDecks, setGuestDecks] = useState<Deck[]>(() => loadLocalDecks())
   const [inventory, setInventoryState] = useState<Inventory>({})
   const [inventoryV2, setInventoryV2] = useState(true)
+  const [artsAvailable, setArtsAvailable] = useState(true)
   const [wishlist, setWishlistState] = useState<Quantities>({})
   const [wishlistAvailable, setWishlistAvailable] = useState(true)
   const [loading, setLoading] = useState(false)
@@ -95,6 +111,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const inventoryRef = useRef(inventory)
   inventoryRef.current = inventory
   const v2Ref = useRef(true)
+  const artsRef = useRef(true)
+  artsRef.current = artsAvailable
   v2Ref.current = inventoryV2
   const wishlistRef = useRef(wishlist)
   wishlistRef.current = wishlist
@@ -116,7 +134,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const empty = totalOf(entry) === 0
         const { error: e } = empty
           ? await supabase.from('tcg_collection').delete().eq('user_id', uid).eq('card_id', cardId)
-          : await supabase.from('tcg_collection').upsert(rowFromEntry(uid, cardId, entry, v2Ref.current))
+          : await supabase.from('tcg_collection').upsert(rowFromEntry(uid, cardId, entry, { v2: v2Ref.current, arts: artsRef.current }))
         if (e) throw e
         const next = { ...confirmedInv.current }
         if (empty) delete next[cardId]
@@ -160,13 +178,19 @@ export function DataProvider({ children }: { children: ReactNode }) {
     setLoading(true)
     setGuestDecks(loadLocalDecks())
 
-    async function loadInventory(): Promise<{ rows: CollectionRow[]; v2: boolean }> {
-      const full = await client.from('tcg_collection').select('card_id, quantity, qty_foil, qty_promo, condition').limit(5000)
-      if (!full.error) return { rows: full.data as CollectionRow[], v2: true }
-      if (!isMissingColumn(full.error)) throw full.error
-      const basic = await client.from('tcg_collection').select('card_id, quantity').limit(5000)
-      if (basic.error) throw basic.error
-      return { rows: basic.data as CollectionRow[], v2: false }
+    // De la versión más completa de la tabla a la más antigua: se usa la primera que el servidor acepta.
+    async function loadInventory(): Promise<{ rows: CollectionRow[]; cap: Capabilities }> {
+      const tiers: { select: string; cap: Capabilities }[] = [
+        { select: 'card_id, quantity, qty_foil, qty_promo, condition, arts', cap: { v2: true, arts: true } },
+        { select: 'card_id, quantity, qty_foil, qty_promo, condition', cap: { v2: true, arts: false } },
+        { select: 'card_id, quantity', cap: { v2: false, arts: false } },
+      ]
+      for (const [i, t] of tiers.entries()) {
+        const r = await client.from('tcg_collection').select(t.select).limit(5000)
+        if (!r.error) return { rows: r.data as unknown as CollectionRow[], cap: t.cap }
+        if (!isMissingColumn(r.error) || i === tiers.length - 1) throw r.error
+      }
+      throw new Error('No se pudo leer la colección.')
     }
 
     async function loadWishlist(): Promise<{ rows: { card_id: string; quantity: number }[]; available: boolean }> {
@@ -186,7 +210,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const wishMap = Object.fromEntries(wish.rows.map((r) => [r.card_id, r.quantity]))
         confirmedInv.current = invMap
         confirmedWish.current = wishMap
-        setInventoryV2(inv.v2)
+        v2Ref.current = inv.cap.v2
+        artsRef.current = inv.cap.arts
+        setInventoryV2(inv.cap.v2)
+        setArtsAvailable(inv.cap.arts)
         setInventoryState(invMap)
         setWishlistAvailable(wish.available)
         setWishlistState(wishMap)
@@ -241,7 +268,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
       const prev = inventoryRef.current
       const entry = sanitizeEntry({ ...(prev[cardId] ?? EMPTY_ENTRY), ...patch })
       // sin versión 2 solo existen las copias Normal
-      const stored = v2Ref.current ? entry : { ...entry, foil: 0, promo: 0, condition: 'mint' as const }
+      const v2 = v2Ref.current ? entry : { ...entry, foil: 0, promo: 0, condition: 'mint' as const }
+      // sin la columna `arts` no se pueden guardar artes: no se anotan para no mostrar lo que no queda guardado
+      const stored = artsRef.current ? v2 : { ...v2, arts: {} }
       const next = { ...prev }
       if (totalOf(stored) === 0) delete next[cardId]
       else next[cardId] = stored
@@ -280,6 +309,15 @@ export function DataProvider({ children }: { children: ReactNode }) {
       collection,
       inventory,
       inventoryV2,
+      artsAvailable,
+      setArtCopies: async (cardId, artKey, quantity) => {
+        const cur = inventoryRef.current[cardId] ?? EMPTY_ENTRY
+        const arts = { ...cur.arts }
+        const n = Math.max(0, Math.min(999, Math.floor(Number(quantity) || 0)))
+        if (n === 0) delete arts[artKey]
+        else arts[artKey] = n
+        await setInventory(cardId, { arts })
+      },
       wishlist,
       wishlistAvailable,
       setWanted,
@@ -307,6 +345,22 @@ export function DataProvider({ children }: { children: ReactNode }) {
         await setInventory(cardId, { normal: next.normal, promo: next.promo, foil: next.foil })
       },
       setInventory,
+      withdrawBulk: async (items) => {
+        if (!userId || !supabase || !loadedRef.current) return
+        const { next, changed } = withdrawBulk(inventoryRef.current, items, (id) => playsetSize(catalog.byId[id]))
+        if (changed.length === 0) return
+        setInventoryState(next) // optimista: todas las filas desaparecen a la vez
+        await Promise.all(
+          changed.map(async (id) => {
+            try {
+              await writers.current!.inv.write(id, next[id] ?? { ...EMPTY_ENTRY })
+            } catch (e) {
+              restoreInventory(id)
+              fail(e, 'No se pudo guardar la retirada del bulk.')
+            }
+          }),
+        )
+      },
       importCollection: async (counts, mode) => {
         if (!userId || !supabase || !loadedRef.current) return
         await writers.current!.inv.idle() // primero se asientan las pulsaciones pendientes
@@ -318,7 +372,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
           next[id] = sanitizeEntry({ ...base, normal: base.normal + n })
         }
         setInventoryState(next)
-        const rows = Object.entries(next).map(([id, e]) => rowFromEntry(userId, id, e, v2Ref.current))
+        const rows = Object.entries(next).map(([id, e]) => rowFromEntry(userId, id, e, { v2: v2Ref.current, arts: artsRef.current }))
         const removed = Object.keys(prev).filter((id) => !(id in next))
         const results = await Promise.all(
           [
@@ -346,7 +400,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         setDecks((prev) => [...(data as DeckRow[]).map(fromRow), ...prev])
       },
     }
-  }, [userId, loading, loaded, error, decks, guestDecks, collection, inventory, inventoryV2, wishlist, wishlistAvailable])
+  }, [userId, loading, loaded, error, decks, guestDecks, collection, inventory, inventoryV2, artsAvailable, wishlist, wishlistAvailable])
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }

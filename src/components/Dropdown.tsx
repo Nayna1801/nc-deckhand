@@ -5,18 +5,42 @@ export interface Option {
   label: string
 }
 
-interface Props {
+interface BaseProps {
   /** Nombre del filtro: se muestra como etiqueta pequeña y se usa como nombre accesible. */
   label: string
-  value: string
   options: Option[]
+}
+
+interface SingleProps extends BaseProps {
+  multiple?: false
+  value: string
   onChange: (value: string) => void
+}
+
+/**
+ * Selección múltiple: la lista no se cierra al elegir y la opción con valor '' ("Todos") vacía la selección.
+ * Un valor vacío (`[]`) significa "sin filtro".
+ */
+interface MultiProps extends BaseProps {
+  multiple: true
+  value: string[]
+  onChange: (value: string[]) => void
+}
+
+type Props = SingleProps | MultiProps
+
+/** Texto que muestra el botón de un desplegable múltiple. */
+export function summarize(options: Option[], values: string[]): string {
+  if (values.length === 0) return options.find((o) => o.value === '')?.label ?? 'Todos'
+  const labels = values.map((v) => options.find((o) => o.value === v)?.label ?? v)
+  return labels.length <= 2 ? labels.join(' + ') : `${labels.length} elegidos`
 }
 
 const norm = (s: string) => s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '')
 
 /** Desplegable accesible (patrón listbox) con la forma de la interfaz: esquinas cortadas y borde de neón. */
-export function Dropdown({ label, value, options, onChange }: Props) {
+export function Dropdown(props: Props) {
+  const { label, options } = props
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(0)
   const [alignRight, setAlignRight] = useState(false)
@@ -26,9 +50,13 @@ export function Dropdown({ label, value, options, onChange }: Props) {
   const typed = useRef({ text: '', timer: 0 })
   const uid = useId()
 
-  const selectedIndex = Math.max(0, options.findIndex((o) => o.value === value))
-  const current = options[selectedIndex]
-  const isSet = value !== '' && options[0]?.value === ''
+  const multiple = props.multiple === true
+  const selected: string[] = props.multiple ? props.value : props.value === '' ? [] : [props.value]
+  const isChosen = (v: string) => (v === '' ? selected.length === 0 : selected.includes(v))
+  const firstChosen = options.findIndex((o) => o.value !== '' && selected.includes(o.value))
+  const selectedIndex = multiple ? Math.max(0, firstChosen) : Math.max(0, options.findIndex((o) => o.value === props.value))
+  const shown = multiple ? summarize(options, selected) : (options[selectedIndex]?.label ?? '')
+  const isSet = selected.length > 0 && options[0]?.value === ''
 
   // abrir: posicionar, enfocar la lista y empezar en la opción elegida
   useEffect(() => {
@@ -63,7 +91,14 @@ export function Dropdown({ label, value, options, onChange }: Props) {
   useEffect(() => () => window.clearTimeout(typed.current.timer), [])
 
   const choose = (i: number) => {
-    onChange(options[i].value)
+    const v = options[i].value
+    if (props.multiple) {
+      // la lista sigue abierta: se puede marcar y desmarcar varias opciones seguidas
+      props.onChange(v === '' ? [] : selected.includes(v) ? selected.filter((x) => x !== v) : [...selected, v])
+      list.current?.focus({ preventScroll: true })
+      return
+    }
+    props.onChange(v)
     setOpen(false)
     button.current?.focus()
   }
@@ -133,7 +168,7 @@ export function Dropdown({ label, value, options, onChange }: Props) {
       >
         <span className="dd-in">
           <span className="dd-cap">{label}</span>
-          <span className="dd-val">{current?.label ?? ''}</span>
+          <span className="dd-val">{shown}</span>
           <span className="dd-chev" aria-hidden="true">▾</span>
         </span>
       </button>
@@ -148,6 +183,7 @@ export function Dropdown({ label, value, options, onChange }: Props) {
             role="listbox"
             tabIndex={-1}
             aria-label={label}
+            aria-multiselectable={multiple || undefined}
             aria-activedescendant={`${uid}-opt-${active}`}
             onKeyDown={onListKey}
           >
@@ -158,8 +194,8 @@ export function Dropdown({ label, value, options, onChange }: Props) {
                 role="option"
                 data-index={i}
                 data-value={o.value}
-                aria-selected={o.value === value}
-                className={`dd-opt ${i === active ? 'active' : ''} ${o.value === value ? 'selected' : ''}`}
+                aria-selected={isChosen(o.value)}
+                className={`dd-opt ${i === active ? 'active' : ''} ${isChosen(o.value) ? 'selected' : ''}`}
                 onMouseEnter={() => setActive(i)}
                 onClick={() => choose(i)}
               >

@@ -78,16 +78,16 @@ describe('inventario y bulk', () => {
 
   it('suma versiones Normal + Foil + Promo', () => {
     expect(totalOf({ normal: 2, foil: 1, promo: 1 })).toBe(4)
-    expect(totalsByCard({ a: { normal: 2, foil: 1, promo: 0, condition: 'mint' }, b: { normal: 0, foil: 0, promo: 0, condition: 'mint' } })).toEqual({ a: 3 })
+    expect(totalsByCard({ a: { normal: 2, foil: 1, promo: 0, arts: {}, condition: 'mint' }, b: { normal: 0, foil: 0, promo: 0, arts: {}, condition: 'mint' } })).toEqual({ a: 3 })
   })
 
   it('el bulk cuenta el total entre versiones', () => {
-    const rows = bulkList({ a: { normal: 2, foil: 2, promo: 0, condition: 'played' }, b: { normal: 3, foil: 0, promo: 0, condition: 'mint' } })
+    const rows = bulkList({ a: { normal: 2, foil: 2, promo: 0, arts: {}, condition: 'played' }, b: { normal: 3, foil: 0, promo: 0, arts: {}, condition: 'mint' } })
     expect(rows).toEqual([{ cardId: 'a', total: 4, bulk: 1, condition: 'played' }])
   })
 
   it('sanea valores inválidos', () => {
-    expect(sanitizeEntry({ normal: -4, foil: 2.9, promo: 99999, condition: 'roto' as never })).toEqual({ normal: 0, foil: 2, promo: 999, condition: 'mint' })
+    expect(sanitizeEntry({ normal: -4, foil: 2.9, promo: 99999, condition: 'roto' as never })).toEqual({ normal: 0, foil: 2, promo: 999, arts: {}, condition: 'mint' })
   })
 })
 
@@ -227,8 +227,8 @@ describe('playset según el tipo de carta', () => {
   it('el bulk de una Legend empieza en su 2ª copia', async () => {
     const { bulkList, playsetSize } = await import('./inventory')
     const inv = {
-      adam_smasher_ender_of_legends: { normal: 2, foil: 0, promo: 0, condition: 'mint' as const },
-      saul_bright_stormrider: { normal: 2, foil: 0, promo: 0, condition: 'mint' as const },
+      adam_smasher_ender_of_legends: { normal: 2, foil: 0, promo: 0, arts: {}, condition: 'mint' as const },
+      saul_bright_stormrider: { normal: 2, foil: 0, promo: 0, arts: {}, condition: 'mint' as const },
     }
     const rows = bulkList(inv, (id) => playsetSize(catalog.byId[id]))
     expect(rows).toEqual([{ cardId: 'adam_smasher_ender_of_legends', total: 2, bulk: 1, condition: 'mint' }])
@@ -265,7 +265,7 @@ describe('versiones que existen para cada carta', () => {
 })
 
 describe('restar del total de copias (botón − de la carta)', () => {
-  const e = (normal: number, promo: number, foil: number): import('./inventory').InventoryEntry => ({ normal, promo, foil, condition: 'mint' })
+  const e = (normal: number, promo: number, foil: number): import('./inventory').InventoryEntry => ({ normal, promo, foil, arts: {}, condition: 'mint' })
 
   it('sumar añade una copia Normal', async () => {
     const { adjustCopies } = await import('./inventory')

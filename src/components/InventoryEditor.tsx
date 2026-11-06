@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { catalog } from '../lib/catalog'
 import { availableVersions, CONDITIONS, CONDITION_LABEL, EMPTY_ENTRY, playsetSize, splitPlayset, totalOf, type Condition } from '../lib/inventory'
+import { variantsOf } from '../lib/variants'
 import { useData } from '../state/DataContext'
 import { Stepper } from './cardUi'
 import { WishEditor } from './Wish'
@@ -9,7 +10,7 @@ const copies = (n: number) => (n === 1 ? '1 copia' : `${n} copias`)
 
 /** Copias por versión, estado de conservación, playset / bulk y lista de deseos. */
 export function InventoryEditor({ cardId }: { cardId: string }) {
-  const { inventory, inventoryV2, setInventory, ready } = useData()
+  const { inventory, inventoryV2, artsAvailable, setInventory, setArtCopies, ready } = useData()
   const [showAll, setShowAll] = useState(false)
   const card = catalog.byId[cardId]
   const e = inventory[cardId] ?? EMPTY_ENTRY
@@ -23,16 +24,35 @@ export function InventoryEditor({ cardId }: { cardId: string }) {
   const showPromo = inventoryV2 && (showAll || avail.promo || e.promo > 0)
   const showFoil = inventoryV2 && (showAll || avail.foil || e.foil > 0)
   const hiddenVersions = inventoryV2 && !(showPromo && showFoil)
+  const variants = card ? variantsOf(card) : []
 
   return (
     <>
       <div className="panel inventory">
-        <div className="row between"><strong>Normal</strong><Stepper value={e.normal} disabled={!ready} onChange={(v) => void setInventory(cardId, { normal: v })} /></div>
+        <div className="row between"><strong title="Cuenta la carta con su diseño base, sea de la edición Beta o de la Retail">Normal</strong><Stepper value={e.normal} disabled={!ready} onChange={(v) => void setInventory(cardId, { normal: v })} /></div>
         {showPromo && (
           <div className="row between"><strong>Promo / Full Art</strong><Stepper value={e.promo} disabled={!ready} onChange={(v) => void setInventory(cardId, { promo: v })} /></div>
         )}
         {showFoil && (
           <div className="row between"><strong>Foil</strong><Stepper value={e.foil} disabled={!ready} onChange={(v) => void setInventory(cardId, { foil: v })} /></div>
+        )}
+        {variants.length > 0 && (
+          <div className="art-counts">
+            <h4 className="small">Artes alternativos y promos <span className="muted">(cada diseño por separado)</span></h4>
+            {!artsAvailable && <p className="notice small">Para contar artes alternativos, vuelve a ejecutar <code>supabase/schema.sql</code> en Supabase (es seguro repetirlo).</p>}
+            <ul className="plain">
+              {variants.map((v) => (
+                <li key={v.key} className="art-row">
+                  <img src={`${import.meta.env.BASE_URL}${v.image}`} alt="" loading="lazy" draggable={false} />
+                  <span className="art-name">
+                    <strong>{v.label}</strong>
+                    <small className="muted">{v.detail}{v.approx ? ' · imagen aproximada' : ''}</small>
+                  </span>
+                  <Stepper value={e.arts[v.key] ?? 0} disabled={!ready || !artsAvailable} onChange={(n) => void setArtCopies(cardId, v.key, n)} title={`Copias de ${v.label}`} />
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
         {!inventoryV2 && (
           <p className="notice small">Para registrar Foil, Promo y estado, vuelve a ejecutar <code>supabase/schema.sql</code> en Supabase (es seguro repetirlo).</p>

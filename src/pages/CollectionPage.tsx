@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { catalog, setLabel } from '../lib/catalog'
 import { MAX_IMPORT_CHARS, parseCollectionText, serializeCollection } from '../lib/deckText'
+import { variantsOf, TOTAL_VARIANTS } from '../lib/variants'
 import { bulkList, bulkToCsv, CONDITIONS, CONDITION_LABEL, playsetSize, splitPlayset, totalOf, type Condition } from '../lib/inventory'
 import { buildWants, buildWishlist, wantsToCsv, wantsToJson, wishlistToCsv, wishlistToJson } from '../lib/wishlist'
 import { CardModal, downloadText, Stepper, useCardModal, usePreview } from '../components/cardUi'
@@ -11,13 +12,16 @@ import { useData } from '../state/DataContext'
 type Tab = 'wishlist' | 'wants' | 'bulk'
 
 export function CollectionPage() {
-  const { loggedIn, collection, inventory, inventoryV2, decks, setInventory, importCollection, wishlist: wantsMap, wishlistAvailable, setWanted, ready } = useData()
+  const { loggedIn, collection, inventory, inventoryV2, decks, setInventory, withdrawBulk, importCollection, wishlist: wantsMap, wishlistAvailable, setWanted, ready } = useData()
   const modal = useCardModal()
   const { bind, layer } = usePreview()
   const [text, setText] = useState('')
   const [issues, setIssues] = useState<string[]>([])
   const [mode, setMode] = useState<'replace' | 'add'>('add')
   const [tab, setTab] = useState<Tab>('wishlist')
+  // retirada de bulk: cartas marcadas y cuántas copias se retiran de cada una (por defecto, todo su bulk)
+  const [checked, setChecked] = useState<Set<string>>(() => new Set())
+  const [outQty, setOutQty] = useState<Record<string, number>>({})
 
   const stats = useMemo(() => {
     const unique = catalog.cards.filter((c) => collection[c.id] > 0).length
@@ -27,11 +31,14 @@ export function CollectionPage() {
     const playset = catalog.cards.reduce((a, c) => a + Math.min(playsetSize(c), collection[c.id] ?? 0), 0)
     const bulk = Object.entries(collection).reduce((a, [id, n]) => a + splitPlayset(n, playsetSize(catalog.byId[id])).bulk, 0)
     const foil = Object.values(inventory).reduce((a, e) => a + e.foil, 0)
+    // artes alternativos y promos con diseño propio que tienes (cada diseño cuenta una vez, tengas las copias que tengas)
+    const artsOwned = catalog.cards.reduce((a, c) => a + variantsOf(c).filter((v) => (inventory[c.id]?.arts[v.key] ?? 0) > 0).length, 0)
+    const artsCopies = Object.values(inventory).reduce((a, e) => a + Object.values(e.arts).reduce((x, n) => x + n, 0), 0)
     const bySet = [...new Set(catalog.cards.map((c) => c.setCode))].map((code) => {
       const inSet = catalog.cards.filter((c) => c.setCode === code)
       return { code, label: setLabel(inSet[0]), have: inSet.filter((c) => collection[c.id] > 0).length, of: inSet.length }
     })
-    return { unique, total, playset, playsetTotal, bulk, foil, bySet }
+    return { unique, total, playset, playsetTotal, bulk, foil, artsOwned, artsCopies, bySet }
   }, [collection, inventory])
 
   const missingCount = catalog.cards.length - stats.unique
@@ -39,6 +46,10 @@ export function CollectionPage() {
   const wants = useMemo(() => buildWants(wantsMap, collection, catalog), [wantsMap, collection])
   const bulk = useMemo(() => bulkList(inventory, (id) => playsetSize(catalog.byId[id])).sort((a, b) => (catalog.byId[a.cardId]?.displayName ?? '').localeCompare(catalog.byId[b.cardId]?.displayName ?? '')), [inventory])
   const bulkCopies = bulk.reduce((a, r) => a + r.bulk, 0)
+  // si el bulk de una carta baja (o desaparece) la cantidad a retirar se ajusta sola
+  const qtyOf = (r: { cardId: string; bulk: number }) => Math.max(1, Math.min(outQty[r.cardId] ?? r.bulk, r.bulk))
+  const picked = bulk.filter((r) => checked.has(r.cardId))
+  const pickedCopies = picked.reduce((a, r) => a + qtyOf(r), 0)
 
   if (!loggedIn) {
     return (
@@ -53,9 +64,24 @@ export function CollectionPage() {
     const r = parseCollectionText(text, catalog)
     setIssues(r.issues.map((i) => (i.line ? `Línea ${i.line}: ${i.reason}` : i.reason)))
     if (Object.keys(r.collection).length === 0) return
-    if (mode === 'replace' && !window.confirm('Esto reemplaza toda tu colección actual (incluidas versiones Foil/Promo). ¿Continuar?')) return
+    if (mode === 'replace' && !window.confirm('Esto reemplaza toda tu colección actual (incluidas versiones Foil/Promo y artes alternativos). ¿Continuar?')) return
     await importCollection(r.collection, mode)
     if (r.issues.length === 0) setText('')
+  }
+
+  const toggleChecked = (id: string) =>
+    setChecked((prev) => {
+      const next = new Set(prev)
+      if (!next.delete(id)) next.add(id)
+      return next
+    })
+
+  const withdraw = async (rows: typeof bulk, what: string) => {
+    const copies = rows.reduce((a, r) => a + qtyOf(r), 0)
+    if (copies === 0) return
+    if (!window.confirm(`Se descontarán ${copies} ${copies === 1 ? 'copia' : 'copias'} de tu colección (${what}). Se quitan primero las Normales, luego las Promo y por último las Foil. ¿Continuar?`)) return
+    await withdrawBulk(rows.map((r) => ({ cardId: r.cardId, qty: qtyOf(r) })))
+    setChecked((prev) => new Set([...prev].filter((id) => !rows.some((r) => r.cardId === id))))
   }
 
   const names = (id: string) => ({ code: catalog.byId[id]?.importId ?? '', name: catalog.byId[id]?.displayName ?? id, set: catalog.byId[id]?.setName ?? '' })
@@ -71,6 +97,11 @@ export function CollectionPage() {
         <div className="stat"><strong>{stats.total}</strong><span>copias en total{stats.foil > 0 && ` · ${stats.foil} foil`}</span></div>
         <div className="stat"><strong>{Math.round((stats.playset / stats.playsetTotal) * 100)}%</strong><span>de playsets completos</span></div>
         <div className="stat"><strong>{stats.bulk}</strong><span>copias en bulk</span></div>
+        <Link className="stat stat-link" to="/?arts=1&owned=owned">
+          <strong>{stats.artsOwned}<small>/{TOTAL_VARIANTS}</small></strong>
+          <span>artes alternativos y promos{stats.artsCopies > 0 ? ` · ${stats.artsCopies} ${stats.artsCopies === 1 ? 'copia' : 'copias'}` : ''} · ver →</span>
+          <progress value={stats.artsOwned} max={TOTAL_VARIANTS} />
+        </Link>
         {stats.bySet.map((s) => (
           <div className="stat" key={s.code}>
             <strong>{s.have}<small>/{s.of}</small></strong><span>{s.label}</span>
@@ -137,12 +168,26 @@ export function CollectionPage() {
         <div className="panel">
           <p className="muted small">Un playset son 3 copias de una carta (1 en las Legends, que solo se llevan una vez por mazo). Lo que pasa de ahí viene aquí automáticamente. Indica el estado de las que quieras cambiar o vender.</p>
           {bulk.length === 0 && <p>Todavía no tienes copias sobrantes. Con 4 o más copias de una carta aparecerán aquí.</p>}
+          {bulk.length > 0 && (
+            <div className="row wrap bulk-bar">
+              <button className="btn sm" onClick={() => setChecked(picked.length === bulk.length ? new Set() : new Set(bulk.map((r) => r.cardId)))}>
+                {picked.length === bulk.length ? 'Quitar selección' : 'Seleccionar todo'}
+              </button>
+              <button className="btn primary sm" disabled={!ready || picked.length === 0} onClick={() => void withdraw(picked, `${picked.length} ${picked.length === 1 ? 'carta' : 'cartas'}`)}>
+                Retirar seleccionadas{picked.length > 0 ? ` (${pickedCopies})` : ''}
+              </button>
+              <span className="muted small">Para cuando vendes, regalas o cambias copias: se descuentan de tu colección de una vez.</span>
+            </div>
+          )}
           <ul className="plain">
             {bulk.map((r) => (
               <li key={r.cardId} className="deck-row">
+                <input type="checkbox" checked={checked.has(r.cardId)} onChange={() => toggleChecked(r.cardId)} aria-label={`Seleccionar ${catalog.byId[r.cardId]?.displayName}`} />
                 <button className="link-btn" onClick={() => modal.open(r.cardId)} {...bind(catalog.byId[r.cardId])}>{catalog.byId[r.cardId]?.displayName}</button>
                 <span className="pill warn">bulk ×{r.bulk}</span>
                 <span className="muted small">de {totalOf(inventory[r.cardId])}</span>
+                <Stepper value={qtyOf(r)} min={1} max={r.bulk} disabled={!ready} onChange={(v) => setOutQty((q) => ({ ...q, [r.cardId]: v }))} title="Copias a retirar" />
+                <button className="btn sm" disabled={!ready} onClick={() => void withdraw([r], catalog.byId[r.cardId]?.displayName ?? r.cardId)} aria-label={`Retirar ${catalog.byId[r.cardId]?.displayName}`}>Retirar</button>
                 {inventoryV2 && (
                   <select className="input" aria-label="Estado" disabled={!ready} value={r.condition} onChange={(e) => void setInventory(r.cardId, { condition: e.target.value as Condition })}>
                     {CONDITIONS.map((c) => <option key={c} value={c}>{CONDITION_LABEL[c]}</option>)}

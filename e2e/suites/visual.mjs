@@ -93,13 +93,13 @@ async function checkStrip(p, boxSel, scrollSel, label, edge, inset = 6) {
   await ctx.close()
 }
 
-/* 3. lista de un desplegable largo (Facción tiene ~40 opciones) */
+/* 3. lista de un desplegable largo (Etiquetas tiene ~40 opciones) */
 {
   const { p, ctx } = await page({ width: 1400, height: 900 })
-  await p.getByRole('button', { name: 'Facción', exact: true }).click()
+  await p.getByRole('button', { name: 'Etiquetas', exact: true }).click()
   await p.locator('.dd-list').waitFor()
   // en el desplegable el relleno son 6 px y la raya cian de la opción activa empieza ahí: se mide a 3 px del borde
-  await checkStrip(p, '.dd-pop', '.dd-list', 'desplegable largo (Facción)', isCyan, 3)
+  await checkStrip(p, '.dd-pop', '.dd-list', 'desplegable largo (Etiquetas)', isCyan, 3)
   await noPseudoScroll(p, 'desplegable')
   await ctx.close()
 }

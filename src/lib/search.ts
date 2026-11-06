@@ -26,7 +26,7 @@ export const SEARCH_FIELDS: FieldDoc[] = [
   { aliases: ['o', 'text', 'rules'], description: 'Texto de reglas', example: 'o:"draw 1"' },
   { aliases: ['name'], description: 'Solo en el nombre', example: 'name:saul' },
   { aliases: ['k', 'kw', 'keyword', 'when'], description: 'Keyword o disparador: blocker, go solo, adrenaline, quick, play, attack, call, defeated, spend', example: 'k:blocker' },
-  { aliases: ['f', 'faction', 'trait'], description: 'Facción o clasificación', example: 'f:arasaka' },
+  { aliases: ['f', 'faction', 'trait', 'tag'], description: 'Facción o etiqueta (Arasaka, Quickhack…)', example: 'f:arasaka' },
   { aliases: ['a', 'artist'], description: 'Artista (de cualquier impresión)', example: 'a:"Daniel Valaisis"' },
   { aliases: ['s', 'set'], description: 'Set donde se imprimió (cualquier impresión)', example: 's:beta' },
   { aliases: ['num', 'number'], description: 'Número de coleccionista (cualquier impresión)', example: 'num:012' },
@@ -208,6 +208,7 @@ function compile(field: string, op: Op, value: string): Compiled {
     case 'f':
     case 'faction':
     case 'trait':
+    case 'tag':
       return wrap((c) => c.classifications.some((x) => containsText(x, value)))
     case 'a':
     case 'artist':

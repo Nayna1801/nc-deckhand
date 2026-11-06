@@ -83,6 +83,7 @@
 .dd-opt.active { background: linear-gradient(90deg, rgba(0, 240, 255, 0.18), transparent); color: var(--cyan); border-left-color: var(--cyan); }
 .dd-opt.selected { color: var(--yellow); font-weight: 700; }
 .dd-opt.selected::before { content: '▸'; position: absolute; left: 0.45rem; color: var(--yellow); }
+.dd-list[aria-multiselectable='true'] .dd-opt.selected::before { content: '✓'; }
 
 /* ---------- cabeceras de set ---------- */
 .setgroup { margin-bottom: 0.4rem; }
@@ -265,3 +266,13 @@
 .searchhelp-body { padding: 0; max-height: none; overflow: visible; }
 .searchhelp-scroll { max-height: 70vh; overflow: auto; padding: 0.8rem 1rem; overscroll-behavior: contain; }
 @media (max-width: 700px) { .searchhelp-scroll { max-height: 72vh; } }
+
+/* impresiones: etiqueta con el número, aviso de imagen aproximada y salto entre impresiones */
+.print-tag { position: absolute; left: 6px; bottom: 6px; z-index: 2; padding: 1px 6px; font-family: var(--mono); font-size: 0.7rem; color: var(--text); background: rgba(5, 5, 10, 0.82); border: 1px solid var(--line); pointer-events: none; }
+.print-tag.approx { color: var(--yellow); border-color: var(--yellow); }
+.art-note { margin: 0.4rem 0 0; }
+.print-btn { background: none; border: 0; padding: 0; font: inherit; color: var(--cyan); cursor: pointer; text-align: left; text-decoration: underline dotted; text-underline-offset: 3px; }
+.print-btn:hover { color: var(--yellow); }
+.print-row.current > .print-btn { color: var(--yellow); font-weight: 700; }
+.print-row.current::before { content: '▸ '; color: var(--yellow); }
+.print-row > .print-btn { flex: 1 1 200px; }

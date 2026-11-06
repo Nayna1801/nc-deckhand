@@ -1,11 +1,21 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent, type MouseEvent, type ReactNode, type TouchEvent } from 'react'
 import { catalog, setLabel } from '../lib/catalog'
-import type { AltArt, Card } from '../lib/types'
+import { printsOf, type PrintEntry } from '../lib/prints'
+import { altLabel } from '../lib/variants'
+import type { Card } from '../lib/types'
 
 export const imgUrl = (card: Card): string => `${import.meta.env.BASE_URL}${card.image}`
+const assetUrl = (path: string): string => `${import.meta.env.BASE_URL}${path}`
 
-export function CardImage({ card, className }: { card: Card; className?: string }) {
-  return <img className={className} src={imgUrl(card)} alt={card.displayName} loading="lazy" draggable={false} />
+/** Texto corto que explica de dónde sale la imagen de una impresión; vacío si es la suya. */
+export function artNote(print: PrintEntry): string {
+  if (print.art === 'likely') return 'Arte probable: no tenemos la imagen de esta impresión y se muestra otro arte del mismo ilustrador'
+  if (print.art === 'unknown') return 'Arte distinto al original sin imagen disponible: se muestra la carta original como referencia'
+  return ''
+}
+
+export function CardImage({ card, className, src }: { card: Card; className?: string; /** Imagen concreta (p. ej. la de una impresión); por defecto, la de la carta. */ src?: string }) {
+  return <img className={className} src={src ? assetUrl(src) : imgUrl(card)} alt={card.displayName} loading="lazy" draggable={false} />
 }
 
 /* ---------- vista cuadrícula / lista ---------- */
@@ -47,6 +57,8 @@ const LONG_PRESS_MS = 450
 
 interface PreviewState {
   card: Card
+  /** Imagen de una impresión concreta; por defecto, la de la carta. */
+  image?: string
   x: number
   y: number
   touch: boolean
@@ -77,15 +89,15 @@ export function usePreview() {
   useEffect(() => clearTimer, [])
 
   const bind = useCallback(
-    (card: Card): PreviewBind => ({
-      onMouseEnter: (e) => canHover && setState({ card, x: e.clientX, y: e.clientY, touch: false }),
+    (card: Card, image?: string): PreviewBind => ({
+      onMouseEnter: (e) => canHover && setState({ card, image, x: e.clientX, y: e.clientY, touch: false }),
       onMouseMove: (e) => canHover && setState((s) => (s && !s.touch ? { ...s, x: e.clientX, y: e.clientY } : s)),
       onMouseLeave: () => setState((s) => (s && !s.touch ? null : s)),
       onTouchStart: () => {
         clearTimer()
         timer.current = window.setTimeout(() => {
           suppressClick.current = true
-          setState({ card, x: 0, y: 0, touch: true })
+          setState({ card, image, x: 0, y: 0, touch: true })
         }, LONG_PRESS_MS)
       },
       onTouchEnd: () => {
@@ -131,12 +143,61 @@ function PreviewLayer({ state }: { state: PreviewState }) {
   }
   return (
     <div className={`preview ${state.touch ? 'touch' : ''}`} style={style} aria-hidden="true">
-      <img src={imgUrl(state.card)} alt="" width={W} />
+      <img src={state.image ? assetUrl(state.image) : imgUrl(state.card)} alt="" width={W} />
     </div>
   )
 }
 
 /* ---------- ficha de carta y fila de lista ---------- */
+
+interface GroupedListProps<T> {
+  items: T[]
+  /** Grupo al que pertenece cada elemento; null = sin encabezados. Los elementos de un grupo deben ir seguidos. */
+  groupOf: ((item: T) => { key: string; label: string }) | null
+  /** Palabra que cuenta los elementos en el encabezado ("cartas", "impresiones"). */
+  unit: string
+  view: ViewMode
+  compact?: boolean
+  renderTile: (item: T) => ReactNode
+  renderRow: (item: T) => ReactNode
+}
+
+/** Galería o lista, dividida en bloques con encabezado cuando hay agrupación. */
+export function GroupedList<T>({ items, groupOf, unit, view, compact, renderTile, renderRow }: GroupedListProps<T>) {
+  const groups = useMemo(() => {
+    if (!groupOf) return [{ key: 'all', label: '', items }]
+    const out: { key: string; label: string; items: T[] }[] = []
+    for (const it of items) {
+      const g = groupOf(it)
+      const last = out[out.length - 1]
+      if (last && last.key === g.key) last.items.push(it)
+      else out.push({ key: g.key, label: g.label, items: [it] })
+    }
+    return out
+  }, [items, groupOf])
+
+  return (
+    <>
+      {groups.map((g) => (
+        <section key={g.key} className="setgroup">
+          {g.label && (
+            <h2 className="set-head">
+              <span>{g.label}</span>
+              <small>{g.items.length} {unit}</small>
+            </h2>
+          )}
+          {view === 'grid' ? (
+            <div className={`grid ${compact ? 'compact' : ''}`}>{g.items.map(renderTile)}</div>
+          ) : (
+            <div className="list">{g.items.map(renderRow)}</div>
+          )}
+        </section>
+      ))}
+    </>
+  )
+}
+
+const groupByCardSet = (c: Card) => ({ key: c.setCode, label: setLabel(c) })
 
 interface CardListProps {
   cards: Card[]
@@ -150,36 +211,22 @@ interface CardListProps {
 
 /** Galería o lista de cartas; con orden por set, dividida en bloques con su encabezado. */
 export function CardList({ cards, grouped, view, compact, renderTile, renderRow }: CardListProps) {
-  const groups = useMemo(() => {
-    if (!grouped) return [{ key: 'all', label: '', cards }]
-    const out: { key: string; label: string; cards: Card[] }[] = []
-    for (const c of cards) {
-      const last = out[out.length - 1]
-      if (last && last.key === c.setCode) last.cards.push(c)
-      else out.push({ key: c.setCode, label: setLabel(c), cards: [c] })
-    }
-    return out
-  }, [cards, grouped])
+  return <GroupedList items={cards} groupOf={grouped ? groupByCardSet : null} unit="cartas" view={view} compact={compact} renderTile={renderTile} renderRow={renderRow} />
+}
 
-  return (
-    <>
-      {groups.map((g) => (
-        <section key={g.key} className="setgroup">
-          {g.label && (
-            <h2 className="set-head">
-              <span>{g.label}</span>
-              <small>{g.cards.length} cartas</small>
-            </h2>
-          )}
-          {view === 'grid' ? (
-            <div className={`grid ${compact ? 'compact' : ''}`}>{g.cards.map(renderTile)}</div>
-          ) : (
-            <div className="list">{g.cards.map(renderRow)}</div>
-          )}
-        </section>
-      ))}
-    </>
-  )
+const groupByPrintSet = (e: PrintEntry) => ({ key: e.setName, label: setLabel({ setName: e.setName }) })
+
+interface PrintListProps {
+  prints: PrintEntry[]
+  grouped: boolean
+  view: ViewMode
+  renderTile: (print: PrintEntry) => ReactNode
+  renderRow: (print: PrintEntry) => ReactNode
+}
+
+/** Galería o lista de impresiones; con orden por set, dividida por set. */
+export function PrintList({ prints, grouped, view, renderTile, renderRow }: PrintListProps) {
+  return <GroupedList items={prints} groupOf={grouped ? groupByPrintSet : null} unit="impresiones" view={view} renderTile={renderTile} renderRow={renderRow} />
 }
 
 export function ColorDot({ color }: { color: string | null }) {
@@ -203,6 +250,19 @@ export interface TileProps extends DragProps {
   /** Texto corto bajo "BLOQUEADA" (p. ej. "RAM Blue 3 > 2"). */
   lockLabel?: string
   preview?: PreviewBind
+  /** Si se indica, la ficha representa esa impresión (su imagen, set y número) en vez de la carta en general. */
+  print?: PrintEntry
+}
+
+/** Etiqueta sobre la imagen: número de coleccionista, con aviso si la imagen no es exactamente la de la impresión. */
+function PrintTag({ print }: { print: PrintEntry }) {
+  const note = artNote(print)
+  return (
+    <span className={`print-tag ${note ? 'approx' : ''}`} title={note || `${print.setName} #${print.collectorNumber ?? '?'}`}>
+      {print.collectorNumber ? `#${print.collectorNumber}` : '#?'}
+      {note && <b aria-label="Imagen aproximada"> ≈</b>}
+    </span>
+  )
 }
 
 const startDrag = (data: string | undefined) => (e: DragEvent) => {
@@ -211,18 +271,19 @@ const startDrag = (data: string | undefined) => (e: DragEvent) => {
   e.dataTransfer.effectAllowed = 'copyMove'
 }
 
-export function CardTile({ card, onClick, badge, footer, dim, locked, lockReason, lockLabel, preview, dragData }: TileProps) {
+export function CardTile({ card, onClick, badge, footer, dim, locked, lockReason, lockLabel, preview, dragData, print }: TileProps) {
   return (
     <div className={`tile ${dim ? 'dim' : ''} ${locked ? 'locked' : ''}`}>
       <button
         className="tile-art"
         onClick={onClick}
-        aria-label={`${card.displayName}${locked && lockReason ? `. ${lockReason}` : ''}`}
+        aria-label={`${card.displayName}${print ? `, ${setLabel({ setName: print.setName })} ${print.collectorNumber ? `#${print.collectorNumber}` : ''}` : ''}${locked && lockReason ? `. ${lockReason}` : ''}`}
         draggable={!!dragData}
         onDragStart={startDrag(dragData)}
         {...preview}
       >
-        <CardImage card={card} />
+        <CardImage card={card} src={print?.image} />
+        {print && <PrintTag print={print} />}
         {locked && (
           <span className="tile-lockbox" title={lockReason} aria-hidden="true">
             <b>🔒 BLOQUEADA</b>
@@ -236,15 +297,16 @@ export function CardTile({ card, onClick, badge, footer, dim, locked, lockReason
   )
 }
 
-export function CardRow({ card, onClick, badge, right, dim, locked, lockReason, preview, dragData }: Omit<TileProps, 'footer'> & { right?: ReactNode }) {
+export function CardRow({ card, onClick, badge, right, dim, locked, lockReason, preview, dragData, print }: Omit<TileProps, 'footer'> & { right?: ReactNode }) {
   return (
     <div className={`crow ${dim ? 'dim' : ''} ${locked ? 'locked' : ''}`} draggable={!!dragData} onDragStart={startDrag(dragData)}>
       <button className="crow-main" onClick={onClick} title={locked ? lockReason : undefined} {...preview}>
-        <img className="crow-thumb" src={imgUrl(card)} alt="" loading="lazy" draggable={false} />
+        <img className="crow-thumb" src={print ? assetUrl(print.image) : imgUrl(card)} alt="" loading="lazy" draggable={false} />
         <span className="crow-name">
           {locked && <span aria-label="Bloqueada">🔒 </span>}
           <ColorDot color={card.color} />
           {card.displayName}
+          {print && <span className="muted small"> · {setLabel({ setName: print.setName })} {print.collectorNumber ? `#${print.collectorNumber}` : ''}{artNote(print) ? ' ≈' : ''}</span>}
         </span>
         <span className="crow-meta muted">{card.type}</span>
         <span className="crow-num" title="Coste">{card.cost ?? '–'}</span>
@@ -275,7 +337,7 @@ export function Stepper({ value, onChange, min = 0, max = 999, disableAdd, addTi
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
-export function CardModal({ card, onClose, children }: { card: Card | null; onClose: () => void; children?: ReactNode }) {
+export function CardModal({ card, printKey, onClose, children }: { card: Card | null; /** Impresión con la que se abre (p. ej. al pulsarla en una lista por set). */ printKey?: string | null; onClose: () => void; children?: ReactNode }) {
   const dialog = useRef<HTMLDivElement>(null)
   const isOpen = card !== null
   // onClose puede cambiar de identidad en cada render del padre: se guarda en una ref para que el efecto
@@ -285,7 +347,25 @@ export function CardModal({ card, onClose, children }: { card: Card | null; onCl
 
   // arte que se ve en grande: -1 = el original; 0… = un arte alternativo. Se restablece al cambiar de carta.
   const [art, setArt] = useState(-1)
-  useEffect(() => setArt(-1), [card?.id])
+  // impresión (set + número) que se está mirando; se puede cambiar desde el propio detalle
+  const [pickedKey, setPickedKey] = useState<string | null>(null)
+  const prints = useMemo(() => (card ? printsOf(card) : []), [card])
+  useEffect(() => {
+    const first = printKey ? prints.find((p) => p.key === printKey) : undefined
+    setPickedKey(first?.key ?? null)
+    setArt(first?.altIndex ?? -1)
+    // solo al abrir otra carta o una impresión distinta desde fuera
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [card?.id, printKey])
+  const print = prints.find((p) => p.key === pickedKey) ?? null
+  const pickPrint = (e: PrintEntry) => {
+    setPickedKey(e.key)
+    setArt(e.altIndex)
+  }
+  const pickArt = (i: number) => {
+    setArt(i)
+    setPickedKey((i < 0 ? prints.find((p) => p.isOriginal) : prints.find((p) => p.altIndex === i && p.art === 'exact'))?.key ?? null)
+  }
 
   // foco: entra en el diálogo, se queda dentro (Tab) y vuelve a donde estaba al cerrar
   useEffect(() => {
@@ -331,21 +411,23 @@ export function CardModal({ card, onClose, children }: { card: Card | null; onCl
           )}
           {gallery.length > 0 && (
             <div className="thumbs" role="group" aria-label="Variantes de arte">
-              <button type="button" className="thumb" aria-pressed={art < 0} aria-label="Arte original" title="Arte original" onClick={() => setArt(-1)}>
+              <button type="button" className="thumb" aria-pressed={art < 0} aria-label="Arte original" title="Arte original" onClick={() => pickArt(-1)}>
                 <img src={imgUrl(card)} alt="" loading="lazy" draggable={false} />
               </button>
               {gallery.map(({ a, i }) => (
-                <button key={`${a.id}-${i}`} type="button" className="thumb" aria-pressed={art === i} aria-label={altLabel(a)} title={altLabel(a)} onClick={() => setArt(i)}>
+                <button key={`${a.id}-${i}`} type="button" className="thumb" aria-pressed={art === i} aria-label={altLabel(a)} title={altLabel(a)} onClick={() => pickArt(i)}>
                   <img src={`${import.meta.env.BASE_URL}${a.image}`} alt="" loading="lazy" draggable={false} />
                 </button>
               ))}
             </div>
           )}
+          {print && artNote(print) && <p className="muted small art-note">≈ {artNote(print)}.</p>}
         </div>
         <div className="modal-info">
           <h2>{card.displayName}</h2>
           <p className="meta">
-            <ColorDot color={card.color} /> {card.type} · {card.rarity} · {setLabel(card)} · #{card.importId}
+            <ColorDot color={card.color} /> {card.type} · {card.rarity} ·{' '}
+            {print ? <>{setLabel({ setName: print.setName })} · #{print.collectorNumber ?? '?'}</> : <>{setLabel(card)} · #{card.importId}</>}
           </p>
           <dl className="stats">
             {card.cost != null && <><dt>Coste</dt><dd>{card.cost}</dd></>}
@@ -355,8 +437,8 @@ export function CardModal({ card, onClose, children }: { card: Card | null; onCl
           {card.classifications.length > 0 && <p className="tags">{card.classifications.map((t) => <span key={t}>{t}</span>)}</p>}
           <p className="rules">{card.rules}</p>
           {card.flavor && <p className="flavor">{card.flavor}</p>}
-          {card.artist && <p className="muted small">Ilustración: {card.artist}</p>}
-          <VariantsInfo card={card} activeArt={art} onPickArt={setArt} />
+          {(print?.artist ?? card.artist) && <p className="muted small">Ilustración: {print?.artist ?? card.artist}</p>}
+          <VariantsInfo card={card} prints={prints} activePrint={print?.key ?? null} onPickPrint={pickPrint} activeArt={art} onPickArt={pickArt} />
           {children}
         </div>
         </div>
@@ -365,33 +447,47 @@ export function CardModal({ card, onClose, children }: { card: Card | null; onCl
   )
 }
 
-const altLabel = (a: AltArt): string => [a.rarity, a.label].filter(Boolean).join(' · ') || 'Arte alternativo'
 
 /** Impresiones por set (agrupando idiomas) y artes alternativos; los que tienen imagen se pueden ver en grande. */
-export function VariantsInfo({ card, activeArt, onPickArt }: { card: Card; activeArt?: number; onPickArt?: (index: number) => void }) {
-  const sets = useMemo(() => {
-    const m = new Map<string, { name: string; nums: Set<string>; langs: Set<string> }>()
-    for (const p of card.printings) {
-      const e = m.get(p.baseSetName) ?? { name: p.baseSetName, nums: new Set<string>(), langs: new Set<string>() }
-      if (p.collectorNumber) e.nums.add(p.collectorNumber)
-      e.langs.add(p.language)
-      m.set(p.baseSetName, e)
-    }
-    return [...m.values()]
-  }, [card])
-  if (sets.length === 0 && card.altArts.length === 0) return null
+interface VariantsProps {
+  card: Card
+  /** Impresiones de la carta; si no se pasan se calculan. */
+  prints?: PrintEntry[]
+  activePrint?: string | null
+  onPickPrint?: (print: PrintEntry) => void
+  activeArt?: number
+  onPickArt?: (index: number) => void
+}
+
+export function VariantsInfo({ card, prints: given, activePrint, onPickPrint, activeArt, onPickArt }: VariantsProps) {
+  const prints = useMemo(() => given ?? printsOf(card), [given, card])
+  const setCount = useMemo(() => new Set(prints.map((p) => p.setName)).size, [prints])
+  if (prints.length === 0 && card.altArts.length === 0) return null
   return (
     <details className="variants" open>
-      <summary>Variantes e impresiones ({sets.length} sets{card.altArts.length > 0 ? `, ${card.altArts.length} artes alternativos` : ''})</summary>
-      {sets.length > 0 && (
+      <summary>Variantes e impresiones ({setCount} sets{card.altArts.length > 0 ? `, ${card.altArts.length} artes alternativos` : ''})</summary>
+      {prints.length > 0 && (
         <ul className="plain small">
-          {sets.map((s) => (
-            <li key={s.name} className="variant-row">
-              <span>{s.name}</span>
-              <span className="muted mono">{[...s.nums].map((n) => `#${n}`).join(' ')}</span>
-              <span className="langs">{[...s.langs].sort().map((l) => <span key={l} className={`lang lang-${l}`}>{l.toUpperCase()}</span>)}</span>
-            </li>
-          ))}
+          {prints.map((p) => {
+            const fr = card.printings.some((x) => x.language === 'fr' && x.baseSetName === p.setName)
+            const label = `${p.setName}${p.collectorNumber ? ` #${p.collectorNumber}` : ''}`
+            return (
+              <li key={p.key} className={`variant-row print-row ${activePrint === p.key ? 'current' : ''}`}>
+                {onPickPrint ? (
+                  <button type="button" className="print-btn" aria-pressed={activePrint === p.key} onClick={() => onPickPrint(p)}>{p.setName}</button>
+                ) : (
+                  <span>{p.setName}</span>
+                )}
+                <span className="muted mono">{p.collectorNumber ? `#${p.collectorNumber}` : ''}</span>
+                <span className="langs" aria-label={label}>
+                  {p.isOriginal && <span className="lang">ORIGINAL</span>}
+                  {artNote(p) && <span className="lang" title={artNote(p)}>≈ ARTE</span>}
+                  <span className="lang lang-en">EN</span>
+                  {fr && <span className="lang lang-fr">FR</span>}
+                </span>
+              </li>
+            )
+          })}
         </ul>
       )}
       {card.altArts.length > 0 && (
@@ -417,10 +513,11 @@ export function VariantsInfo({ card, activeArt, onPickArt }: { card: Card; activ
 }
 
 export function useCardModal() {
-  const [id, setId] = useState<string | null>(null)
-  const card = useMemo(() => (id ? catalog.byId[id] ?? null : null), [id])
-  const close = useCallback(() => setId(null), [])
-  return { card, open: setId, close }
+  const [open, setOpen] = useState<{ id: string; printKey: string | null } | null>(null)
+  const card = useMemo(() => (open ? catalog.byId[open.id] ?? null : null), [open])
+  const close = useCallback(() => setOpen(null), [])
+  const show = useCallback((id: string, printKey?: string) => setOpen({ id, printKey: printKey ?? null }), [])
+  return { card, printKey: open?.printKey ?? null, open: show, close }
 }
 
 export function downloadText(filename: string, text: string, mime = 'text/plain'): void {

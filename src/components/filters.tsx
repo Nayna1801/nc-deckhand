@@ -8,16 +8,22 @@ import { Dropdown, type Option } from './Dropdown'
 export type SortKey = 'set' | 'cost' | 'name'
 export type OwnedFilter = 'all' | 'owned' | 'missing' | 'wanted'
 
+/** Cómo se combinan varias etiquetas elegidas: cartas con alguna de ellas o con todas. */
+export type TagsMode = 'any' | 'all'
+
+/** Los filtros de tipo lista admiten varias opciones: dentro de uno se suman (O) y entre filtros se cruzan (Y). */
 export interface Filters {
   q: string
-  type: string
-  color: string
-  rarity: string
-  set: string
-  faction: string
-  cost: string
-  ram: string
-  power: string
+  type: string[]
+  color: string[]
+  rarity: string[]
+  set: string[]
+  /** Facciones y clasificaciones de la carta (Arasaka, Quickhack, Braindance, Cyberware…). */
+  tags: string[]
+  tagsMode: TagsMode
+  cost: string[]
+  ram: string[]
+  power: string[]
   keyword: string
   trigger: string
   sort: SortKey
@@ -27,7 +33,7 @@ export interface Filters {
 }
 
 export const EMPTY_FILTERS: Filters = {
-  q: '', type: '', color: '', rarity: '', set: '', faction: '', cost: '', ram: '', power: '',
+  q: '', type: [], color: [], rarity: [], set: [], tags: [], tagsMode: 'any', cost: [], ram: [], power: [],
   keyword: '', trigger: '', sort: 'set', owned: 'all', hideLocked: false,
 }
 
@@ -36,14 +42,14 @@ export const EMPTY_FILTERS: Filters = {
 const ALL: Option = { value: '', label: 'Todos' }
 const list = (values: readonly string[]): Option[] => [ALL, ...values.map((v) => ({ value: v, label: v }))]
 
-const FACTIONS = [...new Set(catalog.cards.flatMap((c) => c.classifications))].sort((a, b) => a.localeCompare(b))
+const TAGS = [...new Set(catalog.cards.flatMap((c) => c.classifications))].sort((a, b) => a.localeCompare(b))
 const SETS = [...new Set(catalog.cards.flatMap((c) => c.printings.map((p) => p.baseSetName)))].sort((a, b) => a.localeCompare(b))
 
 const OPTIONS = {
   type: list(TYPES),
   color: list(COLORS),
   rarity: list(RARITIES),
-  faction: list(FACTIONS),
+  tags: list(TAGS),
   set: [ALL, ...SETS.map((s) => ({ value: s, label: s }))],
   cost: list(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9+']),
   ram: list(['1', '2', '3', '4', '5', '6+']),
@@ -72,6 +78,12 @@ const powerMatches = (power: number | null, bucket: string): boolean => {
   return power >= 10
 }
 
+/** Sin nada elegido no se filtra; con varias opciones basta con cumplir una. */
+const anyBucket = (value: number | null, buckets: string[]): boolean => buckets.length === 0 || buckets.some((b) => matchesBucket(value, b))
+
+const tagsMatch = (c: Card, tags: string[], mode: TagsMode): boolean =>
+  tags.length === 0 || (mode === 'all' ? tags.every((t) => c.classifications.includes(t)) : tags.some((t) => c.classifications.includes(t)))
+
 const SORTERS: Record<SortKey, (a: Card, b: Card) => number> = {
   set: compareBySetAndNumber,
   cost: (a, b) => (a.cost ?? 99) - (b.cost ?? 99) || a.displayName.localeCompare(b.displayName),
@@ -88,14 +100,14 @@ export interface FilterContext {
 export function applyFilters(cards: Card[], f: Filters, ctx: FilterContext = {}): Card[] {
   const search = parseSearch(f.q)
   const out = cards.filter((c) => {
-    if (f.type && c.type !== f.type) return false
-    if (f.color && c.color !== f.color) return false
-    if (f.rarity && c.rarity !== f.rarity) return false
-    if (f.set && !c.printings.some((p) => p.baseSetName === f.set)) return false
-    if (f.faction && !c.classifications.includes(f.faction)) return false
-    if (f.cost && !matchesBucket(c.cost, f.cost)) return false
-    if (f.ram && !matchesBucket(c.ram, f.ram)) return false
-    if (f.power && !powerMatches(c.power, f.power)) return false
+    if (f.type.length && !f.type.includes(c.type)) return false
+    if (f.color.length && !(c.color && f.color.includes(c.color))) return false
+    if (f.rarity.length && !(c.rarity && f.rarity.includes(c.rarity))) return false
+    if (f.set.length && !c.printings.some((p) => f.set.includes(p.baseSetName))) return false
+    if (!tagsMatch(c, f.tags, f.tagsMode)) return false
+    if (!anyBucket(c.cost, f.cost)) return false
+    if (!anyBucket(c.ram, f.ram)) return false
+    if (f.power.length && !f.power.some((b) => powerMatches(c.power, b))) return false
     if (f.keyword || f.trigger) {
       const kw = keywordsOf(c)
       if (f.keyword && !kw.has(f.keyword)) return false
@@ -112,8 +124,8 @@ export function applyFilters(cards: Card[], f: Filters, ctx: FilterContext = {})
 
 /** Número de filtros activos (sin contar búsqueda ni orden). */
 export function activeFilterCount(f: Filters): number {
-  const keys: (keyof Filters)[] = ['type', 'color', 'rarity', 'set', 'faction', 'cost', 'ram', 'power', 'keyword', 'trigger']
-  return keys.filter((k) => f[k] !== '').length + (f.owned !== 'all' ? 1 : 0) + (f.hideLocked ? 1 : 0)
+  const lists = [f.type, f.color, f.rarity, f.set, f.tags, f.cost, f.ram, f.power]
+  return lists.filter((l) => l.length > 0).length + [f.keyword, f.trigger].filter((v) => v !== '').length + (f.owned !== 'all' ? 1 : 0) + (f.hideLocked ? 1 : 0)
 }
 
 /**
@@ -200,16 +212,27 @@ export function FilterBar({ value, onChange, showOwned, showWanted, showRam }: B
       </div>
 
       <div className={`fadv ${open ? 'open' : ''}`}>
-        <Dropdown label="Tipo" value={value.type} options={OPTIONS.type} onChange={(v) => set('type', v)} />
-        <Dropdown label="Color" value={value.color} options={OPTIONS.color} onChange={(v) => set('color', v)} />
-        <Dropdown label="Coste" value={value.cost} options={OPTIONS.cost} onChange={(v) => set('cost', v)} />
-        <Dropdown label="RAM" value={value.ram} options={OPTIONS.ram} onChange={(v) => set('ram', v)} />
-        <Dropdown label="Poder" value={value.power} options={OPTIONS.power} onChange={(v) => set('power', v)} />
+        <Dropdown multiple label="Tipo" value={value.type} options={OPTIONS.type} onChange={(v) => set('type', v)} />
+        <Dropdown multiple label="Color" value={value.color} options={OPTIONS.color} onChange={(v) => set('color', v)} />
+        <Dropdown multiple label="Coste" value={value.cost} options={OPTIONS.cost} onChange={(v) => set('cost', v)} />
+        <Dropdown multiple label="RAM" value={value.ram} options={OPTIONS.ram} onChange={(v) => set('ram', v)} />
+        <Dropdown multiple label="Poder" value={value.power} options={OPTIONS.power} onChange={(v) => set('power', v)} />
         <Dropdown label="Keyword" value={value.keyword} options={OPTIONS.keyword} onChange={(v) => set('keyword', v)} />
         <Dropdown label="Efecto" value={value.trigger} options={OPTIONS.trigger} onChange={(v) => set('trigger', v)} />
-        <Dropdown label="Facción" value={value.faction} options={OPTIONS.faction} onChange={(v) => set('faction', v)} />
-        <Dropdown label="Rareza" value={value.rarity} options={OPTIONS.rarity} onChange={(v) => set('rarity', v)} />
-        <Dropdown label="Set" value={value.set} options={OPTIONS.set} onChange={(v) => set('set', v)} />
+        <Dropdown multiple label="Etiquetas" value={value.tags} options={OPTIONS.tags} onChange={(v) => set('tags', v)} />
+        {value.tags.length > 1 && (
+          <button
+            type="button"
+            className="btn sm"
+            aria-pressed={value.tagsMode === 'all'}
+            title="Cambia entre cartas con alguna de las etiquetas o con todas a la vez"
+            onClick={() => set('tagsMode', value.tagsMode === 'all' ? 'any' : 'all')}
+          >
+            Etiquetas: {value.tagsMode === 'all' ? 'todas a la vez' : 'cualquiera'}
+          </button>
+        )}
+        <Dropdown multiple label="Rareza" value={value.rarity} options={OPTIONS.rarity} onChange={(v) => set('rarity', v)} />
+        <Dropdown multiple label="Set" value={value.set} options={OPTIONS.set} onChange={(v) => set('set', v)} />
         {showOwned && <Dropdown label="Colección" value={value.owned} options={ownedOptions} onChange={(v) => set('owned', v as OwnedFilter)} />}
         {showRam && (
           <label className="check" title="Oculta las cartas que superan la RAM de tus Legends">

@@ -17,6 +17,12 @@ alter table public.tcg_collection add column if not exists qty_foil  integer not
 alter table public.tcg_collection add column if not exists qty_promo integer not null default 0 check (qty_promo between 0 and 999);
 alter table public.tcg_collection add column if not exists condition text not null default 'mint' check (condition in ('mint', 'played', 'damaged'));
 
+-- v3: copias por arte alternativo o promo con diseño propio, como {"clave del arte": copias}.
+-- Las cartas base (Beta, Retail…) siguen contando en quantity/qty_foil/qty_promo; aquí solo los diseños distintos.
+alter table public.tcg_collection add column if not exists arts jsonb not null default '{}'::jsonb;
+alter table public.tcg_collection drop constraint if exists tcg_collection_arts_shape;
+alter table public.tcg_collection add constraint tcg_collection_arts_shape check (jsonb_typeof(arts) = 'object' and pg_column_size(arts) < 4000);
+
 create table if not exists public.tcg_decks (
   id         uuid primary key default gen_random_uuid(),
   user_id    uuid not null references auth.users (id) on delete cascade,

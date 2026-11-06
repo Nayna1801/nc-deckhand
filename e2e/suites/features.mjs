@@ -59,6 +59,7 @@ for (const [v, f] of [['u5', (p) => p < 5], ['5-9', (p) => p >= 5 && p <= 9], ['
   await pick(page, 'Poder', v)
   const e = cards.filter((c) => c.power != null && f(c.power)).length
   ok((await page.locator('.tile').count()) === e && e > 0, `Poder ${v} -> ${e}`)
+  await pick(page, 'Poder', '') // Poder admite varias opciones: se vacía antes de probar la siguiente
 }
 await pick(page, 'Poder', '')
 await pick(page, 'Keyword', 'blocker'); await pick(page, 'Poder', '5-9')
@@ -68,16 +69,20 @@ await page.getByRole('button', { name: 'Limpiar' }).click()
 ok((await page.locator('.tile').count()) === 150, 'Limpiar restablece todos los filtros')
 
 /* ================= desplegable: teclado ================= */
-const tipo = page.getByRole('button', { name: 'Tipo', exact: true })
+// Keyword es un desplegable de selección única (los de varias opciones se prueban en la suite multifilter)
+const tipo = page.getByRole('button', { name: 'Keyword', exact: true })
+await page.mouse.move(5, 5) // el ratón sobre la lista cambiaría la opción activa
 await tipo.focus(); await page.keyboard.press('ArrowDown')
 ok((await page.locator('.dd-list').count()) === 1, 'ArrowDown abre el desplegable')
-await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter')
-ok((await page.locator('.tile').count()) === 26 && (await shown(page, 'Tipo')) === 'Legend', 'flechas + Enter eligen "Legend" (26)')
+const activeIs = (text) => page.waitForFunction((t) => document.querySelector('.dd-opt.active')?.textContent === t, text)
+await activeIs('Todos') // la lista ya tiene el foco y la opción inicial pintada
+await page.keyboard.press('ArrowDown'); await activeIs('Blocker'); await page.keyboard.press('Enter')
+ok((await page.locator('.tile').count()) === cards.filter((c) => kw(c, 'blocker')).length && (await shown(page, 'Keyword')) === 'Blocker', 'flechas + Enter eligen "Blocker" (' + (await page.locator('.tile').count()) + ', ' + (await shown(page, 'Keyword')) + ')')
 ok(await tipo.evaluate((el) => el === document.activeElement), 'el foco vuelve al botón tras elegir')
-await tipo.click(); await page.keyboard.type('u'); await page.keyboard.press('Enter')
-ok((await shown(page, 'Tipo')) === 'Unit', 'escribir una letra salta a la opción ("u" -> Unit)')
+await tipo.click(); await page.keyboard.type('a'); await page.keyboard.press('Enter')
+ok((await shown(page, 'Keyword')) === 'Adrenaline', 'escribir una letra salta a la opción ("a" -> Adrenaline)')
 await tipo.click(); await page.keyboard.press('Escape')
-ok((await page.locator('.dd-list').count()) === 0 && (await shown(page, 'Tipo')) === 'Unit', 'Escape cierra sin cambiar el valor')
+ok((await page.locator('.dd-list').count()) === 0 && (await shown(page, 'Keyword')) === 'Adrenaline', 'Escape cierra sin cambiar el valor')
 await tipo.click(); await page.mouse.click(5, 300)
 ok((await page.locator('.dd-list').count()) === 0, 'clic fuera cierra el desplegable')
 await page.getByRole('button', { name: 'Limpiar' }).click()

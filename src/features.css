@@ -103,3 +103,13 @@
 a.stat-link { text-decoration: none; color: inherit; border-color: rgba(0, 240, 255, 0.4); }
 a.stat-link:hover { border-color: var(--cyan); }
 a.stat-link strong { color: var(--cyan); }
+.bulk-bar { margin-bottom: 0.5rem; align-items: center; }
+.deck-row input[type='checkbox'] { accent-color: var(--yellow); flex: none; }
+
+/* copias por arte alternativo en el detalle de la carta */
+.art-counts { margin-top: 0.4rem; padding-top: 0.5rem; border-top: 1px solid var(--line); }
+.art-counts h4 { margin: 0 0 0.3rem; }
+.art-row { display: flex; align-items: center; gap: 0.6rem; padding: 3px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+.art-row img { width: 34px; aspect-ratio: 5 / 7; object-fit: cover; flex: none; border: 1px solid var(--line); }
+.art-name { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.art-name small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
