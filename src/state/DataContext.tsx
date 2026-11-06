@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { dataErrorMessage } from '../lib/dataErrors'
 import { supabase } from '../lib/supabase'
 import { createKeyedWriter, type KeyedWriter } from '../lib/keyedWriter'
 import { loadLocalDecks, saveLocalDecks } from '../lib/localDecks'
@@ -219,7 +220,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         setWishlistState(wishMap)
         setLoaded(true)
       })
-      .catch((e: unknown) => active && setError(e instanceof Error ? e.message : (e as { message?: string })?.message ?? 'No se pudieron cargar tus datos.'))
+      .catch((e: unknown) => active && setError(dataErrorMessage(e, 'No se pudieron cargar tus datos.')))
       .finally(() => active && setLoading(false))
     return () => {
       active = false
@@ -227,7 +228,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   }, [userId])
 
   const value = useMemo<DataState>(() => {
-    const fail = (e: unknown, fallback: string) => setError(e instanceof Error ? e.message : (e as { message?: string } | null)?.message ?? fallback)
+    const fail = (e: unknown, fallback: string) => setError(dataErrorMessage(e, fallback))
 
     const saveDeck = async (deck: Deck) => {
       const stamped = { ...deck, updatedAt: new Date().toISOString() }
