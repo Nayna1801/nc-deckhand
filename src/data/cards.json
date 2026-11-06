@@ -90,6 +90,28 @@
     "artist": "Vincenzo Riccardi",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β012",
+    "language": "en",
+    "artist": "Bad Moon Studio",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "collectorNumber": "β003",
+    "language": "en",
+    "artist": "Vincenzo Riccardi",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -105,6 +127,45 @@
     "baseSetName": null,
     "edition": null,
     "image": "cards/alt/goro_takemura_hands_unclean_alt.webp"
+   },
+   {
+    "id": "boxtoppersretail_003",
+    "label": "Alt Art 003",
+    "collectorNumber": "003",
+    "artist": "Vincenzo Riccardi",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "boxtoppersretail",
+    "setName": "Box Toppers — Retail",
+    "baseSetName": "Box Toppers — Retail",
+    "edition": "retail",
+    "image": "cards/alt/goro_takemura_hands_unclean__boxtoppersretail_003.webp"
+   },
+   {
+    "id": "boxtoppersbeta_003",
+    "label": "Alt Art β003",
+    "collectorNumber": "β003",
+    "artist": "Vincenzo Riccardi",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "image": "cards/alt/goro_takemura_hands_unclean__boxtoppersbeta_003.webp"
+   },
+   {
+    "id": "edgerunneropens1_041",
+    "label": "Alt Art 041",
+    "collectorNumber": "041",
+    "artist": "Vincenzo Riccardi",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/goro_takemura_hands_unclean__edgerunneropens1_041.webp"
    }
   ],
   "image": "cards/goro_takemura_hands_unclean.webp"
@@ -164,6 +225,17 @@
     "edition": "retail",
     "collectorNumber": "017",
     "language": "fr",
+    "artist": "Ilya Kuvshinov",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β017",
+    "language": "en",
     "artist": "Ilya Kuvshinov",
     "finish": null,
     "isPrimary": false
@@ -272,6 +344,17 @@
     "edition": "other",
     "collectorNumber": "020",
     "language": "fr",
+    "artist": "CD Projekt Red",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β003",
+    "language": "en",
     "artist": "CD Projekt Red",
     "finish": null,
     "isPrimary": false
@@ -385,6 +468,28 @@
     "artist": "Vincenzo Riccardi",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β013",
+    "language": "en",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "collectorNumber": "β004",
+    "language": "en",
+    "artist": "Vincenzo Riccardi",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -400,6 +505,45 @@
     "baseSetName": null,
     "edition": null,
     "image": "cards/alt/saburo_arasaka_stubborn_patriarch_alt.webp"
+   },
+   {
+    "id": "boxtoppersretail_004",
+    "label": "Alt Art 004",
+    "collectorNumber": "004",
+    "artist": "Vincenzo Riccardi",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "boxtoppersretail",
+    "setName": "Box Toppers — Retail",
+    "baseSetName": "Box Toppers — Retail",
+    "edition": "retail",
+    "image": "cards/alt/saburo_arasaka_stubborn_patriarch__boxtoppersretail_004.webp"
+   },
+   {
+    "id": "boxtoppersbeta_004",
+    "label": "Alt Art β004",
+    "collectorNumber": "β004",
+    "artist": "Vincenzo Riccardi",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "image": "cards/alt/saburo_arasaka_stubborn_patriarch__boxtoppersbeta_004.webp"
+   },
+   {
+    "id": "edgerunneropens1_047",
+    "label": "Alt Art 047",
+    "collectorNumber": "047",
+    "artist": "Vincenzo Riccardi",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/saburo_arasaka_stubborn_patriarch__edgerunneropens1_047.webp"
    }
   ],
   "image": "cards/saburo_arasaka_stubborn_patriarch.webp"
@@ -495,6 +639,28 @@
     "artist": "Vincenzo Riccardi",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β001",
+    "language": "en",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "collectorNumber": "β001",
+    "language": "en",
+    "artist": "Vincenzo Riccardi",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -510,6 +676,45 @@
     "baseSetName": null,
     "edition": null,
     "image": "cards/alt/yorinobu_arasaka_embracing_destruction_alt.webp"
+   },
+   {
+    "id": "boxtoppersretail_001",
+    "label": "Alt Art 001",
+    "collectorNumber": "001",
+    "artist": "Vincenzo Riccardi",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "boxtoppersretail",
+    "setName": "Box Toppers — Retail",
+    "baseSetName": "Box Toppers — Retail",
+    "edition": "retail",
+    "image": "cards/alt/yorinobu_arasaka_embracing_destruction__boxtoppersretail_001.webp"
+   },
+   {
+    "id": "boxtoppersbeta_001",
+    "label": "Alt Art β001",
+    "collectorNumber": "β001",
+    "artist": "Vincenzo Riccardi",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "image": "cards/alt/yorinobu_arasaka_embracing_destruction__boxtoppersbeta_001.webp"
+   },
+   {
+    "id": "edgerunneropens1_034",
+    "label": "Alt Art 034",
+    "collectorNumber": "034",
+    "artist": "Vincenzo Riccardi",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/yorinobu_arasaka_embracing_destruction__edgerunneropens1_034.webp"
    }
   ],
   "image": "cards/yorinobu_arasaka_embracing_destruction.webp"
@@ -568,6 +773,17 @@
     "edition": "retail",
     "collectorNumber": "002",
     "language": "fr",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β002",
+    "language": "en",
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
@@ -666,6 +882,28 @@
     "artist": "Ito (Kirby's Comic Art)",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β011",
+    "language": "en",
+    "artist": "Envar",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "collectorNumber": "β005",
+    "language": "en",
+    "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -681,6 +919,45 @@
     "baseSetName": "Box Toppers — Retail",
     "edition": "retail",
     "image": "cards/alt/jackie_welles_pour_one_out_for_me_alt.webp"
+   },
+   {
+    "id": "mercdemodeck_007",
+    "label": "Alt Art 007",
+    "collectorNumber": "007",
+    "artist": "Envar Studio",
+    "rarity": "Epic",
+    "finish": null,
+    "setCode": "mercdemodeck",
+    "setName": "Merc Demo Deck",
+    "baseSetName": "Merc Demo Deck",
+    "edition": "other",
+    "image": "cards/alt/jackie_welles_pour_one_out_for_me__mercdemodeck_007.webp"
+   },
+   {
+    "id": "boxtoppersbeta_005",
+    "label": "Alt Art β005",
+    "collectorNumber": "β005",
+    "artist": "Ito (Kirby's Comic Art)",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "image": "cards/alt/jackie_welles_pour_one_out_for_me__boxtoppersbeta_005.webp"
+   },
+   {
+    "id": "edgerunneropens1_050",
+    "label": "Alt Art 050",
+    "collectorNumber": "050",
+    "artist": "Ito (Kirby's Comic Art)",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/jackie_welles_pour_one_out_for_me__edgerunneropens1_050.webp"
    }
   ],
   "image": "cards/jackie_welles_pour_one_out_for_me.webp"
@@ -740,6 +1017,17 @@
     "edition": "retail",
     "collectorNumber": "015",
     "language": "fr",
+    "artist": "Federico Sabbatini",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β015",
+    "language": "en",
     "artist": "Federico Sabbatini",
     "finish": null,
     "isPrimary": false
@@ -839,6 +1127,28 @@
     "artist": "Ito (Kirby's Comic Art)",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β012",
+    "language": "en",
+    "artist": "Envar",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "collectorNumber": "β006",
+    "language": "en",
+    "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -854,6 +1164,45 @@
     "baseSetName": "Box Toppers — Retail",
     "edition": "retail",
     "image": "cards/alt/v_corporate_exile_alt.webp"
+   },
+   {
+    "id": "mercdemodeck_008",
+    "label": "Alt Art 008",
+    "collectorNumber": "008",
+    "artist": "Envar Studio",
+    "rarity": "Epic",
+    "finish": null,
+    "setCode": "mercdemodeck",
+    "setName": "Merc Demo Deck",
+    "baseSetName": "Merc Demo Deck",
+    "edition": "other",
+    "image": "cards/alt/v_corporate_exile__mercdemodeck_008.webp"
+   },
+   {
+    "id": "boxtoppersbeta_006",
+    "label": "Alt Art β006",
+    "collectorNumber": "β006",
+    "artist": "Ito (Kirby's Comic Art)",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "image": "cards/alt/v_corporate_exile__boxtoppersbeta_006.webp"
+   },
+   {
+    "id": "edgerunneropens1_053",
+    "label": "Alt Art 053",
+    "collectorNumber": "053",
+    "artist": "Ito (Kirby's Comic Art)",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/v_corporate_exile__edgerunneropens1_053.webp"
    }
   ],
   "image": "cards/v_corporate_exile.webp"
@@ -948,6 +1297,28 @@
     "artist": "Ito (Kirby's Comic Art)",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β001",
+    "language": "en",
+    "artist": "Envar",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "collectorNumber": "β002",
+    "language": "en",
+    "artist": "Ito (Kirby's Comic Art)",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -963,6 +1334,45 @@
     "baseSetName": null,
     "edition": null,
     "image": "cards/alt/viktor_vektor_sit_down_and_relax_alt.webp"
+   },
+   {
+    "id": "boxtoppersretail_002",
+    "label": "Alt Art 002",
+    "collectorNumber": "002",
+    "artist": "Ito (Kirby's Comic Art)",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "boxtoppersretail",
+    "setName": "Box Toppers — Retail",
+    "baseSetName": "Box Toppers — Retail",
+    "edition": "retail",
+    "image": "cards/alt/viktor_vektor_sit_down_and_relax__boxtoppersretail_002.webp"
+   },
+   {
+    "id": "boxtoppersbeta_002",
+    "label": "Alt Art β002",
+    "collectorNumber": "β002",
+    "artist": "Ito (Kirby's Comic Art)",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "boxtoppersbeta",
+    "setName": "Box Toppers — Beta",
+    "baseSetName": "Box Toppers — Beta",
+    "edition": "beta",
+    "image": "cards/alt/viktor_vektor_sit_down_and_relax__boxtoppersbeta_002.webp"
+   },
+   {
+    "id": "edgerunneropens1_040",
+    "label": "Alt Art 040",
+    "collectorNumber": "040",
+    "artist": "Ito (Kirby's Comic Art)",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/viktor_vektor_sit_down_and_relax__edgerunneropens1_040.webp"
    }
   ],
   "image": "cards/viktor_vektor_sit_down_and_relax.webp"
@@ -1011,6 +1421,17 @@
     "edition": "retail",
     "collectorNumber": "006",
     "language": "fr",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β006",
+    "language": "en",
     "artist": "Daniel Valaisis",
     "finish": null,
     "isPrimary": false
@@ -1143,6 +1564,28 @@
     "artist": "Michał Dziekan",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β001",
+    "language": "en",
+    "artist": "Michał Dziekan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "prereleasebeta",
+    "setName": "Pre-Release Beta",
+    "baseSetName": "Pre-Release Beta",
+    "edition": "beta",
+    "collectorNumber": "001",
+    "language": "en",
+    "artist": "Michał Dziekan",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -1184,6 +1627,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/adam_smasher_ender_of_legends__welcometonightcityretail_141.webp"
+   },
+   {
+    "id": "edgerunneropens1_029",
+    "label": "Alt Art 029",
+    "collectorNumber": "029",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/adam_smasher_ender_of_legends__edgerunneropens1_029.webp"
    }
   ],
   "image": "cards/adam_smasher_ender_of_legends.webp"
@@ -1312,6 +1768,17 @@
     "artist": "Envar",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β041",
+    "language": "en",
+    "artist": "Dardo Studios",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -1353,6 +1820,19 @@
     "baseSetName": "Night City Showdown S1",
     "edition": "other",
     "image": "cards/alt/adam_smasher_metal_over_meat__nightcityshowdowns1_002.webp"
+   },
+   {
+    "id": "nightcityshowdowns1_004",
+    "label": "Alt Art 004",
+    "collectorNumber": "004",
+    "artist": "Envar",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "nightcityshowdowns1",
+    "setName": "Night City Showdown S1",
+    "baseSetName": "Night City Showdown S1",
+    "edition": "other",
+    "image": "cards/alt/adam_smasher_metal_over_meat__nightcityshowdowns1_004.webp"
    }
   ],
   "image": "cards/adam_smasher_metal_over_meat.webp"
@@ -1401,6 +1881,17 @@
     "edition": "retail",
     "collectorNumber": "059",
     "language": "fr",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β059",
+    "language": "en",
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
@@ -1511,6 +2002,28 @@
     "artist": "Alicja Użarowska",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β065",
+    "language": "en",
+    "artist": "Alicja Użarowska",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β010",
+    "language": "en",
+    "artist": "Alicja Użarowska",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -1573,6 +2086,17 @@
     "edition": "retail",
     "collectorNumber": "027",
     "language": "fr",
+    "artist": "Fabrizio De Tommaso",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β027",
+    "language": "en",
     "artist": "Fabrizio De Tommaso",
     "finish": null,
     "isPrimary": false
@@ -1659,6 +2183,17 @@
     "collectorNumber": "161",
     "language": "fr",
     "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β042",
+    "language": "en",
+    "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
    }
@@ -1806,6 +2341,28 @@
     "artist": "Daniel Valaisis",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β106",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "prereleasebeta",
+    "setName": "Pre-Release Beta",
+    "baseSetName": "Pre-Release Beta",
+    "edition": "beta",
+    "collectorNumber": "009",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -1834,6 +2391,19 @@
     "baseSetName": "Welcome to Night City — Beta",
     "edition": "beta",
     "image": "cards/alt/alt_cunningham_soulkiller_architect__welcometonightcitybeta_155.webp"
+   },
+   {
+    "id": "edgerunneropens1_048",
+    "label": "Alt Art 048",
+    "collectorNumber": "048",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/alt_cunningham_soulkiller_architect__edgerunneropens1_048.webp"
    }
   ],
   "image": "cards/alt_cunningham_soulkiller_architect.webp"
@@ -1885,6 +2455,17 @@
     "artist": "Michal Ivan",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β007",
+    "language": "en",
+    "artist": "Michal Ivan",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -1933,6 +2514,17 @@
     "edition": "retail",
     "collectorNumber": "028",
     "language": "fr",
+    "artist": "Miguel Valderrama & Jason Wordie",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β028",
+    "language": "en",
     "artist": "Miguel Valderrama & Jason Wordie",
     "finish": null,
     "isPrimary": false
@@ -2010,6 +2602,28 @@
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β023",
+    "language": "en",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β006",
+    "language": "en",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -2062,6 +2676,17 @@
     "artist": "Bernard Kowalczuk",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β043",
+    "language": "en",
+    "artist": "Bernard Kowalczuk",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -2110,6 +2735,17 @@
     "edition": "retail",
     "collectorNumber": "029",
     "language": "fr",
+    "artist": "Rion Chow",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β029",
+    "language": "en",
     "artist": "Rion Chow",
     "finish": null,
     "isPrimary": false
@@ -2208,6 +2844,17 @@
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β066",
+    "language": "en",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -2274,6 +2921,17 @@
     "artist": "André Lima Araújo & Chris O'Halloran",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β044",
+    "language": "en",
+    "artist": "André Lima Araújo & Chris O'Halloran",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -2323,6 +2981,17 @@
     "edition": "retail",
     "collectorNumber": "030",
     "language": "fr",
+    "artist": "Matías Bergara",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β030",
+    "language": "en",
     "artist": "Matías Bergara",
     "finish": null,
     "isPrimary": false
@@ -2401,6 +3070,28 @@
     "artist": "Bernard Kowalczuk",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β008",
+    "language": "en",
+    "artist": "Bernard Kowalczuk",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β002",
+    "language": "en",
+    "artist": "Bernard Kowalczuk",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -2449,6 +3140,17 @@
     "edition": "retail",
     "collectorNumber": "131",
     "language": "fr",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β131",
+    "language": "en",
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
@@ -2580,6 +3282,28 @@
     "artist": "Daniel Valaisis",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β076",
+    "language": "en",
+    "artist": "CD PROJEKT RED",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β014",
+    "language": "en",
+    "artist": "CD Projekt Red",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -2608,6 +3332,19 @@
     "baseSetName": "Night City Brawl S 1",
     "edition": "other",
     "image": "cards/alt/corpo_security__nightcitybrawls1_009.webp"
+   },
+   {
+    "id": "nightcitybrawls1_027",
+    "label": "Alt Art 027",
+    "collectorNumber": "027",
+    "artist": "Daniel Valaisis",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "nightcitybrawls1",
+    "setName": "Night City Brawl S 1",
+    "baseSetName": "Night City Brawl S 1",
+    "edition": "other",
+    "image": "cards/alt/corpo_security__nightcitybrawls1_027.webp"
    }
   ],
   "image": "cards/corpo_security.webp"
@@ -2688,6 +3425,28 @@
     "edition": "retail",
     "collectorNumber": "020",
     "language": "fr",
+    "artist": "John Liew",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β097",
+    "language": "en",
+    "artist": "John Liew",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β020",
+    "language": "en",
     "artist": "John Liew",
     "finish": null,
     "isPrimary": false
@@ -2786,6 +3545,17 @@
     "artist": "Michal Ivan",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β067",
+    "language": "en",
+    "artist": "Michal Ivan",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -2849,6 +3619,17 @@
     "edition": "retail",
     "collectorNumber": "024",
     "language": "fr",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β024",
+    "language": "en",
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
@@ -2980,6 +3761,28 @@
     "artist": "Daniel Valaisis",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β112",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β013",
+    "language": "en",
+    "artist": "CD Projekt Red",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -2995,6 +3798,32 @@
     "baseSetName": "Night City Brawl S 1",
     "edition": "other",
     "image": "cards/alt/delamain_cab__nightcitybrawls1_014.webp"
+   },
+   {
+    "id": "welcometonightcitybeta_112",
+    "label": "Alt Art β112",
+    "collectorNumber": "β112",
+    "artist": "Daniel Valaisis",
+    "rarity": "Common",
+    "finish": null,
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "image": "cards/alt/delamain_cab__welcometonightcitybeta_112.webp"
+   },
+   {
+    "id": "nightcitybrawls1_032",
+    "label": "Alt Art 032",
+    "collectorNumber": "032",
+    "artist": "Daniel Valaisis",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "nightcitybrawls1",
+    "setName": "Night City Brawl S 1",
+    "baseSetName": "Night City Brawl S 1",
+    "edition": "other",
+    "image": "cards/alt/delamain_cab__nightcitybrawls1_032.webp"
    }
   ],
   "image": "cards/delamain_cab.webp"
@@ -3056,9 +3885,34 @@
     "artist": "Łukasz Wiktorzak",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β111",
+    "language": "en",
+    "artist": "Łukasz Wiktorzak",
+    "finish": null,
+    "isPrimary": false
    }
   ],
-  "altArts": [],
+  "altArts": [
+   {
+    "id": "judgepromos_003",
+    "label": "Promo 003",
+    "collectorNumber": "003",
+    "artist": "Łukasz Wiktorzak",
+    "rarity": "Uncommon",
+    "finish": null,
+    "setCode": "judgepromos",
+    "setName": "Judge Promos",
+    "baseSetName": "Judge Promos",
+    "edition": "other",
+    "image": "cards/alt/delamain_rideshare_ai__judgepromos_003.webp"
+   }
+  ],
   "image": "cards/delamain_rideshare_ai.webp"
  },
  {
@@ -3104,6 +3958,17 @@
     "edition": "retail",
     "collectorNumber": "031",
     "language": "fr",
+    "artist": "Michal Ivan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β031",
+    "language": "en",
     "artist": "Michal Ivan",
     "finish": null,
     "isPrimary": false
@@ -3268,6 +4133,17 @@
     "artist": "Envar",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β002",
+    "language": "en",
+    "artist": "Envar",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -3309,6 +4185,58 @@
     "baseSetName": "Edgerunner Open S 1",
     "edition": "other",
     "image": "cards/alt/dexter_deshawn_off_the_grid__edgerunneropens1_012.webp"
+   },
+   {
+    "id": "edgerunneropens1_016",
+    "label": "Alt Art 016",
+    "collectorNumber": "016",
+    "artist": "TOPDOG Entertainment",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/dexter_deshawn_off_the_grid__edgerunneropens1_016.webp"
+   },
+   {
+    "id": "edgerunneropens1_020",
+    "label": "Alt Art 020",
+    "collectorNumber": "020",
+    "artist": "TOPDOG Entertainment",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/dexter_deshawn_off_the_grid__edgerunneropens1_020.webp"
+   },
+   {
+    "id": "edgerunneropens1_024",
+    "label": "Alt Art 024",
+    "collectorNumber": "024",
+    "artist": "TOPDOG Entertainment",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/dexter_deshawn_off_the_grid__edgerunneropens1_024.webp"
+   },
+   {
+    "id": "edgerunneropens1_030",
+    "label": "Alt Art 030",
+    "collectorNumber": "030",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/dexter_deshawn_off_the_grid__edgerunneropens1_030.webp"
    }
   ],
   "image": "cards/dexter_deshawn_off_the_grid.webp"
@@ -3400,6 +4328,17 @@
     "edition": "other",
     "collectorNumber": "030",
     "language": "fr",
+    "artist": "Alex Eckman-Lawn",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β098",
+    "language": "en",
     "artist": "Alex Eckman-Lawn",
     "finish": null,
     "isPrimary": false
@@ -3535,6 +4474,28 @@
     "artist": "Łukasz Poller",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β036",
+    "language": "en",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "prereleasebeta",
+    "setName": "Pre-Release Beta",
+    "baseSetName": "Pre-Release Beta",
+    "edition": "beta",
+    "collectorNumber": "003",
+    "language": "en",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -3563,6 +4524,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/dum_dum_maelstrom_triggerman__welcometonightcityretail_145.webp"
+   },
+   {
+    "id": "edgerunneropens1_035",
+    "label": "Alt Art 035",
+    "collectorNumber": "035",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/dum_dum_maelstrom_triggerman__edgerunneropens1_035.webp"
    }
   ],
   "image": "cards/dum_dum_maelstrom_triggerman.webp"
@@ -3691,6 +4665,28 @@
     "artist": "Ivan Shavrin",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β128",
+    "language": "en",
+    "artist": "Ivan Shavrin",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β017",
+    "language": "en",
+    "artist": "Ivan Shavrin",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -3754,6 +4750,17 @@
     "edition": "retail",
     "collectorNumber": "009",
     "language": "fr",
+    "artist": "Rafael de Latorre & Clonerh",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β009",
+    "language": "en",
     "artist": "Rafael de Latorre & Clonerh",
     "finish": null,
     "isPrimary": false
@@ -3840,6 +4847,28 @@
     "edition": "retail",
     "collectorNumber": "015",
     "language": "fr",
+    "artist": "Robert Sammelin",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β077",
+    "language": "en",
+    "artist": "Robert Sammelin",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β015",
+    "language": "en",
     "artist": "Robert Sammelin",
     "finish": null,
     "isPrimary": false
@@ -3938,6 +4967,17 @@
     "artist": "Pandart Studio",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β107",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -3966,6 +5006,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/evelyn_parker_beautiful_enigma__welcometonightcityretail_156.webp"
+   },
+   {
+    "id": "edgerunneropens1_049",
+    "label": "Alt Art 049",
+    "collectorNumber": "049",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/evelyn_parker_beautiful_enigma__edgerunneropens1_049.webp"
    }
   ],
   "image": "cards/evelyn_parker_beautiful_enigma.webp"
@@ -4046,6 +5099,28 @@
     "edition": "retail",
     "collectorNumber": "014",
     "language": "fr",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β113",
+    "language": "en",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β014",
+    "language": "en",
     "artist": "Olgierd Ciszak",
     "finish": null,
     "isPrimary": false
@@ -4143,6 +5218,28 @@
     "edition": "retail",
     "collectorNumber": "016",
     "language": "fr",
+    "artist": "Michal Ivan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β078",
+    "language": "en",
+    "artist": "Michal Ivan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β016",
+    "language": "en",
     "artist": "Michal Ivan",
     "finish": null,
     "isPrimary": false
@@ -4275,6 +5372,28 @@
     "artist": "DOFRESH",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β132",
+    "language": "en",
+    "artist": "DOFRESH",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β019",
+    "language": "en",
+    "artist": "DOFRESH",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -4340,6 +5459,17 @@
     "artist": "DOFRESH",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β099",
+    "language": "en",
+    "artist": "DOFRESH",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -4389,6 +5519,17 @@
     "edition": "retail",
     "collectorNumber": "045",
     "language": "fr",
+    "artist": "Josan Gonzalez (Deathburger)",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β045",
+    "language": "en",
     "artist": "Josan Gonzalez (Deathburger)",
     "finish": null,
     "isPrimary": false
@@ -4462,6 +5603,17 @@
     "edition": "retail",
     "collectorNumber": "011",
     "language": "fr",
+    "artist": "TOPDOG Entertainment",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β060",
+    "language": "en",
     "artist": "TOPDOG Entertainment",
     "finish": null,
     "isPrimary": false
@@ -4583,6 +5735,28 @@
     "artist": "Daniel Valaisis",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β071",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "prereleasebeta",
+    "setName": "Pre-Release Beta",
+    "baseSetName": "Pre-Release Beta",
+    "edition": "beta",
+    "collectorNumber": "006",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -4611,6 +5785,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/goro_takemura_vengeful_bodyguard__welcometonightcityretail_150.webp"
+   },
+   {
+    "id": "edgerunneropens1_042",
+    "label": "Alt Art 042",
+    "collectorNumber": "042",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/goro_takemura_vengeful_bodyguard__edgerunneropens1_042.webp"
    }
   ],
   "image": "cards/goro_takemura_vengeful_bodyguard.webp"
@@ -4659,6 +5846,17 @@
     "edition": "retail",
     "collectorNumber": "032",
     "language": "fr",
+    "artist": "Rafael de Latorre",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β032",
+    "language": "en",
     "artist": "Rafael de Latorre",
     "finish": null,
     "isPrimary": false
@@ -4711,6 +5909,17 @@
     "edition": "retail",
     "collectorNumber": "114",
     "language": "fr",
+    "artist": "Luke Poller",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β114",
+    "language": "en",
     "artist": "Luke Poller",
     "finish": null,
     "isPrimary": false
@@ -4811,6 +6020,17 @@
     "artist": "Pandart Studio",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β072",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -4839,6 +6059,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/hanako_arasaka_daughter_of_the_emperor__welcometonightcityretail_151.webp"
+   },
+   {
+    "id": "edgerunneropens1_043",
+    "label": "Alt Art 043",
+    "collectorNumber": "043",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/hanako_arasaka_daughter_of_the_emperor__edgerunneropens1_043.webp"
    }
   ],
   "image": "cards/hanako_arasaka_daughter_of_the_emperor.webp"
@@ -4922,6 +6155,17 @@
     "collectorNumber": "162",
     "language": "fr",
     "artist": "Akram",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β046",
+    "language": "en",
+    "artist": "Daniel Valaisis",
     "finish": null,
     "isPrimary": false
    }
@@ -5021,6 +6265,28 @@
     "edition": "retail",
     "collectorNumber": "003",
     "language": "fr",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β047",
+    "language": "en",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β003",
+    "language": "en",
     "artist": "Łukasz Poller",
     "finish": null,
     "isPrimary": false
@@ -5131,6 +6397,28 @@
     "artist": "Alexander Duder",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β033",
+    "language": "en",
+    "artist": "Alexander Dudar",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β009",
+    "language": "en",
+    "artist": "Alexander Duder",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -5146,6 +6434,32 @@
     "baseSetName": "Edgerunner Open S 1",
     "edition": "other",
     "image": "cards/alt/industrial_assembly__edgerunneropens1_004.webp"
+   },
+   {
+    "id": "embracingpowerretailstarterdeck_009",
+    "label": "Alt Art 009",
+    "collectorNumber": "009",
+    "artist": "Alexander Duder",
+    "rarity": "Uncommon",
+    "finish": null,
+    "setCode": "embracingpowerretailstarterdeck",
+    "setName": "Embracing Power — Retail Starter Deck",
+    "baseSetName": "Embracing Power — Retail Starter Deck",
+    "edition": "retail",
+    "image": "cards/alt/industrial_assembly__embracingpowerretailstarterdeck_009.webp"
+   },
+   {
+    "id": "embracingpowerbetastarterdeck_009",
+    "label": "Alt Art β009",
+    "collectorNumber": "β009",
+    "artist": "Alexander Duder",
+    "rarity": "Uncommon",
+    "finish": null,
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "image": "cards/alt/industrial_assembly__embracingpowerbetastarterdeck_009.webp"
    }
   ],
   "image": "cards/industrial_assembly.webp"
@@ -5194,6 +6508,17 @@
     "edition": "retail",
     "collectorNumber": "115",
     "language": "fr",
+    "artist": "Josan Gonzalez (Deathburger)",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β115",
+    "language": "en",
     "artist": "Josan Gonzalez (Deathburger)",
     "finish": null,
     "isPrimary": false
@@ -5292,6 +6617,28 @@
     "artist": "Pandart Studio",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β073",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "prereleasebeta",
+    "setName": "Pre-Release Beta",
+    "baseSetName": "Pre-Release Beta",
+    "edition": "beta",
+    "collectorNumber": "007",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -5320,6 +6667,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/jackie_welles_mama_s_favorite__welcometonightcityretail_152.webp"
+   },
+   {
+    "id": "edgerunneropens1_044",
+    "label": "Alt Art 044",
+    "collectorNumber": "044",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/jackie_welles_mama_s_favorite__edgerunneropens1_044.webp"
    }
   ],
   "image": "cards/jackie_welles_mama_s_favorite.webp"
@@ -5415,6 +6775,17 @@
     "artist": "Ilya Kuvshinov",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β048",
+    "language": "en",
+    "artist": "Ilya Kuvshinov",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -5477,6 +6848,17 @@
     "edition": "retail",
     "collectorNumber": "010",
     "language": "fr",
+    "artist": "Michał Dziekan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β010",
+    "language": "en",
     "artist": "Michał Dziekan",
     "finish": null,
     "isPrimary": false
@@ -5564,6 +6946,17 @@
     "collectorNumber": "159",
     "language": "fr",
     "artist": "Atomhawk",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β011",
+    "language": "en",
+    "artist": "Łukasz Poller",
     "finish": null,
     "isPrimary": false
    }
@@ -5690,6 +7083,17 @@
     "artist": "Divebound",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β003",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -5718,6 +7122,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/johnny_silverhand_rocking_renegade__welcometonightcityretail_168.webp"
+   },
+   {
+    "id": "edgerunneropens1_031",
+    "label": "Alt Art 031",
+    "collectorNumber": "031",
+    "artist": "Divebound Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/johnny_silverhand_rocking_renegade__edgerunneropens1_031.webp"
    }
   ],
   "image": "cards/johnny_silverhand_rocking_renegade.webp"
@@ -5858,6 +7275,28 @@
     "artist": "Pandart Studio",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β108",
+    "language": "en",
+    "artist": "Gautier Viller",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "prereleasebeta",
+    "setName": "Pre-Release Beta",
+    "baseSetName": "Pre-Release Beta",
+    "edition": "beta",
+    "collectorNumber": "010",
+    "language": "en",
+    "artist": "Gautier Viller",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -5899,6 +7338,58 @@
     "baseSetName": "Edgerunner Open S 1",
     "edition": "other",
     "image": "cards/alt/judy_alvarez_braindance_maestro__edgerunneropens1_015.webp"
+   },
+   {
+    "id": "edgerunneropens1_019",
+    "label": "Alt Art 019",
+    "collectorNumber": "019",
+    "artist": "Envar Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/judy_alvarez_braindance_maestro__edgerunneropens1_019.webp"
+   },
+   {
+    "id": "edgerunneropens1_023",
+    "label": "Alt Art 023",
+    "collectorNumber": "023",
+    "artist": "Envar Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/judy_alvarez_braindance_maestro__edgerunneropens1_023.webp"
+   },
+   {
+    "id": "edgerunneropens1_027",
+    "label": "Alt Art 027",
+    "collectorNumber": "027",
+    "artist": "Envar Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/judy_alvarez_braindance_maestro__edgerunneropens1_027.webp"
+   },
+   {
+    "id": "edgerunneropens1_051",
+    "label": "Alt Art 051",
+    "collectorNumber": "051",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/judy_alvarez_braindance_maestro__edgerunneropens1_051.webp"
    }
   ],
   "image": "cards/judy_alvarez_braindance_maestro.webp"
@@ -5982,6 +7473,17 @@
     "collectorNumber": "171",
     "language": "fr",
     "artist": "Divebound",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β116",
+    "language": "en",
+    "artist": "Ilya Kuvshinov",
     "finish": null,
     "isPrimary": false
    }
@@ -6107,6 +7609,17 @@
     "artist": "Pandart Studio",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β037",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -6135,6 +7648,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/kerry_eurodyne_axe_attitude_audience__welcometonightcityretail_146.webp"
+   },
+   {
+    "id": "edgerunneropens1_036",
+    "label": "Alt Art 036",
+    "collectorNumber": "036",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/kerry_eurodyne_axe_attitude_audience__edgerunneropens1_036.webp"
    }
   ],
   "image": "cards/kerry_eurodyne_axe_attitude_audience.webp"
@@ -6227,6 +7753,17 @@
     "edition": "other",
     "collectorNumber": "019",
     "language": "fr",
+    "artist": "Bogna Gawrońska",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β012",
+    "language": "en",
     "artist": "Bogna Gawrońska",
     "finish": null,
     "isPrimary": false
@@ -6328,6 +7865,28 @@
     "artist": "CD Projekt Red",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β061",
+    "language": "en",
+    "artist": "CD Projekt Red",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β007",
+    "language": "en",
+    "artist": "CD Projekt Red",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -6377,6 +7936,17 @@
     "edition": "retail",
     "collectorNumber": "013",
     "language": "fr",
+    "artist": "Jesus Hervás",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β013",
+    "language": "en",
     "artist": "Jesus Hervás",
     "finish": null,
     "isPrimary": false
@@ -6431,6 +8001,17 @@
     "artist": "Bernard Kowalczuk",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β133",
+    "language": "en",
+    "artist": "Bernard Kowalczuk",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -6482,6 +8063,17 @@
     "artist": "DOFRESH",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β068",
+    "language": "en",
+    "artist": "DOFRESH",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -6530,6 +8122,17 @@
     "edition": "retail",
     "collectorNumber": "117",
     "language": "fr",
+    "artist": "CD Projekt Red",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β117",
+    "language": "en",
     "artist": "CD Projekt Red",
     "finish": null,
     "isPrimary": false
@@ -6585,6 +8188,17 @@
     "artist": "Alexander Dudar",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β049",
+    "language": "en",
+    "artist": "Alexander Dudar",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -6634,6 +8248,17 @@
     "edition": "retail",
     "collectorNumber": "079",
     "language": "fr",
+    "artist": "Michał Dziekan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β079",
+    "language": "en",
     "artist": "Michał Dziekan",
     "finish": null,
     "isPrimary": false
@@ -6753,6 +8378,17 @@
     "edition": "other",
     "collectorNumber": "037",
     "language": "fr",
+    "artist": "TOPDOG Entertainment",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β118",
+    "language": "en",
     "artist": "TOPDOG Entertainment",
     "finish": null,
     "isPrimary": false
@@ -6898,6 +8534,28 @@
     "artist": "Lea Leonowicz",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β062",
+    "language": "en",
+    "artist": "Lea Leonowicz",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β008",
+    "language": "en",
+    "artist": "Lea Leonowicz",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -6993,6 +8651,39 @@
     "edition": "retail",
     "collectorNumber": "007",
     "language": "fr",
+    "artist": "Ricardo Padierne Silvera",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β025",
+    "language": "en",
+    "artist": "Ricardo Padierne Silvera",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β007",
+    "language": "en",
+    "artist": "Ricardo Padierne Silvera",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "prereleasebeta",
+    "setName": "Pre-Release Beta",
+    "baseSetName": "Pre-Release Beta",
+    "edition": "beta",
+    "collectorNumber": "011",
+    "language": "en",
     "artist": "Ricardo Padierne Silvera",
     "finish": null,
     "isPrimary": false
@@ -7097,6 +8788,28 @@
     "artist": "Olgierd Ciszak",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β080",
+    "language": "en",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β018",
+    "language": "en",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -7145,6 +8858,17 @@
     "edition": "retail",
     "collectorNumber": "081",
     "language": "fr",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β081",
+    "language": "en",
     "artist": "Olgierd Ciszak",
     "finish": null,
     "isPrimary": false
@@ -7254,6 +8978,17 @@
     "artist": "Olgierd Ciszak",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β082",
+    "language": "en",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -7269,6 +9004,19 @@
     "baseSetName": "Night City Brawl S 1",
     "edition": "other",
     "image": "cards/alt/maxtac_squadron__nightcitybrawls1_010.webp"
+   },
+   {
+    "id": "judgepromos_002",
+    "label": "Promo 002",
+    "collectorNumber": "002",
+    "artist": "Olgierd Ciszak",
+    "rarity": "Common",
+    "finish": null,
+    "setCode": "judgepromos",
+    "setName": "Judge Promos",
+    "baseSetName": "Judge Promos",
+    "edition": "other",
+    "image": "cards/alt/maxtac_squadron__judgepromos_002.webp"
    }
   ],
   "image": "cards/maxtac_squadron.webp"
@@ -7316,6 +9064,17 @@
     "edition": "retail",
     "collectorNumber": "050",
     "language": "fr",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β050",
+    "language": "en",
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
@@ -7370,6 +9129,17 @@
     "artist": "Max Fiumara",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β100",
+    "language": "en",
+    "artist": "Max Fiumara",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -7419,6 +9189,17 @@
     "edition": "retail",
     "collectorNumber": "014",
     "language": "fr",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β014",
+    "language": "en",
     "artist": "Daniel Valaisis",
     "finish": null,
     "isPrimary": false
@@ -7481,6 +9262,17 @@
     "edition": "retail",
     "collectorNumber": "119",
     "language": "fr",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β119",
+    "language": "en",
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
@@ -7550,6 +9342,17 @@
     "artist": "Łukasz Poller",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β120",
+    "language": "en",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -7598,6 +9401,17 @@
     "edition": "retail",
     "collectorNumber": "121",
     "language": "fr",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β121",
+    "language": "en",
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
@@ -7650,6 +9464,17 @@
     "edition": "retail",
     "collectorNumber": "122",
     "language": "fr",
+    "artist": "Michał Dziekan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β122",
+    "language": "en",
     "artist": "Michał Dziekan",
     "finish": null,
     "isPrimary": false
@@ -7814,6 +9639,17 @@
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β038",
+    "language": "en",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -7855,6 +9691,58 @@
     "baseSetName": "Edgerunner Open S 1",
     "edition": "other",
     "image": "cards/alt/muamar_reyes_el_capitan__edgerunneropens1_014.webp"
+   },
+   {
+    "id": "edgerunneropens1_018",
+    "label": "Alt Art 018",
+    "collectorNumber": "018",
+    "artist": "Envar Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/muamar_reyes_el_capitan__edgerunneropens1_018.webp"
+   },
+   {
+    "id": "edgerunneropens1_022",
+    "label": "Alt Art 022",
+    "collectorNumber": "022",
+    "artist": "Envar Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/muamar_reyes_el_capitan__edgerunneropens1_022.webp"
+   },
+   {
+    "id": "edgerunneropens1_026",
+    "label": "Alt Art 026",
+    "collectorNumber": "026",
+    "artist": "Envar Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/muamar_reyes_el_capitan__edgerunneropens1_026.webp"
+   },
+   {
+    "id": "edgerunneropens1_037",
+    "label": "Alt Art 037",
+    "collectorNumber": "037",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/muamar_reyes_el_capitan__edgerunneropens1_037.webp"
    }
   ],
   "image": "cards/muamar_reyes_el_capitan.webp"
@@ -7903,6 +9791,17 @@
     "edition": "retail",
     "collectorNumber": "083",
     "language": "fr",
+    "artist": "Miguel Valderrama",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β083",
+    "language": "en",
     "artist": "Miguel Valderrama",
     "finish": null,
     "isPrimary": false
@@ -8003,6 +9902,17 @@
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β129",
+    "language": "en",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -8069,6 +9979,17 @@
     "artist": "Michał Dziekan",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β134",
+    "language": "en",
+    "artist": "Michał Dziekan",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -8119,6 +10040,17 @@
     "edition": "retail",
     "collectorNumber": "015",
     "language": "fr",
+    "artist": "CD Projekt Red",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β015",
+    "language": "en",
     "artist": "CD Projekt Red",
     "finish": null,
     "isPrimary": false
@@ -8193,6 +10125,28 @@
     "edition": "retail",
     "collectorNumber": "004",
     "language": "fr",
+    "artist": "Bernard Kowalczuk",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β051",
+    "language": "en",
+    "artist": "Bernard Kowalczuk",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β004",
+    "language": "en",
     "artist": "Bernard Kowalczuk",
     "finish": null,
     "isPrimary": false
@@ -8280,6 +10234,28 @@
     "artist": "Roberto Ricci",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β034",
+    "language": "en",
+    "artist": "Roberto Ricci",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β010",
+    "language": "en",
+    "artist": "Roberto Ricci",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -8364,6 +10340,17 @@
     "artist": "Dardo Studios",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β093",
+    "language": "en",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -8439,6 +10426,17 @@
     "edition": "retail",
     "collectorNumber": "084",
     "language": "fr",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β084",
+    "language": "en",
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
@@ -8561,6 +10559,17 @@
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β074",
+    "language": "en",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -8589,6 +10598,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/padre_man_of_the_cross__welcometonightcityretail_153.webp"
+   },
+   {
+    "id": "edgerunneropens1_045",
+    "label": "Alt Art 045",
+    "collectorNumber": "045",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/padre_man_of_the_cross__edgerunneropens1_045.webp"
    }
   ],
   "image": "cards/padre_man_of_the_cross.webp"
@@ -8685,6 +10707,28 @@
     "artist": "Pandart Studio",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β075",
+    "language": "en",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "prereleasebeta",
+    "setName": "Pre-Release Beta",
+    "baseSetName": "Pre-Release Beta",
+    "edition": "beta",
+    "collectorNumber": "008",
+    "language": "en",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -8713,6 +10757,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/panam_palmer_nomad_cavalry__welcometonightcityretail_154.webp"
+   },
+   {
+    "id": "edgerunneropens1_046",
+    "label": "Alt Art 046",
+    "collectorNumber": "046",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/panam_palmer_nomad_cavalry__edgerunneropens1_046.webp"
    }
   ],
   "image": "cards/panam_palmer_nomad_cavalry.webp"
@@ -8796,6 +10853,17 @@
     "collectorNumber": "170",
     "language": "fr",
     "artist": "Divebound",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β085",
+    "language": "en",
+    "artist": "Ilya Kuvshinov",
     "finish": null,
     "isPrimary": false
    }
@@ -8898,6 +10966,17 @@
     "artist": "Mattia De Iulis",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β101",
+    "language": "en",
+    "artist": "Mattia De Iulis",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -8963,6 +11042,17 @@
     "artist": "TOPDOG Entertainment",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β086",
+    "language": "en",
+    "artist": "TOPDOG Entertainment",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -9013,6 +11103,17 @@
     "edition": "retail",
     "collectorNumber": "123",
     "language": "fr",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β123",
+    "language": "en",
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
@@ -9100,6 +11201,28 @@
     "artist": "Kieran McKeown \n& Giada Marchisio",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β124",
+    "language": "en",
+    "artist": "Kieran McKeown & Giada Marchisio",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β016",
+    "language": "en",
+    "artist": "Kieran McKeown \n& Giada Marchisio",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -9148,6 +11271,17 @@
     "edition": "retail",
     "collectorNumber": "135",
     "language": "fr",
+    "artist": "Elizaveta Kazakova",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β135",
+    "language": "en",
     "artist": "Elizaveta Kazakova",
     "finish": null,
     "isPrimary": false
@@ -9235,6 +11369,28 @@
     "artist": "Miguel Valderrama",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β136",
+    "language": "en",
+    "artist": "Miguel Valderrama",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β020",
+    "language": "en",
+    "artist": "Miguel Valderrama",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -9297,6 +11453,17 @@
     "artist": "Michal Ivan",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β087",
+    "language": "en",
+    "artist": "Michal Ivan",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -9345,6 +11512,17 @@
     "edition": "retail",
     "collectorNumber": "094",
     "language": "fr",
+    "artist": "TOPDOG Entertainment",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β094",
+    "language": "en",
     "artist": "TOPDOG Entertainment",
     "finish": null,
     "isPrimary": false
@@ -9397,6 +11575,17 @@
     "edition": "retail",
     "collectorNumber": "125",
     "language": "fr",
+    "artist": "TOPDOG Entertainment",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β125",
+    "language": "en",
     "artist": "TOPDOG Entertainment",
     "finish": null,
     "isPrimary": false
@@ -9495,6 +11684,28 @@
     "artist": "Pandart Studio",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β039",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "prereleasebeta",
+    "setName": "Pre-Release Beta",
+    "baseSetName": "Pre-Release Beta",
+    "edition": "beta",
+    "collectorNumber": "004",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -9523,6 +11734,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/river_ward_detective_on_the_hunt__welcometonightcityretail_148.webp"
+   },
+   {
+    "id": "edgerunneropens1_038",
+    "label": "Alt Art 038",
+    "collectorNumber": "038",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/river_ward_detective_on_the_hunt__edgerunneropens1_038.webp"
    }
   ],
   "image": "cards/river_ward_detective_on_the_hunt.webp"
@@ -9570,6 +11794,17 @@
     "edition": "retail",
     "collectorNumber": "052",
     "language": "fr",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β052",
+    "language": "en",
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
@@ -9690,6 +11925,28 @@
     "artist": "Olgierd Ciszak",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β040",
+    "language": "en",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "prereleasebeta",
+    "setName": "Pre-Release Beta",
+    "baseSetName": "Pre-Release Beta",
+    "edition": "beta",
+    "collectorNumber": "005",
+    "language": "en",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -9718,6 +11975,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/rogue_amendiares_preem_solo__welcometonightcityretail_149.webp"
+   },
+   {
+    "id": "edgerunneropens1_039",
+    "label": "Alt Art 039",
+    "collectorNumber": "039",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/rogue_amendiares_preem_solo__edgerunneropens1_039.webp"
    }
   ],
   "image": "cards/rogue_amendiares_preem_solo.webp"
@@ -9800,6 +12070,17 @@
     "collectorNumber": "166",
     "language": "fr",
     "artist": "Dardo Studios",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β126",
+    "language": "en",
+    "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
    }
@@ -9889,6 +12170,17 @@
     "edition": "retail",
     "collectorNumber": "016",
     "language": "fr",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β016",
+    "language": "en",
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
@@ -10010,6 +12302,28 @@
     "artist": "Michal Ivan",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β004",
+    "language": "en",
+    "artist": "Michal Ivan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "prereleasebeta",
+    "setName": "Pre-Release Beta",
+    "baseSetName": "Pre-Release Beta",
+    "edition": "beta",
+    "collectorNumber": "002",
+    "language": "en",
+    "artist": "Michal Ivan",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -10038,6 +12352,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/royce_psycho_on_the_edge__welcometonightcityretail_143.webp"
+   },
+   {
+    "id": "edgerunneropens1_032",
+    "label": "Alt Art 032",
+    "collectorNumber": "032",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/royce_psycho_on_the_edge__edgerunneropens1_032.webp"
    }
   ],
   "image": "cards/royce_psycho_on_the_edge.webp"
@@ -10111,6 +12438,28 @@
     "artist": "Jeffrey Alan Love",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β017",
+    "language": "en",
+    "artist": "Jeffrey Alan Love",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β004",
+    "language": "en",
+    "artist": "Jeffrey Alan Love",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -10159,6 +12508,17 @@
     "edition": "retail",
     "collectorNumber": "069",
     "language": "fr",
+    "artist": "Miguel Valderrama",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β069",
+    "language": "en",
     "artist": "Miguel Valderrama",
     "finish": null,
     "isPrimary": false
@@ -10245,6 +12605,17 @@
     "collectorNumber": "164",
     "language": "fr",
     "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β088",
+    "language": "en",
+    "artist": "ADIA",
     "finish": null,
     "isPrimary": false
    }
@@ -10413,6 +12784,28 @@
     "artist": "Envar",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β095",
+    "language": "en",
+    "artist": "CD Projekt Red",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β019",
+    "language": "en",
+    "artist": "CD Projekt Red",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -10428,6 +12821,32 @@
     "baseSetName": "Night City Showdown S1",
     "edition": "other",
     "image": "cards/alt/sandevistan__nightcityshowdowns1_001.webp"
+   },
+   {
+    "id": "nightcityshowdowns1_003",
+    "label": "Alt Art 003",
+    "collectorNumber": "003",
+    "artist": "Envar",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "nightcityshowdowns1",
+    "setName": "Night City Showdown S1",
+    "baseSetName": "Night City Showdown S1",
+    "edition": "other",
+    "image": "cards/alt/sandevistan__nightcityshowdowns1_003.webp"
+   },
+   {
+    "id": "nightcityshowdowns1_005",
+    "label": "Alt Art 005",
+    "collectorNumber": "005",
+    "artist": "Envar",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "nightcityshowdowns1",
+    "setName": "Night City Showdown S1",
+    "baseSetName": "Night City Showdown S1",
+    "edition": "other",
+    "image": "cards/alt/sandevistan__nightcityshowdowns1_005.webp"
    }
   ],
   "image": "cards/sandevistan.webp"
@@ -10524,6 +12943,17 @@
     "artist": "Divebound",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β109",
+    "language": "en",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -10552,6 +12982,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/sasha_yakovleva_won_t_let_you_down__welcometonightcityretail_169.webp"
+   },
+   {
+    "id": "edgerunneropens1_052",
+    "label": "Alt Art 052",
+    "collectorNumber": "052",
+    "artist": "Divebound Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/sasha_yakovleva_won_t_let_you_down__edgerunneropens1_052.webp"
    }
   ],
   "image": "cards/sasha_yakovleva_won_t_let_you_down.webp"
@@ -10680,6 +13123,28 @@
     "artist": "Ivan Shavrin",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β026",
+    "language": "en",
+    "artist": "Ivan Shavrin",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β008",
+    "language": "en",
+    "artist": "Ivan Shavrin",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -10746,6 +13211,17 @@
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β089",
+    "language": "en",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -10795,6 +13271,17 @@
     "edition": "retail",
     "collectorNumber": "018",
     "language": "fr",
+    "artist": "Rion Chow",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β018",
+    "language": "en",
     "artist": "Rion Chow",
     "finish": null,
     "isPrimary": false
@@ -10938,6 +13425,28 @@
     "artist": "Luca Claretti",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β053",
+    "language": "en",
+    "artist": "Luca Claretti",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β005",
+    "language": "en",
+    "artist": "Luca Claretti",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -10953,6 +13462,19 @@
     "baseSetName": "Night City Brawl S 1",
     "edition": "other",
     "image": "cards/alt/secondhand_bombus__nightcitybrawls1_005.webp"
+   },
+   {
+    "id": "judgepromos_001",
+    "label": "Promo 001",
+    "collectorNumber": "001",
+    "artist": "Luca Claretti",
+    "rarity": "Common",
+    "finish": null,
+    "setCode": "judgepromos",
+    "setName": "Judge Promos",
+    "baseSetName": "Judge Promos",
+    "edition": "other",
+    "image": "cards/alt/secondhand_bombus__judgepromos_001.webp"
    }
   ],
   "image": "cards/secondhand_bombus.webp"
@@ -11025,6 +13547,28 @@
     "artist": "Max Fiumara",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β035",
+    "language": "en",
+    "artist": "Max Fiumara",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β011",
+    "language": "en",
+    "artist": "Max Fiumara",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -11075,6 +13619,17 @@
     "edition": "retail",
     "collectorNumber": "054",
     "language": "fr",
+    "artist": "Michał Dziekan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β054",
+    "language": "en",
     "artist": "Michał Dziekan",
     "finish": null,
     "isPrimary": false
@@ -11162,6 +13717,28 @@
     "artist": "Olgierd Ciszak",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β019",
+    "language": "en",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "embracingpowerbetastarterdeck",
+    "setName": "Embracing Power — Beta Starter Deck",
+    "baseSetName": "Embracing Power — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β005",
+    "language": "en",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -11210,6 +13787,17 @@
     "edition": "retail",
     "collectorNumber": "102",
     "language": "fr",
+    "artist": "Michal Ivan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β102",
+    "language": "en",
     "artist": "Michal Ivan",
     "finish": null,
     "isPrimary": false
@@ -11287,6 +13875,28 @@
     "artist": "Łukasz Poller",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β055",
+    "language": "en",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β006",
+    "language": "en",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -11335,6 +13945,17 @@
     "edition": "retail",
     "collectorNumber": "103",
     "language": "fr",
+    "artist": "RUDCEF",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β103",
+    "language": "en",
     "artist": "RUDCEF",
     "finish": null,
     "isPrimary": false
@@ -11411,6 +14032,28 @@
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β130",
+    "language": "en",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β018",
+    "language": "en",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -11459,6 +14102,17 @@
     "edition": "retail",
     "collectorNumber": "070",
     "language": "fr",
+    "artist": "Dilara Özden",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β070",
+    "language": "en",
     "artist": "Dilara Özden",
     "finish": null,
     "isPrimary": false
@@ -11547,6 +14201,17 @@
     "artist": "Łukasz Poller",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β063",
+    "language": "en",
+    "artist": "Dardo Studios",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -11623,6 +14288,17 @@
     "edition": "retail",
     "collectorNumber": "137",
     "language": "fr",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β137",
+    "language": "en",
     "artist": "Łukasz Poller",
     "finish": null,
     "isPrimary": false
@@ -11710,6 +14386,17 @@
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β138",
+    "language": "en",
+    "artist": "Dardo Studios",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -11738,6 +14425,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/towerfall__welcometonightcityretail_167.webp"
+   },
+   {
+    "id": "welcometonightcitybeta_138",
+    "label": "Alt Art β138",
+    "collectorNumber": "β138",
+    "artist": "Dardo Studios",
+    "rarity": "Epic",
+    "finish": null,
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "image": "cards/alt/towerfall__welcometonightcitybeta_138.webp"
    }
   ],
   "image": "cards/towerfall.webp"
@@ -11786,6 +14486,17 @@
     "edition": "retail",
     "collectorNumber": "056",
     "language": "fr",
+    "artist": "Michal Ivan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β056",
+    "language": "en",
     "artist": "Michal Ivan",
     "finish": null,
     "isPrimary": false
@@ -11862,6 +14573,17 @@
     "artist": "Jesús Hervás",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β139",
+    "language": "en",
+    "artist": "Jesús Hervás",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -11928,6 +14650,17 @@
     "artist": "Bernard Kowalczuk",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β090",
+    "language": "en",
+    "artist": "Bernard Kowalczuk",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -11980,6 +14713,17 @@
     "artist": "Fabrizio De Tommaso",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β140",
+    "language": "en",
+    "artist": "Fabrizio De Tommaso",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -12029,6 +14773,17 @@
     "edition": "retail",
     "collectorNumber": "020",
     "language": "fr",
+    "artist": "Dardo Studios",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β020",
+    "language": "en",
     "artist": "Dardo Studios",
     "finish": null,
     "isPrimary": false
@@ -12193,6 +14948,28 @@
     "artist": "Pandart Studio",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β005a",
+    "language": "en",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β005b",
+    "language": "en",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -12247,6 +15024,71 @@
     "baseSetName": "Edgerunner Open S 1",
     "edition": "other",
     "image": "cards/alt/v_streetkid__edgerunneropens1_013.webp"
+   },
+   {
+    "id": "welcometonightcityretail_144",
+    "label": "Iconic Alt Art 144",
+    "collectorNumber": "144",
+    "artist": "Pandart Studio",
+    "rarity": "Iconic Legend",
+    "finish": null,
+    "setCode": "welcometonightcityretail",
+    "setName": "Welcome to Night City — Retail",
+    "baseSetName": "Welcome to Night City — Retail",
+    "edition": "retail",
+    "image": "cards/alt/v_streetkid__welcometonightcityretail_144.webp"
+   },
+   {
+    "id": "edgerunneropens1_017",
+    "label": "Alt Art 017",
+    "collectorNumber": "017",
+    "artist": "Envar Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/v_streetkid__edgerunneropens1_017.webp"
+   },
+   {
+    "id": "edgerunneropens1_021",
+    "label": "Alt Art 021",
+    "collectorNumber": "021",
+    "artist": "Envar Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/v_streetkid__edgerunneropens1_021.webp"
+   },
+   {
+    "id": "edgerunneropens1_025",
+    "label": "Alt Art 025",
+    "collectorNumber": "025",
+    "artist": "Envar Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/v_streetkid__edgerunneropens1_025.webp"
+   },
+   {
+    "id": "edgerunneropens1_033",
+    "label": "Alt Art 033",
+    "collectorNumber": "033",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/v_streetkid__edgerunneropens1_033.webp"
    }
   ],
   "image": "cards/v_streetkid.webp"
@@ -12295,6 +15137,17 @@
     "edition": "retail",
     "collectorNumber": "021",
     "language": "fr",
+    "artist": "Michał Dziekan",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β021",
+    "language": "en",
     "artist": "Michał Dziekan",
     "finish": null,
     "isPrimary": false
@@ -12350,6 +15203,17 @@
     "artist": "Michał Dziekan",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β091",
+    "language": "en",
+    "artist": "Michał Dziekan",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -12401,6 +15265,17 @@
     "artist": "TOPDOG Entertainment",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β057",
+    "language": "en",
+    "artist": "TOPDOG Entertainment",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -12449,6 +15324,17 @@
     "edition": "retail",
     "collectorNumber": "058",
     "language": "fr",
+    "artist": "Łukasz Poller",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β058",
+    "language": "en",
     "artist": "Łukasz Poller",
     "finish": null,
     "isPrimary": false
@@ -12570,6 +15456,17 @@
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β110",
+    "language": "en",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -12598,6 +15495,19 @@
     "baseSetName": "Welcome to Night City — Retail",
     "edition": "retail",
     "image": "cards/alt/wakako_okada_peace_and_harmony__welcometonightcityretail_158.webp"
+   },
+   {
+    "id": "edgerunneropens1_054",
+    "label": "Alt Art 054",
+    "collectorNumber": "054",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "edgerunneropens1",
+    "setName": "Edgerunner Open S 1",
+    "baseSetName": "Edgerunner Open S 1",
+    "edition": "other",
+    "image": "cards/alt/wakako_okada_peace_and_harmony__edgerunneropens1_054.webp"
    }
   ],
   "image": "cards/wakako_okada_peace_and_harmony.webp"
@@ -12693,6 +15603,17 @@
     "artist": "Olgierd Ciszak",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β104",
+    "language": "en",
+    "artist": "Olgierd Ciszak",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -12758,6 +15679,17 @@
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β127",
+    "language": "en",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -12806,6 +15738,17 @@
     "edition": "retail",
     "collectorNumber": "105",
     "language": "fr",
+    "artist": "Bernard Kowalczuk",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β105",
+    "language": "en",
     "artist": "Bernard Kowalczuk",
     "finish": null,
     "isPrimary": false
@@ -12906,6 +15849,17 @@
     "artist": "Daniel Valaisis",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β092",
+    "language": "en",
+    "artist": "Daniel Valaisis",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [
@@ -12972,6 +15926,17 @@
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β022",
+    "language": "en",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
@@ -13021,6 +15986,17 @@
     "edition": "retail",
     "collectorNumber": "096",
     "language": "fr",
+    "artist": "Mooncolony",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β096",
+    "language": "en",
     "artist": "Mooncolony",
     "finish": null,
     "isPrimary": false
@@ -13098,9 +16074,161 @@
     "artist": "ADIA",
     "finish": null,
     "isPrimary": false
+   },
+   {
+    "setCode": "welcometonightcitybeta",
+    "setName": "Welcome to Night City — Beta",
+    "baseSetName": "Welcome to Night City — Beta",
+    "edition": "beta",
+    "collectorNumber": "β064",
+    "language": "en",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
+   },
+   {
+    "setCode": "theheistbetastarterdeck",
+    "setName": "The Heist — Beta Starter Deck",
+    "baseSetName": "The Heist — Beta Starter Deck",
+    "edition": "beta",
+    "collectorNumber": "β009",
+    "language": "en",
+    "artist": "ADIA",
+    "finish": null,
+    "isPrimary": false
    }
   ],
   "altArts": [],
   "image": "cards/zetatech_faceplate.webp"
+ },
+ {
+  "id": "rebecca_having_a_moment",
+  "name": "Rebecca",
+  "subname": "Having a Moment",
+  "displayName": "Rebecca: Having a Moment",
+  "type": "Legend",
+  "color": "Red",
+  "cost": null,
+  "power": null,
+  "ram": null,
+  "rarity": "Nova Rare",
+  "setCode": "PRM01",
+  "setName": "Set 1 Promos",
+  "printNumber": "005",
+  "importId": null,
+  "rules": "",
+  "flavor": null,
+  "artist": "Narupiti Harunsong",
+  "classifications": [],
+  "keywords": [],
+  "legality": "not-legal",
+  "isAlpha": false,
+  "printings": [
+   {
+    "setCode": "PRM01",
+    "setName": "Set 1 Promos",
+    "baseSetName": "Set 1 Promos",
+    "edition": "other",
+    "collectorNumber": "005",
+    "language": "en",
+    "artist": "Narupiti Harunsong",
+    "finish": null,
+    "isPrimary": true
+   },
+   {
+    "setCode": "PRM01",
+    "setName": "Set 1 Promos",
+    "baseSetName": "Set 1 Promos",
+    "edition": "other",
+    "collectorNumber": "007",
+    "language": "en",
+    "artist": "Pandart Studio",
+    "finish": null,
+    "isPrimary": false
+   }
+  ],
+  "altArts": [
+   {
+    "id": "prm01_007",
+    "label": "Promo 007",
+    "collectorNumber": "007",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "PRM01",
+    "setName": "Set 1 Promos",
+    "baseSetName": "Set 1 Promos",
+    "edition": "other",
+    "image": "cards/alt/rebecca_having_a_moment__prm01_007.webp"
+   }
+  ],
+  "image": "cards/rebecca_having_a_moment.webp"
+ },
+ {
+  "id": "lucyna_kushinada_fresh_beginnings",
+  "name": "Lucyna Kushinada",
+  "subname": "Fresh Beginnings",
+  "displayName": "Lucyna Kushinada: Fresh Beginnings",
+  "type": "Legend",
+  "color": "Blue",
+  "cost": null,
+  "power": null,
+  "ram": 2,
+  "rarity": "Nova Rare",
+  "setCode": "PRM01",
+  "setName": "Set 1 Promos",
+  "printNumber": "004a",
+  "importId": null,
+  "rules": "{Call}: Draw 1. If you control 2 or more min Gigs, draw 2 instead.",
+  "flavor": null,
+  "artist": "Pandart Studio",
+  "classifications": [
+   "Maine's Crew",
+   "Merc",
+   "Netrunner"
+  ],
+  "keywords": [],
+  "legality": "legal",
+  "isAlpha": false,
+  "printings": [
+   {
+    "setCode": "PRM01",
+    "setName": "Set 1 Promos",
+    "baseSetName": "Set 1 Promos",
+    "edition": "other",
+    "collectorNumber": "004a",
+    "language": "en",
+    "artist": "Pandart Studio",
+    "finish": null,
+    "isPrimary": true
+   },
+   {
+    "setCode": "PRM01",
+    "setName": "Set 1 Promos",
+    "baseSetName": "Set 1 Promos",
+    "edition": "other",
+    "collectorNumber": "004b",
+    "language": "en",
+    "artist": "Pandart Studio",
+    "finish": null,
+    "isPrimary": false
+   }
+  ],
+  "altArts": [
+   {
+    "id": "prm01_004b",
+    "label": "Promo 004b",
+    "collectorNumber": "004b",
+    "artist": "Pandart Studio",
+    "rarity": "Nova Rare",
+    "finish": null,
+    "setCode": "PRM01",
+    "setName": "Set 1 Promos",
+    "baseSetName": "Set 1 Promos",
+    "edition": "other",
+    "image": "cards/alt/lucyna_kushinada_fresh_beginnings__prm01_004b.webp"
+   }
+  ],
+  "image": "cards/lucyna_kushinada_fresh_beginnings.webp"
  }
 ]

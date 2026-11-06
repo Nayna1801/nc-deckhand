@@ -26,6 +26,7 @@ const SUITES = [
   { name: 'features', file: 'features.mjs', info: 'orden por sets, filtros, desplegables, deseos, móvil y seguridad' },
   { name: 'fixes', file: 'fixes.mjs', info: 'modal estable, playset por tipo, versiones y − sobre el total' },
   { name: 'multifilter', file: 'multifilter.mjs', info: 'filtros de selección múltiple y etiquetas' },
+  { name: 'paging', file: 'paging.mjs', info: 'paginación de Cartas y miniaturas de las fichas' },
   { name: 'prints', file: 'prints.mjs', info: 'impresiones por set: fichas, detalle y saltos entre impresiones' },
   { name: 'arts', file: 'arts.mjs', info: 'contar artes alternativos y promos por separado del diseño base' },
   { name: 'bulk', file: 'bulk.mjs', info: 'retirar copias del bulk de la colección' },

@@ -8,11 +8,12 @@ const run = (q: string): Card[] => {
   return catalog.cards.filter(s.match)
 }
 const ids = (q: string) => run(q).map((c) => c.id)
+const count = (f: (c: Card) => boolean) => catalog.cards.filter(f).length
 
 describe('texto libre', () => {
   it('una consulta vacía devuelve todo', () => {
-    expect(run('')).toHaveLength(150)
-    expect(run('   ')).toHaveLength(150)
+    expect(run('')).toHaveLength(catalog.cards.length)
+    expect(run('   ')).toHaveLength(catalog.cards.length)
   })
 
   it('busca por nombre, ignorando mayúsculas y acentos', () => {
@@ -33,7 +34,7 @@ describe('texto libre', () => {
 
 describe('tipo, color y rareza', () => {
   it('t: / type: filtran por tipo (con prefijo)', () => {
-    expect(run('t:legend')).toHaveLength(26)
+    expect(run('t:legend')).toHaveLength(count((c) => c.type === 'Legend'))
     expect(run('type:unit')).toHaveLength(73)
     expect(run('t:prog')).toHaveLength(34)
   })
@@ -57,7 +58,6 @@ describe('tipo, color y rareza', () => {
 })
 
 describe('comparaciones numéricas', () => {
-  const count = (f: (c: Card) => boolean) => catalog.cards.filter(f).length
 
   it('cost con todos los operadores', () => {
     expect(run('cost=3')).toHaveLength(count((c) => c.cost === 3))
@@ -76,7 +76,7 @@ describe('comparaciones numéricas', () => {
   it('power y ram (con alias pow)', () => {
     expect(run('power>=10')).toHaveLength(count((c) => c.power != null && c.power >= 10))
     expect(run('pow>=10')).toHaveLength(run('power>=10').length)
-    expect(run('ram:2')).toHaveLength(87)
+    expect(run('ram:2')).toHaveLength(count((c) => c.ram === 2))
     expect(run('ram>=4')).toHaveLength(count((c) => c.ram != null && c.ram >= 4))
   })
 })
@@ -109,7 +109,7 @@ describe('texto de reglas, keywords, facciones, artista', () => {
   })
 
   it('legal: filtra por legalidad', () => {
-    expect(run('legal:legal')).toHaveLength(150)
+    expect(run('legal:legal')).toHaveLength(count((c) => c.legality === 'legal'))
     expect(run('legal:banned')).toHaveLength(0)
   })
 })
@@ -130,7 +130,7 @@ describe('sets, números e impresiones (variantes)', () => {
   })
 
   it('has:alt y alt: usan las artes alternativas', () => {
-    expect(run('has:alt')).toHaveLength(62)
+    expect(run('has:alt')).toHaveLength(count((c) => c.altArts.length > 0))
     const nova = catalog.cards.filter((c) => c.altArts.some((a) => /nova/i.test(`${a.rarity} ${a.label}`)))
     expect(nova.length).toBeGreaterThan(0)
     expect(run('alt:nova')).toHaveLength(nova.length)
@@ -159,14 +159,14 @@ describe('negación y OR', () => {
   })
 
   it('or une grupos de términos', () => {
-    expect(run('t:legend or t:gear')).toHaveLength(26 + 17)
+    expect(run('t:legend or t:gear')).toHaveLength(count((c) => c.type === 'Legend' || c.type === 'Gear'))
     expect(run('t:legend c:red or t:gear c:blue')).toHaveLength(
       catalog.cards.filter((c) => (c.type === 'Legend' && c.color === 'Red') || (c.type === 'Gear' && c.color === 'Blue')).length,
     )
   })
 
   it('OR en mayúsculas también vale', () => {
-    expect(run('t:legend OR t:gear')).toHaveLength(43)
+    expect(run('t:legend OR t:gear')).toHaveLength(count((c) => c.type === 'Legend' || c.type === 'Gear'))
   })
 })
 
@@ -180,7 +180,7 @@ describe('errores y casos límite', () => {
   it('un valor numérico inválido se avisa y se ignora', () => {
     const s = parseSearch('cost:abc')
     expect(s.errors.join(' ')).toMatch(/cost/)
-    expect(catalog.cards.filter(s.match)).toHaveLength(150)
+    expect(catalog.cards.filter(s.match)).toHaveLength(catalog.cards.length)
   })
 
   it('valores de tipo/color/rareza desconocidos se avisan', () => {

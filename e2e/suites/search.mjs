@@ -1,7 +1,8 @@
 import { chromium } from 'playwright'
 import { BASE, CARDS, SHOTS } from '../config.mjs'
-import { pick, shown } from '../lib/helpers.mjs'
+import { pick, results, shown } from '../lib/helpers.mjs'
 import fs from 'node:fs'
+import { count as dataCount, P_BY_SET, SETS_N } from '../lib/data.mjs'
 const shots = SHOTS
 const cards = CARDS
 let failed = 0
@@ -10,7 +11,7 @@ const b = await chromium.launch(); const p = await b.newPage({ viewport: { width
 const errs = []; p.on('pageerror', e => errs.push(e.message))
 await p.goto(BASE); await p.waitForSelector('.tile')
 const search = p.locator('input[type=search]')
-const count = async () => p.locator('.tile').count()
+const count = async () => results(p)
 const q = async (text) => { await search.fill(text); await p.waitForTimeout(450); return count() }
 
 // 1. consulta de ejemplo con varios campos: t:unit c:red cost<=2 o:"draw"
@@ -20,13 +21,13 @@ ok((await q('t:unit c:red cost<=6 o:"draw"')) === exp1, `t:unit c:red cost<=6 o:
 const exp1b = cards.filter(c => c.type === 'Unit' && c.color === 'Red' && c.cost != null && c.cost <= 2 && /draw/i.test(c.rules)).length
 ok((await q('t:unit c:red cost<=2 o:"draw"')) === exp1b, `...y con cost<=2 -> ${exp1b} (el filtro numérico recorta)`)
 // 2. OR y negación
-ok((await q('t:legend or t:gear')) === 43, 't:legend or t:gear -> 43')
+ok((await q('t:legend or t:gear')) === dataCount((c) => c.type === 'Legend' || c.type === 'Gear'), 't:legend or t:gear -> Legends + Gear')
 ok((await q('-t:legend')) === 124, '-t:legend -> 124')
 // 3. keywords
 const blk = cards.filter(c => /\{blocker\}/i.test(c.rules)).length
 ok((await q('k:blocker')) === blk, `k:blocker -> ${blk}`)
 // 4. variantes en búsqueda
-ok((await q('has:alt')) === 62, 'has:alt -> 62 cartas con arte alternativo')
+ok((await q('has:alt')) === dataCount((c) => c.altArts.length > 0), `has:alt -> ${dataCount((c) => c.altArts.length > 0)} cartas con arte alternativo`)
 const fr = cards.filter(c => c.printings.some(x => x.language === 'fr')).length
 ok((await q('lang:fr')) === fr, `lang:fr -> ${fr}`)
 const beta = cards.filter(c => c.printings.some(x => /beta/i.test(x.baseSetName))).length
@@ -46,16 +47,16 @@ ok(await p.locator('.searchhelp-body').isVisible(), 'la ayuda de sintaxis se abr
 await p.screenshot({ path: shots + '/s2-help.png' })
 await p.locator('.searchhelp-body').getByRole('button', { name: 'has:alt', exact: true }).first().click()
 await p.waitForFunction(() => document.querySelector('input[type=search]').value === 'has:alt')
-ok((await search.inputValue()) === 'has:alt' && (await count()) === 62, 'pulsar un ejemplo lo escribe y filtra')
+ok((await search.inputValue()) === 'has:alt' && (await count()) === dataCount((c) => c.altArts.length > 0), 'pulsar un ejemplo lo escribe y filtra')
 await p.locator('.searchhelp summary').click()
 await q('')
 // 8. selector de set por impresiones
 await p.getByRole('button', { name: 'Set', exact: true }).click()
 const opts = await p.locator('.dd-list [role=option]').allInnerTexts()
 await p.keyboard.press('Escape')
-ok(opts.length === 14 && !opts.some(o => /—\s*(FR|French)$/i.test(o)), `selector de set: 13 sets base sin duplicados de idioma (${opts.length - 1})`)
+ok(opts.length === SETS_N + 1 && !opts.some(o => /—\s*(FR|French)$/i.test(o)), `selector de set: ${SETS_N} sets base sin duplicados de idioma (${opts.length - 1})`)
 await pick(p, 'Set', 'Welcome to Night City — Beta')
-ok((await count()) === beta, 'filtrar por set "Beta" usa todas las impresiones')
+ok((await count()) === P_BY_SET.get('Welcome to Night City — Beta'), 'filtrar por set "Beta" lista todas sus impresiones')
 await pick(p, 'Set', '')
 // 9. variantes en la ficha
 await q('adam smasher')
@@ -75,7 +76,7 @@ await p.keyboard.press('Escape')
 // 10. chips en vista lista
 await q('has:alt')
 await p.getByRole('button', { name: /Lista/ }).click()
-ok((await p.locator('.crow .chip', { hasText: 'ALT' }).count()) === 62, 'vista lista: 62 filas con chip ALT')
+ok((await results(p)) === dataCount((c) => c.altArts.length > 0) && (await p.locator('.crow .chip', { hasText: 'ALT' }).count()) === 48, 'vista lista: cartas con arte alternativo (48 filas con chip ALT en la primera página)')
 await p.getByRole('button', { name: /Galería/ }).click()
 // 11. caracteres especiales no rompen nada
 await q('o:(.*+'); ok((await count()) === 0 && (await p.locator('.empty').count()) === 1, 'regex/símbolos se tratan como texto literal')

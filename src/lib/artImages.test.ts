@@ -23,7 +23,7 @@ describe('imágenes de artes alternativos', () => {
   const alts = catalog.cards.flatMap((c) => c.altArts.map((a) => ({ cardId: c.id, ...a })))
 
   it('hay artes alternativos y todos tienen imagen', () => {
-    expect(alts.length).toBe(102)
+    expect(alts.length).toBe(167)
     expect(alts.filter((a) => !a.image)).toEqual([])
   })
 
@@ -50,9 +50,9 @@ describe('imágenes de artes alternativos', () => {
     expect(orphans).toEqual([])
   })
 
-  it('las 26 Legends tienen al menos un arte alternativo con imagen', () => {
+  it('las 28 Legends tienen al menos un arte alternativo con imagen', () => {
     const legends = catalog.cards.filter((c) => c.type === 'Legend')
-    expect(legends.length).toBe(26)
+    expect(legends.length).toBe(28)
     expect(legends.every((l) => l.altArts.some((a) => a.image))).toBe(true)
   })
 })

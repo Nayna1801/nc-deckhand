@@ -7,8 +7,10 @@ import type { Card, Printing } from './types'
  * - `original`: es una reimpresión con la mismo ilustrador que la original, así que se usa su imagen.
  * - `likely`: no tenemos su imagen, pero otro arte de la carta es del mismo ilustrador y probablemente es el mismo.
  * - `unknown`: ilustrador distinto y sin imagen disponible; se muestra la original como referencia.
+ * - `marked`: impresión promocional (Judge, Set 1 Promos…) con la misma ilustración que la original, pero con una
+ *   marca de promoción que no aparece en la imagen que tenemos; se cuenta aparte del diseño base.
  */
-export type ArtSource = 'exact' | 'original' | 'likely' | 'unknown'
+export type ArtSource = 'exact' | 'original' | 'likely' | 'unknown' | 'marked'
 
 /** Una impresión concreta de una carta (un set y un número de coleccionista). */
 export interface PrintEntry {
@@ -41,6 +43,9 @@ export const altKey = (a: { id: string }): string => `alt:${a.id}`
 
 /** Clave de una impresión con diseño propio de la que no tenemos arte alternativo catalogado. */
 export const printKey = (p: { setCode: string; collectorNumber: string | null }): string => `print:${p.setCode.toLowerCase()}#${p.collectorNumber ?? ''}`
+
+/** Sets promocionales: sus impresiones llevan una marca (p. ej. «Judge») aunque la ilustración sea la de la carta normal. */
+const PROMO_SET = /promo|judge/i
 
 /** Grupo de los artes alternativos que el catálogo no asocia a ningún set. */
 export const NO_SET = 'Artes alternativos sin set'
@@ -123,6 +128,7 @@ function toEntry(card: Card, p: Printing, original: Printing | undefined, hasFre
 
   const altIndex = matched
   if (!p.artist || !original?.artist || artistKey(p.artist) === artistKey(original.artist)) {
+    if (PROMO_SET.test(p.baseSetName)) return { ...base, image: card.image, art: 'marked', altIndex, variantKey: printKey(p) }
     return { ...base, image: card.image, art: 'original', altIndex, variantKey: null }
   }
   // otro ilustrador: es un diseño distinto del base aunque no tengamos su imagen exacta

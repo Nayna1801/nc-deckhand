@@ -113,3 +113,10 @@ a.stat-link strong { color: var(--cyan); }
 .art-row img { width: 34px; aspect-ratio: 5 / 7; object-fit: cover; flex: none; border: 1px solid var(--line); }
 .art-name { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
 .art-name small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* paginación de Cartas */
+.results-top { scroll-margin-top: 4.5rem; }
+.pager { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem; margin: 1rem 0; }
+.pager-pages { display: flex; align-items: center; gap: 0.25rem; list-style: none; margin: 0; padding: 0; }
+.pager-gap { color: var(--muted); padding: 0 0.2rem; }
+.pager-info { flex-basis: 100%; text-align: center; }

@@ -15,7 +15,7 @@ describe('orden por set y número', () => {
         prev = c.setCode
       }
     }
-    expect(seen.size).toBe(3)
+    expect(seen.size).toBe(new Set(catalog.cards.map((c) => c.setCode)).size)
   })
 
   it('dentro de cada set ordena por número de coleccionista', () => {

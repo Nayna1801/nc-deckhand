@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent, type MouseEvent, type ReactNode, type TouchEvent } from 'react'
 import { catalog, setLabel } from '../lib/catalog'
+import { thumbOf } from '../lib/images'
 import { printsOf, type PrintEntry } from '../lib/prints'
 import { altLabel } from '../lib/variants'
 import type { Card } from '../lib/types'
@@ -10,12 +11,25 @@ const assetUrl = (path: string): string => `${import.meta.env.BASE_URL}${path}`
 /** Texto corto que explica de dónde sale la imagen de una impresión; vacío si es la suya. */
 export function artNote(print: PrintEntry): string {
   if (print.art === 'likely') return 'Arte probable: no tenemos la imagen de esta impresión y se muestra otro arte del mismo ilustrador'
+  if (print.art === 'marked') return 'Impresión promocional: misma ilustración que la carta normal, pero lleva una marca de promoción (p. ej. «Judge») que no aparece en esta imagen'
   if (print.art === 'unknown') return 'Arte distinto al original sin imagen disponible: se muestra la carta original como referencia'
   return ''
 }
 
-export function CardImage({ card, className, src }: { card: Card; className?: string; /** Imagen concreta (p. ej. la de una impresión); por defecto, la de la carta. */ src?: string }) {
-  return <img className={className} src={src ? assetUrl(src) : imgUrl(card)} alt={card.displayName} loading="lazy" draggable={false} />
+/** Imagen de una carta. Con `thumb` se usa la miniatura (si no existe, la completa). */
+export function CardImage({ card, className, src, thumb }: { card: Card; className?: string; /** Imagen concreta (p. ej. la de una impresión); por defecto, la de la carta. */ src?: string; thumb?: boolean }) {
+  const path = src ?? card.image
+  const full = assetUrl(path)
+  return (
+    <img
+      className={className}
+      src={thumb ? assetUrl(thumbOf(path)) : full}
+      onError={thumb ? (e) => { if (!e.currentTarget.dataset.full) { e.currentTarget.dataset.full = '1'; e.currentTarget.src = full } } : undefined}
+      alt={card.displayName}
+      loading="lazy"
+      draggable={false}
+    />
+  )
 }
 
 /* ---------- vista cuadrícula / lista ---------- */
@@ -152,6 +166,8 @@ function PreviewLayer({ state }: { state: PreviewState }) {
 
 interface GroupedListProps<T> {
   items: T[]
+  /** Lista completa cuando `items` es solo una página: los encabezados cuentan todo el grupo, no solo lo visible. */
+  all?: T[]
   /** Grupo al que pertenece cada elemento; null = sin encabezados. Los elementos de un grupo deben ir seguidos. */
   groupOf: ((item: T) => { key: string; label: string }) | null
   /** Palabra que cuenta los elementos en el encabezado ("cartas", "impresiones"). */
@@ -163,7 +179,12 @@ interface GroupedListProps<T> {
 }
 
 /** Galería o lista, dividida en bloques con encabezado cuando hay agrupación. */
-export function GroupedList<T>({ items, groupOf, unit, view, compact, renderTile, renderRow }: GroupedListProps<T>) {
+export function GroupedList<T>({ items, all, groupOf, unit, view, compact, renderTile, renderRow }: GroupedListProps<T>) {
+  const totals = useMemo(() => {
+    const m = new Map<string, number>()
+    if (groupOf) for (const it of all ?? items) m.set(groupOf(it).key, (m.get(groupOf(it).key) ?? 0) + 1)
+    return m
+  }, [all, items, groupOf])
   const groups = useMemo(() => {
     if (!groupOf) return [{ key: 'all', label: '', items }]
     const out: { key: string; label: string; items: T[] }[] = []
@@ -183,7 +204,7 @@ export function GroupedList<T>({ items, groupOf, unit, view, compact, renderTile
           {g.label && (
             <h2 className="set-head">
               <span>{g.label}</span>
-              <small>{g.items.length} {unit}</small>
+              <small>{totals.get(g.key) ?? g.items.length} {unit}</small>
             </h2>
           )}
           {view === 'grid' ? (
@@ -201,6 +222,8 @@ const groupByCardSet = (c: Card) => ({ key: c.setCode, label: setLabel(c) })
 
 interface CardListProps {
   cards: Card[]
+  /** Todas las cartas si `cards` es una página (para contar bien los encabezados). */
+  all?: Card[]
   /** Con orden "set y número" se separan los sets con encabezados. */
   grouped: boolean
   view: ViewMode
@@ -210,14 +233,16 @@ interface CardListProps {
 }
 
 /** Galería o lista de cartas; con orden por set, dividida en bloques con su encabezado. */
-export function CardList({ cards, grouped, view, compact, renderTile, renderRow }: CardListProps) {
-  return <GroupedList items={cards} groupOf={grouped ? groupByCardSet : null} unit="cartas" view={view} compact={compact} renderTile={renderTile} renderRow={renderRow} />
+export function CardList({ cards, all, grouped, view, compact, renderTile, renderRow }: CardListProps) {
+  return <GroupedList items={cards} all={all} groupOf={grouped ? groupByCardSet : null} unit="cartas" view={view} compact={compact} renderTile={renderTile} renderRow={renderRow} />
 }
 
 const groupByPrintSet = (e: PrintEntry) => ({ key: e.setName, label: setLabel({ setName: e.setName }) })
 
 interface PrintListProps {
   prints: PrintEntry[]
+  /** Todas las impresiones si `prints` es una página. */
+  all?: PrintEntry[]
   grouped: boolean
   view: ViewMode
   renderTile: (print: PrintEntry) => ReactNode
@@ -225,8 +250,8 @@ interface PrintListProps {
 }
 
 /** Galería o lista de impresiones; con orden por set, dividida por set. */
-export function PrintList({ prints, grouped, view, renderTile, renderRow }: PrintListProps) {
-  return <GroupedList items={prints} groupOf={grouped ? groupByPrintSet : null} unit="impresiones" view={view} renderTile={renderTile} renderRow={renderRow} />
+export function PrintList({ prints, all, grouped, view, renderTile, renderRow }: PrintListProps) {
+  return <GroupedList items={prints} all={all} groupOf={grouped ? groupByPrintSet : null} unit="impresiones" view={view} renderTile={renderTile} renderRow={renderRow} />
 }
 
 export function ColorDot({ color }: { color: string | null }) {
@@ -282,7 +307,7 @@ export function CardTile({ card, onClick, badge, footer, dim, locked, lockReason
         onDragStart={startDrag(dragData)}
         {...preview}
       >
-        <CardImage card={card} src={print?.image} />
+        <CardImage card={card} src={print?.image} thumb />
         {print && <PrintTag print={print} />}
         {locked && (
           <span className="tile-lockbox" title={lockReason} aria-hidden="true">
@@ -301,7 +326,7 @@ export function CardRow({ card, onClick, badge, right, dim, locked, lockReason, 
   return (
     <div className={`crow ${dim ? 'dim' : ''} ${locked ? 'locked' : ''}`} draggable={!!dragData} onDragStart={startDrag(dragData)}>
       <button className="crow-main" onClick={onClick} title={locked ? lockReason : undefined} {...preview}>
-        <img className="crow-thumb" src={print ? assetUrl(print.image) : imgUrl(card)} alt="" loading="lazy" draggable={false} />
+        <img className="crow-thumb" src={assetUrl(thumbOf(print?.image ?? card.image))} alt="" loading="lazy" draggable={false} />
         <span className="crow-name">
           {locked && <span aria-label="Bloqueada">🔒 </span>}
           <ColorDot color={card.color} />
@@ -412,11 +437,11 @@ export function CardModal({ card, printKey, onClose, children }: { card: Card | 
           {gallery.length > 0 && (
             <div className="thumbs" role="group" aria-label="Variantes de arte">
               <button type="button" className="thumb" aria-pressed={art < 0} aria-label="Arte original" title="Arte original" onClick={() => pickArt(-1)}>
-                <img src={imgUrl(card)} alt="" loading="lazy" draggable={false} />
+                <img src={assetUrl(thumbOf(card.image))} alt="" loading="lazy" draggable={false} />
               </button>
               {gallery.map(({ a, i }) => (
                 <button key={`${a.id}-${i}`} type="button" className="thumb" aria-pressed={art === i} aria-label={altLabel(a)} title={altLabel(a)} onClick={() => pickArt(i)}>
-                  <img src={`${import.meta.env.BASE_URL}${a.image}`} alt="" loading="lazy" draggable={false} />
+                  <img src={assetUrl(thumbOf(a.image as string))} alt="" loading="lazy" draggable={false} />
                 </button>
               ))}
             </div>

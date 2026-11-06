@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { catalog } from './catalog'
 import { buildPrints, compareBySet, expandPrints, NO_SET, printsOf } from './prints'
@@ -100,5 +102,95 @@ describe('artes alternativos sin set', () => {
     const sinSet = buildPrints(catalog.cards).filter((e) => e.setName === NO_SET)
     expect(sinSet).toHaveLength(9)
     expect(sinSet.every((e) => e.art === 'exact' && e.variantKey !== null)).toBe(true)
+  })
+})
+
+describe('impresiones promocionales', () => {
+  it('las Judge Promos tienen su imagen propia (con la marca Judge) y se cuentan aparte', () => {
+    const judge = expandPrints(catalog.cards, { sets: ['Judge Promos'], bySet: true })
+    expect(judge).toHaveLength(3)
+    for (const e of judge) {
+      expect(e.art, e.key).toBe('exact')
+      expect(e.image, e.key).toMatch(/^cards\/alt\/.+__judgepromos_/)
+      expect(e.image).not.toBe(e.card.image)
+      expect(e.variantKey).toBe(`alt:${e.setCode.toLowerCase()}_${e.collectorNumber}`)
+    }
+  })
+
+  it('una impresión promocional sin imagen propia se marca como aproximada y se cuenta aparte', () => {
+    const card = { ...catalog.byId['secondhand_bombus'], altArts: [] }
+    const judge = printsOf(card).find((e) => e.setName === 'Judge Promos')
+    expect(judge?.art).toBe('marked')
+    expect(judge?.image).toBe(card.image)
+    expect(judge?.variantKey).toBe(`print:judgepromos#${judge?.collectorNumber}`)
+  })
+
+  it('una reimpresión normal con el mismo ilustrador sigue siendo el diseño base', () => {
+    const goro = printsOf(catalog.byId['goro_takemura_hands_unclean']).find((e) => e.setName === 'Arasaka Demo Deck')
+    expect(goro?.art).toBe('original')
+    expect(goro?.variantKey).toBeNull()
+  })
+})
+
+describe('catálogo completo de impresiones', () => {
+  it('las cartas de Set 1 Promos que no tienen versión base ya están (Rebecca y Lucyna)', () => {
+    const rebecca = catalog.byId['rebecca_having_a_moment']
+    const lucyna = catalog.byId['lucyna_kushinada_fresh_beginnings']
+    expect(rebecca?.setName).toBe('Set 1 Promos')
+    expect(lucyna?.setName).toBe('Set 1 Promos')
+    const promoCards = new Set(expandPrints(catalog.cards, { sets: ['Set 1 Promos'], bySet: true }).map((e) => e.card.id))
+    expect(promoCards.has('rebecca_having_a_moment')).toBe(true)
+    expect(promoCards.has('lucyna_kushinada_fresh_beginnings')).toBe(true)
+    expect(existsSync(join(process.cwd(), 'public', rebecca.image))).toBe(true)
+  })
+
+  it('están los sets Beta de los mazos de inicio y de las promos de caja', () => {
+    const sets = new Set(buildPrints(catalog.cards).map((e) => e.setName))
+    for (const s of ['Embracing Power — Beta Starter Deck', 'The Heist — Beta Starter Deck', 'Box Toppers — Beta', 'Pre-Release Beta', 'Welcome to Night City — Beta']) {
+      expect(sets.has(s), s).toBe(true)
+    }
+  })
+
+  it('con los datos actuales ninguna impresión se queda sin su imagen: o la tiene propia o es el mismo arte que la base', () => {
+    for (const e of buildPrints(catalog.cards)) expect(['exact', 'original'], `${e.key} (${e.art})`).toContain(e.art)
+  })
+
+  it('cada arte alternativo con imagen se corresponde con su impresión (mismo set y número)', () => {
+    for (const c of catalog.cards) {
+      for (const a of c.altArts) {
+        if (!a.setCode || !a.image) continue
+        const hit = printsOf(c).find((e) => e.setCode.toLowerCase() === a.setCode?.toLowerCase() && e.collectorNumber === a.collectorNumber)
+        expect(hit?.image, `${c.id} ${a.id}`).toBe(a.image)
+      }
+    }
+  })
+})
+
+describe('imágenes aproximadas (cuando falta la de una impresión)', () => {
+  const base = catalog.byId['goro_takemura_hands_unclean']
+  const withPrint = (p: Partial<(typeof base.printings)[number]>) => ({
+    ...base,
+    altArts: [],
+    printings: [...base.printings.filter((x) => x.isPrimary), { ...base.printings[0], isPrimary: false, language: 'en' as const, setCode: 'zz', setName: 'Zeta', baseSetName: 'Zeta', collectorNumber: '9', ...p }],
+  })
+
+  it('otro ilustrador y sin imagen: se muestra la original y se marca como desconocida, contable aparte', () => {
+    const e = printsOf(withPrint({ artist: 'Alguien Distinto' })).find((x) => x.setName === 'Zeta')
+    expect(e?.art).toBe('unknown')
+    expect(e?.image).toBe(base.image)
+    expect(e?.variantKey).toBe('print:zz#9')
+  })
+
+  it('mismo ilustrador en un set normal: es el diseño base', () => {
+    const e = printsOf(withPrint({ artist: base.artist })).find((x) => x.setName === 'Zeta')
+    expect(e?.art).toBe('original')
+    expect(e?.variantKey).toBeNull()
+  })
+
+  it('otro ilustrador que coincide con un arte alternativo de la carta: arte probable', () => {
+    const card = { ...withPrint({ artist: 'Pandart Studio' }), altArts: [{ id: 'x', image: 'cards/alt/x.webp', label: null, collectorNumber: '1', artist: 'Pandart Studio', rarity: null, finish: null, setCode: 'otro', setName: 'Otro', baseSetName: 'Otro', edition: null }] }
+    const e = printsOf(card).find((x) => x.setName === 'Zeta')
+    expect(e?.art).toBe('likely')
+    expect(e?.image).toBe('cards/alt/x.webp')
   })
 })

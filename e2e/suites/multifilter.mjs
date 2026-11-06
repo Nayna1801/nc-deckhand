@@ -1,6 +1,7 @@
 import { chromium } from 'playwright'
 import { BASE } from '../config.mjs'
-import { pick, pickMany, shown } from '../lib/helpers.mjs'
+import { pick, pickMany, results, shown } from '../lib/helpers.mjs'
+import { N } from '../lib/data.mjs'
 
 let failed = 0
 const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) failed++ }
@@ -13,7 +14,7 @@ page.on('pageerror', (e) => errors.push('pageerror: ' + e.message))
 page.on('console', (m) => m.type() === 'error' && errors.push('console: ' + m.text()))
 
 await page.goto(BASE); await page.waitForSelector('.tile')
-const count = () => page.locator('.tile').count()
+const count = () => results(page)
 
 /* ---- colores: azul + verde a la vez ---- */
 await pick(page, 'Color', 'Blue'); const blue = await count()
@@ -31,7 +32,7 @@ ok(await page.locator('.dd-list').isVisible(), 'la lista sigue abierta tras marc
 ok((await page.locator('.dd-list [role=option][aria-selected=true]').count()) === 1, 'solo queda marcada Blue')
 ok((await count()) === blue, 'al desmarcar verde quedan solo las azules')
 await page.locator('.dd-list [role=option][data-value=""]').click()
-ok((await count()) === 150, '"Todos" vacía la selección')
+ok((await count()) === N, '"Todos" vacía la selección')
 await page.keyboard.press('Escape')
 ok(!(await page.locator('.dd-list').count()), 'Escape cierra la lista')
 
@@ -67,7 +68,7 @@ await pickMany(page, 'Color', ['Blue', 'Green'])
 const crossed = await count()
 ok(crossed <= either, `etiquetas y color se cruzan (${crossed} ≤ ${either})`)
 await page.getByRole('button', { name: 'Limpiar' }).click()
-ok((await count()) === 150, 'Limpiar quita todas las selecciones')
+ok((await count()) === N, 'Limpiar quita todas las selecciones')
 
 /* ---- móvil: la lista múltiple cabe y se puede usar ---- */
 await page.setViewportSize({ width: 390, height: 800 })
@@ -78,7 +79,7 @@ const fbtn = await page.getByRole('button', { name: /^Filtros/ }).innerText()
 ok(/filtros \(2\)/i.test(fbtn), `móvil: el contador cuenta 2 filtros activos aunque tengan varias opciones ("${fbtn}")`)
 await pick(page, 'Color', '')
 const rareEpic = await count()
-ok(rareEpic > 0 && rareEpic < 150, `móvil: Rare + Epic = ${rareEpic} cartas`)
+ok(rareEpic > 0 && rareEpic < N, `móvil: Rare + Epic = ${rareEpic} cartas`)
 
 /* ---- búsqueda por texto con tag: ---- */
 await page.getByRole('button', { name: 'Limpiar' }).click()

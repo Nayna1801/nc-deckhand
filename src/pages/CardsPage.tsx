@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { catalog } from '../lib/catalog'
 import { copiesOfVariant, playsetSize, splitPlayset } from '../lib/inventory'
+import { clampPage, PAGE_SIZE, pageItems } from '../lib/paging'
 import { expandPrints, type PrintEntry } from '../lib/prints'
 import { CardList, CardModal, CardRow, CardTile, PrintList, Stepper, useCardModal, usePreview, useViewMode, ViewToggle } from '../components/cardUi'
 import { applyFilters, EMPTY_FILTERS, FilterBar, useSnapshot, type Filters, type OwnedFilter } from '../components/filters'
 import { InventoryEditor } from '../components/InventoryEditor'
+import { Pager } from '../components/Pager'
 import { WishHeart } from '../components/Wish'
 import { useData } from '../state/DataContext'
 
@@ -51,6 +53,20 @@ export function CardsPage() {
       return own === 'owned' ? has : !has
     })
   }, [printMode, cards, filters.set, filters.sort, filters.owned, onlyArts, loggedIn, invSnap])
+
+  // paginación: solo se pintan (y cargan imágenes) las fichas de la página actual
+  const [page, setPage] = useState(1)
+  useEffect(() => setPage(1), [resetKey])
+  const total = (prints ?? cards).length
+  const current = clampPage(page, total)
+  const pagePrints = useMemo(() => (prints ? pageItems(prints, current) : null), [prints, current])
+  const pageCards = useMemo(() => pageItems(cards, current), [cards, current])
+  const top = useRef<HTMLDivElement>(null)
+  const goTo = (n: number) => {
+    setPage(n)
+    window.requestAnimationFrame(() => top.current?.scrollIntoView({ block: 'start' }))
+  }
+  const pager = <Pager page={current} total={total} size={PAGE_SIZE} onChange={goTo} unit={prints ? 'impresiones' : 'cartas'} />
 
   const usedIn = (cardId: string) =>
     decks
@@ -109,9 +125,12 @@ export function CardsPage() {
       </header>
       <FilterBar value={filters} onChange={setFilters} showOwned={loggedIn} showWanted={loggedIn && wishlistAvailable} />
 
-      {prints ? (
+      <div ref={top} className="results-top" data-results={total} />
+      {pager}
+      {pagePrints ? (
         <PrintList
-          prints={prints}
+          prints={pagePrints}
+          all={prints ?? undefined}
           grouped={filters.sort === 'set'}
           view={view}
           renderTile={(e) => {
@@ -147,7 +166,8 @@ export function CardsPage() {
         />
       ) : (
         <CardList
-          cards={cards}
+          cards={pageCards}
+          all={cards}
           grouped={filters.sort === 'set'}
           view={view}
           renderTile={(c) => {
@@ -181,7 +201,8 @@ export function CardsPage() {
           }}
         />
       )}
-      {(prints ?? cards).length === 0 && <p className="empty">Ninguna carta coincide con los filtros.</p>}
+      {pager}
+      {total === 0 && <p className="empty">Ninguna carta coincide con los filtros.</p>}
 
       {layer}
       <CardModal card={modal.card} printKey={modal.printKey} onClose={modal.close}>

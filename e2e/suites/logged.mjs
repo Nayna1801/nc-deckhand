@@ -1,7 +1,7 @@
 import { chromium } from 'playwright'
 import { BASE, DECKS, SHOTS } from '../config.mjs'
 import { newSession } from '../lib/mock.mjs'
-import { pick, shown } from '../lib/helpers.mjs'
+import { pick, results, shown } from '../lib/helpers.mjs'
 import fs from 'node:fs'
 
 const shots = SHOTS
@@ -16,7 +16,7 @@ const browser = await chromium.launch()
 {
   const { page, store, errors } = await newSession(browser, { legacy: false })
   await page.goto(BASE); await page.waitForSelector('.tile')
-  ok((await page.locator('.tile-foot .stepper').count()) === 150, 'con sesión: stepper de cantidad en cada carta')
+  ok((await page.locator('.tile-foot .stepper').count()) === (await page.locator('.tile').count()) && (await page.locator('.tile').count()) === 48, 'con sesión: stepper de cantidad en cada carta de la página')
 
   // 4 copias normales de la primera carta -> 3 activas + 1 bulk
   const add = page.locator('.tile').first().getByRole('button', { name: 'Añadir uno' })

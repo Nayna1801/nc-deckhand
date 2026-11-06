@@ -78,7 +78,7 @@ describe('artes del catálogo', () => {
       alts += c.altArts.length
       for (const a of c.altArts) expect(v.some((x) => x.key === `alt:${a.id}`), `${c.id} ${a.id}`).toBe(true)
     }
-    expect(alts).toBe(102)
+    expect(alts).toBe(167)
     expect(TOTAL_VARIANTS).toBeGreaterThanOrEqual(102)
   })
 

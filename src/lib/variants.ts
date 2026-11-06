@@ -40,7 +40,7 @@ export function variantsOf(card: Card): Variant[] {
     seen.add(p.variantKey)
     out.push({
       key: p.variantKey,
-      label: 'Otro arte',
+      label: p.art === 'marked' ? 'Promoción' : 'Otro arte',
       detail: [p.setName, p.collectorNumber && `#${p.collectorNumber}`, p.artist].filter(Boolean).join(' · '),
       image: p.image,
       approx: true,

@@ -1,6 +1,7 @@
 import { chromium } from 'playwright'
 import { BASE, CARDS, SHOTS } from '../config.mjs'
 import fs from 'node:fs'
+import { ALTS } from '../lib/data.mjs'
 
 const shots = SHOTS
 const cards = CARDS
@@ -71,7 +72,7 @@ await open(plain)
 ok((await p.locator('.modal .thumbs').count()) === 0, `carta sin artes alternativos ("${plain.displayName}"): no hay galería`)
 await close()
 
-/* ---- las 102 imágenes responden ---- */
+/* ---- todas las imágenes de artes alternativos responden ---- */
 const all = cards.flatMap((c) => c.altArts.map((a) => a.image))
 const res = await p.evaluate(async (urls) => {
   const out = []
@@ -81,7 +82,7 @@ const res = await p.evaluate(async (urls) => {
   }
   return out
 }, all)
-ok(res.length === 102 && res.every((r) => r.ok && /image\/webp/.test(r.type || '') && r.n > 5000), `las ${res.length} imágenes de artes alternativos responden 200 como image/webp`)
+ok(res.length === ALTS && res.every((r) => r.ok && /image\/webp/.test(r.type || '') && r.n > 5000), `las ${res.length} imágenes de artes alternativos responden 200 como image/webp`)
 
 /* ---- móvil ---- */
 const mctx = await browser.newContext({ viewport: { width: 390, height: 800 }, hasTouch: true, isMobile: true })

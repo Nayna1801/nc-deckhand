@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { catalog } from '../lib/catalog'
 import { availableVersions, CONDITIONS, CONDITION_LABEL, EMPTY_ENTRY, playsetSize, splitPlayset, totalOf, type Condition } from '../lib/inventory'
+import { thumbOf } from '../lib/images'
 import { variantsOf } from '../lib/variants'
 import { useData } from '../state/DataContext'
 import { Stepper } from './cardUi'
@@ -43,7 +44,7 @@ export function InventoryEditor({ cardId }: { cardId: string }) {
             <ul className="plain">
               {variants.map((v) => (
                 <li key={v.key} className="art-row">
-                  <img src={`${import.meta.env.BASE_URL}${v.image}`} alt="" loading="lazy" draggable={false} />
+                  <img src={`${import.meta.env.BASE_URL}${thumbOf(v.image)}`} alt="" loading="lazy" draggable={false} />
                   <span className="art-name">
                     <strong>{v.label}</strong>
                     <small className="muted">{v.detail}{v.approx ? ' · imagen aproximada' : ''}</small>

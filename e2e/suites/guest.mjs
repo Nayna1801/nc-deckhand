@@ -1,7 +1,8 @@
 import { chromium } from 'playwright'
 import { BASE, DECKS, SHOTS } from '../config.mjs'
-import { pick, shown } from '../lib/helpers.mjs'
+import { pick, shown, results } from '../lib/helpers.mjs'
 import fs from 'node:fs'
+import { N, count } from '../lib/data.mjs'
 
 const shots = SHOTS
 const decks = DECKS
@@ -21,13 +22,13 @@ page.on('console', (m) => m.type() === 'error' && errors.push('console: ' + m.te
 await page.goto(BASE)
 await page.waitForSelector('.tile')
 await pick(page, 'Coste', '3')
-ok((await page.locator('.tile').count()) === 25, 'filtro coste 3 -> 25 cartas')
+ok((await results(page)) === 25, 'filtro coste 3 -> 25 cartas')
 await pick(page, 'Coste', '')
 await pick(page, 'RAM', '2')
-ok((await page.locator('.tile').count()) === 87, 'filtro RAM 2 -> 87 cartas')
+ok((await results(page)) === count((c) => c.ram === 2), `filtro RAM 2 -> ${count((c) => c.ram === 2)} cartas`)
 await pick(page, 'RAM', '')
 await pick(page, 'Etiquetas', 'Arasaka')
-ok((await page.locator('.tile').count()) === 19, 'filtro etiqueta Arasaka -> 19 cartas')
+ok((await results(page)) === 19, 'filtro etiqueta Arasaka -> 19 cartas')
 await pick(page, 'Etiquetas', '')
 await pick(page, 'Orden', 'cost')
 const firstCost = await page.locator('.tile-art').first().getAttribute('aria-label')
@@ -36,9 +37,9 @@ await pick(page, 'Orden', 'set')
 
 /* ---- vista lista persistente ---- */
 await page.getByRole('button', { name: /Lista/ }).click()
-ok((await page.locator('.crow').count()) === 150, 'vista lista: 150 filas')
+ok((await page.locator('.crow').count()) === 48 && (await results(page)) === N, `vista lista: ${N} cartas, 48 filas en la primera página`)
 await page.reload(); await page.waitForSelector('.crow')
-ok((await page.locator('.crow').count()) === 150, 'la vista lista persiste tras recargar')
+ok((await page.locator('.crow').count()) === 48, 'la vista lista persiste tras recargar')
 await page.screenshot({ path: shots + '/n1-list.png' })
 await page.getByRole('button', { name: /Galería/ }).click()
 

@@ -1,7 +1,8 @@
 import { chromium } from 'playwright'
 import { BASE } from '../config.mjs'
 import { newSession } from '../lib/mock.mjs'
-import { pick } from '../lib/helpers.mjs'
+import { pick, results } from '../lib/helpers.mjs'
+import { ALTS } from '../lib/data.mjs'
 
 let failed = 0
 const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) failed++ }
@@ -22,6 +23,7 @@ const badge = async (t) => ((await t.locator('.tile-badge').count()) ? (await t.
   const { page: p, store, errors } = await newSession(browser, { legacy: false })
   await p.goto(BASE); await p.waitForSelector('.tile')
   await pick(p, 'Set', RETAIL)
+  await p.locator('input[type=search]').fill('name:"Adam Smasher: Ender"'); await p.waitForTimeout(450)
 
   const base = tile(p, '001'), alt = tile(p, '141')
   ok((await base.count()) === 1 && (await alt.count()) === 1, 'Welcome to Night City — Retail: Adam Smasher base (#001) y su arte Iconic (#141) son fichas distintas')
@@ -64,12 +66,12 @@ const badge = async (t) => ((await t.locator('.tile-badge').count()) ? (await t.
   await p.locator('input[type=search]').fill(''); await p.waitForTimeout(450)
   await p.getByRole('button', { name: 'Por impresión' }).click()
   await p.getByRole('checkbox', { name: /Solo artes alternativos/ }).check()
-  const nArts = await p.locator('.tile').count()
-  ok(nArts === 153, `«Solo artes alternativos»: ${nArts} fichas, una por cada arte contable (sin el diseño base)`)
+  const nArts = await results(p)
+  ok(nArts === ALTS, `«Solo artes alternativos»: ${nArts} fichas, una por cada arte contable (sin el diseño base)`)
   await pick(p, 'Colección', 'owned')
-  ok((await p.locator('.tile').count()) === 3, 'artes alternativos que tengo: 3 (Iconic Retail, Iconic Beta y el promo)')
+  ok((await results(p)) === 3, 'artes alternativos que tengo: 3 (Iconic Retail, Iconic Beta y el promo)')
   await pick(p, 'Colección', 'missing')
-  ok((await p.locator('.tile').count()) === nArts - 3, 'los que me faltan: el resto')
+  ok((await results(p)) === nArts - 3, 'los que me faltan: el resto')
   await pick(p, 'Colección', 'all')
 
   // colección: estadística y enlace
@@ -78,11 +80,11 @@ const badge = async (t) => ((await t.locator('.tile-badge').count()) ? (await t.
   ok(/^3\s*\/\s*\d+/.test((await stat.locator('strong').innerText()).replace(/\s+/g, ' ').trim()) && /4 copias/i.test(await stat.innerText()), `Colección: 3 artes distintos y 4 copias ("${(await stat.innerText()).replace(/\s+/g, ' ')}")`)
   await stat.click()
   await p.waitForSelector('.tile')
-  ok((await p.locator('.tile').count()) === 3 && (await p.getByRole('checkbox', { name: /Solo artes alternativos/ }).isChecked()), 'el enlace de la estadística lista solo esos 3 artes')
+  ok((await results(p)) === 3 && (await p.getByRole('checkbox', { name: /Solo artes alternativos/ }).isChecked()), 'el enlace de la estadística lista solo esos 3 artes')
 
   // recarga: persiste
   await p.reload(); await p.waitForSelector('.tile')
-  ok((await p.locator('.tile').count()) === 3, 'tras recargar siguen los 3 artes')
+  ok((await results(p)) === 3, 'tras recargar siguen los 3 artes')
 
   // sin el bulk-bar roto: la retirada de bulk no toca los artes mientras haya copias base
   await p.goto(BASE + '#/collection'); await p.waitForSelector('.stats-row')
@@ -104,6 +106,7 @@ const badge = async (t) => ((await t.locator('.tile-badge').count()) ? (await t.
   const { page: p, store, errors } = await newSession(browser, { legacy: false, noArts: true })
   await p.goto(BASE); await p.waitForSelector('.tile')
   await pick(p, 'Set', RETAIL)
+  await p.locator('input[type=search]').fill('name:"Adam Smasher: Ender"'); await p.waitForTimeout(450)
   const base = tile(p, '001'), alt = tile(p, '141')
   await plus(base).click(); await p.waitForTimeout(400)
   ok((await badge(base)) === '×1' && store.collection.get(ID)?.quantity === 1, 'sin la columna, las copias base siguen funcionando')

@@ -26,6 +26,15 @@ export interface DeckReport {
 
 type DeckLike = Pick<Deck, 'legendIds' | 'main' | 'side'>
 
+const NOT_PLAYABLE = ['banned', 'illegal', 'restricted', 'not-legal']
+
+/** Mensaje si la carta no se puede jugar en Standard; null si es legal. */
+function legalityError(c: Card): string | null {
+  const l = c.legality.toLowerCase()
+  if (!NOT_PLAYABLE.includes(l)) return null
+  return l === 'not-legal' ? `${c.displayName} no es legal en Standard.` : `${c.displayName} está ${c.legality} en Standard.`
+}
+
 export function validateDeck(deck: DeckLike, catalog: Catalog): DeckReport {
   const errors: string[] = []
   const incomplete: string[] = []
@@ -39,6 +48,8 @@ export function validateDeck(deck: DeckLike, catalog: Catalog): DeckReport {
     const prev = seenNames.get(key)
     if (prev) errors.push(`Las Legends deben ser únicas: ${prev.displayName} y ${l.displayName} comparten nombre.`)
     seenNames.set(key, l)
+    const illegal = legalityError(l)
+    if (illegal) errors.push(illegal)
     if (l.color && l.ram != null) ram[l.color] = (ram[l.color] ?? 0) + l.ram
   }
   if (legends.length > RULES.legends) errors.push(`Máximo ${RULES.legends} Legends (hay ${legends.length}).`)
@@ -63,9 +74,8 @@ export function validateDeck(deck: DeckLike, catalog: Catalog): DeckReport {
       t.n += n
       totals.set(copyKey(c), t)
       if (c.isAlpha) errors.push(`${c.displayName} es una carta Alpha, no legal en Standard.`)
-      if (['banned', 'illegal', 'restricted'].includes(c.legality.toLowerCase())) {
-        errors.push(`${c.displayName} está ${c.legality} en Standard.`)
-      }
+      const illegal = legalityError(c)
+      if (illegal) errors.push(illegal)
       if (c.color && c.ram != null && c.ram > (ram[c.color] ?? 0) && legends.length > 0) {
         errors.push(`${c.displayName} necesita ${c.ram} de RAM ${c.color}, pero tus Legends solo dan ${ram[c.color] ?? 0}.`)
       }

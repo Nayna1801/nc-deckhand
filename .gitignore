@@ -5,3 +5,6 @@ dist
 *.local
 dist-e2e
 test-results
+
+# datos de terceros descargados para scripts (no se suben)
+.local-data/

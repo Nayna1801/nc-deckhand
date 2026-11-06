@@ -2,6 +2,8 @@ import { chromium } from 'playwright'
 import { BASE, DIST_E2E } from '../config.mjs'
 import { join } from 'node:path'
 import fs from 'node:fs'
+import { results } from '../lib/helpers.mjs'
+import { N } from '../lib/data.mjs'
 
 const dist = JSON.parse(fs.readFileSync(join(DIST_E2E, 'version.json'), 'utf8'))
 let failed = 0
@@ -58,7 +60,7 @@ const mk = async (versionHandler) => {
 for (const [name, h] of [['inexistente (404)', (r) => r.fulfill({ status: 404, body: 'no' })], ['corrupto', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: '{no es json' })], ['con tipo inesperado', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ version: { x: 1 } }) })]]) {
   const { ctx, p } = await mk(h)
   await p.goto(BASE); await p.waitForSelector('.tile'); await p.waitForTimeout(500)
-  ok((await p.locator('.banner-update').count()) === 0 && (await p.locator('.tile').count()) === 150, `version.json ${name}: la web sigue funcionando y no avisa en falso`)
+  ok((await p.locator('.banner-update').count()) === 0 && (await results(p)) === N, `version.json ${name}: la web sigue funcionando y no avisa en falso`)
   await ctx.close()
 }
 

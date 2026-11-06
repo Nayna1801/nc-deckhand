@@ -2,8 +2,9 @@ import { chromium } from 'playwright'
 import { BASE, CARDS, DECKS, SHOTS } from '../config.mjs'
 import fs from 'node:fs'
 import zlib from 'node:zlib'
-import { pick, shown, until } from '../lib/helpers.mjs'
+import { collect, findOnPages, pick, results, shown, until } from '../lib/helpers.mjs'
 import { newSession } from '../lib/mock.mjs'
+import { N, count as dataCount } from '../lib/data.mjs'
 
 const shots = SHOTS
 const decks = DECKS
@@ -29,44 +30,48 @@ page.on('console', (m) => { if (m.type() === 'error' || /content security policy
 
 /* ================= orden y divisiones por set ================= */
 await page.goto(BASE); await page.waitForSelector('.tile')
-const heads = await page.locator('.set-head').allInnerTexts()
-ok(heads.length === 3 && /welcome to night city/i.test(heads[0]) && /embracing power/i.test(heads[1]) && /the heist/i.test(heads[2]), `3 bloques por set con encabezado: ${heads.map((h) => h.split('\n')[0]).join(' | ')}`)
+const heads = [...new Set(await collect(page, (pg) => pg.locator('.set-head span').allInnerTexts()))]
+ok(heads.length === 4 && /welcome to night city/i.test(heads[0]) && /embracing power/i.test(heads[1]) && /the heist/i.test(heads[2]) && /set 1 promos/i.test(heads[3]), `4 bloques por set con encabezado: ${heads.join(' | ')}`)
+ok(/^140 cartas$/.test((await page.locator('.set-head small').first().innerText()).trim()), 'el encabezado cuenta todo el grupo (140) aunque la página solo muestre parte')
 const expectedSet = [...cards].sort(bySet).map((c) => c.displayName)
-const got = await names(page)
-ok(JSON.stringify(got) === JSON.stringify(expectedSet), 'el orden por defecto es por set y, dentro, por número de coleccionista (150 cartas exactas)')
+const got = await collect(page, names)
+ok(JSON.stringify(got) === JSON.stringify(expectedSet), 'el orden por defecto es por set y, dentro, por número de coleccionista (todas las cartas, exactas)')
 const groupOf = (n) => page.locator('.setgroup', { has: page.locator(`.tile-art[aria-label="${n}"]`) }).locator('.set-head span').innerText()
-const gy = await groupOf('Yorinobu Arasaka: Embracing Destruction'), gv = await groupOf('Viktor Vektor: Sit Down and Relax')
+await findOnPages(page, '.tile-art[aria-label="Yorinobu Arasaka: Embracing Destruction"]')
+const gy = await groupOf('Yorinobu Arasaka: Embracing Destruction')
+await findOnPages(page, '.tile-art[aria-label="Viktor Vektor: Sit Down and Relax"]')
+const gv = await groupOf('Viktor Vektor: Sit Down and Relax')
 ok(gy !== gv && /embracing/i.test(gy) && /heist/i.test(gv), `Yorinobu y Viktor (ambos nº1) están en bloques distintos con su cabecera: "${gy}" / "${gv}"`)
 await page.screenshot({ path: shots + '/f1-sets.png' })
 await pick(page, 'Orden', 'cost')
 ok((await page.locator('.set-head').count()) === 0, 'ordenar por coste quita las divisiones por set')
 const expectedCost = [...cards].sort((a, b) => (a.cost ?? 99) - (b.cost ?? 99) || a.displayName.localeCompare(b.displayName)).map((c) => c.displayName)
-ok(JSON.stringify(await names(page)) === JSON.stringify(expectedCost), 'orden por coste correcto (150 cartas exactas)')
+ok(JSON.stringify(await collect(page, names)) === JSON.stringify(expectedCost), 'orden por coste correcto (150 cartas exactas)')
 await pick(page, 'Orden', 'set')
 
 /* ================= filtros de keyword, efecto y poder ================= */
 await pick(page, 'Keyword', 'blocker')
 const eb = cards.filter((c) => kw(c, 'blocker')).length
-ok((await page.locator('.tile').count()) === eb && eb > 0, `Keyword Blocker -> ${eb}`)
+ok((await results(page)) === eb && eb > 0, `Keyword Blocker -> ${eb}`)
 await pick(page, 'Keyword', '')
 await pick(page, 'Keyword', 'gosolo')
-ok((await page.locator('.tile').count()) === cards.filter((c) => kw(c, 'go solo')).length, 'Keyword Go Solo')
+ok((await results(page)) === cards.filter((c) => kw(c, 'go solo')).length, 'Keyword Go Solo')
 await pick(page, 'Keyword', '')
 await pick(page, 'Efecto', 'spend')
-ok((await page.locator('.tile').count()) === cards.filter((c) => kw(c, 'spend')).length, 'Efecto Spend')
+ok((await results(page)) === cards.filter((c) => kw(c, 'spend')).length, 'Efecto Spend')
 await pick(page, 'Efecto', '')
 for (const [v, f] of [['u5', (p) => p < 5], ['5-9', (p) => p >= 5 && p <= 9], ['10+', (p) => p >= 10]]) {
   await pick(page, 'Poder', v)
   const e = cards.filter((c) => c.power != null && f(c.power)).length
-  ok((await page.locator('.tile').count()) === e && e > 0, `Poder ${v} -> ${e}`)
+  ok((await results(page)) === e && e > 0, `Poder ${v} -> ${e}`)
   await pick(page, 'Poder', '') // Poder admite varias opciones: se vacía antes de probar la siguiente
 }
 await pick(page, 'Poder', '')
 await pick(page, 'Keyword', 'blocker'); await pick(page, 'Poder', '5-9')
 const comb = cards.filter((c) => kw(c, 'blocker') && c.power != null && c.power >= 5 && c.power <= 9).length
-ok((await page.locator('.tile').count()) === comb, `filtros combinados Blocker + Poder 5-9 -> ${comb}`)
+ok((await results(page)) === comb, `filtros combinados Blocker + Poder 5-9 -> ${comb}`)
 await page.getByRole('button', { name: 'Limpiar' }).click()
-ok((await page.locator('.tile').count()) === 150, 'Limpiar restablece todos los filtros')
+ok((await results(page)) === N, 'Limpiar restablece todos los filtros')
 
 /* ================= desplegable: teclado ================= */
 // Keyword es un desplegable de selección única (los de varias opciones se prueban en la suite multifilter)
@@ -77,7 +82,7 @@ ok((await page.locator('.dd-list').count()) === 1, 'ArrowDown abre el desplegabl
 const activeIs = (text) => page.waitForFunction((t) => document.querySelector('.dd-opt.active')?.textContent === t, text)
 await activeIs('Todos') // la lista ya tiene el foco y la opción inicial pintada
 await page.keyboard.press('ArrowDown'); await activeIs('Blocker'); await page.keyboard.press('Enter')
-ok((await page.locator('.tile').count()) === cards.filter((c) => kw(c, 'blocker')).length && (await shown(page, 'Keyword')) === 'Blocker', 'flechas + Enter eligen "Blocker" (' + (await page.locator('.tile').count()) + ', ' + (await shown(page, 'Keyword')) + ')')
+ok((await results(page)) === cards.filter((c) => kw(c, 'blocker')).length && (await shown(page, 'Keyword')) === 'Blocker', 'flechas + Enter eligen "Blocker" (' + (await results(page)) + ', ' + (await shown(page, 'Keyword')) + ')')
 ok(await tipo.evaluate((el) => el === document.activeElement), 'el foco vuelve al botón tras elegir')
 await tipo.click(); await page.keyboard.type('a'); await page.keyboard.press('Enter')
 ok((await shown(page, 'Keyword')) === 'Adrenaline', 'escribir una letra salta a la opción ("a" -> Adrenaline)')
@@ -90,8 +95,8 @@ await page.getByRole('button', { name: 'Limpiar' }).click()
 /* ================= debounce del buscador ================= */
 const search = page.locator('input[type=search]')
 await search.click(); await search.pressSequentially('saul', { delay: 40 })
-const immediate = await page.locator('.tile').count()
-ok(immediate === 150, `debounce: justo tras teclear aún no se recalcula la lista (${immediate})`)
+const immediate = await results(page)
+ok(immediate === N, `debounce: justo tras teclear aún no se recalcula la lista (${immediate})`)
 await page.waitForFunction(() => document.querySelectorAll('.tile').length === 1)
 ok(true, 'debounce: ~250 ms después la lista se filtra a 1 carta')
 await search.fill('')
@@ -179,7 +184,7 @@ await m.getByRole('button', { name: 'Tipo', exact: true }).click()
 const pr = await m.locator('.dd-pop').boundingBox()
 ok(pr.x >= 0 && pr.x + pr.width <= 390 && pr.y >= 0 && pr.y + pr.height <= 800, `móvil: el desplegable cabe en pantalla (${Math.round(pr.width)}x${Math.round(pr.height)})`)
 await m.locator('.dd-list [role=option][data-value="Legend"]').click()
-ok((await m.locator('.tile').count()) === 26, 'móvil: elegir en el desplegable filtra (26 Legends)')
+ok((await results(m)) === dataCount((c) => c.type === 'Legend'), `móvil: elegir en el desplegable filtra (${dataCount((c) => c.type === 'Legend')} Legends)`)
 await noOverflow('Cartas con filtros abiertos')
 await m.getByRole('button', { name: 'Limpiar' }).click()
 await m.locator('.tile-art').first().click(); await m.locator('.modal').waitFor()
@@ -237,11 +242,11 @@ await mctx.close()
   ok(csv.startsWith('code,name,set,rarity,wanted,owned') && /,2,1$/m.test(csv), 'deseos.csv con cantidad deseada y poseída')
   await p.goto(BASE + '#/'); await p.waitForSelector('.tile')
   await pick(p, 'Colección', 'wanted')
-  ok((await p.locator('.tile').count()) === 1, 'filtro "Las que deseo" -> 1 carta')
+  ok((await results(p)) === 1, 'filtro "Las que deseo" -> 1 carta')
   await p.locator('.tile').first().locator('.heart').click(); await p.waitForTimeout(250)
-  ok((await p.locator('.tile').count()) === 1 && s.store.wishlist.size === 0, 'al quitar el ♥ con ese filtro, la carta no desaparece de golpe')
+  ok((await results(p)) === 1 && s.store.wishlist.size === 0, 'al quitar el ♥ con ese filtro, la carta no desaparece de golpe')
   await pick(p, 'Colección', 'all'); await pick(p, 'Colección', 'wanted')
-  ok((await p.locator('.tile').count()) === 0, 'al re-aplicar el filtro, ya no está')
+  ok((await results(p)) === 0, 'al re-aplicar el filtro, ya no está')
   ok(s.errors.length === 0, 'con sesión: sin errores de página')
 }
 
