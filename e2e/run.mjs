@@ -26,6 +26,7 @@ const SUITES = [
   { name: 'features', file: 'features.mjs', info: 'orden por sets, filtros, desplegables, deseos, móvil y seguridad' },
   { name: 'fixes', file: 'fixes.mjs', info: 'modal estable, playset por tipo, versiones y − sobre el total' },
   { name: 'multifilter', file: 'multifilter.mjs', info: 'filtros de selección múltiple y etiquetas' },
+  { name: 'responsive', file: 'responsive.mjs', info: 'móvil y tablet: nada se sale de la pantalla y los controles se pueden pulsar con el dedo' },
   { name: 'jwt', file: 'jwt.mjs', info: 'token rechazado por «JWT issued at future»: reintento y mensajes' },
   { name: 'scan', file: 'scan.mjs', info: 'escáner de cartas con la cámara (prueba): precisión, cámara simulada, errores' },
   { name: 'paging', file: 'paging.mjs', info: 'paginación de Cartas y miniaturas de las fichas' },

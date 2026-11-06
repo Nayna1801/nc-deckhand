@@ -62,7 +62,7 @@ function Shell() {
         </Routes>
       </main>
       <footer className="foot muted small">
-        Herramienta de fans, no oficial. Datos e imágenes de cartas © sus respectivos propietarios (CD PROJEKT RED / Cyberpunk TCG). Catálogo obtenido de cyberpunk-tcg-sim.online.
+        Herramienta de fans, no oficial. Datos e imágenes de cartas © sus respectivos propietarios (CD PROJEKT RED / Cyberpunk TCG). Catálogo base de cyberpunk-tcg-sim.online; promos, ediciones Beta y sus imágenes de cyberpunktcg.com (web oficial).
         <span className="build" title={`Compilada el ${__APP_BUILT__}`}> · Versión {__APP_VERSION__}</span>
       </footer>
     </>

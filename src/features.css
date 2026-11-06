@@ -135,7 +135,16 @@ a.stat-link strong { color: var(--cyan); }
 .kind-dot { width: 10px; height: 10px; flex: none; margin: 0 12px; background: var(--yellow); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
 
 /* escáner de cartas con la cámara (prueba) */
-.scan-stage { position: relative; max-width: 720px; margin: 0.5rem 0; background: #000; overflow: hidden; border: 1px solid var(--line); }
+/* el visor ocupa la altura de la pantalla (bajo la barra superior) manteniendo la proporción real del vídeo: el marco guía
+   y lo que se recorta coinciden con lo que se ve */
+.scan-stage { --ar: 1.7778; position: relative; aspect-ratio: var(--ar); width: min(100%, calc((100vh - 5.5rem) * var(--ar))); width: min(100%, calc((100dvh - 5.5rem) * var(--ar))); margin: 0.5rem auto; background: #000; overflow: hidden; border: 1px solid var(--line); scroll-margin-top: 4.2rem; }
+.scan-overlay { position: absolute; left: 0; right: 0; bottom: 0.8rem; display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; z-index: 2; }
+.scan-shot { min-width: 9rem; font-size: 1.05rem; }
+.scan-results-box { scroll-margin-top: 4.2rem; }
+@media (max-width: 720px) {
+  .scan-stage { width: min(100%, calc((100vh - 1.5rem) * var(--ar))); width: min(100%, calc((100dvh - 1.5rem) * var(--ar))); margin: 0.25rem auto; scroll-margin-top: 0.4rem; }
+  .scan-results-box { scroll-margin-top: 0.6rem; }
+}
 .scan-stage[hidden] { display: none; }
 .scan-stage video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .scan-guide { position: absolute; border: 2px solid var(--yellow); box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45), 0 0 14px rgba(252, 238, 10, 0.5); pointer-events: none; }
@@ -146,3 +155,36 @@ a.stat-link strong { color: var(--cyan); }
 .scan-info { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
 .scan-stats { margin-top: 1rem; }
 .scan-stats summary { cursor: pointer; color: var(--cyan); font-size: 0.9rem; }
+
+/* ---- responsive: pantallas estrechas ---- */
+@media (max-width: 720px) {
+  /* filas de listas (bulk, deseos, mazos): el nombre ocupa su propia línea y los controles pasan debajo */
+  .deck-row > .link-btn { flex: 1 1 10rem; white-space: normal; overflow: visible; text-overflow: clip; }
+  .bulk-row > .deck-row { flex-wrap: wrap; row-gap: 0.4rem; }
+  .bulk-row > .deck-row > .tap-box { order: -2; }
+  .bulk-row > .deck-row > .link-btn { order: -1; flex: 1 1 calc(100% - 2.6rem); font-size: 1rem; }
+  .bulk-row select.input { max-width: 7.5rem; }
+  .bulk-pick { margin-left: 0; }
+  .bulk-pick .art-name small, .art-row .art-name small { white-space: normal; }
+  .bulk-pick-foot .btn { flex: 1 1 100%; }
+  .scan-result { flex-wrap: wrap; }
+  .scan-result .btn { flex: 1 1 100%; }
+}
+
+/* ---- pantallas táctiles: controles que se pueden pulsar con el dedo ---- */
+@media (pointer: coarse) {
+  body .btn, body .btn.sm { min-height: 42px; }
+  body .btn.sm { min-width: 42px; }
+  body .stepper .btn.sm { min-width: 44px; min-height: 44px; }
+  input[type='checkbox'] { width: 24px; height: 24px; }
+  summary { min-height: 42px; display: flex; align-items: center; gap: 0.4rem; }
+  .searchhelp summary { width: 40px; height: 40px; justify-content: center; }
+  body .deck-row .link-btn, body .scan-result .btn { min-height: 42px; }
+  body .heart, body a.brand { min-height: 42px; min-width: 42px; display: inline-flex; align-items: center; justify-content: center; }
+  .print-btn, .variant-row .link-btn { min-height: 38px; display: inline-flex; align-items: center; }
+  .thumb { min-width: 52px; }
+}
+
+/* casilla con área de pulsación amplia (la casilla en sí es pequeña) */
+.tap-box { display: inline-flex; align-items: center; justify-content: center; flex: none; min-width: 2rem; min-height: 2rem; cursor: pointer; }
+@media (pointer: coarse) { .tap-box { min-width: 44px; min-height: 44px; } }

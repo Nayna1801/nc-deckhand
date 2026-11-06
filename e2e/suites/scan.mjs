@@ -65,6 +65,7 @@ const cardName = (ref) => byId[ref.card].displayName
     const sample = pool.slice(0, N)
     let top1 = 0, top3 = 0, cardTop3 = 0
     const misses = []
+    const times = [] // milisegundos que tarda cada escaneo en el navegador
     const good = [], bad = [] // parecido de la 1ª candidata cuando acertó / cuando falló
     for (const ref of sample) {
       const jpg = await photo(studio, ref, r, { hard, quality: hard ? 40 : 65 })
@@ -76,6 +77,7 @@ const cardName = (ref) => byId[ref.card].displayName
       const artLabel = ref.art ? null : 'Diseño base'
       const same = (row) => row.name === cardName(ref) && (artLabel ? row.art === artLabel : row.art !== 'Diseño base')
       const score = parseInt(await app.locator('.scan-result .pill').first().innerText(), 10)
+      times.push(Number(await app.locator('[data-ms]').first().getAttribute('data-ms')))
       ;(same(rows[0]) ? good : bad).push(score)
       ok(new Set(rows.map((x) => x.name)).size === 3, `las 3 candidatas son cartas distintas (${rows.map((x) => x.name).join(' | ')})`)
       if (same(rows[0])) top1++
@@ -86,11 +88,12 @@ const cardName = (ref) => byId[ref.card].displayName
     console.log(`  benchmark ${label} (${N} fotos simuladas): 1ª ${top1}/${N}, entre las 3 ${top3}/${N}, carta correcta entre las 3 ${cardTop3}/${N}`)
     console.log(`  parecido de la 1ª candidata: acertadas min ${Math.min(...good)} % / media ${Math.round(good.reduce((a, b) => a + b, 0) / Math.max(1, good.length))} %; falladas ${bad.length ? 'max ' + Math.max(...bad) + ' % / media ' + Math.round(bad.reduce((a, b) => a + b, 0) / bad.length) + ' %' : 'ninguna'}`)
     if (misses.length) console.log('  fallos:', misses.slice(0, 4).join(' || '))
+    ok(Math.max(...times) < 1500, `${label}: cada escaneo tarda ${Math.round(times.reduce((a, b) => a + b, 0) / times.length)} ms de media y como mucho ${Math.max(...times)} ms`)
     ok(top1 / N >= minTop1, `${label}: acierta a la primera en al menos el ${Math.round(minTop1 * 100)} % (${Math.round((top1 / N) * 100)} %)`)
     ok(top3 / N >= minTop3, `${label}: y entre las 3 candidatas en al menos el ${Math.round(minTop3 * 100)} % (${Math.round((top3 / N) * 100)} %)`)
   }
-  await run('fotos normales', false, 20261106, 0.75, 0.9)
-  await run('fotos difíciles (reflejos, giro, mala luz, JPEG fuerte)', true, 20261107, 0.5, 0.8)
+  await run('fotos normales', false, 20261106, 0.9, 0.95)
+  await run('fotos difíciles (reflejos, giro, mala luz, JPEG fuerte, carta desplazada)', true, 20261107, 0.8, 0.9)
   ok(errors.length === 0, 'sin errores de página en el benchmark' + (errors.length ? ': ' + errors.join(' | ') : ''))
   await ctx.close()
 }
@@ -106,7 +109,7 @@ const cardName = (ref) => byId[ref.card].displayName
   fs.writeFileSync(mjpeg, Buffer.concat(Array.from({ length: 40 }, () => frame)))
 
   const camBrowser = await chromium.launch({ args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream', `--use-file-for-fake-video-capture=${mjpeg}`] })
-  const ctx = await camBrowser.newContext({ viewport: { width: 900, height: 900 }, permissions: ['camera'] })
+  const ctx = await camBrowser.newContext({ viewport: { width: 900, height: 760 }, permissions: ['camera'] })
   const p = await ctx.newPage()
   p.setDefaultTimeout(10000)
   const errors = []
@@ -123,8 +126,21 @@ const cardName = (ref) => byId[ref.card].displayName
   await p.waitForFunction(() => document.querySelector('.scan-stage video')?.videoWidth > 0)
   const geo = await p.evaluate(() => { const v = document.querySelector('.scan-stage video').getBoundingClientRect(); const g = document.querySelector('.scan-guide').getBoundingClientRect(); return { vw: v.width, vh: v.height, gw: g.width, gh: g.height, gx: g.x - v.x, gy: g.y - v.y } })
   ok(Math.abs(geo.gw / geo.gh - 5 / 7) < 0.02 && Math.abs(geo.gx + geo.gw / 2 - geo.vw / 2) < 2 && Math.abs(geo.gy + geo.gh / 2 - geo.vh / 2) < 2, 'el marco guía tiene forma de carta (5:7) y está centrado sobre el vídeo')
+  // al activar la cámara la página se desplaza hasta que el visor llena la pantalla
+  await p.waitForFunction(() => { const r = document.querySelector('.scan-stage').getBoundingClientRect(); return r.top >= 0 && r.top < 110 })
+  const view = await p.evaluate(() => { const r = document.querySelector('.scan-stage').getBoundingClientRect(); const b = document.querySelector('.scan-shot').getBoundingClientRect(); return { top: r.top, bottom: r.bottom, vh: innerHeight, scrollY, btnTop: b.top, btnBottom: b.bottom } })
+  ok(view.scrollY > 0 && view.top >= 0 && view.top < 110, `la página se desplaza hasta el visor (scroll ${Math.round(view.scrollY)}px, el visor empieza a ${Math.round(view.top)}px del borde)`)
+  ok(view.bottom <= view.vh + 1, `el visor cabe entero en la pantalla (termina a ${Math.round(view.bottom)}px de ${view.vh}px)`)
+  ok(view.btnTop >= 0 && view.btnBottom <= view.vh, 'el botón Escanear queda a la vista, sobre el visor, sin tener que desplazarse')
   await p.getByRole('button', { name: 'Escanear', exact: true }).click()
   await p.locator('.scan-result').first().waitFor()
+  await p.waitForFunction(() => { const r = document.querySelector('.scan-results').getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight })
+  ok(true, 'al escanear, la página baja sola y deja las 3 candidatas enteras a la vista')
+  await p.getByRole('button', { name: /Escanear otra/ }).click()
+  await p.waitForFunction(() => { const r = document.querySelector('.scan-stage').getBoundingClientRect(); return r.top >= 0 && r.top < 110 })
+  ok(true, '«Escanear otra» devuelve al visor')
+  await p.getByRole('button', { name: 'Escanear', exact: true }).click()
+  await p.waitForFunction(() => document.querySelector('.scan-results-box')?.getAttribute('data-scan') === '2')
   const first = await p.locator('.scan-result .scan-info strong').first().innerText()
   const all = await p.locator('.scan-result .scan-info strong').allInnerTexts()
   ok(first === cardName(target) || all.includes(cardName(target)), `con la cámara reconoce la carta (1ª: ${first}; esperada: ${cardName(target)})`)

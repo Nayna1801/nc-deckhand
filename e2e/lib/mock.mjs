@@ -5,7 +5,7 @@ const HOST = SUPABASE_HOST
 export async function newSession(browser, opts) {
   const { legacy } = opts
   const store = { collection: new Map(), decks: new Map(), wishlist: new Map(), writes: [] }
-  const ctx = await browser.newContext({ viewport: { width: 1500, height: 1000 }, acceptDownloads: true })
+  const ctx = await browser.newContext({ viewport: { width: 1500, height: 1000 }, acceptDownloads: true, ...(opts.context ?? {}) }) // opts.context: p. ej. un móvil táctil
   const exp = Math.floor(Date.now() / 1000) + 3600
   const user = { id: '00000000-0000-4000-8000-000000000001', aud: 'authenticated', role: 'authenticated', email: 'test@example.com', app_metadata: {}, user_metadata: {}, created_at: '2026-01-01T00:00:00Z' }
   const session = { access_token: 'x.y.z', refresh_token: 'r', token_type: 'bearer', expires_in: 3600, expires_at: exp, user }

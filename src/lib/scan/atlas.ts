@@ -72,6 +72,37 @@ export function guideRect(w: number, h: number, fraction: number): { x: number; 
 /** Tamaño al que se reduce el recorte antes de calcular la huella (suficiente y barato). */
 export const CAPTURE_SIZE: [number, number] = [240, 336]
 
+export interface Rect {
+  x: number
+  y: number
+  w: number
+  h: number
+}
+
+/** Variantes del recorte para tolerar que la carta no esté perfectamente encajada en el marco: escala y desplazamiento. */
+export const CROP_SCALES: readonly number[] = [0.9, 1, 1.12]
+export const CROP_SHIFTS: readonly (readonly [number, number])[] = [[0, 0], [-0.06, 0], [0.06, 0], [0, -0.06], [0, 0.06]]
+
+/** Los recortes que se comparan: el rectángulo guía a varias escalas y desplazado, siempre dentro de la imagen. */
+export function cropVariants(rect: Rect, imgW: number, imgH: number): Rect[] {
+  const out: Rect[] = []
+  for (const s of CROP_SCALES) {
+    for (const [dx, dy] of CROP_SHIFTS) {
+      const w = Math.min(rect.w * s, imgW)
+      const h = Math.min(rect.h * s, imgH)
+      const cx = rect.x + rect.w / 2 + dx * rect.w
+      const cy = rect.y + rect.h / 2 + dy * rect.h
+      out.push({ x: Math.min(Math.max(0, cx - w / 2), imgW - w), y: Math.min(Math.max(0, cy - h / 2), imgH - h), w, h })
+    }
+  }
+  return out
+}
+
+/** Huellas de varios recortes de una misma imagen (el parecido final es el mejor de ellos). */
+export function describeVariants(source: CanvasImageSource, rect: Rect, imgW: number, imgH: number): Float32Array[] {
+  return cropVariants(rect, imgW, imgH).map((r) => describeRegion(source, r))
+}
+
 /** Huella de la zona de una imagen o fotograma de vídeo (el recorte se reduce a un lienzo pequeño). */
 export function describeRegion(source: CanvasImageSource, rect: { x: number; y: number; w: number; h: number }): Float32Array {
   const canvas = document.createElement('canvas')
@@ -94,7 +125,7 @@ export interface Candidate extends Match {
  * Las `k` cartas más parecidas a una huella. Son cartas DISTINTAS: si varios artes de una misma carta puntúan
  * alto, solo se ofrece el más parecido (los demás artes se eligen luego en el detalle de la carta).
  */
-export function findCandidates(atlas: Atlas, query: Float32Array, k = 3): Candidate[] {
+export function findCandidates(atlas: Atlas, query: Float32Array | readonly Float32Array[], k = 3): Candidate[] {
   const out: Candidate[] = []
   if (k <= 0) return out
   const seen = new Set<string>()

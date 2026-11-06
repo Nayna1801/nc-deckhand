@@ -119,10 +119,18 @@ export interface Match {
   score: number
 }
 
-/** Las `k` referencias más parecidas, de mayor a menor parecido. */
-export function topMatches(query: Float32Array, refs: readonly Float32Array[], k: number): Match[] {
+/**
+ * Las `k` referencias más parecidas, de mayor a menor parecido. La consulta puede ser una huella o varias (recortes
+ * algo distintos de la misma foto): el parecido de cada referencia es el mejor de todos ellos.
+ */
+export function topMatches(query: Float32Array | readonly Float32Array[], refs: readonly Float32Array[], k: number): Match[] {
+  const queries = query instanceof Float32Array ? [query] : query
   const out: Match[] = []
-  for (let i = 0; i < refs.length; i++) out.push({ index: i, score: similarity(query, refs[i]) })
+  for (let i = 0; i < refs.length; i++) {
+    let best = -Infinity
+    for (const q of queries) best = Math.max(best, similarity(q, refs[i]))
+    out.push({ index: i, score: best })
+  }
   out.sort((a, b) => b.score - a.score || a.index - b.index)
   return out.slice(0, Math.max(0, k))
 }

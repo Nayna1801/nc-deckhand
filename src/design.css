@@ -252,8 +252,11 @@
 
 /* detalle de carta: .modal = marco fijo; .modal-scroll = contenido que se desplaza */
 .modal { display: flex; flex-direction: column; gap: 0; padding: 0; overflow: hidden; max-height: 92vh; }
-.modal-scroll { display: grid; grid-template-columns: minmax(200px, 340px) 1fr; gap: 1.4rem; padding: 1.2rem; flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; }
-@media (max-width: 640px) { .modal-scroll { grid-template-columns: 1fr; } }
+.modal-scroll { display: grid; grid-template-columns: minmax(200px, 340px) minmax(0, 1fr); gap: 1.4rem; padding: 1.2rem; flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; }
+@media (max-width: 640px) { .modal-scroll { grid-template-columns: minmax(0, 1fr); } }
+/* sin min-width:0 una columna con texto largo (sin saltos) ensancha la ficha por encima de la pantalla */
+.modal-scroll > * { min-width: 0; }
+.modal-info { overflow-wrap: anywhere; }
 @media (max-width: 700px) { .modal { max-height: 94vh; } .modal-scroll { padding: 0.9rem; gap: 0.9rem; } }
 
 /* desplegable: .dd-frame = borde y relleno; .dd-list = opciones con scroll */

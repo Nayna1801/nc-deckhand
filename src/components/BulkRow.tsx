@@ -58,7 +58,7 @@ export function BulkRow(p: Props) {
   return (
     <li className="bulk-row">
       <div className="deck-row">
-        <input type="checkbox" checked={p.checked} onChange={p.onToggle} aria-label={`Seleccionar ${card?.displayName}`} />
+        <label className="tap-box"><input type="checkbox" checked={p.checked} onChange={p.onToggle} aria-label={`Seleccionar ${card?.displayName}`} /></label>
         <button className="link-btn" onClick={p.onOpenCard} {...p.preview}>{card?.displayName}</button>
         <span className="pill warn">bulk ×{p.bulk}</span>
         <span className="muted small">de {totalOf(p.entry)}</span>

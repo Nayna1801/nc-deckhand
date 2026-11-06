@@ -5,7 +5,7 @@ import { InventoryEditor } from '../components/InventoryEditor'
 import { catalog } from '../lib/catalog'
 import { thumbOf } from '../lib/images'
 import { printsOf } from '../lib/prints'
-import { describeRegion, findCandidates, guideRect, loadAtlas, type Atlas, type Candidate } from '../lib/scan/atlas'
+import { describeVariants, findCandidates, guideRect, loadAtlas, type Atlas, type Candidate } from '../lib/scan/atlas'
 import { variantsOf } from '../lib/variants'
 import { useData } from '../state/DataContext'
 
@@ -66,6 +66,8 @@ export function ScanPage() {
   const { loggedIn } = useData()
   const modal = useCardModal()
   const video = useRef<HTMLVideoElement>(null)
+  const stage = useRef<HTMLDivElement>(null)
+  const resultsBox = useRef<HTMLElement>(null)
   const stream = useRef<MediaStream | null>(null)
   const fileInput = useRef<HTMLInputElement>(null)
   const [atlas, setAtlas] = useState<Atlas | null>(null)
@@ -77,6 +79,7 @@ export function ScanPage() {
   const [busy, setBusy] = useState(false)
   const [answered, setAnswered] = useState(false)
   const [scanId, setScanId] = useState(0)
+  const [scanMs, setScanMs] = useState<number | null>(null)
   const [stats, setStats] = useState<Stats>(loadStats)
 
   // el atlas (huellas de todas las cartas) se prepara nada más entrar: son ~1 MB y unos milisegundos de cálculo
@@ -87,6 +90,12 @@ export function ScanPage() {
       alive = false
     }
   }, [])
+
+  // al activar la cámara, la página se desplaza hasta que el visor ocupa la pantalla
+  useEffect(() => {
+    if (camera === 'off') return
+    stage.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [camera])
 
   const stopCamera = useCallback(() => {
     stream.current?.getTracks().forEach((t) => t.stop())
@@ -123,15 +132,22 @@ export function ScanPage() {
     setResults(r)
     setAnswered(false)
     setScanId((n) => n + 1)
+    // el visor ocupa toda la pantalla: se baja a las candidatas (tras pintarlas) para no obligar a buscarlas
+    window.requestAnimationFrame(() => resultsBox.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
   }
+
+  const backToCamera = () => stage.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   const scanFrame = () => {
     const el = video.current
     if (!atlas || !el || !el.videoWidth) return
     setBusy(true)
     try {
+      const t0 = performance.now()
       const rect = guideRect(el.videoWidth, el.videoHeight, CAMERA_GUIDE)
-      show(findCandidates(atlas, describeRegion(el, rect)))
+      const found = findCandidates(atlas, describeVariants(el, rect, el.videoWidth, el.videoHeight))
+      setScanMs(Math.round(performance.now() - t0))
+      show(found)
     } finally {
       setBusy(false)
     }
@@ -144,7 +160,10 @@ export function ScanPage() {
     try {
       const bmp = await createImageBitmap(file)
       try {
-        show(findCandidates(atlas, describeRegion(bmp, guideRect(bmp.width, bmp.height, PHOTO_GUIDE))))
+        const t0 = performance.now()
+        const found = findCandidates(atlas, describeVariants(bmp, guideRect(bmp.width, bmp.height, PHOTO_GUIDE), bmp.width, bmp.height))
+        setScanMs(Math.round(performance.now() - t0))
+        show(found)
       } finally {
         bmp.close()
       }
@@ -181,7 +200,12 @@ export function ScanPage() {
       {atlasError && <p className="notice" role="alert">{atlasError}</p>}
       {!atlas && !atlasError && <p className="muted small" role="status">Preparando el escáner…</p>}
 
-      <div className="scan-stage" style={size ? { aspectRatio: `${size.w} / ${size.h}` } : undefined} hidden={camera === 'off'}>
+      <div
+        ref={stage}
+        className="scan-stage"
+        style={size ? ({ '--ar': size.w / size.h } as React.CSSProperties) : undefined}
+        hidden={camera === 'off'}
+      >
         <video ref={video} playsInline muted autoPlay aria-label="Vista de la cámara" />
         {guide && size && (
           <div
@@ -190,17 +214,14 @@ export function ScanPage() {
             style={{ left: `${(guide.x / size.w) * 100}%`, top: `${(guide.y / size.h) * 100}%`, width: `${(guide.w / size.w) * 100}%`, height: `${(guide.h / size.h) * 100}%` }}
           />
         )}
+        <div className="scan-overlay">
+          <button className="btn primary scan-shot" disabled={!atlas || busy || camera !== 'on'} onClick={scanFrame}>Escanear</button>
+          <button className="btn" onClick={stopCamera}>Apagar cámara</button>
+        </div>
       </div>
 
       <div className="row wrap scan-actions">
-        {camera === 'off' ? (
-          <button className="btn primary" onClick={() => void startCamera()}>📷 Activar cámara</button>
-        ) : (
-          <>
-            <button className="btn primary" disabled={!atlas || busy || camera !== 'on'} onClick={scanFrame}>Escanear</button>
-            <button className="btn" onClick={stopCamera}>Apagar cámara</button>
-          </>
-        )}
+        {camera === 'off' && <button className="btn primary" onClick={() => void startCamera()}>📷 Activar cámara</button>}
         <button className="btn" disabled={!atlas || busy} onClick={() => fileInput.current?.click()}>Subir o hacer una foto</button>
         <input
           ref={fileInput}
@@ -219,7 +240,7 @@ export function ScanPage() {
       {cameraError && <p className="notice small" role="alert">{cameraError}</p>}
 
       {results && (
-        <section aria-label="Candidatas" data-scan={scanId}>
+        <section ref={resultsBox} className="scan-results-box" aria-label="Candidatas" data-scan={scanId}>
           <h2>Se parece a…</h2>
           <ol className="scan-results">
             {results.map((c, i) => {
@@ -248,6 +269,8 @@ export function ScanPage() {
           </ol>
           <div className="row wrap">
             <button className="btn sm ghost" disabled={answered} onClick={() => record('none')}>Ninguna es</button>
+            {camera === 'on' && <button className="btn sm" onClick={backToCamera}>↑ Escanear otra</button>}
+            {scanMs !== null && <span className="muted small" data-ms={scanMs}>Calculado en {scanMs} ms en este dispositivo.</span>}
             <span className="muted small">Pulsar «Es esta» o «Ninguna es» solo apunta, en este dispositivo, si el escáner acertó: sirve para medir la precisión real.</span>
           </div>
         </section>
