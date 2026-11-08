@@ -165,7 +165,7 @@ textarea.input { width: 100%; resize: vertical; margin-bottom: 0.6rem; }
 .deck-row.short > .link-btn { color: #ff8da1; }
 .deck-row .cost { display: inline-block; min-width: 1.1rem; text-align: center; color: var(--yellow); font-family: var(--mono); }
 .actions { margin-top: 1rem; }
-@media (max-width: 1000px) { .editor { grid-template-columns: 1fr; } .editor-deck { position: static; max-height: none; order: -1; } }
+@media (max-width: 1000px) { .editor { grid-template-columns: minmax(0, 1fr); } .editor-deck { position: static; max-height: none; order: -1; } }
 
 /* collection */
 .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.8rem; margin: 1rem 0 1.3rem; }

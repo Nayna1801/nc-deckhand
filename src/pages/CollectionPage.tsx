@@ -5,21 +5,24 @@ import { MAX_IMPORT_CHARS, parseCollectionText, serializeCollection } from '../l
 import { variantsOf, TOTAL_VARIANTS } from '../lib/variants'
 import { bulkList, bulkToCsv, CONDITION_LABEL, clampPick, ownedKinds, pickedTotal, playsetSize, splitPlayset, type PickedCopies, type Withdrawal } from '../lib/inventory'
 import { buildWants, buildWishlist, wantsToCsv, wantsToJson, wishlistToCsv, wishlistToJson } from '../lib/wishlist'
-import { CardModal, downloadText, Stepper, useCardModal, usePreview } from '../components/cardUi'
+import { Album } from '../components/Album'
+import { CardImage, CardModal, downloadText, Stepper, useCardModal, usePreview } from '../components/cardUi'
 import { BulkRow } from '../components/BulkRow'
 import { InventoryEditor } from '../components/InventoryEditor'
+import { useAuth } from '../state/AuthContext'
 import { useData } from '../state/DataContext'
 
-type Tab = 'wishlist' | 'wants' | 'bulk'
+type Tab = 'album' | 'wishlist' | 'wants' | 'bulk'
 
 export function CollectionPage() {
   const { loggedIn, collection, inventory, inventoryV2, decks, setInventory, withdrawBulk, importCollection, wishlist: wantsMap, wishlistAvailable, setWanted, ready } = useData()
+  const { user } = useAuth()
   const modal = useCardModal()
   const { bind, layer } = usePreview()
   const [text, setText] = useState('')
   const [issues, setIssues] = useState<string[]>([])
   const [mode, setMode] = useState<'replace' | 'add'>('add')
-  const [tab, setTab] = useState<Tab>('wishlist')
+  const [tab, setTab] = useState<Tab>('album')
   // retirada de bulk: cartas marcadas y cuántas copias se retiran de cada una (por defecto, todo su bulk)
   const [checked, setChecked] = useState<Set<string>>(() => new Set())
   const [outQty, setOutQty] = useState<Record<string, number>>({})
@@ -122,12 +125,33 @@ export function CollectionPage() {
   const names = (id: string) => ({ code: catalog.byId[id]?.importId ?? '', name: catalog.byId[id]?.displayName ?? id, set: catalog.byId[id]?.setName ?? '' })
   const line = (n: number, id: string) => `${n}x ${catalog.byId[id]?.importId ?? ''} ${catalog.byId[id]?.displayName ?? id}`.replace(/\s+/g, ' ')
 
+  const rowThumb = (id: string) => (
+    <button type="button" className="dk-thumb" tabIndex={-1} aria-hidden="true" onClick={() => modal.open(id)} {...bind(catalog.byId[id])}>
+      <CardImage card={catalog.byId[id]} thumb />
+    </button>
+  )
+  const pctUnique = Math.round((stats.unique / catalog.cards.length) * 100)
+  const tabs: { id: Tab; label: string }[] = [
+    { id: 'album', label: 'Álbum' },
+    { id: 'wishlist', label: `Para mis mazos (${wishlist.length})` },
+    { id: 'wants', label: `♥ Mis deseos (${wants.length})` },
+    { id: 'bulk', label: `Bulk / intercambio (${bulkCopies})` },
+  ]
+
   return (
-    <section>
-      <header className="page-head"><h1>Colección</h1></header>
+    <section className="collection">
+      <header className="page-head">
+        <div>
+          <h1>Colección</h1>
+          <p className="muted">{stats.unique} de {catalog.cards.length} cartas distintas · {pctUnique} % completada</p>
+        </div>
+      </header>
 
       <div className="stats-row">
-        <div className="stat"><strong>{stats.unique}<small>/{catalog.cards.length}</small></strong><span>cartas distintas</span></div>
+        <div className="stat stat-main">
+          <strong>{stats.unique}<small>/{catalog.cards.length}</small></strong><span>cartas distintas</span>
+          <progress value={stats.unique} max={catalog.cards.length} aria-label="Cartas distintas que tienes" />
+        </div>
         <Link className="stat stat-link" to="/?owned=missing"><strong>{missingCount}</strong><span>me faltan · ver en Cartas →</span></Link>
         <div className="stat"><strong>{stats.total}</strong><span>copias en total{stats.foil > 0 && ` · ${stats.foil} foil`}</span></div>
         <div className="stat"><strong>{Math.round((stats.playset / stats.playsetTotal) * 100)}%</strong><span>de playsets completos</span></div>
@@ -137,19 +161,28 @@ export function CollectionPage() {
           <span>artes alternativos y promos{stats.artsCopies > 0 ? ` · ${stats.artsCopies} ${stats.artsCopies === 1 ? 'copia' : 'copias'}` : ''} · ver →</span>
           <progress value={stats.artsOwned} max={TOTAL_VARIANTS} />
         </Link>
-        {stats.bySet.map((s) => (
-          <div className="stat" key={s.code}>
-            <strong>{s.have}<small>/{s.of}</small></strong><span>{s.label}</span>
-            <progress value={s.have} max={s.of} />
-          </div>
+      </div>
+
+      <details className="panel set-progress">
+        <summary>Progreso por set</summary>
+        <ul className="plain">
+          {stats.bySet.map((s) => (
+            <li key={s.code} className="set-bar">
+              <span className="set-bar-name">{s.label}</span>
+              <progress value={s.have} max={s.of} aria-label={`${s.label}: ${s.have} de ${s.of}`} />
+              <span className="set-bar-n mono">{s.have}/{s.of}</span>
+            </li>
+          ))}
+        </ul>
+      </details>
+
+      <div className="coll-tabs" role="tablist" aria-label="Secciones de la colección">
+        {tabs.map((t) => (
+          <button key={t.id} role="tab" aria-selected={tab === t.id} className={tab === t.id ? 'on' : ''} onClick={() => setTab(t.id)}>{t.label}</button>
         ))}
       </div>
 
-      <div className="seg" role="tablist">
-        <button role="tab" aria-selected={tab === 'wishlist'} className={tab === 'wishlist' ? 'on' : ''} onClick={() => setTab('wishlist')}>Para mis mazos ({wishlist.length})</button>
-        <button role="tab" aria-selected={tab === 'wants'} className={tab === 'wants' ? 'on' : ''} onClick={() => setTab('wants')}>♥ Mis deseos ({wants.length})</button>
-        <button role="tab" aria-selected={tab === 'bulk'} className={tab === 'bulk' ? 'on' : ''} onClick={() => setTab('bulk')}>Bulk / intercambio ({bulkCopies})</button>
-      </div>
+      {tab === 'album' && <Album userId={user?.id} loggedIn={loggedIn} inventory={inventory} />}
 
       {tab === 'wants' && (
         <div className="panel">
@@ -158,11 +191,16 @@ export function CollectionPage() {
           {wishlistAvailable && wants.length === 0 && <p>Todavía no has marcado ninguna carta. Pulsa el ♥ de una carta para añadirla.</p>}
           <ul className="plain">
             {wants.map((r) => (
-              <li key={r.cardId} className="deck-row">
-                <button className="link-btn" onClick={() => modal.open(r.cardId)} {...bind(catalog.byId[r.cardId])}>{r.name}</button>
-                <span className="muted small">tienes {r.owned}</span>
-                <Stepper value={r.wanted} min={1} max={99} disabled={!ready} onChange={(v) => void setWanted(r.cardId, v)} />
-                <button className="btn ghost sm" disabled={!ready} onClick={() => void setWanted(r.cardId, 0)} aria-label={`Quitar ${r.name} de deseos`}>Quitar</button>
+              <li key={r.cardId} className="deck-row dk-row dk-wrap">
+                {rowThumb(r.cardId)}
+                <div className="dk-main">
+                  <button className="link-btn dk-name" onClick={() => modal.open(r.cardId)} {...bind(catalog.byId[r.cardId])}>{r.name}</button>
+                  <span className="muted small">tienes {r.owned}</span>
+                </div>
+                <div className="row dk-actions">
+                  <Stepper value={r.wanted} min={1} max={99} disabled={!ready} onChange={(v) => void setWanted(r.cardId, v)} />
+                  <button className="btn ghost sm" disabled={!ready} onClick={() => void setWanted(r.cardId, 0)} aria-label={`Quitar ${r.name} de deseos`}>Quitar</button>
+                </div>
               </li>
             ))}
           </ul>
@@ -182,10 +220,13 @@ export function CollectionPage() {
           {wishlist.length === 0 && <p>{decks.length === 0 ? 'Aún no tienes mazos guardados.' : 'No te falta nada para tus mazos.'}</p>}
           <ul className="plain">
             {wishlist.map((r) => (
-              <li key={r.cardId} className="deck-row">
-                <button className="link-btn" onClick={() => modal.open(r.cardId)} {...bind(catalog.byId[r.cardId])}>{r.name}</button>
+              <li key={r.cardId} className="deck-row dk-row">
+                {rowThumb(r.cardId)}
+                <div className="dk-main">
+                  <button className="link-btn dk-name" onClick={() => modal.open(r.cardId)} {...bind(catalog.byId[r.cardId])}>{r.name}</button>
+                  <span className="muted small" title={r.decks.join(', ')}>tienes {r.owned} / pides {r.needed}</span>
+                </div>
                 <span className="pill bad">faltan {r.missing}</span>
-                <span className="muted small" title={r.decks.join(', ')}>tienes {r.owned} / pides {r.needed}</span>
               </li>
             ))}
           </ul>
@@ -248,8 +289,8 @@ export function CollectionPage() {
         </div>
       )}
 
-      <h2>Importar / exportar</h2>
-      <div className="panel">
+      <details className="panel coll-io">
+        <summary>Importar / exportar colección</summary>
         <textarea className="input mono" rows={8} maxLength={MAX_IMPORT_CHARS} value={text} onChange={(e) => setText(e.target.value)} placeholder={'1x 012 Goro Takemura: Hands Unclean\n3x 089 Saul Bright: Stormrider'} />
         {issues.length > 0 && <ul className="errors">{issues.map((r) => <li key={r}>{r}</li>)}</ul>}
         <div className="row wrap">
@@ -260,7 +301,7 @@ export function CollectionPage() {
           <button className="btn primary" onClick={() => void doImport()} disabled={!text.trim()}>Importar</button>
           <button className="btn" onClick={() => downloadText('coleccion.txt', serializeCollection(collection, catalog))} disabled={stats.total === 0}>Exportar colección</button>
         </div>
-      </div>
+      </details>
 
       {layer}
       <CardModal card={modal.card} onClose={modal.close}>{modal.card && <InventoryEditor cardId={modal.card.id} />}</CardModal>

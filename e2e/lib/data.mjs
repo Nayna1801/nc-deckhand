@@ -32,5 +32,12 @@ export const P_GROUPS = P_BY_SET.size
 export const SETS_N = new Set(CARDS.flatMap((c) => c.printings.map((p) => p.baseSetName))).size
 /** Artes alternativos con imagen: uno contable por cada uno. */
 export const ALTS = CARDS.reduce((a, c) => a + c.altArts.filter((x) => x.image).length, 0)
+/**
+ * Impresiones Pre-Release (Beta y Retail): llevan marca de promoción, así que cuentan como diseño propio aunque no
+ * tengan arte alternativo catalogado. En «Por impresión» con «Solo artes alternativos» salen todas.
+ */
+export const PRERELEASE_PRINTS = CARDS.reduce((n, c) => n + printsOf(c).filter((p) => /pre-?release/i.test(p.setName) && !c.altArts.some((a) => a.image && sameCode(a.setCode, p.setCode) && a.collectorNumber === p.number)).length, 0)
+/** Fichas de «Por impresión» con «Solo artes alternativos y promos»: artes con imagen + Pre-Release. */
+export const ART_PRINTS = ALTS + PRERELEASE_PRINTS
 /** Páginas de la lista de Cartas y fichas de la última. */
 export const pagesOf = (total, size = 48) => ({ pages: Math.max(1, Math.ceil(total / size)), last: total - size * (Math.max(1, Math.ceil(total / size)) - 1) })

@@ -24,9 +24,9 @@ export async function newBackend(browser, { rows = {}, latency = [120, 260], get
     const reply = (status, body) => route.fulfill({ status, headers: cors, body: body === '' ? '' : JSON.stringify(body) })
     if (url.pathname.startsWith('/auth/v1')) return reply(200, url.pathname.endsWith('/user') ? user : session)
     const table = url.pathname.split('/').pop()
-    const map = table === 'tcg_collection' ? store.collection : table === 'tcg_decks' ? store.decks : table === 'tcg_wishlist' ? store.wishlist : null
+    const map = table === 'tcg_album' ? (store.album ??= new Map()) : table === 'tcg_collection' ? store.collection : table === 'tcg_decks' ? store.decks : table === 'tcg_wishlist' ? store.wishlist : null
     if (!map) return reply(404, {})
-    const key = table === 'tcg_decks' ? 'id' : 'card_id'
+    const key = table === 'tcg_decks' ? 'id' : table === 'tcg_album' ? 'user_id' : 'card_id'
     store.inflight++
     try {
       await wait(method === 'GET' && getLatency ? getLatency : rnd(latency))

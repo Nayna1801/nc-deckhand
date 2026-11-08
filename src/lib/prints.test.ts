@@ -151,8 +151,29 @@ describe('catálogo completo de impresiones', () => {
     }
   })
 
-  it('con los datos actuales ninguna impresión se queda sin su imagen: o la tiene propia o es el mismo arte que la base', () => {
-    for (const e of buildPrints(catalog.cards)) expect(['exact', 'original'], `${e.key} (${e.art})`).toContain(e.art)
+  it('con los datos actuales ninguna impresión se queda sin su imagen: o la tiene propia, o es el mismo arte que la base, o es un Pre-Release con marca', () => {
+    for (const e of buildPrints(catalog.cards)) {
+      if (e.art === 'marked') expect(e.setName, e.key).toMatch(/pre-?release/i)
+      else expect(['exact', 'original'], `${e.key} (${e.art})`).toContain(e.art)
+    }
+  })
+
+  it('los Pre-Release se cuentan como diseño propio (promo con marca) y la versión Beta y la Retail cuentan juntas', () => {
+    const pre = buildPrints(catalog.cards).filter((e) => /^Pre-Release/.test(e.setName))
+    expect(pre.length).toBeGreaterThan(0)
+    for (const e of pre) {
+      expect(e.art, e.key).toBe('marked')
+      expect(e.variantKey, e.key).toBe('print:prerelease')
+    }
+    const royce = printsOf(catalog.byId['royce_psycho_on_the_edge']).filter((e) => /^Pre-Release/.test(e.setName))
+    expect(royce.map((e) => e.setName).sort()).toEqual(['Pre-Release Beta', 'Pre-Release Retail'])
+    expect(new Set(royce.map((e) => e.variantKey)).size).toBe(1)
+  })
+
+  it('los Pre-Release salen al listar ese set y al ver solo artes alternativos y promos', () => {
+    const listed = expandPrints(catalog.cards, { sets: ['Pre-Release Retail'], bySet: true })
+    expect(listed.length).toBeGreaterThan(0)
+    expect(listed.every((e) => e.variantKey !== null)).toBe(true)
   })
 
   it('cada arte alternativo con imagen se corresponde con su impresión (mismo set y número)', () => {

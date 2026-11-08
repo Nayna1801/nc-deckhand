@@ -54,6 +54,7 @@ const browser = await chromium.launch()
   ok(csv.startsWith('code,name,set,bulk_copies,condition') && /,5,Played$/m.test(csv), 'bulk.csv con estado "Played"')
 
   // importar texto en modo sumar: conserva foil/promo
+  await page.locator('.coll-io summary').click()
   await page.fill('textarea', '2x 089 Saul Bright: Stormrider')
   await page.getByRole('button', { name: 'Importar', exact: true }).click()
   await page.waitForTimeout(400)

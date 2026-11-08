@@ -297,3 +297,60 @@
 @media (pointer: coarse) {
   html.modal-open, html.modal-open body { overflow: hidden; overscroll-behavior: none; }
 }
+
+/* constructor: las columnas nunca pasan del ancho de la pantalla (con `1fr` a secas una fila de lista con nombre largo ensanchaba la página) */
+.editor-cards, .editor-deck { min-width: 0; }
+
+/* =====================================================================
+   Vista lista de cartas (Cartas y constructor): en el móvil la fila se ordena en dos líneas
+   (nombre completo y, debajo, tipo · coste · RAM) con los controles al final, sin cortar el nombre.
+   ===================================================================== */
+.crow-stats { display: contents; }
+@media (max-width: 700px) {
+  .crow { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; padding: 5px 6px 5px 5px; }
+  .crow-main { position: relative; display: grid; grid-template-columns: 46px minmax(0, 1fr); column-gap: 0.7rem; row-gap: 2px; align-items: center; }
+  .crow-thumb { grid-row: 1 / span 2; width: 46px; height: 64px; }
+  .crow-name { grid-column: 2; align-self: end; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.25; padding-right: 2.6rem; overflow-wrap: anywhere; }
+  .crow-stats { grid-column: 2; align-self: start; display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 0.7rem; font-size: 0.84rem; min-width: 0; }
+  .crow-meta { width: auto; }
+  .crow-num { width: auto; text-align: left; }
+  .crow-num::before { content: attr(data-l) ' '; color: var(--muted); font: 0.68rem var(--font); text-transform: uppercase; letter-spacing: 0.06em; }
+  .crow-main > .tile-badge.static { position: absolute; top: 0; right: 0; }
+  .crow-right { width: 100%; justify-content: flex-end; padding: 0; }
+}
+
+/* =====================================================================
+   Lista del mazo (constructor): miniatura | nombre (se parte en líneas) | − n + siempre pegado a la derecha
+   ===================================================================== */
+.dk-row { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 0 0.55rem; padding: 4px 0; }
+.dk-thumb { padding: 0; width: 34px; aspect-ratio: 5 / 7; line-height: 0; background: #000; border: 1px solid #000; overflow: hidden; cursor: pointer; }
+.dk-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dk-main { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.dk-name { max-width: 100%; min-width: 0; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; line-height: 1.25; overflow-wrap: anywhere; }
+.dk-row .stepper { justify-self: end; }
+.dk-group { display: flex; justify-content: space-between; align-items: baseline; margin: 0.8rem 0 0.2rem; padding: 2px 0; border-bottom: 1px solid var(--line); font: 700 0.72rem var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); }
+.dk-group:first-child { margin-top: 0.2rem; }
+.dk-group small { color: var(--muted); font: 0.78rem var(--mono); letter-spacing: 0; }
+.dk-qty { justify-content: center; }
+
+/* Legends del mazo: las tres ranuras miden lo mismo aunque los nombres sean de distinta longitud; la ✕ siempre abajo */
+.legend-slots { align-items: stretch; }
+.slot.filled { height: 100%; }
+.slot-name { flex: 1 1 auto; display: block; overflow-wrap: anywhere; }
+.slot.filled > .btn { margin-top: auto; width: 100%; }
+
+/* =====================================================================
+   Botón «Escanear»: icono de cámara, acento cian y siempre junto al título (arriba a la derecha)
+   ===================================================================== */
+.scan-cta { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; flex: none; padding: 0.5rem 1rem; color: var(--cyan); border-color: rgba(0, 240, 255, 0.55); background: rgba(0, 240, 255, 0.08); }
+.scan-cta .icon { flex: none; }
+.scan-cta:hover:not(:disabled), .scan-cta.on { color: #000; background: var(--cyan); border-color: var(--cyan); }
+
+.head-main { flex: 1 1 100%; display: flex; align-items: flex-start; justify-content: space-between; gap: 0.8rem; min-width: 0; }
+.head-main > div { min-width: 0; }
+@media (max-width: 700px) {
+  .page-head .row .scan-cta { flex: none; }
+  .scan-cta { padding: 0.45rem 0.8rem; min-height: 42px; }
+}
+.scan-embed { margin: 0.8rem 0; }
+.scan-embed .scan-stage { margin-top: 0.4rem; }

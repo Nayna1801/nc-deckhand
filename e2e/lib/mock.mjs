@@ -4,7 +4,7 @@ const HOST = SUPABASE_HOST
 /** Supabase simulado: auth con sesión válida + tablas tcg_* en memoria. */
 export async function newSession(browser, opts) {
   const { legacy } = opts
-  const store = { collection: new Map(), decks: new Map(), wishlist: new Map(), writes: [] }
+  const store = { collection: new Map(), decks: new Map(), wishlist: new Map(), album: new Map(), writes: [] }
   const ctx = await browser.newContext({ viewport: { width: 1500, height: 1000 }, acceptDownloads: true, ...(opts.context ?? {}) }) // opts.context: p. ej. un móvil táctil
   const exp = Math.floor(Date.now() / 1000) + 3600
   const user = { id: '00000000-0000-4000-8000-000000000001', aud: 'authenticated', role: 'authenticated', email: 'test@example.com', app_metadata: {}, user_metadata: {}, created_at: '2026-01-01T00:00:00Z' }
@@ -25,9 +25,12 @@ export async function newSession(browser, opts) {
       return route.fulfill({ status: 401, headers: cors, body: JSON.stringify({ code: 'PGRST303', details: null, hint: null, message: 'JWT issued at future' }) })
     }
     if (table === 'tcg_wishlist' && opts.noWishlist) return route.fulfill({ status: 404, headers: cors, body: JSON.stringify({ code: 'PGRST205', message: "Could not find the table 'public.tcg_wishlist' in the schema cache" }) })
-    const map = table === 'tcg_collection' ? store.collection : table === 'tcg_decks' ? store.decks : table === 'tcg_wishlist' ? store.wishlist : null
+    if (table === 'tcg_album' && (opts.noAlbum || store.albumDown)) {
+      return route.fulfill({ status: opts.noAlbum ? 404 : 400, headers: cors, body: JSON.stringify(opts.noAlbum ? { code: 'PGRST205', message: "Could not find the table 'public.tcg_album' in the schema cache" } : { message: 'Failed to fetch' }) })
+    }
+    const map = table === 'tcg_album' ? store.album : table === 'tcg_collection' ? store.collection : table === 'tcg_decks' ? store.decks : table === 'tcg_wishlist' ? store.wishlist : null
     if (!map) return route.fulfill({ status: 404, headers: cors, body: '{}' })
-    const key = table === 'tcg_decks' ? 'id' : 'card_id'
+    const key = table === 'tcg_decks' ? 'id' : table === 'tcg_album' ? 'user_id' : 'card_id'
     if (method === 'GET') {
       if (table === 'tcg_collection' && opts.noArts && (url.searchParams.get('select') || '').includes('arts')) {
         return route.fulfill({ status: 400, headers: cors, body: JSON.stringify({ code: '42703', message: 'column tcg_collection.arts does not exist' }) })

@@ -333,13 +333,15 @@ export function CardRow({ card, onClick, badge, right, dim, locked, lockReason, 
           {card.displayName}
           {print && <span className="muted small"> · {setLabel({ setName: print.setName })} {print.collectorNumber ? `#${print.collectorNumber}` : ''}{artNote(print) ? ' ≈' : ''}</span>}
         </span>
-        <span className="crow-meta muted">{card.type}</span>
-        <span className="crow-num" title="Coste">{card.cost ?? '–'}</span>
-        <span className="crow-num" title="RAM">{card.ram ?? '–'}</span>
-        <span className="crow-meta muted hide-sm">{card.classifications.slice(0, 2).join(', ')}</span>
-        <span className="crow-chips hide-sm">
-          {card.altArts.length > 0 && <span className="chip" title={`${card.altArts.length} artes alternativos`}>ALT</span>}
-          {card.printings.some((p) => p.language === 'fr') && <span className="chip" title="Tiene versión francesa">FR</span>}
+        <span className="crow-stats">
+          <span className="crow-meta muted">{card.type}</span>
+          <span className="crow-num" data-l="Coste" title="Coste">{card.cost ?? '–'}</span>
+          <span className="crow-num" data-l="RAM" title="RAM">{card.ram ?? '–'}</span>
+          <span className="crow-meta muted hide-sm">{card.classifications.slice(0, 2).join(', ')}</span>
+          <span className="crow-chips hide-sm">
+            {card.altArts.length > 0 && <span className="chip" title={`${card.altArts.length} artes alternativos`}>ALT</span>}
+            {card.printings.some((p) => p.language === 'fr') && <span className="chip" title="Tiene versión francesa">FR</span>}
+          </span>
         </span>
         {badge != null && <span className="tile-badge static">{badge}</span>}
       </button>

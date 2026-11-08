@@ -44,8 +44,18 @@ export const altKey = (a: { id: string }): string => `alt:${a.id}`
 /** Clave de una impresión con diseño propio de la que no tenemos arte alternativo catalogado. */
 export const printKey = (p: { setCode: string; collectorNumber: string | null }): string => `print:${p.setCode.toLowerCase()}#${p.collectorNumber ?? ''}`
 
-/** Sets promocionales: sus impresiones llevan una marca (p. ej. «Judge») aunque la ilustración sea la de la carta normal. */
-const PROMO_SET = /promo|judge/i
+/**
+ * Sets promocionales: sus impresiones llevan una marca (p. ej. «Judge», «Pre-Release») aunque la ilustración sea la
+ * de la carta normal, así que se cuentan aparte del diseño base.
+ */
+const PROMO_SET = /promo|judge|pre-?release/i
+
+/** Los Pre-Release salen en Beta y en Retail con el mismo diseño (y números distintos): cuentan juntos, como el diseño base. */
+const PRERELEASE_SET = /pre-?release/i
+
+/** Clave del diseño con marca de promoción de una impresión sin arte alternativo catalogado. */
+export const markedKey = (p: { baseSetName: string; setCode: string; collectorNumber: string | null }): string =>
+  PRERELEASE_SET.test(p.baseSetName) ? `print:${p.setCode.toLowerCase().replace(/(retail|beta)$/, '')}` : printKey(p)
 
 /** Grupo de los artes alternativos que el catálogo no asocia a ningún set. */
 export const NO_SET = 'Artes alternativos sin set'
@@ -128,7 +138,7 @@ function toEntry(card: Card, p: Printing, original: Printing | undefined, hasFre
 
   const altIndex = matched
   if (!p.artist || !original?.artist || artistKey(p.artist) === artistKey(original.artist)) {
-    if (PROMO_SET.test(p.baseSetName)) return { ...base, image: card.image, art: 'marked', altIndex, variantKey: printKey(p) }
+    if (PROMO_SET.test(p.baseSetName)) return { ...base, image: card.image, art: 'marked', altIndex, variantKey: markedKey(p) }
     return { ...base, image: card.image, art: 'original', altIndex, variantKey: null }
   }
   // otro ilustrador: es un diseño distinto del base aunque no tengamos su imagen exacta

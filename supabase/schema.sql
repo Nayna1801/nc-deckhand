@@ -45,6 +45,16 @@ create table if not exists public.tcg_wishlist (
   primary key (user_id, card_id)
 );
 
+-- v4: álbum de cartas (Colección > Álbum): una fila por usuario con el álbum entero (páginas, bolsillos y cartas colocadas)
+-- para que se vea igual en todos sus dispositivos. La app sigue funcionando sin esta tabla (guarda el álbum en el navegador).
+create table if not exists public.tcg_album (
+  user_id    uuid primary key references auth.users (id) on delete cascade,
+  data       jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+alter table public.tcg_album drop constraint if exists tcg_album_shape;
+alter table public.tcg_album add constraint tcg_album_shape check (jsonb_typeof(data) = 'object' and pg_column_size(data) < 400000);
+
 -- Validación también en el servidor (el navegador se puede saltar llamando a la API directamente).
 alter table public.tcg_collection drop constraint if exists tcg_collection_card_id_len;
 alter table public.tcg_collection add constraint tcg_collection_card_id_len check (char_length(card_id) between 1 and 100);
@@ -60,6 +70,7 @@ alter table public.tcg_decks      add constraint tcg_decks_shape check (
 alter table public.tcg_collection enable row level security;
 alter table public.tcg_decks      enable row level security;
 alter table public.tcg_wishlist   enable row level security;
+alter table public.tcg_album      enable row level security;
 
 drop policy if exists "tcg_wishlist: owner full access" on public.tcg_wishlist;
 create policy "tcg_wishlist: owner full access" on public.tcg_wishlist
@@ -75,6 +86,12 @@ create policy "tcg_collection: owner full access" on public.tcg_collection
 
 drop policy if exists "tcg_decks: owner full access" on public.tcg_decks;
 create policy "tcg_decks: owner full access" on public.tcg_decks
+  for all to authenticated
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "tcg_album: owner full access" on public.tcg_album;
+create policy "tcg_album: owner full access" on public.tcg_album
   for all to authenticated
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);

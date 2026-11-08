@@ -1,0 +1,125 @@
+/* =====================================================================
+   Colección: resumen, progreso por set, pestañas y listas con miniatura
+   ===================================================================== */
+.stat-main { grid-column: span 2; }
+.stat-main progress { height: 8px; }
+.set-progress, .coll-io { margin: 0 0 1rem; }
+.set-progress > summary, .coll-io > summary { cursor: pointer; color: var(--yellow); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+.set-progress[open] > summary, .coll-io[open] > summary { margin-bottom: 0.7rem; }
+.set-bar { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr) auto; align-items: center; gap: 0.2rem 0.8rem; padding: 5px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+.set-bar-name { min-width: 0; overflow-wrap: anywhere; font-size: 0.9rem; }
+.set-bar progress { margin: 0; height: 8px; }
+.set-bar-n { color: var(--muted); min-width: 3.4rem; text-align: right; }
+.coll-io textarea.input { margin-top: 0.2rem; }
+
+.coll-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 1.2rem 0 1rem; }
+.coll-tabs button { font: inherit; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; background: var(--surface); color: var(--muted); border: 1px solid var(--line); padding: 0.6rem 0.5rem; min-height: 44px; cursor: pointer; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%); }
+.coll-tabs button:hover { color: var(--text); border-color: var(--cyan); }
+.coll-tabs button.on { background: var(--yellow); border-color: var(--yellow); color: #000; font-weight: 700; }
+.coll-tabs button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
+.dk-actions { justify-self: end; gap: 0.4rem; }
+
+@media (max-width: 700px) {
+  .coll-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .set-bar { grid-template-columns: minmax(0, 1fr) auto; }
+  .set-bar progress { grid-column: 1 / -1; grid-row: 2; }
+  .dk-wrap { grid-template-columns: 34px minmax(0, 1fr); }
+  .dk-wrap > .dk-actions { grid-column: 1 / -1; justify-self: end; padding: 2px 0 4px; }
+}
+
+/* =====================================================================
+   Álbum: un archivador con anillas. En pantallas anchas se abre a doble página; en el móvil se ve una página y se pasa con
+   los botones o deslizando.
+   ===================================================================== */
+.album { margin-top: 0.4rem; }
+.album-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; margin-bottom: 0.9rem; }
+.album-title { margin: 0; font-size: 1.3rem; color: var(--text); text-transform: none; letter-spacing: 0.01em; overflow-wrap: anywhere; }
+.album-name { flex: 1 1 14rem; max-width: 24rem; font-size: 1.05rem; font-weight: 700; }
+.album-count { flex: 1 1 auto; }
+.album-tools { margin-left: auto; }
+
+.album-book {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  padding: 14px 14px 14px 30px;
+  background: linear-gradient(145deg, #1d1630 0%, #110c1d 55%, #0b0813 100%);
+  border: 1px solid #3b2f5c;
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  min-width: 0;
+  max-width: 980px;
+  margin-inline: auto;
+}
+/* anillas del archivador */
+.album-book::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 8%;
+  bottom: 8%;
+  width: 14px;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, #e4e5ef 0 3px, #5d5f78 4px 5px, rgba(0, 0, 0, 0.55) 6px 7px, transparent 8px) center / 14px 16.6% repeat-y;
+}
+.album-book[data-spread='2'] { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 18px 22px; column-gap: 26px; }
+.album-book[data-spread='2']::before { left: 50%; transform: translateX(-50%); }
+.album-book[data-spread='2']::after { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 60px; transform: translateX(-50%); pointer-events: none; background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.4) 50%, transparent); }
+
+.album-page {
+  position: relative;
+  min-width: 0;
+  padding: 12px 12px 30px;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.014) 0 2px, transparent 2px 4px), #0b0b13;
+  border: 1px solid #25253d;
+  animation: album-page-in 0.28s ease-out;
+}
+.album-page.blank { min-height: 140px; opacity: 0.45; animation: none; }
+.album-grid { display: grid; gap: 8px; }
+.album-no { position: absolute; right: 12px; bottom: 7px; font: 0.75rem var(--mono); color: var(--muted); }
+@keyframes album-page-in { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .album-page { animation: none; } }
+
+/* bolsillo transparente con su carta */
+.pocket { position: relative; display: block; padding: 0; aspect-ratio: 5 / 7; min-width: 0; overflow: hidden; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 3px; cursor: pointer; color: var(--text); font: inherit; transition: border-color 0.12s, transform 0.12s; }
+.pocket::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, rgba(255, 255, 255, 0.16) 0, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0.07) 100%); }
+.pocket img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pocket:hover { border-color: var(--yellow); }
+.pocket:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.pocket.empty { display: grid; place-items: center; border-style: dashed; background: rgba(255, 255, 255, 0.02); }
+.pocket-plus { font-size: 1.8rem; line-height: 1; color: var(--yellow); opacity: 0.7; }
+.pocket.missing img { filter: grayscale(1) brightness(0.42); }
+.pocket-tag { position: absolute; left: 50%; top: 50%; z-index: 2; transform: translate(-50%, -50%); max-width: 90%; padding: 2px 7px; text-align: center; font: 700 0.62rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #ff8da1; background: rgba(8, 8, 12, 0.88); border: 1px solid var(--red); }
+.pocket.sel { outline: 2px solid var(--cyan); outline-offset: -2px; box-shadow: 0 0 18px rgba(0, 240, 255, 0.5); }
+.pocket.dragging { opacity: 0.4; }
+.pocket .tile-badge { z-index: 2; }
+
+.album-nav { display: flex; align-items: center; justify-content: center; gap: 1rem; margin: 0.9rem 0; }
+.album-where { min-width: 9rem; text-align: center; white-space: nowrap; font: 0.82rem var(--mono); color: var(--muted); }
+.album-edit .row, .album-fill .row { margin-top: 0.5rem; }
+.album-fill > summary { cursor: pointer; color: var(--cyan); font-weight: 700; }
+.album-empty { padding: 1rem 0; }
+
+@media (max-width: 700px) {
+  .album-tools { margin-left: 0; width: 100%; }
+  .album-tools .seg { flex: 1; }
+  .album-tools > .btn { flex: 1; }
+  .album-book { padding: 10px 10px 10px 26px; }
+  .album-book::before { left: 6px; }
+  .album-page { padding: 8px 8px 28px; }
+  .album-grid { gap: 6px; }
+  .album-nav { gap: 0.5rem; }
+  .album-nav .btn { flex: 1; }
+  .album-where { min-width: 0; flex: 1.2; }
+}
+
+/* ventana para elegir carta */
+.picker { max-width: 980px; }
+.picker .modal-scroll { grid-template-columns: minmax(0, 1fr); }
+.picker-head { display: flex; flex-direction: column; gap: 0.6rem; padding-right: 2.5rem; }
+.picker-head h2 { margin: 0; color: var(--text); text-transform: none; letter-spacing: 0; font-size: 1.15rem; }
+.picker-head h2 small { font-size: 0.85rem; margin-left: 0.4rem; }
+.picker-grid { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 0.6rem; }
+.picker .tile-art:hover { transform: none; }
+@media (max-width: 700px) { .picker-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.45rem; } }

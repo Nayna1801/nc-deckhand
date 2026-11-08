@@ -2,7 +2,7 @@ import { chromium } from 'playwright'
 import { BASE } from '../config.mjs'
 import { newSession } from '../lib/mock.mjs'
 import { pick, results, until } from '../lib/helpers.mjs'
-import { ALTS } from '../lib/data.mjs'
+import { ART_PRINTS } from '../lib/data.mjs'
 
 let failed = 0
 const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) failed++ }
@@ -67,7 +67,7 @@ const badge = async (t) => ((await t.locator('.tile-badge').count()) ? (await t.
   await p.getByRole('button', { name: 'Por impresión' }).click()
   await p.getByRole('checkbox', { name: /Solo artes alternativos/ }).check()
   const nArts = await results(p)
-  ok(nArts === ALTS, `«Solo artes alternativos»: ${nArts} fichas, una por cada arte contable (sin el diseño base)`)
+  ok(nArts === ART_PRINTS, `«Solo artes alternativos»: ${nArts} fichas, una por cada arte contable y cada Pre-Release (sin el diseño base)`)
   await pick(p, 'Colección', 'owned')
   ok((await results(p)) === 3, 'artes alternativos que tengo: 3 (Iconic Retail, Iconic Beta y el promo)')
   await pick(p, 'Colección', 'missing')

@@ -34,7 +34,7 @@ await pick(page, 'Colección', 'all')
 // --- Colección: sin pestaña "Me faltan", con enlace a Cartas ---
 await page.goto(BASE + '#/collection'); await page.waitForSelector('.stats-row')
 const tabs = await page.locator('[role=tab]').allInnerTexts()
-ok(tabs.length === 3 && !tabs.some((t) => /me faltan/i.test(t)), `Colección tiene ${tabs.length} pestañas, sin "Me faltan": ${tabs.map((t) => t.replace(/\s+/g, ' ')).join(' | ')}`)
+ok(tabs.length === 4 && /álbum/i.test(tabs[0]) && !tabs.some((t) => /me faltan/i.test(t)), `Colección tiene ${tabs.length} pestañas, sin "Me faltan": ${tabs.map((t) => t.replace(/\s+/g, ' ')).join(' | ')}`)
 const link = page.locator('a.stat-link[href*="missing"]')
 ok(new RegExp(String(N - 1)).test(await link.innerText()), `estadística "${N - 1} me faltan" con enlace`)
 await link.click()

@@ -7,6 +7,7 @@ import { expandPrints, type PrintEntry } from '../lib/prints'
 import { CardList, CardModal, CardRow, CardTile, PrintList, Stepper, useCardModal, usePreview, useViewMode, ViewToggle } from '../components/cardUi'
 import { applyFilters, EMPTY_FILTERS, FilterBar, useSnapshot, type Filters, type OwnedFilter } from '../components/filters'
 import { InventoryEditor } from '../components/InventoryEditor'
+import { CameraIcon } from '../components/Icons'
 import { Pager } from '../components/Pager'
 import { WishHeart } from '../components/Wish'
 import { useData } from '../state/DataContext'
@@ -103,12 +104,15 @@ export function CardsPage() {
   return (
     <section>
       <header className="page-head">
-        <div>
-          <h1>Cartas</h1>
-          <p className="muted">
-            {prints ? `${prints.length} impresiones de ${cards.length} cartas` : `${cards.length} de ${catalog.cards.length}`}
-            {!loggedIn && <> · <Link to="/login">Inicia sesión</Link> para llevar la cuenta de tus cartas</>}
-          </p>
+        <div className="head-main">
+          <div>
+            <h1>Cartas</h1>
+            <p className="muted">
+              {prints ? `${prints.length} impresiones de ${cards.length} cartas` : `${cards.length} de ${catalog.cards.length}`}
+              {!loggedIn && <> · <Link to="/login">Inicia sesión</Link> para llevar la cuenta de tus cartas</>}
+            </p>
+          </div>
+          <Link className="btn scan-cta" to="/scan" title="Reconoce una carta con la cámara (prueba)"><CameraIcon /><span>Escanear</span></Link>
         </div>
         <div className="row wrap">
           <div className="seg" role="group" aria-label="Qué se lista">
@@ -120,7 +124,6 @@ export function CardsPage() {
               <input type="checkbox" checked={onlyArts} onChange={(e) => setOnlyArts(e.target.checked)} /> Solo artes alternativos
             </label>
           )}
-          <Link className="btn sm" to="/scan" title="Reconoce una carta con la cámara (prueba)">📷 Escanear</Link>
           <ViewToggle value={view} onChange={setView} />
         </div>
       </header>

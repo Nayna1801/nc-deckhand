@@ -4,6 +4,7 @@ import App from './App'
 import './styles.css'
 import './features.css'
 import './design.css'
+import './album.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

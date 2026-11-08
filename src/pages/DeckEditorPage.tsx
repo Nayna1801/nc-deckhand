@@ -4,19 +4,19 @@ import { catalog, normalizeText } from '../lib/catalog'
 import { costCurve, typeRatio } from '../lib/analytics'
 import { canAddCopy, exceedsRam, neededCards, RULES, validateDeck } from '../lib/deckRules'
 import { parseDeckText, serializeDeck, MAX_IMPORT_CHARS } from '../lib/deckText'
+import { groupDeckCards } from '../lib/deckView'
 import { encodeDeck } from '../lib/shareCode'
 import type { Card, Deck, Quantities } from '../lib/types'
 import { CardImage, CardList, CardModal, CardRow, CardTile, ColorDot, downloadText, Stepper, useCardModal, usePreview, useViewMode, ViewToggle } from '../components/cardUi'
 import { applyFilters, EMPTY_FILTERS, FilterBar, useSnapshot, type Filters } from '../components/filters'
 import { ColorCode } from '../components/ColorCode'
+import { CameraIcon } from '../components/Icons'
+import { Scanner, type ScanChoice } from '../components/Scanner'
 import { CostCurveChart, TypeDonut } from '../components/Charts'
 import { InventoryEditor } from '../components/InventoryEditor'
 import { useData } from '../state/DataContext'
 
 type Zone = 'main' | 'side' | 'legend'
-
-const TYPE_ORDER: Record<string, number> = { Unit: 0, Gear: 1, Program: 2, Legend: 3 }
-const byOrder = (a: Card, b: Card) => (TYPE_ORDER[a.type] ?? 9) - (TYPE_ORDER[b.type] ?? 9) || (a.cost ?? 0) - (b.cost ?? 0) || a.displayName.localeCompare(b.displayName)
 
 function bump(q: Quantities, id: string, delta: number): Quantities {
   const next = { ...q }
@@ -46,6 +46,7 @@ export function DeckEditorPage() {
   const [importText, setImportText] = useState('')
   const [importReport, setImportReport] = useState<string[]>([])
   const [notice, setNotice] = useState('')
+  const [scanning, setScanning] = useState(false)
   const [shareCode, setShareCode] = useState('')
   const [dropZone, setDropZone] = useState<string | null>(null)
   const modal = useCardModal()
@@ -159,8 +160,8 @@ export function DeckEditorPage() {
     }
   }
 
-  const mainRows = Object.keys(deck.main).map((k) => catalog.byId[k]).filter(Boolean).sort(byOrder)
-  const sideRows = Object.keys(deck.side).map((k) => catalog.byId[k]).filter(Boolean).sort(byOrder)
+  const mainRows = Object.keys(deck.main).map((k) => catalog.byId[k]).filter(Boolean)
+  const sideRows = Object.keys(deck.side).map((k) => catalog.byId[k]).filter(Boolean)
   const exportText = serializeDeck(deck, catalog)
   const shareLink = shareCode ? `${location.origin}${location.pathname}#/share/${shareCode}` : ''
 
@@ -194,21 +195,61 @@ export function DeckEditorPage() {
     const short = loggedIn && need > ownedOf(card.id)
     const ram = ramReason(card)
     return (
-      <li key={`${zone}-${card.id}`} className={`deck-row ${short ? 'short' : ''}`} draggable onDragStart={(e) => { e.dataTransfer.setData('text/plain', `deck:${zone}:${card.id}`); e.dataTransfer.effectAllowed = 'move' }}>
-        <button className="link-btn" onClick={() => modal.open(card.id)} {...bind(card)}>
-          {ram && <span title={ram} aria-label="Supera la RAM">🔒 </span>}
-          <ColorDot color={card.color} /> <span className="cost">{card.cost ?? '–'}</span> {card.displayName}
+      <li key={`${zone}-${card.id}`} className={`deck-row dk-row ${short ? 'short' : ''}`} draggable onDragStart={(e) => { e.dataTransfer.setData('text/plain', `deck:${zone}:${card.id}`); e.dataTransfer.effectAllowed = 'move' }}>
+        <button type="button" className="dk-thumb" tabIndex={-1} aria-hidden="true" onClick={() => modal.open(card.id)} {...bind(card)}>
+          <CardImage card={card} thumb />
         </button>
-        {short && <span className="pill bad" title={`Tienes ${ownedOf(card.id)}, necesitas ${need}`}>tienes {ownedOf(card.id)}</span>}
+        <div className="dk-main">
+          <button className="link-btn dk-name" onClick={() => modal.open(card.id)} {...bind(card)}>
+            {ram && <span title={ram} aria-label="Supera la RAM">🔒 </span>}
+            <ColorDot color={card.color} /> <span className="cost">{card.cost ?? '–'}</span> {card.displayName}
+          </button>
+          {short && <span className="pill bad" title={`Tienes ${ownedOf(card.id)}, necesitas ${need}`}>tienes {ownedOf(card.id)}</span>}
+        </div>
         <Stepper value={q[card.id]} disableAdd={!!blockReason(card)} addTitle={blockReason(card)} onChange={(v) => edit((d) => ({ ...d, [zone]: bump(d[zone], card.id, v - q[card.id]) }))} />
       </li>
     )
   }
 
+  /** Cartas de una zona del mazo, separadas por tipo (Unidades, Gear, Programas) y ordenadas por color e Id. */
+  const zoneRows = (rows: Card[], q: Quantities, zone: 'main' | 'side') =>
+    groupDeckCards(rows, q).flatMap((g) => [
+      <li key={`${zone}-head-${g.type}`} className="dk-group" aria-label={`${g.label}: ${g.copies}`}>
+        <span>{g.label}</span>
+        <small>{g.copies}</small>
+      </li>,
+      ...g.cards.map((c) => deckRow(c, q, zone)),
+    ])
+
+  /** Carta confirmada en el escáner: se añade al mazo (o al sideboard) con las mismas reglas que el botón +. */
+  const addScanned = (c: ScanChoice) => {
+    const card = catalog.byId[c.cardId]
+    if (!card) return
+    const why = blockReason(card)
+    if (why) return setNotice(`${card.displayName}: ${why}`)
+    add(card)
+    setNotice(`Añadida: ${card.displayName}`)
+  }
+
+  /** Quita una copia de la carta: de la zona elegida si está allí y, si no, de la otra (las Legends, de sus ranuras). */
+  const removeOne = (card: Card) => {
+    if (card.type === 'Legend') return edit((d) => ({ ...d, legendIds: d.legendIds.filter((x) => x !== card.id) }))
+    const zone: 'main' | 'side' = (deck[target][card.id] ?? 0) > 0 ? target : target === 'main' ? 'side' : 'main'
+    edit((d) => ({ ...d, [zone]: bump(d[zone], card.id, -1) }))
+  }
+
+  const usedCount = (c: Card) => (c.type === 'Legend' ? (deck.legendIds.includes(c.id) ? 1 : 0) : inDeck(c.id))
+
+  /** Quitar y añadir una copia; en medio, cuántas lleva el mazo. */
   const addButton = (card: Card): ReactNode => {
     const why = blockReason(card)
+    const used = usedCount(card)
     return (
-      <button className="btn sm" disabled={!!why} title={why || `Añadir ${card.type === 'Legend' ? 'como Legend' : target === 'main' ? 'al mazo' : 'al sideboard'}`} onClick={() => add(card)} aria-label={`Añadir ${card.displayName}`}>+</button>
+      <div className="stepper dk-qty">
+        <button className="btn sm" disabled={used === 0} title="Quitar una copia del mazo" onClick={() => removeOne(card)} aria-label={`Quitar ${card.displayName}`}>−</button>
+        <span className="stepper-n" aria-label={`En el mazo: ${used}`}>{used}</span>
+        <button className="btn sm" disabled={!!why} title={why || `Añadir ${card.type === 'Legend' ? 'como Legend' : target === 'main' ? 'al mazo' : 'al sideboard'}`} onClick={() => add(card)} aria-label={`Añadir ${card.displayName}`}>+</button>
+      </div>
     )
   }
 
@@ -233,6 +274,7 @@ export function DeckEditorPage() {
           <header className="page-head">
             <h1>Cartas</h1>
             <div className="row wrap">
+              <button type="button" className={`btn scan-cta ${scanning ? 'on' : ''}`} aria-pressed={scanning} onClick={() => setScanning((v) => !v)} title="Reconoce cartas con la cámara y añádelas al mazo"><CameraIcon /><span>Escanear</span></button>
               <ViewToggle value={view} onChange={setView} />
               <div className="seg" role="group" aria-label="Destino al pulsar una carta">
                 <button className={target === 'main' ? 'on' : ''} onClick={() => setTarget('main')}>Al mazo</button>
@@ -240,6 +282,16 @@ export function DeckEditorPage() {
               </div>
             </div>
           </header>
+          {scanning && (
+            <div className="panel scan-embed">
+              <div className="row between wrap">
+                <strong>Escanear cartas para el mazo</strong>
+                <button type="button" className="btn sm" onClick={() => setScanning(false)}>Cerrar escáner</button>
+              </div>
+              <p className="muted small">Cada carta que confirmes va {target === 'main' ? 'al mazo' : 'al sideboard'} (puedes cambiarlo arriba). Mazo: {report.mainCount}/{RULES.minMain} · Side {report.sideCount}/{RULES.maxSide} · Legends {report.legendCount}/{RULES.legends}.</p>
+              <Scanner onChoose={addScanned} chooseLabel="Añadir al mazo" />
+            </div>
+          )}
           <FilterBar value={filters} onChange={setFilters} showOwned={loggedIn} showRam />
           {deck.legendIds.length > 0 && <p className="muted small">🔒 = supera la RAM de tus Legends ({Object.entries(report.ram).map(([c, n]) => `${c} ${n}`).join(' · ')}). Arrastra cartas al mazo; arrastra una carta del mazo aquí para quitarla.</p>}
 
@@ -332,13 +384,13 @@ export function DeckEditorPage() {
 
           <h3>Mazo principal</h3>
           <ul className={`plain zone ${dropZone === 'main' ? 'drop-on' : ''}`} {...zoneProps('main')}>
-            {mainRows.map((c) => deckRow(c, deck.main, 'main'))}
+            {zoneRows(mainRows, deck.main, 'main')}
             {mainRows.length === 0 && <li className="muted small">Pulsa o arrastra cartas aquí.</li>}
           </ul>
 
           <h3>Sideboard</h3>
           <ul className={`plain zone ${dropZone === 'side' ? 'drop-on' : ''}`} {...zoneProps('side')}>
-            {sideRows.map((c) => deckRow(c, deck.side, 'side'))}
+            {zoneRows(sideRows, deck.side, 'side')}
             {sideRows.length === 0 && <li className="muted small">Hasta {RULES.maxSide} cartas.</li>}
           </ul>
 

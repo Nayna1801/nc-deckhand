@@ -52,7 +52,7 @@ await retirarSel.click()
 await page.waitForTimeout(600)
 ok(store.collection.get(firstId)?.quantity === 1, 'la Legend queda en su playset (1)')
 ok(store.collection.get('saul_bright_stormrider')?.quantity === 3, 'la otra carta queda en su playset (3)')
-ok((await rows.count()) === 0 && /todavía no tienes copias sobrantes/i.test(await page.locator('.panel').first().innerText()), 'el bulk queda vacío')
+ok((await rows.count()) === 0 && /todavía no tienes copias sobrantes/i.test(await page.locator('.panel', { hasText: 'Un playset son 3 copias' }).innerText()), 'el bulk queda vacío')
 ok(/intercambio \(0\)/i.test(await page.getByRole('tab', { name: /Bulk/ }).innerText()), 'la pestaña indica 0 copias de bulk')
 
 /* ---- las copias retiradas ya no cuentan en la colección ---- */
