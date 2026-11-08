@@ -159,6 +159,65 @@ async function fill(p, kind = 'Mis cartas', mode = 'Reemplazar todo') {
   ok(/0 cartas · 1 página/.test(await p.locator('.album-count').innerText()), 'Vaciar álbum lo deja en blanco')
 }
 
+/* ---- el selector de cartas recuerda dónde te quedaste ---- */
+for (const mobile of [false, true]) {
+  const tag = mobile ? 'móvil' : 'escritorio'
+  const { page: p, store } = await newSession(browser, { legacy: false, context: mobile ? phone(390) : { viewport: { width: 900, height: 900 } } })
+  owned(store)
+  await open(p, store)
+  await p.getByRole('button', { name: /Editar álbum/ }).click()
+  const dlg = p.getByRole('dialog', { name: /Elegir carta/ })
+  const scroller = dlg.locator('.picker-body')
+  const pageNow = async () => Number(await dlg.locator('.pager-pages [aria-current=page]').innerText())
+  const top = () => scroller.evaluate((e) => Math.round(e.scrollTop))
+  const emptyPocket = () => p.locator('.pocket.empty').first()
+
+  await emptyPocket().click(); await dlg.waitFor()
+  ok((await pageNow().catch(() => 1)) === 1 && (await top()) === 0, `${tag} · la primera vez abre arriba, en la primera página`)
+  await dlg.getByRole('checkbox', { name: /Solo las que tengo/ }).uncheck()
+  await dlg.getByRole('button', { name: 'Página 2', exact: true }).click()
+  ok((await pageNow()) === 2, `${tag} · se pasa a la página 2 de resultados`)
+  await scroller.evaluate((e) => { e.scrollTop = 420 })
+  await p.waitForTimeout(200)
+  const seen = await top()
+  ok(seen > 300, `${tag} · se baja por la página (scroll ${seen}px)`)
+  // elegir una carta de la página 2 cierra la ventana
+  await dlg.locator('.picker-grid .tile-art').nth(3).click()
+  await dlg.waitFor({ state: 'detached' })
+
+  await emptyPocket().click(); await dlg.waitFor()
+  ok((await pageNow()) === 2, `${tag} · al abrir otro bolsillo vuelve a la página 2`)
+  ok(Math.abs((await top()) - seen) <= 4, `${tag} · y en la misma posición del scroll (${await top()}px de ${seen}px)`)
+  ok(!(await dlg.getByRole('checkbox', { name: /Solo las que tengo/ }).isChecked()), `${tag} · y con los filtros como los dejaste`)
+
+  // cambiar la búsqueda vuelve al principio de los resultados; y se recuerda también
+  await dlg.getByRole('searchbox').fill('a'); await p.waitForTimeout(250)
+  ok((await pageNow()) === 1 && (await top()) === 0, `${tag} · al cambiar la búsqueda se vuelve a la página 1, arriba`)
+  await dlg.getByRole('button', { name: 'Página 2', exact: true }).click()
+  await p.keyboard.press('Escape'); await dlg.waitFor({ state: 'detached' })
+  await emptyPocket().click(); await dlg.waitFor()
+  ok((await dlg.getByRole('searchbox').inputValue()) === 'a' && (await pageNow()) === 2, `${tag} · cerrar sin elegir (Escape) también recuerda búsqueda y página`)
+
+  // se conserva al recargar la página (misma pestaña)
+  await p.keyboard.press('Escape'); await dlg.waitFor({ state: 'detached' })
+  await p.reload(); await p.waitForSelector('.album')
+  await p.getByRole('button', { name: /Editar álbum/ }).click()
+  await emptyPocket().click(); await dlg.waitFor()
+  ok((await dlg.getByRole('searchbox').inputValue()) === 'a' && (await pageNow()) === 2, `${tag} · y sobrevive a recargar la página`)
+
+  // empezar de cero
+  const restart = dlg.getByRole('button', { name: 'Empezar de cero' })
+  ok(await restart.isVisible(), `${tag} · con algo recordado se ofrece «Empezar de cero»`)
+  await restart.click()
+  ok((await dlg.getByRole('searchbox').inputValue()) === '' && (await dlg.getByRole('checkbox', { name: /Solo las que tengo/ }).isChecked()) && (await top()) === 0, `${tag} · «Empezar de cero» limpia búsqueda y filtros y vuelve arriba`)
+  ok((await restart.count()) === 0, `${tag} · y el botón desaparece`)
+  if (mobile) {
+    ok((await dlg.getByRole('searchbox').evaluate((e) => e === document.activeElement)) === false, 'móvil · la ventana no abre el teclado sola')
+    const box = await dlg.boundingBox()
+    ok(box.x >= -1 && box.x + box.width <= 390 + 1, 'móvil · y cabe en la pantalla')
+  }
+}
+
 /* ---- «todo junto» con artes y promos, y el nombre ---- */
 {
   const { page: p, store } = await newSession(browser, { legacy: false, context: { viewport: { width: 900, height: 900 } } })

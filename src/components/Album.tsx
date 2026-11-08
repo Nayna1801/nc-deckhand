@@ -6,6 +6,7 @@ import {
 } from '../lib/album'
 import { ownedEntries, type FillKind } from '../lib/albumFill'
 import { copiesOfVariant, type Inventory } from '../lib/inventory'
+import { loadPickerMemory, savePickerMemory, type PickerMemory } from '../lib/pickerMemory'
 import { printsOf } from '../lib/prints'
 import { AlbumPicker } from './AlbumPicker'
 import { CardImage, CardModal, useCardModal } from './cardUi'
@@ -82,6 +83,8 @@ export function Album({ userId, loggedIn, inventory }: AlbumProps) {
   const [dragFrom, setDragFrom] = useState<number | null>(null)
   const [note, setNote] = useState('')
   const touchX = useRef<number | null>(null)
+  // dónde se quedó la ventana de elegir carta (búsqueda, filtros, página y scroll): se reabre ahí
+  const pickerMemory = useRef<PickerMemory>(loadPickerMemory())
 
   const pages = pageCount(album)
   const step = spread ? 2 : 1
@@ -291,6 +294,11 @@ export function Album({ userId, loggedIn, inventory }: AlbumProps) {
           title={`bolsillo ${pickFor + 1}`}
           loggedIn={loggedIn}
           inventory={inventory}
+          memory={pickerMemory.current}
+          onMemory={(m) => {
+            pickerMemory.current = m
+            savePickerMemory(m)
+          }}
           onClose={() => setPickFor(null)}
           onPick={(slot) => {
             update((a) => setSlot(a, pickFor, slot))
