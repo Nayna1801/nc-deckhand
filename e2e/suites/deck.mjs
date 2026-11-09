@@ -199,6 +199,39 @@ for (const W of [320, 375, 1300]) {
   ok((await input.inputValue()) === 'Sin nombre', 'al salir del campo vacío, el mazo se llama "Sin nombre"')
 }
 
+/* ---- borrar un mazo: cuadro de confirmación propio, no el del navegador ---- */
+for (const [label, ctx, W] of [['escritorio', undefined, 1500], ['móvil 375', phone(375), 375]]) {
+  const { page: p, store } = await newSession(browser, { legacy: false, ...(ctx ? { context: ctx } : {}) })
+  let native = 0
+  p.on('dialog', (d) => { native++; d.dismiss() })
+  await newDeck(p)
+  await p.goto(BASE + '#/decks'); await p.waitForSelector('.deck-card')
+  const decksBefore = store.decks.size
+  const del = p.getByRole('button', { name: 'Borrar' }).first()
+  await del.click()
+  const dlg = p.getByRole('alertdialog')
+  await dlg.waitFor()
+  ok(native === 0, `${label} · borrar no abre el cuadro del navegador`)
+  ok(/borrar mazo/i.test(await dlg.innerText()), `${label} · el cuadro propio pregunta por el mazo`)
+  ok(await dlg.getByRole('button', { name: 'Cancelar' }).evaluate((b) => b === document.activeElement), `${label} · el foco empieza en «Cancelar» (un Intro de más no borra)`)
+  const box = await dlg.boundingBox()
+  ok(box.x >= 0 && box.x + box.width <= W + 0.5, `${label} · el cuadro cabe en la pantalla (${Math.round(box.width)}px)`)
+  const bBox = await dlg.getByRole('button', { name: 'Borrar' }).boundingBox()
+  ok(bBox.height >= (W < 700 ? 44 : 30), `${label} · los botones tienen tamaño cómodo (${Math.round(bBox.height)}px de alto)`)
+  await p.keyboard.press('Tab'); await p.keyboard.press('Tab')
+  ok(await dlg.getByRole('button', { name: 'Cancelar' }).evaluate((b) => b === document.activeElement), `${label} · el foco no se escapa del cuadro con Tab`)
+  await p.keyboard.press('Escape')
+  ok((await p.getByRole('alertdialog').count()) === 0 && store.decks.size === decksBefore, `${label} · Escape cancela y el mazo sigue`)
+  await p.waitForTimeout(150)
+  await del.click(); await dlg.waitFor()
+  await p.mouse.click(2, 2)
+  ok((await p.getByRole('alertdialog').count()) === 0 && store.decks.size === decksBefore, `${label} · pulsar fuera cancela y el mazo sigue`)
+  await del.click(); await dlg.waitFor()
+  await dlg.getByRole('button', { name: 'Borrar' }).click(); await p.waitForTimeout(600)
+  ok(store.decks.size === decksBefore - 1, `${label} · «Borrar» lo borra de verdad`)
+  ok(native === 0, `${label} · en ningún momento salió un cuadro nativo`)
+}
+
 await browser.close()
 console.log(failed ? `\n${failed} FALLOS` : '\nTODO OK')
 process.exit(failed ? 1 : 0)

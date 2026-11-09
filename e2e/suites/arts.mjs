@@ -1,5 +1,6 @@
 import { chromium } from 'playwright'
 import { BASE } from '../config.mjs'
+import { autoConfirm } from '../lib/confirm.mjs'
 import { newSession } from '../lib/mock.mjs'
 import { pick, results, until } from '../lib/helpers.mjs'
 import { ART_PRINTS } from '../lib/data.mjs'
@@ -187,8 +188,7 @@ const badge = async (t) => ((await t.locator('.tile-badge').count()) ? (await t.
   const { page: p, store, errors } = await newSession(browser, { legacy: false })
   store.collection.set(ID, { card_id: ID, quantity: 1, qty_foil: 0, qty_promo: 0, condition: 'mint', arts: { 'alt:prm01_008': 1, [BETA_ALT]: 1 } }) // total 3, bulk 2
   store.collection.set('saul_bright_stormrider', { card_id: 'saul_bright_stormrider', quantity: 4, qty_foil: 0, qty_promo: 0, condition: 'mint', arts: {} }) // bulk 1
-  const messages = []
-  p.on('dialog', (d) => { messages.push(d.message()); d.accept() })
+  const { asked: messages } = await autoConfirm(p)
   await p.goto(BASE + '#/collection'); await p.waitForSelector('.stats-row')
   await p.getByRole('tab', { name: /Bulk/ }).click()
   await p.getByRole('button', { name: 'Seleccionar todo' }).click()

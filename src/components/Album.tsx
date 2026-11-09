@@ -9,6 +9,7 @@ import { copiesOfVariant, type Inventory } from '../lib/inventory'
 import { loadPickerMemory, savePickerMemory, type PickerMemory } from '../lib/pickerMemory'
 import { printsOf } from '../lib/prints'
 import { AlbumPicker } from './AlbumPicker'
+import { useConfirm } from './Confirm'
 import { CardImage, CardModal, useCardModal } from './cardUi'
 import { InventoryEditor } from './InventoryEditor'
 import { useAlbum, type AlbumSyncStatus } from './useAlbum'
@@ -74,6 +75,7 @@ export function Album({ userId, loggedIn, inventory }: AlbumProps) {
   const { album, update, status, retry } = useAlbum(userId)
   const spread = useSpread()
   const modal = useCardModal()
+  const confirm = useConfirm()
   const [page, setPage] = useState(0)
   const [edit, setEdit] = useState(false)
   const [selected, setSelected] = useState<number | null>(null)
@@ -132,9 +134,12 @@ export function Album({ userId, loggedIn, inventory }: AlbumProps) {
     if (Number.isInteger(from) && from !== g) update((a) => swapSlots(a, from, g))
   }
 
-  const doFill = () => {
+  const doFill = async () => {
     if (fillCandidates.length === 0) return setNote('No tienes ninguna carta de ese tipo en tu colección.')
-    if (fillMode === 'replace' && filled(album) > 0 && !window.confirm('Esto reemplaza todas las cartas que has colocado en el álbum. ¿Continuar?')) return
+    if (fillMode === 'replace' && filled(album) > 0) {
+      const ok = await confirm({ title: 'Reemplazar el álbum', message: 'Esto reemplaza todas las cartas que has colocado en el álbum.', confirmLabel: 'Reemplazar', danger: true })
+      if (!ok) return
+    }
     update((a) => fillAlbum(a, fillCandidates, fillMode))
     setNote(`${fillCandidates.length} ${fillCandidates.length === 1 ? 'carta colocada' : 'cartas colocadas'}.`)
     setPage(0)
@@ -240,9 +245,9 @@ export function Album({ userId, loggedIn, inventory }: AlbumProps) {
             <button
               className="btn sm"
               disabled={pages <= 1}
-              onClick={() => {
+              onClick={async () => {
                 const used = pageSlots(album, start).some(Boolean)
-                if (used && !window.confirm(`La página ${start + 1} tiene cartas colocadas. ¿Quitarla?`)) return
+                if (used && !(await confirm({ title: `Quitar la página ${start + 1}`, message: 'Tiene cartas colocadas; se quitarán con ella.', confirmLabel: 'Quitar página', danger: true }))) return
                 update((a) => removePage(a, start))
                 setSelected(null)
               }}
@@ -252,7 +257,12 @@ export function Album({ userId, loggedIn, inventory }: AlbumProps) {
             <button
               className="btn sm ghost"
               disabled={album.slots.length === 0}
-              onClick={() => window.confirm('¿Vaciar todo el álbum?') && (update((a) => ({ ...a, slots: [] })), setPage(0), setSelected(null))}
+              onClick={async () => {
+                if (!(await confirm({ title: 'Vaciar el álbum', message: 'Se quitarán todas las cartas colocadas en todas las páginas.', confirmLabel: 'Vaciar', danger: true }))) return
+                update((a) => ({ ...a, slots: [] }))
+                setPage(0)
+                setSelected(null)
+              }}
             >
               Vaciar álbum
             </button>
@@ -276,7 +286,7 @@ export function Album({ userId, loggedIn, inventory }: AlbumProps) {
             </div>
           </div>
           <div className="row wrap">
-            <button className="btn primary" onClick={doFill}>Rellenar ({fillCandidates.length})</button>
+            <button className="btn primary" onClick={() => void doFill()}>Rellenar ({fillCandidates.length})</button>
             {note && <span className="small" role="status">{note}</span>}
           </div>
         </details>

@@ -7,10 +7,12 @@ import { decodeDeck } from '../lib/shareCode'
 import type { Deck } from '../lib/types'
 import { CardImage, downloadText } from '../components/cardUi'
 import { ColorCode } from '../components/ColorCode'
+import { useConfirm } from '../components/Confirm'
 import { useData } from '../state/DataContext'
 
 function DeckCard({ deck }: { deck: Deck }) {
   const { collection, loggedIn, deleteDeck } = useData()
+  const confirm = useConfirm()
   const [msg, setMsg] = useState('')
   const r = validateDeck(deck, catalog)
   const missing = loggedIn ? neededCards(deck, collection).reduce((a, n) => a + n.missing, 0) : null
@@ -49,7 +51,9 @@ function DeckCard({ deck }: { deck: Deck }) {
         <div className="deck-actions">
           <button className="btn sm" onClick={() => void copy()}>Copiar lista</button>
           <button className="btn sm" onClick={() => downloadText(`${deck.name.replace(/[^\w-]+/g, '_')}.txt`, text)}>Exportar .txt</button>
-          <button className="btn ghost sm" onClick={() => window.confirm(`¿Borrar "${deck.name}"?`) && void deleteDeck(deck.id)}>Borrar</button>
+          <button className="btn ghost sm" onClick={async () => {
+            if (await confirm({ title: 'Borrar mazo', message: `¿Borrar "${deck.name}"? No se puede deshacer.`, confirmLabel: 'Borrar', danger: true })) await deleteDeck(deck.id)
+          }}>Borrar</button>
         </div>
         <p className="deck-msg small" role="status" aria-live="polite">{msg}</p>
       </div>

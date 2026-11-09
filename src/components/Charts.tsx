@@ -21,7 +21,7 @@ export function CostCurveChart({ buckets }: { buckets: CostBucket[] }) {
           const y = H - pad.b - h
           return (
             <g key={b.cost}>
-              <rect x={x + 3} y={b.count ? y : H - pad.b - 1} width={bw - 6} height={b.count ? h : 1} fill={b.count ? 'var(--yellow)' : 'var(--line)'}>
+              <rect x={x + 3} y={b.count ? y : H - pad.b - 1} width={bw - 6} height={b.count ? h : 1} fill={b.count ? 'var(--accent)' : 'var(--line)'}>
                 <title>{`Coste ${b.label}: ${b.count} carta(s)`}</title>
               </rect>
               {b.count > 0 && (

@@ -1,5 +1,6 @@
 import { chromium } from 'playwright'
 import { BASE, CARDS } from '../config.mjs'
+import { autoConfirm } from '../lib/confirm.mjs'
 import { newSession } from '../lib/mock.mjs'
 
 let failed = 0
@@ -14,7 +15,7 @@ const labels = (p) => p.locator('.album-page:not(.blank) .pocket').evaluateAll((
 const wide = { viewport: { width: 900, height: 900 } }
 
 async function open(p) {
-  p.on('dialog', (d) => d.accept())
+  await autoConfirm(p)
   await p.goto(BASE + '#/collection')
   await p.waitForSelector('.album')
   await p.waitForFunction(() => ['synced', 'missing', 'error'].includes(document.querySelector('.album-sync')?.getAttribute('data-sync') ?? ''))

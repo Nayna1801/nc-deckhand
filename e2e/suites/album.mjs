@@ -1,5 +1,6 @@
 import { chromium } from 'playwright'
 import { BASE, CARDS } from '../config.mjs'
+import { autoConfirm } from '../lib/confirm.mjs'
 import { newSession } from '../lib/mock.mjs'
 
 let failed = 0
@@ -23,7 +24,7 @@ const where = async (p) => (await p.locator('.album-where').innerText()).replace
 const overflowX = (p) => p.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
 
 async function open(p, store) {
-  p.on('dialog', (d) => d.accept())
+  await autoConfirm(p)
   await p.goto(BASE + '#/collection')
   await p.waitForSelector('.stats-row')
   await p.waitForSelector('.album')
@@ -156,6 +157,7 @@ async function fill(p, kind = 'Mis cartas', mode = 'Reemplazar todo') {
   await p.getByRole('button', { name: /Quitar página/ }).click()
   ok(Number((await p.locator('.album-count').innerText()).match(/(\d+) página/)[1]) === pagesBefore, 'Quitar página la elimina')
   await p.getByRole('button', { name: 'Vaciar álbum' }).click()
+  await p.waitForFunction(() => /0 cartas/.test(document.querySelector('.album-count')?.textContent ?? ''), null, { timeout: 3000 }).catch(() => {})
   ok(/0 cartas · 1 página/.test(await p.locator('.album-count').innerText()), 'Vaciar álbum lo deja en blanco')
 }
 

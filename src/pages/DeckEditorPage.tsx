@@ -10,6 +10,7 @@ import type { Card, Deck, Quantities } from '../lib/types'
 import { CardImage, CardList, CardModal, CardRow, CardTile, ColorDot, downloadText, Stepper, useCardModal, usePreview, useViewMode, ViewToggle } from '../components/cardUi'
 import { applyFilters, EMPTY_FILTERS, FilterBar, useSnapshot, type Filters } from '../components/filters'
 import { ColorCode } from '../components/ColorCode'
+import { useConfirm } from '../components/Confirm'
 import { CameraIcon } from '../components/Icons'
 import { Scanner, type ScanChoice } from '../components/Scanner'
 import { CostCurveChart, TypeDonut } from '../components/Charts'
@@ -36,6 +37,7 @@ export function DeckEditorPage() {
   const { id } = useParams()
   const nav = useNavigate()
   const { decks, saveDeck, deleteDeck, collection, loggedIn, loading } = useData()
+  const confirm = useConfirm()
   const stored = decks.find((d) => d.id === id)
   const [deck, setDeck] = useState<Deck | null>(stored ?? null)
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS)
@@ -406,7 +408,9 @@ export function DeckEditorPage() {
             <button className="btn" onClick={() => setPanel(panel === 'export' ? 'none' : 'export')}>Exportar / compartir</button>
             <button className="btn" onClick={() => setPanel(panel === 'import' ? 'none' : 'import')}>Importar</button>
             {loggedIn && missingText && <button className="btn" onClick={() => void copy('Faltantes copiados', missingText)}>Copiar faltantes</button>}
-            <button className="btn ghost" onClick={() => window.confirm(`¿Borrar "${deck.name}"?`) && void deleteDeck(deck.id).then(() => nav('/decks'))}>Borrar</button>
+            <button className="btn ghost" onClick={async () => {
+              if (await confirm({ title: 'Borrar mazo', message: `¿Borrar "${deck.name}"? No se puede deshacer.`, confirmLabel: 'Borrar', danger: true })) await deleteDeck(deck.id).then(() => nav('/decks'))
+            }}>Borrar</button>
           </div>
 
           {panel === 'export' && (

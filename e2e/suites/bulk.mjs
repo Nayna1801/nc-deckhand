@@ -1,5 +1,6 @@
 import { chromium } from 'playwright'
 import { BASE } from '../config.mjs'
+import { autoConfirm } from '../lib/confirm.mjs'
 import { newSession } from '../lib/mock.mjs'
 
 let failed = 0
@@ -7,9 +8,8 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) failed+
 
 const browser = await chromium.launch()
 const { page, store, errors } = await newSession(browser, { legacy: false })
-let answer = true
-const dialogs = []
-page.on('dialog', (d) => { dialogs.push(d.message()); answer ? d.accept() : d.dismiss() })
+const confirms = await autoConfirm(page)
+const dialogs = confirms.asked
 
 await page.goto(BASE); await page.waitForSelector('.tile')
 
@@ -32,12 +32,12 @@ ok(/intercambio \(5\)/i.test(await page.getByRole('tab', { name: /Bulk/ }).inner
 const legendRow = rows.filter({ hasText: 'bulk ×3' })
 await legendRow.getByRole('button', { name: 'Quitar uno' }).click()
 ok((await legendRow.locator('.stepper-n').innerText()).trim() === '2', 'el contador de la fila baja de 3 a 2 copias a retirar')
-answer = false
+confirms.answer = false
 await legendRow.getByRole('button', { name: /^Retirar / }).click()
 await page.waitForTimeout(300)
 ok(dialogs.length === 1 && /2 copias/.test(dialogs[0]), `pide confirmación antes de retirar ("${dialogs[0]}")`)
 ok(store.collection.get(firstId)?.quantity === 4, 'si cancelas no se descuenta nada')
-answer = true
+confirms.answer = true
 await legendRow.getByRole('button', { name: /^Retirar / }).click()
 await page.waitForTimeout(500)
 ok(store.collection.get(firstId)?.quantity === 2, 'retirar 2 de 4 deja 2 en la base de datos')

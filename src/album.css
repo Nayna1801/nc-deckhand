@@ -4,7 +4,7 @@
 .stat-main { grid-column: span 2; }
 .stat-main progress { height: 8px; }
 .set-progress, .coll-io { margin: 0 0 1rem; }
-.set-progress > summary, .coll-io > summary { cursor: pointer; color: var(--yellow); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+.set-progress > summary, .coll-io > summary { cursor: pointer; color: var(--accent); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
 .set-progress[open] > summary, .coll-io[open] > summary { margin-bottom: 0.7rem; }
 .set-bar { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr) auto; align-items: center; gap: 0.2rem 0.8rem; padding: 5px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
 .set-bar-name { min-width: 0; overflow-wrap: anywhere; font-size: 0.9rem; }
@@ -13,9 +13,9 @@
 .coll-io textarea.input { margin-top: 0.2rem; }
 
 .coll-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 1.2rem 0 1rem; }
-.coll-tabs button { font: inherit; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; background: var(--surface); color: var(--muted); border: 1px solid var(--line); padding: 0.6rem 0.5rem; min-height: 44px; cursor: pointer; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%); }
+.coll-tabs button { font: inherit; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; background: var(--surface); color: var(--muted); border: 1px solid var(--line); padding: 0.6rem 0.5rem; min-height: 44px; cursor: pointer; border-radius: 3px; }
 .coll-tabs button:hover { color: var(--text); border-color: var(--cyan); }
-.coll-tabs button.on { background: var(--yellow); border-color: var(--yellow); color: #000; font-weight: 700; }
+.coll-tabs button.on { background: var(--accent); border-color: var(--accent); color: #12081a; font-weight: 700; }
 .coll-tabs button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 
 .dk-actions { justify-self: end; gap: 0.4rem; }
@@ -85,12 +85,12 @@
 .pocket { position: relative; display: block; padding: 0; aspect-ratio: 5 / 7; min-width: 0; overflow: hidden; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 3px; cursor: pointer; color: var(--text); font: inherit; transition: border-color 0.12s, transform 0.12s; }
 .pocket::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, rgba(255, 255, 255, 0.16) 0, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0.07) 100%); }
 .pocket img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.pocket:hover { border-color: var(--yellow); }
+.pocket:hover { border-color: var(--accent); }
 .pocket:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 .pocket.empty { display: grid; place-items: center; border-style: dashed; background: rgba(255, 255, 255, 0.02); }
-.pocket-plus { font-size: 1.8rem; line-height: 1; color: var(--yellow); opacity: 0.7; }
+.pocket-plus { font-size: 1.8rem; line-height: 1; color: var(--accent); opacity: 0.7; }
 .pocket.missing img { filter: grayscale(1) brightness(0.42); }
-.pocket-tag { position: absolute; left: 50%; top: 50%; z-index: 2; transform: translate(-50%, -50%); max-width: 90%; padding: 2px 7px; text-align: center; font: 700 0.62rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #ff8da1; background: rgba(8, 8, 12, 0.88); border: 1px solid var(--red); }
+.pocket-tag { position: absolute; left: 50%; top: 50%; z-index: 2; transform: translate(-50%, -50%); max-width: 90%; padding: 2px 7px; text-align: center; font: 700 0.62rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #ff8da1; background: rgba(9, 13, 22, 0.88); border: 1px solid var(--red); }
 .pocket.sel { outline: 2px solid var(--cyan); outline-offset: -2px; box-shadow: 0 0 18px rgba(0, 240, 255, 0.5); }
 .pocket.dragging { opacity: 0.4; }
 .pocket .tile-badge { z-index: 2; }

@@ -178,6 +178,55 @@ for (const [W, H] of [[320, 568], [360, 640], [390, 844]]) {
   await ctx.close()
 }
 
+/* ---- cabecera: «Iniciar sesión» / «Salir» bien puestos en el móvil, con o sin sesión y con un correo largo ---- */
+{
+  const LONG = 'alejandro.garces.rodriguez1998@gmail.com'
+  for (const mode of ['invitado', 'con sesión', 'con sesión y correo largo']) {
+    for (const w of [320, 360, 390]) {
+      const context = { viewport: { width: w, height: 800 }, isMobile: true, hasTouch: true }
+      let p
+      if (mode === 'invitado') p = await (await browser.newContext(context)).newPage()
+      else {
+        ;({ page: p } = await newSession(browser, { legacy: false, context }))
+        if (mode.includes('largo')) {
+          await p.context().addInitScript((e) => { for (const k of Object.keys(localStorage)) if (k.endsWith('-auth-token')) { const s = JSON.parse(localStorage.getItem(k)); s.user.email = e; localStorage.setItem(k, JSON.stringify(s)) } }, LONG)
+        }
+      }
+      await p.goto(BASE + '#/'); await p.waitForSelector('.topbar .who .btn'); await p.waitForTimeout(400)
+      const m = await p.evaluate(() => {
+        const box = (s) => document.querySelector(s).getBoundingClientRect()
+        const btn = document.querySelector('.who .btn')
+        const t = btn.getBoundingClientRect()
+        const range = document.createRange(); range.selectNodeContents(btn)
+        const tr = range.getBoundingClientRect()
+        return {
+          h: box('.topbar').height, sameRow: Math.abs(box('.brand').top - box('.who').top) < 12, right: document.documentElement.clientWidth - t.right,
+          centered: Math.abs(tr.top + tr.height / 2 - (t.top + t.height / 2)) < 2, btnH: t.height, over: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        }
+      })
+      ok(m.sameRow && m.h <= 110, `${w}px · ${mode}: logo y botón en la misma fila (cabecera de ${Math.round(m.h)}px)`)
+      ok(m.right >= 4 && m.right <= 20, `${w}px · ${mode}: el botón queda pegado al borde derecho (a ${Math.round(m.right)}px)`)
+      ok(m.centered && m.btnH >= 40, `${w}px · ${mode}: el texto del botón está centrado y se puede pulsar (${Math.round(m.btnH)}px)`)
+      ok(m.over <= 0, `${w}px · ${mode}: la cabecera no ensancha la página`)
+      await p.context().close()
+    }
+  }
+}
+
+/* ---- bulk en el móvil: el cuadro de selección va en la misma línea que el nombre de la carta ---- */
+for (const w of [320, 375]) {
+  const { page: p, store } = await newSession(browser, { legacy: false, context: { viewport: { width: w, height: 800 }, isMobile: true, hasTouch: true } })
+  seed(store)
+  await p.goto(BASE + '#/collection'); await p.waitForSelector('.stats-row')
+  await p.getByRole('tab', { name: /Bulk/ }).click(); await p.waitForSelector('.bulk-row')
+  const m = await p.evaluate(() => [...document.querySelectorAll('.bulk-row > .deck-row')].map((r) => {
+    const c = r.querySelector('.tap-box').getBoundingClientRect(); const n = r.querySelector('.link-btn').getBoundingClientRect()
+    return Math.abs(c.top + c.height / 2 - (n.top + Math.min(n.height, 44) / 2)) < 14
+  }))
+  ok(m.length > 0 && m.every(Boolean), `${w}px · bulk: el cuadro de selección y el nombre van en la misma línea (${m.length} filas)`)
+  await p.context().close()
+}
+
 await browser.close()
 console.log(failed ? `\n${failed} FALLOS` : '\nTODO OK')
 process.exit(failed ? 1 : 0)

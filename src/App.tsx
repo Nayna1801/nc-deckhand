@@ -1,5 +1,6 @@
 import { HashRouter, NavLink, Navigate, Route, Routes } from 'react-router-dom'
 import { useUpdateAvailable } from './lib/useUpdateCheck'
+import { ConfirmProvider } from './components/Confirm'
 import { AuthProvider, useAuth } from './state/AuthContext'
 import { DataProvider, useData } from './state/DataContext'
 import { CardsPage } from './pages/CardsPage'
@@ -74,7 +75,9 @@ export default function App() {
     <HashRouter>
       <AuthProvider>
         <DataProvider>
-          <Shell />
+          <ConfirmProvider>
+            <Shell />
+          </ConfirmProvider>
         </DataProvider>
       </AuthProvider>
     </HashRouter>

@@ -8,6 +8,7 @@ import { buildWants, buildWishlist, wantsToCsv, wantsToJson, wishlistToCsv, wish
 import { Album } from '../components/Album'
 import { CardImage, CardModal, downloadText, Stepper, useCardModal, usePreview } from '../components/cardUi'
 import { BulkRow } from '../components/BulkRow'
+import { useConfirm } from '../components/Confirm'
 import { InventoryEditor } from '../components/InventoryEditor'
 import { useAuth } from '../state/AuthContext'
 import { useData } from '../state/DataContext'
@@ -76,11 +77,15 @@ export function CollectionPage() {
     )
   }
 
+  const confirm = useConfirm()
   const doImport = async () => {
     const r = parseCollectionText(text, catalog)
     setIssues(r.issues.map((i) => (i.line ? `Línea ${i.line}: ${i.reason}` : i.reason)))
     if (Object.keys(r.collection).length === 0) return
-    if (mode === 'replace' && !window.confirm('Esto reemplaza toda tu colección actual (incluidas versiones Foil/Promo y artes alternativos). ¿Continuar?')) return
+    if (mode === 'replace') {
+      const ok = await confirm({ title: 'Reemplazar tu colección', message: 'Esto reemplaza toda tu colección actual (incluidas versiones Foil/Promo y artes alternativos).', confirmLabel: 'Reemplazar', danger: true })
+      if (!ok) return
+    }
     await importCollection(r.collection, mode)
     if (r.issues.length === 0) setText('')
   }
@@ -109,7 +114,8 @@ export function CollectionPage() {
     }
     setBulkNote('')
     const note = skipped.length ? `\nSe omiten porque no has elegido qué copias: ${skipped.join(', ')}.` : ''
-    if (!window.confirm(`Se descontarán ${copies} ${copies === 1 ? 'copia' : 'copias'} de tu colección (${what}).${note}\n¿Continuar?`)) return
+    const ok = await confirm({ title: 'Retirar de tu colección', message: `Se descontarán ${copies} ${copies === 1 ? 'copia' : 'copias'} de tu colección (${what}).${note}`, confirmLabel: 'Retirar' })
+    if (!ok) return
     await withdrawBulk(todo)
     forget(rows.filter((r) => itemOf(r)))
   }
