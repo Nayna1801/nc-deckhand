@@ -186,6 +186,19 @@ for (const W of [320, 375, 1300]) {
   ok(await p.getByRole('link', { name: /Escanear/ }).locator('svg').count() === 1, `${W}px · lleva su icono de cámara`)
 }
 
+/* ---- el nombre del mazo se puede vaciar al escribir ---- */
+{
+  const { page: p } = await newSession(browser, { legacy: false })
+  await newDeck(p)
+  const input = p.getByLabel('Nombre del mazo')
+  await input.fill('Mi mazo')
+  await input.fill('')
+  await p.waitForTimeout(900)
+  ok((await input.inputValue()) === '', 'al borrar el nombre del mazo el campo se queda vacío (no se rellena solo)')
+  await input.blur()
+  ok((await input.inputValue()) === 'Sin nombre', 'al salir del campo vacío, el mazo se llama "Sin nombre"')
+}
+
 await browser.close()
 console.log(failed ? `\n${failed} FALLOS` : '\nTODO OK')
 process.exit(failed ? 1 : 0)

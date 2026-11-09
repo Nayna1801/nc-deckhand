@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { catalog } from '../lib/catalog'
+import { CameraIcon } from './Icons'
 import { thumbOf } from '../lib/images'
 import { printsOf } from '../lib/prints'
 import { describeVariants, findCandidates, guideRect, loadAtlas, type Atlas, type Candidate } from '../lib/scan/atlas'
@@ -225,7 +226,7 @@ export function Scanner({ onChoose, chooseLabel = 'Es esta', footer }: ScannerPr
         </div>
 
         <div className="row wrap scan-actions">
-          {camera === 'off' && <button className="btn primary" onClick={() => void startCamera()}>📷 Activar cámara</button>}
+          {camera === 'off' && <button className="btn primary btn-icon" onClick={() => void startCamera()}><CameraIcon /><span>Activar cámara</span></button>}
           <button className="btn" disabled={!atlas || busy} onClick={() => fileInput.current?.click()}>Subir o hacer una foto</button>
           <input
             ref={fileInput}

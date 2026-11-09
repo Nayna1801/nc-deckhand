@@ -62,7 +62,7 @@ export function DeckEditorPage() {
     if (!deck || !dirty.current) return
     const t = setTimeout(() => {
       dirty.current = false
-      void saveDeck(deck)
+      void saveDeck(deck.name.trim() ? deck : { ...deck, name: 'Sin nombre' })
     }, 600)
     return () => clearTimeout(t)
   }, [deck, saveDeck])
@@ -345,7 +345,7 @@ export function DeckEditorPage() {
         </div>
 
         <aside className="editor-deck">
-          <input className="input title-input" value={deck.name} maxLength={64} onChange={(e) => edit((d) => ({ ...d, name: e.target.value || 'Sin nombre' }))} aria-label="Nombre del mazo" />
+          <input className="input title-input" value={deck.name} maxLength={64} onChange={(e) => edit((d) => ({ ...d, name: e.target.value }))} onBlur={() => { if (!deck.name.trim()) edit((d) => ({ ...d, name: 'Sin nombre' })) }} aria-label="Nombre del mazo" />
           <div className="deck-id">
             <ColorCode legendIds={deck.legendIds} />
             <span className="row small">

@@ -344,6 +344,8 @@
    ===================================================================== */
 .scan-cta { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; flex: none; padding: 0.5rem 1rem; color: var(--cyan); border-color: rgba(0, 240, 255, 0.55); background: rgba(0, 240, 255, 0.08); }
 .scan-cta .icon { flex: none; }
+.btn-icon { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.btn-icon .icon { flex: none; }
 .scan-cta:hover:not(:disabled), .scan-cta.on { color: #000; background: var(--cyan); border-color: var(--cyan); }
 
 .head-main { flex: 1 1 100%; display: flex; align-items: flex-start; justify-content: space-between; gap: 0.8rem; min-width: 0; }
