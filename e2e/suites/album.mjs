@@ -157,8 +157,8 @@ async function fill(p, kind = 'Mis cartas', mode = 'Reemplazar todo') {
   await p.getByRole('button', { name: /Quitar página/ }).click()
   ok(Number((await p.locator('.album-count').innerText()).match(/(\d+) página/)[1]) === pagesBefore, 'Quitar página la elimina')
   await p.getByRole('button', { name: 'Vaciar álbum' }).click()
-  await p.waitForFunction(() => /0 cartas/.test(document.querySelector('.album-count')?.textContent ?? ''), null, { timeout: 3000 }).catch(() => {})
-  ok(/0 cartas · 1 página/.test(await p.locator('.album-count').innerText()), 'Vaciar álbum lo deja en blanco')
+  await p.waitForFunction(() => /^0 cartas · 1 página/.test((document.querySelector('.album-count')?.textContent ?? '').trim()), null, { timeout: 3000 }).catch(() => {})
+  ok(/^0 cartas · 1 página/.test((await p.locator('.album-count').innerText()).trim()), 'Vaciar álbum lo deja en blanco')
 }
 
 /* ---- el selector de cartas recuerda dónde te quedaste ---- */
