@@ -1,0 +1,38 @@
+{
+ "name": "Verde/Azul Go Solo con Lucyna",
+ "legends": [
+  "goro_takemura_hands_unclean",
+  "jackie_welles_mama_s_favorite",
+  "lucyna_kushinada_fresh_beginnings"
+ ],
+ "main": {
+  "corpo_security": 1,
+  "maxtac_squadron": 2,
+  "emergency_atlus": 2,
+  "valentino_street_racer": 3,
+  "goro_takemura_losing_his_way": 2,
+  "pepe_najarro_working_doubles": 2,
+  "psycho_squad": 2,
+  "riding_nomad": 3,
+  "maxtac_av": 2,
+  "saul_bright_stormrider": 1,
+  "dying_night_v_s_pistol": 2,
+  "riot_shield": 1,
+  "overwatch_panam_s_gift": 3,
+  "floor_it": 3,
+  "peace_offering": 1,
+  "take_control": 2,
+  "memory_relapse": 1,
+  "corporate_surveillance": 1,
+  "wild_in_the_streets": 3,
+  "don_t_fear_the_reaper": 3
+ },
+ "side": {
+  "corporate_surveillance": 2,
+  "maxtac_heavy": 1,
+  "nadia_fighting_through_grief": 1,
+  "sandayu_oda_hanako_s_guardian": 1,
+  "reboot_optics": 1,
+  "sandevistan": 1
+ }
+}

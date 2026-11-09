@@ -5,11 +5,13 @@ import { costCurve, typeRatio } from '../lib/analytics'
 import { canAddCopy, exceedsRam, neededCards, RULES, validateDeck } from '../lib/deckRules'
 import { parseDeckText, serializeDeck, MAX_IMPORT_CHARS } from '../lib/deckText'
 import { groupDeckCards } from '../lib/deckView'
+import { clampPage, PAGE_SIZE, pageItems } from '../lib/paging'
 import { encodeDeck } from '../lib/shareCode'
 import type { Card, Deck, Quantities } from '../lib/types'
 import { CardImage, CardList, CardModal, CardRow, CardTile, ColorDot, downloadText, Stepper, useCardModal, usePreview, useViewMode, ViewToggle } from '../components/cardUi'
 import { applyFilters, EMPTY_FILTERS, FilterBar, useSnapshot, type Filters } from '../components/filters'
 import { ColorCode } from '../components/ColorCode'
+import { Pager } from '../components/Pager'
 import { useConfirm } from '../components/Confirm'
 import { CameraIcon } from '../components/Icons'
 import { Scanner, type ScanChoice } from '../components/Scanner'
@@ -99,6 +101,19 @@ export function DeckEditorPage() {
     () => applyFilters(catalog.cards, filters, { owned: loggedIn ? ownedSnap : undefined, legendIds: deck?.legendIds }),
     [filters, ownedSnap, loggedIn, deck?.legendIds],
   )
+
+  // paginación del catálogo (como en Cartas): solo se pintan, y cargan imágenes, las fichas de la página actual
+  const [page, setPage] = useState(1)
+  const filtersKey = JSON.stringify(filters)
+  useEffect(() => setPage(1), [filtersKey])
+  const current = clampPage(page, cards.length)
+  const pageCards = useMemo(() => pageItems(cards, current), [cards, current])
+  const catalogTop = useRef<HTMLDivElement>(null)
+  const goToPage = (n: number) => {
+    setPage(n)
+    window.requestAnimationFrame(() => catalogTop.current?.scrollIntoView({ block: 'start' }))
+  }
+  const pager = <Pager page={current} total={cards.length} size={PAGE_SIZE} onChange={goToPage} unit="cartas" />
 
   if (!deck || !report) {
     return loading ? <p className="muted">Cargando…</p> : <p className="empty">No se encuentra este mazo. <Link to="/decks">Volver a mis mazos</Link></p>
@@ -297,8 +312,10 @@ export function DeckEditorPage() {
           <FilterBar value={filters} onChange={setFilters} showOwned={loggedIn} showRam />
           {deck.legendIds.length > 0 && <p className="muted small">🔒 = supera la RAM de tus Legends ({Object.entries(report.ram).map(([c, n]) => `${c} ${n}`).join(' · ')}). Arrastra cartas al mazo; arrastra una carta del mazo aquí para quitarla.</p>}
 
+          <div ref={catalogTop} />
+          {pager}
           <CardList
-            cards={cards}
+            cards={pageCards}
             grouped={filters.sort === 'set'}
             view={view}
             compact
@@ -343,6 +360,7 @@ export function DeckEditorPage() {
               )
             }}
           />
+          {pager}
           {cards.length === 0 && <p className="empty">Ninguna carta coincide con los filtros.</p>}
         </div>
 

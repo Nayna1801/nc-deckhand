@@ -1,0 +1,37 @@
+{
+ "name": "Verde/Azul control con Judy (recomendado)",
+ "legends": [
+  "goro_takemura_hands_unclean",
+  "jackie_welles_mama_s_favorite",
+  "judy_alvarez_braindance_maestro"
+ ],
+ "main": {
+  "chrome_reverie": 1,
+  "corpo_security": 1,
+  "don_t_fear_the_reaper": 3,
+  "dying_night_v_s_pistol": 2,
+  "emergency_atlus": 2,
+  "floor_it": 3,
+  "goro_takemura_losing_his_way": 2,
+  "maxtac_av": 1,
+  "maxtac_squadron": 3,
+  "memory_relapse": 2,
+  "overwatch_panam_s_gift": 3,
+  "peace_offering": 1,
+  "pepe_najarro_working_doubles": 2,
+  "psycho_squad": 2,
+  "riding_nomad": 3,
+  "sandevistan": 1,
+  "saul_bright_stormrider": 1,
+  "take_control": 2,
+  "valentino_street_racer": 3,
+  "wild_in_the_streets": 2
+ },
+ "side": {
+  "corporate_surveillance": 2,
+  "riot_shield": 1,
+  "maxtac_av": 2,
+  "nadia_fighting_through_grief": 1,
+  "maxtac_heavy": 1
+ }
+}

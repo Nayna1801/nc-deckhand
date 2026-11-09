@@ -1,0 +1,29 @@
+{
+ "name": "BBG Jackie + Alt + Hanako (afinado)",
+ "legends": [
+  "jackie_welles_pour_one_out_for_me",
+  "alt_cunningham_soulkiller_architect",
+  "hanako_arasaka_daughter_of_the_emperor"
+ ],
+ "main": {
+  "corporate_surveillance": 3,
+  "emergency_atlus": 2,
+  "field_operator": 1,
+  "floor_it": 1,
+  "hacked_corpo": 3,
+  "les_elemens": 2,
+  "maxtac_av": 3,
+  "mt0d12_flathead": 3,
+  "nadia_fighting_through_grief": 1,
+  "peace_offering": 3,
+  "pepe_najarro_working_doubles": 3,
+  "placide_voodoo_sentinel": 1,
+  "saul_bright_stormrider": 2,
+  "take_control": 3,
+  "three_mouths_one_desire": 3,
+  "towerfall": 2,
+  "unlikely_bond": 1,
+  "valentino_street_racer": 3
+ },
+ "side": {}
+}

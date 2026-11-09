@@ -8,3 +8,8 @@ test-results
 
 # datos de terceros descargados para scripts (no se suben)
 .local-data/
+
+# herramienta deckforge
+__pycache__/
+*.pyc
+tools/deckforge/out/

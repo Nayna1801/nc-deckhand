@@ -71,10 +71,16 @@ await page.screenshot({ path: shots + '/n2-editor.png', fullPage: false })
 /* ---- RAM: bloqueo y filtro ---- */
 const locked = await page.locator('.tile.locked').count()
 ok(locked > 0, `cartas bloqueadas por RAM con candado (${locked})`)
-const total = await page.locator('.editor-cards .tile').count()
+// el catálogo va paginado: el total sale del pie del paginador («1–48 de N cartas»); si cabe en una página, de las fichas
+const catalogTotal = async () => {
+  const info = page.locator('.editor-cards .pager-info').first()
+  if (await info.count()) return Number((await info.innerText()).match(/de (\d+)/)[1])
+  return page.locator('.editor-cards .tile').count()
+}
+const total = await catalogTotal()
 await page.getByLabel('Ocultar bloqueadas').check()
-const after = await page.locator('.editor-cards .tile').count()
-ok(after === total - locked && (await page.locator('.tile.locked').count()) === 0, `ocultar bloqueadas: ${total} -> ${after}`)
+const after = await catalogTotal()
+ok(after < total && (await page.locator('.tile.locked').count()) === 0, `ocultar bloqueadas: ${total} -> ${after}, y ya no queda ninguna con candado`)
 await page.getByLabel('Ocultar bloqueadas').uncheck()
 
 /* ---- tope de 3 copias ---- */

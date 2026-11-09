@@ -22,6 +22,12 @@ async function newDeck(p) {
   await p.waitForSelector('.editor-cards .tile')
 }
 
+/** El catálogo del editor va paginado: para tocar una carta concreta se busca primero por su nombre. */
+async function showCard(p, name) {
+  await p.locator('.editor-cards input[type=search]').fill(`name:"${name}"`)
+  await p.waitForTimeout(450)
+}
+
 const overflowX = (p) => p.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
 
 /* ---- + y − en el catálogo (móvil táctil) ---- */
@@ -29,6 +35,7 @@ const overflowX = (p) => p.evaluate(() => document.documentElement.scrollWidth -
   const { page: p, errors } = await newSession(browser, { legacy: false, context: phone() })
   await newDeck(p)
   const name = 'Saul Bright: Stormrider'
+  await showCard(p, name)
   const plus = p.getByRole('button', { name: `Añadir ${name}` })
   const minus = p.getByRole('button', { name: `Quitar ${name}` })
   const tile = p.locator('.editor-cards .tile').filter({ has: plus })
@@ -84,7 +91,7 @@ for (const W of [320, 375, 768]) {
   // la carta de nombre más largo, para comprobar que los controles no se van al principio de la línea
   const longest = [...nonLegend].sort((a, b) => b.displayName.length - a.displayName.length).find((c) => !cards.includes(c))
   cards.push(longest)
-  for (const c of cards) await p.getByRole('button', { name: `Añadir ${c.displayName}` }).click()
+  for (const c of cards) { await showCard(p, c.displayName); await p.getByRole('button', { name: `Añadir ${c.displayName}` }).click() }
   await p.getByRole('tab', { name: /Mazo/ }).click()
   await p.waitForSelector('.editor-deck .dk-row')
   const heads = (await p.locator('ul.zone').first().locator('.dk-group span').allInnerTexts()).map((t) => t.toLowerCase()) // el CSS los pone en mayúsculas
@@ -124,7 +131,7 @@ for (const W of [320, 375, 768]) {
   const legends = CARDS.filter((c) => c.type === 'Legend').sort((a, b) => a.displayName.length - b.displayName.length)
   const chosen = []
   for (const l of [legends[0], legends[legends.length - 1], legends[Math.floor(legends.length / 2)]]) if (!chosen.some((c) => c.name === l.name)) chosen.push(l)
-  for (const l of chosen) await p.getByRole('button', { name: `Añadir ${l.displayName}` }).click()
+  for (const l of chosen) { await showCard(p, l.displayName); await p.getByRole('button', { name: `Añadir ${l.displayName}` }).click() }
   await p.getByRole('tab', { name: /Mazo/ }).click()
   await p.waitForSelector('.slot.filled')
   const g = await p.locator('.slot.filled').evaluateAll((ss) => ss.map((s) => { const b = s.getBoundingClientRect(); const x = s.querySelector('.btn').getBoundingClientRect(); return { h: Math.round(b.height), w: Math.round(b.width), bx: Math.round(x.top), bw: Math.round(x.width) } }))
@@ -230,6 +237,28 @@ for (const [label, ctx, W] of [['escritorio', undefined, 1500], ['móvil 375', p
   await dlg.getByRole('button', { name: 'Borrar' }).click(); await p.waitForTimeout(600)
   ok(store.decks.size === decksBefore - 1, `${label} · «Borrar» lo borra de verdad`)
   ok(native === 0, `${label} · en ningún momento salió un cuadro nativo`)
+}
+
+/* ---- el catálogo del editor va paginado como el de Cartas ---- */
+for (const [label, ctx] of [['móvil 375', phone(375)], ['escritorio', undefined]]) {
+  const { page: p } = await newSession(browser, { legacy: false, ...(ctx ? { context: ctx } : {}) })
+  await newDeck(p)
+  const tiles = p.locator('.editor-cards .tile')
+  const info = p.locator('.editor-cards .pager-info').first()
+  const n0 = await tiles.count()
+  ok(n0 > 0 && n0 <= 48, `${label} · la primera página del catálogo tiene como mucho 48 fichas (${n0})`)
+  ok(/^1–48 de \d+ cartas/.test((await info.innerText()).trim()), `${label} · el paginador indica el rango («${(await info.innerText()).trim()}»)`)
+  if (ctx) {
+    const h = await p.evaluate(() => document.documentElement.scrollHeight)
+    ok(h < 14000, `${label} · la página ya no mide decenas de miles de píxeles (${h}px)`)
+  }
+  const firstName = () => tiles.first().getByRole('button', { name: /^Añadir / }).getAttribute('aria-label')
+  const first = await firstName()
+  await p.locator('.editor-cards').getByRole('button', { name: 'Página siguiente' }).first().click(); await p.waitForTimeout(300)
+  ok(/^49–/.test((await info.innerText()).trim()) && (await firstName()) !== first, `${label} · «Siguiente» pasa a la página 2 con otras cartas`)
+  await p.locator('.editor-cards input[type=search]').fill('Saul Bright'); await p.waitForTimeout(500)
+  ok((await p.locator('.editor-cards .pager').count()) === 0 && (await tiles.count()) > 0, `${label} · al filtrar vuelve a la primera página (cabe todo y no hace falta paginador)`)
+  await p.context().close()
 }
 
 await browser.close()
