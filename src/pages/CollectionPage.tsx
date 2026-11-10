@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { catalog, setLabel } from '../lib/catalog'
-import { MAX_IMPORT_CHARS, parseCollectionText, serializeCollection } from '../lib/deckText'
+import { MAX_IMPORT_CHARS, parseCollectionText, serializeCardsMelee, serializeCollection } from '../lib/deckText'
 import { variantsOf, TOTAL_VARIANTS } from '../lib/variants'
 import { bulkList, bulkToCsv, CONDITION_LABEL, clampPick, ownedKinds, pickedTotal, playsetSize, splitPlayset, type PickedCopies, type Withdrawal } from '../lib/inventory'
 import { buildWants, buildWishlist, wantsToCsv, wantsToJson, wishlistToCsv, wishlistToJson } from '../lib/wishlist'
@@ -129,6 +129,8 @@ export function CollectionPage() {
   }
 
   const names = (id: string) => ({ code: catalog.byId[id]?.importId ?? '', name: catalog.byId[id]?.displayName ?? id, set: catalog.byId[id]?.setName ?? '' })
+  const melee = (rows: { cardId: string; n: number }[]) =>
+    serializeCardsMelee(Object.fromEntries(rows.map((r) => [r.cardId, r.n])), catalog)
   const line = (n: number, id: string) => `${n}x ${catalog.byId[id]?.importId ?? ''} ${catalog.byId[id]?.displayName ?? id}`.replace(/\s+/g, ' ')
 
   const rowThumb = (id: string) => (
@@ -215,6 +217,7 @@ export function CollectionPage() {
               <button className="btn primary" onClick={() => downloadText('deseos.csv', wantsToCsv(wants), 'text/csv')}>Exportar CSV</button>
               <button className="btn" onClick={() => downloadText('deseos.json', wantsToJson(wants), 'application/json')}>Exportar JSON</button>
               <button className="btn" onClick={() => downloadText('deseos.txt', wants.map((r) => line(r.wanted, r.cardId)).join('\n'))}>Exportar texto</button>
+              <button className="btn" onClick={() => downloadText('deseos-melee.txt', melee(wants.map((r) => ({ cardId: r.cardId, n: r.wanted }))))}>Exportar formato melee.gg</button>
             </div>
           )}
         </div>
@@ -241,6 +244,7 @@ export function CollectionPage() {
               <button className="btn primary" onClick={() => downloadText('lista-de-compra.csv', wishlistToCsv(wishlist), 'text/csv')}>Exportar CSV</button>
               <button className="btn" onClick={() => downloadText('lista-de-compra.json', wishlistToJson(wishlist), 'application/json')}>Exportar JSON</button>
               <button className="btn" onClick={() => downloadText('lista-de-compra.txt', wishlist.map((r) => line(r.missing, r.cardId)).join('\n'))}>Exportar texto</button>
+              <button className="btn" onClick={() => downloadText('lista-de-compra-melee.txt', melee(wishlist.map((r) => ({ cardId: r.cardId, n: r.missing }))))}>Exportar formato melee.gg</button>
             </div>
           )}
         </div>
@@ -306,6 +310,7 @@ export function CollectionPage() {
           </div>
           <button className="btn primary" onClick={() => void doImport()} disabled={!text.trim()}>Importar</button>
           <button className="btn" onClick={() => downloadText('coleccion.txt', serializeCollection(collection, catalog))} disabled={stats.total === 0}>Exportar colección</button>
+          <button className="btn" onClick={() => downloadText('coleccion-melee.txt', serializeCardsMelee(collection, catalog))} disabled={stats.total === 0}>Exportar formato melee.gg</button>
         </div>
       </details>
 

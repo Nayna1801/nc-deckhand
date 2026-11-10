@@ -135,6 +135,32 @@ export function serializeDeck(deck: Pick<Deck, 'name' | 'legendIds' | 'main' | '
   return blocks.map((b) => b.join('\n')).join('\n\n')
 }
 
+/** Nombre como lo escribe melee.gg: «Nombre | Subnombre» (sin código, sin «x» en la cantidad). */
+export const meleeName = (c: Card): string => (c.subname ? `${c.name} | ${c.subname}` : c.name)
+
+const meleeLines = (q: Quantities, catalog: Catalog): string[] =>
+  Object.keys(q)
+    .filter((id) => q[id] > 0 && catalog.byId[id])
+    .sort(byDisplayName(catalog))
+    .map((id) => `${q[id]} ${meleeName(catalog.byId[id])}`)
+
+/** Exporta para pegar en melee.gg: secciones «// Legends», «// Main Deck» y «// Sideboard». */
+export function serializeDeckMelee(deck: Pick<Deck, 'legendIds' | 'main' | 'side'>, catalog: Catalog): string {
+  const blocks: string[][] = []
+  const legends = [...new Set(deck.legendIds)].sort(byDisplayName(catalog)).filter((id) => catalog.byId[id])
+  if (legends.length) blocks.push(['// Legends', ...legends.map((id) => `1 ${meleeName(catalog.byId[id])}`)])
+  const main = meleeLines(deck.main, catalog)
+  if (main.length) blocks.push(['// Main Deck', ...main])
+  const side = meleeLines(deck.side, catalog)
+  if (side.length) blocks.push(['// Sideboard', ...side])
+  return blocks.map((b) => b.join('\n')).join('\n\n')
+}
+
+/** Lista plana de cartas (colección, deseos, compra) con nombres al estilo melee.gg. */
+export function serializeCardsMelee(q: Quantities, catalog: Catalog): string {
+  return meleeLines(q, catalog).join('\n')
+}
+
 /** Colección: mismo formato de líneas, en una sola sección. */
 export function serializeCollection(col: Quantities, catalog: Catalog): string {
   return ['# Collection', ...lines(col, catalog)].join('\n')

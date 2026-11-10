@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { catalog } from '../lib/catalog'
 import { neededCards, validateDeck } from '../lib/deckRules'
-import { MAX_IMPORT_CHARS, parseDeckText, serializeDeck } from '../lib/deckText'
+import { MAX_IMPORT_CHARS, parseDeckText, serializeDeck, serializeDeckMelee } from '../lib/deckText'
 import { decodeDeck } from '../lib/shareCode'
 import type { Deck } from '../lib/types'
 import { CardImage, downloadText } from '../components/cardUi'
@@ -22,10 +22,10 @@ function DeckCard({ deck }: { deck: Deck }) {
     setMsg(m)
     window.setTimeout(() => setMsg(''), 2200)
   }
-  const copy = async () => {
+  const copy = async (value = text, done = 'Lista copiada ✓') => {
     try {
-      await navigator.clipboard.writeText(text)
-      flash('Lista copiada ✓')
+      await navigator.clipboard.writeText(value)
+      flash(done)
     } catch {
       flash('No se pudo copiar')
     }
@@ -51,6 +51,7 @@ function DeckCard({ deck }: { deck: Deck }) {
         <div className="deck-actions">
           <button className="btn sm" onClick={() => void copy()}>Copiar lista</button>
           <button className="btn sm" onClick={() => downloadText(`${deck.name.replace(/[^\w-]+/g, '_')}.txt`, text)}>Exportar .txt</button>
+          <button className="btn sm" onClick={() => void copy(serializeDeckMelee(deck, catalog), 'Lista melee.gg copiada ✓')}>Copiar para melee.gg</button>
           <button className="btn ghost sm" onClick={async () => {
             if (await confirm({ title: 'Borrar mazo', message: `¿Borrar "${deck.name}"? No se puede deshacer.`, confirmLabel: 'Borrar', danger: true })) await deleteDeck(deck.id)
           }}>Borrar</button>

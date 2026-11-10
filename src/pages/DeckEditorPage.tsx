@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { catalog, normalizeText } from '../lib/catalog'
 import { costCurve, typeRatio } from '../lib/analytics'
 import { canAddCopy, exceedsRam, neededCards, RULES, validateDeck } from '../lib/deckRules'
-import { parseDeckText, serializeDeck, MAX_IMPORT_CHARS } from '../lib/deckText'
+import { parseDeckText, serializeDeck, serializeDeckMelee, MAX_IMPORT_CHARS } from '../lib/deckText'
 import { groupDeckCards } from '../lib/deckView'
 import { clampPage, PAGE_SIZE, pageItems } from '../lib/paging'
 import { encodeDeck } from '../lib/shareCode'
@@ -180,6 +180,7 @@ export function DeckEditorPage() {
   const mainRows = Object.keys(deck.main).map((k) => catalog.byId[k]).filter(Boolean)
   const sideRows = Object.keys(deck.side).map((k) => catalog.byId[k]).filter(Boolean)
   const exportText = serializeDeck(deck, catalog)
+  const meleeText = serializeDeckMelee(deck, catalog)
   const shareLink = shareCode ? `${location.origin}${location.pathname}#/share/${shareCode}` : ''
 
   const doImport = () => {
@@ -437,6 +438,12 @@ export function DeckEditorPage() {
               <div className="row wrap">
                 <button className="btn primary" onClick={() => void copy('Lista copiada', exportText)}>Copiar lista</button>
                 <button className="btn" onClick={() => downloadText(`${deck.name.replace(/[^\w-]+/g, '_')}.txt`, exportText)}>Descargar .txt</button>
+              </div>
+              <p className="muted small">Para inscribir el mazo en un torneo de melee.gg:</p>
+              <textarea className="input mono" rows={8} readOnly value={meleeText} onFocus={(e) => e.currentTarget.select()} aria-label="Lista del mazo en formato melee.gg" />
+              <div className="row wrap">
+                <button className="btn" onClick={() => void copy('Lista melee.gg copiada', meleeText)}>Copiar para melee.gg</button>
+                <button className="btn" onClick={() => downloadText(`${deck.name.replace(/[^\w-]+/g, '_')}_melee.txt`, meleeText)}>Descargar melee.gg .txt</button>
               </div>
               <p className="muted small">Código para compartir (cualquiera puede importarlo en esta web):</p>
               <textarea className="input mono" rows={3} readOnly value={shareCode} onFocus={(e) => e.currentTarget.select()} aria-label="Código del mazo" />

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { catalog } from './catalog'
-import { parseCollectionText, parseDeckText, serializeDeck } from './deckText'
+import { parseCollectionText, parseDeckText, serializeDeck, serializeDeckMelee } from './deckText'
 import { neededCards, validateDeck } from './deckRules'
 
 const SAMPLE = `# Name: Custom Deck 1
@@ -42,6 +42,38 @@ describe('parseDeckText', () => {
     const d = parseDeckText(SAMPLE, catalog)
     const text = serializeDeck({ name: d.name, legendIds: d.legendIds, main: d.main, side: d.side }, catalog)
     expect(text).toBe(SAMPLE)
+  })
+
+  it('exporta en formato melee.gg: secciones «//», «N Nombre | Subnombre», sin códigos', () => {
+    const deck = {
+      legendIds: ['alt_cunningham_soulkiller_architect'],
+      main: { dying_night_v_s_pistol: 3, nocturne_op55_n1: 3, les_elemens: 3 },
+      side: { valentino_street_racer: 2, westbrook_netrunner: 2 },
+    }
+    expect(serializeDeckMelee(deck, catalog)).toBe(
+      [
+        '// Legends',
+        '1 Alt Cunningham | Soulkiller Architect',
+        '',
+        '// Main Deck',
+        '3 Dying Night | V\'s Pistol',
+        '3 Les Élémens',
+        '3 Nocturne OP55 N1',
+        '',
+        '// Sideboard',
+        '2 Valentino Street Racer',
+        '2 Westbrook Netrunner',
+      ].join('\n'),
+    )
+  })
+
+  it('el formato melee.gg se puede volver a importar', () => {
+    const d = parseDeckText(SAMPLE, catalog)
+    const text = serializeDeckMelee(d, catalog)
+    const back = parseDeckText(text, catalog)
+    expect(back.issues).toEqual([])
+    expect(back.legendIds).toEqual(d.legendIds)
+    expect(back.main).toEqual(d.main)
   })
 
   it('la colección cuenta legends, main y sideboard', () => {
