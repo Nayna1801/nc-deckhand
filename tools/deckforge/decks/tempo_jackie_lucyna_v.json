@@ -1,0 +1,33 @@
+{
+ "name": "Verde2/Azul4 tempo: Jackie Mama + Lucyna + V Corp (variante contra Red Aggro)",
+ "legends": [
+  "jackie_welles_mama_s_favorite",
+  "lucyna_kushinada_fresh_beginnings",
+  "v_corporate_exile"
+ ],
+ "main": {
+  "maxtac_av": 2,
+  "nadia_fighting_through_grief": 2,
+  "valentino_street_racer": 3,
+  "sandayu_oda_hanako_s_guardian": 2,
+  "mt0d12_flathead": 2,
+  "pepe_najarro_working_doubles": 3,
+  "westbrook_netrunner": 1,
+  "psycho_squad": 2,
+  "towerfall": 2,
+  "corporate_surveillance": 2,
+  "memory_relapse": 2,
+  "take_control": 3,
+  "floor_it": 3,
+  "les_elemens": 3,
+  "maman_brigitte_spirit_of_death": 1,
+  "lizzy_wizzy_delicate_weapon": 1,
+  "emergency_atlus": 1,
+  "rogue_amendiares_queen_of_the_afterlife": 1,
+  "nocturne_op55_n1": 1,
+  "three_mouths_one_desire": 1,
+  "dying_night_v_s_pistol": 1,
+  "corpo_security": 1
+ },
+ "side": {}
+}

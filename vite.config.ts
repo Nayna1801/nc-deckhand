@@ -2,6 +2,7 @@
 import { execSync } from 'node:child_process'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import labApi from './scripts/lab-api.mjs'
 
 /**
  * Content-Security-Policy para la web publicada (GitHub Pages no permite cabeceras, así que va en <meta>).
@@ -55,6 +56,6 @@ const versionFile = (): Plugin => ({
 export default defineConfig({
   base: './',
   define: { __APP_VERSION__: JSON.stringify(version), __APP_BUILT__: JSON.stringify(built) },
-  plugins: [react(), securityHeaders(), versionFile()],
+  plugins: [react(), securityHeaders(), versionFile(), labApi()],
   test: { environment: 'node', include: ['src/**/*.test.ts'] },
 })

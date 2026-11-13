@@ -1,8 +1,8 @@
-import json, re
-from engine import U, G, P
-
+"""Catálogo de cartas y reglas de construcción de mazos."""
+import json
 import os
 from pathlib import Path
+
 HERE = Path(__file__).resolve().parent
 CARDS_PATH = Path(os.environ.get('DECKFORGE_CARDS', HERE.parent.parent / 'src' / 'data' / 'cards.json'))
 RAW = json.load(open(CARDS_PATH, encoding='utf8'))
@@ -10,59 +10,10 @@ RAW = json.load(open(CARDS_PATH, encoding='utf8'))
 # Sale de mirar la esquina de cada carta: si salen cartas nuevas con etiqueta, añádelas aquí.
 SELL_UNITS = {'mt0d12_flathead'}
 BY = {c['id']: c for c in RAW}
-
-from fxtable import FX, LEG
-
-
-def card(cid):
-    c = BY[cid]
-    fx = dict(FX.get(cid, {}))
-    cost = fx.pop('cost', c['cost'] or 0)
-    pw = fx.pop('power', c['power'] or 0)
-    t = c['type']
-    text = c['rules'] or ''
-    if '{Blocker}' in text and t == 'Unit':
-        fx.setdefault('blocker', True)
-    if '{Adrenaline}' in text and t == 'Unit' and 'has {Adrenaline}' not in text:
-        fx.setdefault('adr', True)
-    if "can't attack" in text and t == 'Unit' and 'unless' not in text:
-        fx.setdefault('noatk', True)
-    if (c['power'] or 0) == 0 and t == 'Unit':
-        fx.setdefault('nogig', True)
-    if t == 'Unit':
-        d = U(cost, pw, c['displayName'], **fx)
-    elif t == 'Gear':
-        if '{Blocker}' in text:
-            fx.setdefault('blocker', True)
-        d = G(cost, pw, c['displayName'], **fx)
-    else:
-        d = P(cost, c['displayName'], **fx)
-    d['id'] = cid
-    d['color'] = c['color']
-    d['ram'] = c['ram']
-    d['tags'] = c['classifications']
-    if cid in SELL_UNITS:
-        d['sell'] = True
-    return d
-
-
-def legend(cid):
-    c = BY[cid]
-    d = dict(LEG.get(cid, {}))
-    d['name'] = c['displayName']
-    d['id'] = cid
-    d['color'] = c['color']
-    d['tags'] = c['classifications']
-    return d
-
-
-def build(rows):
-    """rows = [(n, id), ...] -> lista de cartas de motor"""
-    out = []
-    for n, cid in rows:
-        for _ in range(n):
-            out.append(card(cid))
-    return out
+# Cartas legales que aún no se pueden conseguir (promocionales sin repartir...). Se listan por id en data/unavailable.json:
+# los buscadores no las usan y `validate` avisa si un mazo las lleva.
+_UNAV = HERE / 'data' / 'unavailable.json'
+UNAVAILABLE = set(json.load(open(_UNAV, encoding='utf8'))) if _UNAV.exists() else set()
 
 
 def validate(legends, rows):
@@ -86,4 +37,7 @@ def validate(legends, rows):
             errs.append(f'{k} x{v}')
     if len({BY[l]['name'] for l in legends}) != 3:
         errs.append('legends repetidas')
+    for i in list(legends) + [cid for _, cid in rows]:
+        if i in UNAVAILABLE and f"{BY[i]['displayName']} no está disponible todavía" not in errs:
+            errs.append(f"{BY[i]['displayName']} no está disponible todavía")
     return errs, ram

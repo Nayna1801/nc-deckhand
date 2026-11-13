@@ -20,6 +20,10 @@ node e2e/run.mjs --url https://…/   # otra dirección
 Termina con código distinto de 0 si algo falla, así que sirve igual en CI (`.github/workflows/e2e.yml`).
 Las capturas de pantalla van a la carpeta temporal del sistema (se muestra al final; se puede cambiar con `E2E_SHOTS`).
 
+`node e2e/lab-dev.mjs` es aparte: prueba el modo «Jugar contra el piloto» del Laboratorio (zoom, acciones de la carta tocada, arrastrar para vender, jugar y atacar,
+pagar eligiendo Legends, que la mesa quepa sin desplazarse, y una partida entera con clics). El Laboratorio solo existe con `npm run dev`, así que hace falta tenerlo
+en marcha en otra terminal (`--size 1366x768` y `--url` se pueden cambiar).
+
 ## Cómo funcionan
 
 - **Nunca tocan una base de datos real.** `npm run e2e` compila la web contra un proyecto de Supabase *falso* (`e2e-test.supabase.co`) y cada suite intercepta toda la red de Supabase con un servidor simulado (`lib/mock.mjs` y `lib/backend.mjs`). No necesitan credenciales.

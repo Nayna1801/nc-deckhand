@@ -1,0 +1,29 @@
+# Name: RYY (Royce/River/Muamar) · lista del usuario
+
+# Legends
+1x 038 Muamar Reyes: El Capitán
+1x 039 River Ward: Detective on the Hunt
+1x 004 Royce: Psycho on the Edge
+
+# Main Deck
+3x 006 6th Street Recruits
+3x 059 Adrenaline Converter
+3x 027 All is Lost
+3x 066 Bootleg Black Sapphire Show
+3x 033 Industrial Assembly
+3x 048 Jackie Welles: Ride or Die Choom
+2x 011 Johnny Silverhand: Never Stop Fighting
+2x 068 Live with the Aftermath
+3x 062 Mandibular Upgrade
+3x 025 Mantis Blades
+3x 014 Meredith Stout: Stone Cold Corpo
+3x 051 Offduty Malfini
+3x 034 Over the Edge
+3x 069 Safety Override
+3x 026 Satori: Sword of Saburo
+2x 053 Secondhand Bombus
+
+# Sideboard
+2x 008 Chrome Fang
+2x 018 Screw: Lovelorn Fool
+2x 021 Valentino Guerrera

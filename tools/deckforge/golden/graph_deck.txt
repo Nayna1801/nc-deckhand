@@ -1,0 +1,74 @@
+=== Razonamiento sobre Verde2/Azul4 tempo: Goro Hands Unclean + Wakako + V Corp (mejor sin Lucyna) ===
+
+1) MOTORES: lo que el mazo pide y quién se lo da
+   Legends boca arriba  ->  COJO (aporte 6 / demanda 14)
+        lo piden: 3x Dying Night: V's Pistol; 1x NetWatch Netdriver; 1x Synapse Burnout; 1x Riot Shield; Wakako Okada: Peace and Harmony
+        lo dan:   3x Chrome Reverie
+   Gig al mínimo (valor 1)  ->  BIEN CUBIERTO (aporte 13 / demanda 10)
+        lo piden: 3x Chrome Reverie; 2x Pyramid Song
+        lo dan:   3x MaxTac AV; 3x Dying Night: V's Pistol; Wakako Okada: Peace and Harmony
+   menos Street Cred que el rival  ->  JUSTO (aporte 8 / demanda 10)
+        lo piden: 3x Towerfall; 2x MT0D12 Flathead
+        lo dan:   3x MaxTac AV; 3x Dying Night: V's Pistol; Wakako Okada: Peace and Harmony
+   jugar Programas  ->  BIEN CUBIERTO (aporte 15 / demanda 6)
+        lo piden: 3x Maman Brigitte: Spirit of Death
+        lo dan:   3x Les Élémens; 3x Chrome Reverie; 3x Towerfall; 2x Pyramid Song; 2x Nocturne OP55 N1; 1x Unlikely Bond; 1x Synapse Burnout
+   pareja de Gigs  ->  BIEN CUBIERTO (aporte 6 / demanda 4)
+        lo piden: 2x Pepe Najarro: Working Doubles
+        lo dan:   3x MaxTac AV
+   Legends MERC  ->  JUSTO (aporte 4 / demanda 4)
+        lo piden: 2x Pepe Najarro: Working Doubles
+        lo dan:   V: Corporate Exile
+   Go Solo  ->  BIEN CUBIERTO (aporte 8 / demanda 3)
+        lo piden: 2x Nocturne OP55 N1; 1x Riot Shield
+        lo dan:   Goro Takemura: Hands Unclean; V: Corporate Exile
+   Unidad rival gastada  ->  COJO (aporte 0 / demanda 2)
+        lo piden: 1x Unlikely Bond
+        lo dan:   NADIE
+   Piezas sueltas (el mazo lo genera pero nadie lo aprovecha): Unidades en tu basura (3x Psycho Squad; 3x MaxTac AV; 3x Emergency Atlus; 3x Maman Brigitte: Spirit of Death; 3x Valentino Street Racer; 2x Pepe Najarro: Working Doubles; 2x MT0D12 Flathead); Programas en tu basura (3x Les Élémens; 3x Chrome Reverie; 3x Towerfall; 2x Pyramid Song; 2x Nocturne OP55 N1; 1x Unlikely Bond; 1x Synapse Burnout); Programas Braindance (3x Chrome Reverie; 3x Towerfall; 2x Pyramid Song)
+
+2) CARTAS QUE SE QUEDAN SIN LO QUE NECESITAN
+   Unlikely Bond: necesita «Unidad rival gastada» y el mazo apenas lo da
+   Dying Night: V's Pistol: necesita «Legends boca arriba» y el mazo apenas lo da
+   NetWatch Netdriver: necesita «Legends boca arriba» y el mazo apenas lo da
+   Riot Shield: necesita «Legends boca arriba» y el mazo apenas lo da
+   Synapse Burnout: necesita «Legends boca arriba» y el mazo apenas lo da
+
+3) RESPUESTAS QUE LLEVA Y PUNTOS DÉBILES
+   lleva «elimina Unidades pequeñas (poder 5 o menos)»: 3x Les Élémens; 3x Towerfall; 2x Pyramid Song
+   lleva «elimina cualquier Unidad (también grandes)»: 3x Les Élémens; 3x Maman Brigitte: Spirit of Death; 2x Pyramid Song; 1x Unlikely Bond
+   lleva «frena Go Solo y Adrenaline»: 3x Chrome Reverie; 1x Westbrook Netrunner; 1x Riot Shield
+   lleva «frena ataques y robos de Gig»: 3x Chrome Reverie; 2x Pyramid Song; 2x Nocturne OP55 N1; 1x Westbrook Netrunner; Wakako Okada: Peace and Harmony
+   lleva «manda al fondo del mazo (sin basura ni «Defeated»)»: 3x Les Élémens; 3x Towerfall; 3x Maman Brigitte: Spirit of Death; 2x Pyramid Song; 1x Unlikely Bond
+   lleva «toca los dados del rival»: 3x MaxTac AV; 3x Dying Night: V's Pistol; Wakako Okada: Peace and Harmony
+   expuesto a «elimina Unidades pequeñas (poder 5 o menos)»: 10 de 40 cartas (3x Emergency Atlus; 3x Maman Brigitte: Spirit of Death; 3x Valentino Street Racer; 1x Westbrook Netrunner)
+
+4) CRUCES: qué trae cada rival contra tus puntos débiles y qué traes tú contra los suyos
+   vs Meta · BBG Control (Hanako/Alt/Jackie)
+        te amenaza con: elimina Unidades pequeñas (poder 5 o menos) (8 cartas suyas contra 10 tuyas)
+        le respondes con: elimina Unidades pequeñas (poder 5 o menos) (8 tuyas contra 8 suyas)
+   vs Meta · Judy Mono-Blue (Alt/Jackie/Judy)
+        te amenaza con: elimina Unidades pequeñas (poder 5 o menos) (9 cartas suyas contra 10 tuyas)
+        le respondes con: elimina Unidades pequeñas (poder 5 o menos) (8 tuyas contra 12 suyas)
+   vs Meta · Red Aggro (Smasher/V/Dum Dum)
+        te amenaza con: elimina Unidades pequeñas (poder 5 o menos) (6 cartas suyas contra 10 tuyas)
+        le respondes con: elimina cualquier Unidad (también grandes) (4 tuyas contra 9 suyas)
+   vs Meta · River's Closet (River/Muamar/Dexter)
+        te amenaza con: elimina Unidades pequeñas (poder 5 o menos) (5 cartas suyas contra 10 tuyas)
+        le respondes con: elimina Unidades pequeñas (poder 5 o menos) (8 tuyas contra 6 suyas); elimina cualquier Unidad (también grandes) (4 tuyas contra 5 suyas)
+
+5) QUÉ ENCAJARÍA (cartas legales que cubren lo cojo o aprovechan lo que sobra)
+   + Tyger's Whisper: da «Legends boca arriba», que falta
+   + Lizzy Wizzy: Delicate Weapon: su «Programas en tu basura» ya está cubierto; su «jugar Programas» ya está cubierto
+   + Hacked Corpo: su «Programas en tu basura» ya está cubierto; su «jugar Programas» ya está cubierto
+   + Trust No One: da «menos Street Cred que el rival», que falta; su «Gig al mínimo (valor 1)» ya está cubierto
+   + Sandayu Oda: Hanako's Guardian: da «Unidad rival gastada», que falta; su «pareja de Gigs» ya está cubierto
+   + Peace Offering: da «menos Street Cred que el rival», que falta; su «pareja de Gigs» ya está cubierto
+   + Pacifica Netrunner: da «Unidad rival gastada», que falta; su «paridad de los Gigs» ya está cubierto
+   + Memory Relapse: da «Unidad rival gastada», que falta; su «paridad de los Gigs» ya está cubierto
+   Candidatas a salir (las que menos conectan con el resto):
+   - 1x Synapse Burnout: necesita Legends boca arriba y no lo hay
+   - 1x NetWatch Netdriver: necesita Legends boca arriba y no lo hay
+   - 1x Riot Shield: necesita Legends boca arriba y no lo hay
+   - 3x Valentino Street Racer: no alimenta ningún motor del mazo ni responde a nada
+   - 1x Unlikely Bond: necesita Unidad rival gastada y no lo hay

@@ -1,0 +1,30 @@
+{
+ "name": "Meta · Red Aggro (Smasher/V/Dum Dum)",
+ "legends": [
+  "adam_smasher_ender_of_legends",
+  "v_streetkid",
+  "dum_dum_maelstrom_triggerman"
+ ],
+ "main": {
+  "augmented_negotiators": 3,
+  "6th_street_recruits": 3,
+  "rockn_rockerboy": 3,
+  "animals_wrecker": 3,
+  "yorinobu_arasaka_steel_dragon": 3,
+  "mantis_blades": 3,
+  "satori_sword_of_saburo": 3,
+  "zetatech_faceplate": 3,
+  "all_is_lost": 3,
+  "industrial_assembly": 3,
+  "appetite_for_destruction": 2,
+  "bonnie_and_clyde": 3,
+  "over_the_edge": 3,
+  "carnage_at_the_colosseum": 3
+ },
+ "side": {
+  "meredith_stout_stone_cold_corpo": 3,
+  "detonate": 2,
+  "heywood_ripperdoc": 1,
+  "maxtac_suppression_team": 1
+ }
+}

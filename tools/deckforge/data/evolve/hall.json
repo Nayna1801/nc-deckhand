@@ -1,0 +1,467 @@
+{
+ "af7bd97b84": {
+  "id": "af7bd97b84",
+  "name": "Meta · BBG Control (Hanako/Alt/Jackie)",
+  "legends": [
+   "alt_cunningham_soulkiller_architect",
+   "hanako_arasaka_daughter_of_the_emperor",
+   "jackie_welles_pour_one_out_for_me"
+  ],
+  "main": {
+   "jacked_in_voodoo_boy": 3,
+   "pepe_najarro_working_doubles": 3,
+   "lizzy_wizzy_delicate_weapon": 2,
+   "maman_brigitte_spirit_of_death": 3,
+   "floor_it": 2,
+   "peace_offering": 3,
+   "trust_no_one": 3,
+   "take_control": 2,
+   "three_mouths_one_desire": 3,
+   "chrome_reverie": 3,
+   "nocturne_op55_n1": 3,
+   "pyramid_song": 3,
+   "memory_relapse": 2,
+   "les_elemens": 3,
+   "towerfall": 2
+  },
+  "meta": true,
+  "born": 0,
+  "eval": {
+   "per": [
+    0.4615,
+    0.7937,
+    0.4437,
+    0.6188
+   ],
+   "avg": 0.5794,
+   "net": "1:0",
+   "cycle": 1,
+   "games": 160
+  }
+ },
+ "af9fc3be25": {
+  "id": "af9fc3be25",
+  "name": "Meta · Judy Mono-Blue (Alt/Jackie/Judy)",
+  "legends": [
+   "alt_cunningham_soulkiller_architect",
+   "jackie_welles_pour_one_out_for_me",
+   "judy_alvarez_braindance_maestro"
+  ],
+  "main": {
+   "mox_inciters": 3,
+   "psycho_squad": 2,
+   "rita_wheeler_no_stupid_questions": 3,
+   "lizzy_wizzy_delicate_weapon": 3,
+   "maman_brigitte_spirit_of_death": 3,
+   "judy_alvarez_nothing_to_doubt": 3,
+   "placide_voodoo_sentinel": 2,
+   "reboot_optics": 3,
+   "three_mouths_one_desire": 3,
+   "chrome_reverie": 3,
+   "pyramid_song": 3,
+   "unlikely_bond": 3,
+   "les_elemens": 3,
+   "towerfall": 3
+  },
+  "meta": true,
+  "born": 0,
+  "eval": {
+   "per": [
+    0.1375,
+    0.475,
+    0.2562,
+    0.3438
+   ],
+   "avg": 0.3031,
+   "net": "1:0",
+   "cycle": 1,
+   "games": 160
+  }
+ },
+ "febf937fe9": {
+  "id": "febf937fe9",
+  "name": "Meta · Red Aggro (Smasher/V/Dum Dum)",
+  "legends": [
+   "adam_smasher_ender_of_legends",
+   "v_streetkid",
+   "dum_dum_maelstrom_triggerman"
+  ],
+  "main": {
+   "augmented_negotiators": 3,
+   "6th_street_recruits": 3,
+   "rockn_rockerboy": 3,
+   "animals_wrecker": 3,
+   "yorinobu_arasaka_steel_dragon": 3,
+   "mantis_blades": 3,
+   "satori_sword_of_saburo": 3,
+   "zetatech_faceplate": 3,
+   "all_is_lost": 3,
+   "industrial_assembly": 3,
+   "appetite_for_destruction": 2,
+   "bonnie_and_clyde": 3,
+   "over_the_edge": 3,
+   "carnage_at_the_colosseum": 3
+  },
+  "meta": true,
+  "born": 0,
+  "eval": {
+   "per": [
+    0.5062,
+    0.7625,
+    0.5687,
+    0.5813
+   ],
+   "avg": 0.6047,
+   "net": "1:0",
+   "cycle": 1,
+   "games": 160
+  }
+ },
+ "b170dba2fb": {
+  "id": "b170dba2fb",
+  "name": "Meta · River's Closet (River/Muamar/Dexter)",
+  "legends": [
+   "river_ward_detective_on_the_hunt",
+   "muamar_reyes_el_capitan",
+   "dexter_deshawn_off_the_grid"
+  ],
+  "main": {
+   "secondhand_bombus": 3,
+   "swordwise_huscle": 3,
+   "6th_street_recruits": 3,
+   "meredith_stout_stone_cold_corpo": 3,
+   "jackie_welles_ride_or_die_choom": 2,
+   "johnny_silverhand_never_stop_fighting": 3,
+   "mantis_blades": 3,
+   "satori_sword_of_saburo": 3,
+   "zetatech_faceplate": 3,
+   "adrenaline_converter": 3,
+   "gorilla_arms": 3,
+   "live_with_the_aftermath": 3,
+   "over_the_edge": 2,
+   "bootleg_black_sapphire_show": 3
+  },
+  "meta": true,
+  "born": 0,
+  "eval": {
+   "per": [
+    0.3875,
+    0.6562,
+    0.4813,
+    0.4188
+   ],
+   "avg": 0.4859,
+   "net": "1:0",
+   "cycle": 1,
+   "games": 160
+  }
+ },
+ "34363561d7": {
+  "id": "34363561d7",
+  "name": "BBG Jackie + Alt + Hanako (afinado)",
+  "legends": [
+   "jackie_welles_pour_one_out_for_me",
+   "alt_cunningham_soulkiller_architect",
+   "hanako_arasaka_daughter_of_the_emperor"
+  ],
+  "main": {
+   "corporate_surveillance": 3,
+   "emergency_atlus": 2,
+   "field_operator": 1,
+   "floor_it": 1,
+   "hacked_corpo": 3,
+   "les_elemens": 2,
+   "maxtac_av": 3,
+   "mt0d12_flathead": 3,
+   "nadia_fighting_through_grief": 1,
+   "peace_offering": 3,
+   "pepe_najarro_working_doubles": 3,
+   "placide_voodoo_sentinel": 1,
+   "saul_bright_stormrider": 2,
+   "take_control": 3,
+   "three_mouths_one_desire": 3,
+   "towerfall": 2,
+   "unlikely_bond": 1,
+   "valentino_street_racer": 3
+  },
+  "meta": false,
+  "born": 0,
+  "eval": {
+   "per": [
+    0.4125,
+    0.675,
+    0.25,
+    0.3563
+   ],
+   "avg": 0.4234,
+   "net": "1:0",
+   "cycle": 1,
+   "games": 160
+  }
+ },
+ "1b5a640141": {
+  "id": "1b5a640141",
+  "name": "Verde/Azul control con Judy (recomendado)",
+  "legends": [
+   "goro_takemura_hands_unclean",
+   "jackie_welles_mama_s_favorite",
+   "judy_alvarez_braindance_maestro"
+  ],
+  "main": {
+   "chrome_reverie": 1,
+   "corpo_security": 1,
+   "don_t_fear_the_reaper": 3,
+   "dying_night_v_s_pistol": 2,
+   "emergency_atlus": 2,
+   "floor_it": 3,
+   "goro_takemura_losing_his_way": 2,
+   "maxtac_av": 1,
+   "maxtac_squadron": 3,
+   "memory_relapse": 2,
+   "overwatch_panam_s_gift": 3,
+   "peace_offering": 1,
+   "pepe_najarro_working_doubles": 2,
+   "psycho_squad": 2,
+   "riding_nomad": 3,
+   "sandevistan": 1,
+   "saul_bright_stormrider": 1,
+   "take_control": 2,
+   "valentino_street_racer": 3,
+   "wild_in_the_streets": 2
+  },
+  "meta": false,
+  "born": 0,
+  "eval": {
+   "per": [
+    0.5125,
+    0.85,
+    0.3625,
+    0.4688
+   ],
+   "avg": 0.5484,
+   "net": "1:0",
+   "cycle": 1,
+   "games": 160
+  }
+ },
+ "7a9e1d58f9": {
+  "id": "7a9e1d58f9",
+  "name": "Verde2/Azul4 tempo: Goro Hands Unclean + Wakako + V Corp (mejor sin Lucyna)",
+  "legends": [
+   "goro_takemura_hands_unclean",
+   "wakako_okada_peace_and_harmony",
+   "v_corporate_exile"
+  ],
+  "main": {
+   "pepe_najarro_working_doubles": 2,
+   "les_elemens": 3,
+   "psycho_squad": 3,
+   "chrome_reverie": 3,
+   "maxtac_av": 3,
+   "towerfall": 3,
+   "emergency_atlus": 3,
+   "pyramid_song": 2,
+   "westbrook_netrunner": 1,
+   "maman_brigitte_spirit_of_death": 3,
+   "dying_night_v_s_pistol": 3,
+   "mt0d12_flathead": 2,
+   "valentino_street_racer": 3,
+   "unlikely_bond": 1,
+   "nocturne_op55_n1": 2,
+   "netwatch_netdriver": 1,
+   "synapse_burnout": 1,
+   "riot_shield": 1
+  },
+  "meta": false,
+  "born": 0,
+  "eval": {
+   "per": [
+    0.7188,
+    0.9437,
+    0.475,
+    0.5875
+   ],
+   "avg": 0.6813,
+   "net": "1:0",
+   "cycle": 1,
+   "games": 160
+  }
+ },
+ "062dcc2e1d": {
+  "id": "062dcc2e1d",
+  "name": "Verde2/Azul4 tempo: Jackie Mama + V Corp + Wakako (búsqueda v2)",
+  "legends": [
+   "jackie_welles_mama_s_favorite",
+   "v_corporate_exile",
+   "wakako_okada_peace_and_harmony"
+  ],
+  "main": {
+   "maxtac_av": 3,
+   "nadia_fighting_through_grief": 2,
+   "valentino_street_racer": 2,
+   "sandayu_oda_hanako_s_guardian": 2,
+   "mt0d12_flathead": 3,
+   "pepe_najarro_working_doubles": 3,
+   "westbrook_netrunner": 3,
+   "psycho_squad": 1,
+   "towerfall": 3,
+   "corporate_surveillance": 2,
+   "memory_relapse": 2,
+   "take_control": 3,
+   "floor_it": 3,
+   "les_elemens": 3,
+   "synapse_burnout": 1,
+   "emergency_atlus": 2,
+   "maman_brigitte_spirit_of_death": 1,
+   "corpo_security": 1
+  },
+  "meta": false,
+  "born": 0,
+  "eval": {
+   "per": [
+    0.6813,
+    0.9187,
+    0.35,
+    0.5375
+   ],
+   "avg": 0.6219,
+   "net": "1:0",
+   "cycle": 1,
+   "games": 160
+  }
+ },
+ "41c955d607": {
+  "id": "41c955d607",
+  "name": "afinado todo el meta (vuelta 1)",
+  "legends": [
+   "goro_takemura_hands_unclean",
+   "wakako_okada_peace_and_harmony",
+   "v_corporate_exile"
+  ],
+  "main": {
+   "pepe_najarro_working_doubles": 1,
+   "les_elemens": 3,
+   "psycho_squad": 3,
+   "chrome_reverie": 3,
+   "maxtac_av": 1,
+   "towerfall": 3,
+   "emergency_atlus": 3,
+   "pyramid_song": 3,
+   "westbrook_netrunner": 2,
+   "maman_brigitte_spirit_of_death": 3,
+   "dying_night_v_s_pistol": 2,
+   "mt0d12_flathead": 2,
+   "valentino_street_racer": 3,
+   "unlikely_bond": 1,
+   "nocturne_op55_n1": 2,
+   "netwatch_netdriver": 1,
+   "synapse_burnout": 1,
+   "riot_shield": 1,
+   "tyger_s_whisper": 1,
+   "modded_kusanagi": 1
+  },
+  "meta": false,
+  "born": 1,
+  "eval": {
+   "per": [
+    0.7188,
+    0.9187,
+    0.4188,
+    0.55
+   ],
+   "avg": 0.6516,
+   "net": "1:0",
+   "cycle": 1,
+   "games": 160
+  }
+ },
+ "a45b48a207": {
+  "id": "a45b48a207",
+  "name": "afinado contra BBG Control (Hanako/Alt (vuelta 1)",
+  "legends": [
+   "goro_takemura_hands_unclean",
+   "wakako_okada_peace_and_harmony",
+   "v_corporate_exile"
+  ],
+  "main": {
+   "pepe_najarro_working_doubles": 2,
+   "les_elemens": 3,
+   "psycho_squad": 3,
+   "chrome_reverie": 2,
+   "maxtac_av": 2,
+   "towerfall": 3,
+   "emergency_atlus": 3,
+   "pyramid_song": 2,
+   "westbrook_netrunner": 1,
+   "maman_brigitte_spirit_of_death": 3,
+   "dying_night_v_s_pistol": 3,
+   "mt0d12_flathead": 2,
+   "valentino_street_racer": 2,
+   "unlikely_bond": 2,
+   "nocturne_op55_n1": 2,
+   "netwatch_netdriver": 1,
+   "synapse_burnout": 1,
+   "riot_shield": 1,
+   "pacifica_netrunner": 1,
+   "corporate_surveillance": 1
+  },
+  "meta": false,
+  "born": 1,
+  "eval": {
+   "per": [
+    0.6813,
+    0.9062,
+    0.45,
+    0.5813
+   ],
+   "avg": 0.6547,
+   "net": "1:0",
+   "cycle": 1,
+   "games": 160
+  }
+ },
+ "384d59fc36": {
+  "id": "384d59fc36",
+  "name": "afinado contra Judy Mono-Blue (Alt/Jac (vuelta 1)",
+  "legends": [
+   "goro_takemura_hands_unclean",
+   "wakako_okada_peace_and_harmony",
+   "v_corporate_exile"
+  ],
+  "main": {
+   "pepe_najarro_working_doubles": 2,
+   "les_elemens": 3,
+   "psycho_squad": 2,
+   "chrome_reverie": 3,
+   "maxtac_av": 2,
+   "towerfall": 3,
+   "emergency_atlus": 3,
+   "pyramid_song": 2,
+   "westbrook_netrunner": 1,
+   "maman_brigitte_spirit_of_death": 3,
+   "dying_night_v_s_pistol": 3,
+   "mt0d12_flathead": 2,
+   "valentino_street_racer": 3,
+   "unlikely_bond": 2,
+   "nocturne_op55_n1": 2,
+   "netwatch_netdriver": 1,
+   "synapse_burnout": 1,
+   "riot_shield": 1,
+   "corpo_security": 1
+  },
+  "meta": false,
+  "born": 1,
+  "eval": {
+   "per": [
+    0.725,
+    0.9187,
+    0.425,
+    0.6125
+   ],
+   "avg": 0.6703,
+   "net": "1:0",
+   "cycle": 1,
+   "games": 160
+  }
+ }
+}

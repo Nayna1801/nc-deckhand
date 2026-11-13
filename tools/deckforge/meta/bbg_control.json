@@ -1,0 +1,30 @@
+{
+ "name": "Meta · BBG Control (Hanako/Alt/Jackie)",
+ "legends": [
+  "alt_cunningham_soulkiller_architect",
+  "hanako_arasaka_daughter_of_the_emperor",
+  "jackie_welles_pour_one_out_for_me"
+ ],
+ "main": {
+  "jacked_in_voodoo_boy": 3,
+  "pepe_najarro_working_doubles": 3,
+  "lizzy_wizzy_delicate_weapon": 2,
+  "maman_brigitte_spirit_of_death": 3,
+  "floor_it": 2,
+  "peace_offering": 3,
+  "trust_no_one": 3,
+  "take_control": 2,
+  "three_mouths_one_desire": 3,
+  "chrome_reverie": 3,
+  "nocturne_op55_n1": 3,
+  "pyramid_song": 3,
+  "memory_relapse": 2,
+  "les_elemens": 3,
+  "towerfall": 2
+ },
+ "side": {
+  "modded_kusanagi": 2,
+  "placide_voodoo_sentinel": 2,
+  "riot_shield": 3
+ }
+}

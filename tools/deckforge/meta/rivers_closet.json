@@ -1,0 +1,30 @@
+{
+ "name": "Meta · River's Closet (River/Muamar/Dexter)",
+ "legends": [
+  "river_ward_detective_on_the_hunt",
+  "muamar_reyes_el_capitan",
+  "dexter_deshawn_off_the_grid"
+ ],
+ "main": {
+  "secondhand_bombus": 3,
+  "swordwise_huscle": 3,
+  "6th_street_recruits": 3,
+  "meredith_stout_stone_cold_corpo": 3,
+  "jackie_welles_ride_or_die_choom": 2,
+  "johnny_silverhand_never_stop_fighting": 3,
+  "mantis_blades": 3,
+  "satori_sword_of_saburo": 3,
+  "zetatech_faceplate": 3,
+  "adrenaline_converter": 3,
+  "gorilla_arms": 3,
+  "live_with_the_aftermath": 3,
+  "over_the_edge": 2,
+  "bootleg_black_sapphire_show": 3
+ },
+ "side": {
+  "maxtac_suppression_team": 2,
+  "detonate": 2,
+  "royce_don_t_call_me_simon": 2,
+  "safety_override": 1
+ }
+}

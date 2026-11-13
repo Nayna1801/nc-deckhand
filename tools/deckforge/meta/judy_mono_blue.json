@@ -1,0 +1,30 @@
+{
+ "name": "Meta · Judy Mono-Blue (Alt/Jackie/Judy)",
+ "legends": [
+  "alt_cunningham_soulkiller_architect",
+  "jackie_welles_pour_one_out_for_me",
+  "judy_alvarez_braindance_maestro"
+ ],
+ "main": {
+  "mox_inciters": 3,
+  "psycho_squad": 2,
+  "rita_wheeler_no_stupid_questions": 3,
+  "lizzy_wizzy_delicate_weapon": 3,
+  "maman_brigitte_spirit_of_death": 3,
+  "judy_alvarez_nothing_to_doubt": 3,
+  "placide_voodoo_sentinel": 2,
+  "reboot_optics": 3,
+  "three_mouths_one_desire": 3,
+  "chrome_reverie": 3,
+  "pyramid_song": 3,
+  "unlikely_bond": 3,
+  "les_elemens": 3,
+  "towerfall": 3
+ },
+ "side": {
+  "modded_kusanagi": 2,
+  "westbrook_netrunner": 2,
+  "floor_it": 2,
+  "placide_voodoo_sentinel": 1
+ }
+}

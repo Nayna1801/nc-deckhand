@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { HashRouter, NavLink, Navigate, Route, Routes } from 'react-router-dom'
 import { useUpdateAvailable } from './lib/useUpdateCheck'
 import { ConfirmProvider } from './components/Confirm'
@@ -11,6 +12,9 @@ import { LoginPage } from './pages/LoginPage'
 import { ScanPage } from './pages/ScanPage'
 import { SharePage } from './pages/SharePage'
 
+// Laboratorio: simulador paso a paso. Solo existe con `npm run dev` (en la web compilada esta línea se elimina entera).
+const LabPage = import.meta.env.DEV ? lazy(() => import('./pages/LabPage')) : null
+
 function Shell() {
   const { user, signOut, notice, dismissNotice } = useAuth()
   const { error, clearError } = useData()
@@ -23,6 +27,7 @@ function Shell() {
           <NavLink to="/" end>Cartas</NavLink>
           <NavLink to="/decks">Mazos</NavLink>
           <NavLink to="/collection">Colección</NavLink>
+          {LabPage && <NavLink to="/lab">Laboratorio</NavLink>}
         </nav>
         <div className="who">
           {user ? (
@@ -59,6 +64,7 @@ function Shell() {
           <Route path="/collection" element={<CollectionPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/scan" element={<ScanPage />} />
+          {LabPage && <Route path="/lab" element={<Suspense fallback={<p className="muted">Cargando…</p>}><LabPage /></Suspense>} />}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

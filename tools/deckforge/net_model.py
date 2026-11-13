@@ -1,4 +1,4 @@
-import json, math, random
+import math, random
 from collections import Counter, defaultdict
 from net_data import RAW_NET
 

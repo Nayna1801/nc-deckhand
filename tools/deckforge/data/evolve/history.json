@@ -1,0 +1,11 @@
+[
+ {
+  "cycle": 1,
+  "time": "2026-11-11 12:41",
+  "positions": 309448,
+  "duel": 0.5067,
+  "duel_games": 2094,
+  "adopted": false,
+  "test_acc": 0.7845
+ }
+]

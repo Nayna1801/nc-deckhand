@@ -1,0 +1,31 @@
+Puntuación de la red: 66.2   legends=13.6 cards=46.2 economia=-0.0 curva=-0.0 cluster=6.4
+
+Suministro / necesidad por característica:
+  ADR:6/0  ARA:2/0  BD:8/0  BLK:3/0  BLUE:13/0  BODY:11/6  CALL:3/0  DRAW:1/0  FUP:0/3  GEAR:5/0  GS:7/2  LOW:10/13  MIN:11/5  P8:3/0  PAIR:3/4  POW:3/0  PROG:15/6  QMANA:2/1
+
+Enlaces más fuertes (productor -> consumidor [característica]):
+    9.0  Wakako Okada: Peace and Harmony  -> Towerfall                        [LOW]
+    6.0  Wakako Okada: Peace and Harmony  -> MT0D12 Flathead                  [LOW]
+    4.0  Wakako Okada: Peace and Harmony  -> Chrome Reverie                   [MIN]
+    4.0  Wakako Okada: Peace and Harmony  -> Pyramid Song                     [MIN]
+    3.0  MaxTac AV                        -> Towerfall                        [LOW]
+    3.0  Dying Night: V's Pistol          -> Towerfall                        [LOW]
+    2.0  MaxTac AV                        -> MT0D12 Flathead                  [LOW]
+    2.0  MaxTac AV                        -> Pepe Najarro: Working Doubles    [PAIR]
+    2.0  Dying Night: V's Pistol          -> Chrome Reverie                   [MIN]
+    2.0  Dying Night: V's Pistol          -> Pyramid Song                     [MIN]
+    2.0  Dying Night: V's Pistol          -> MT0D12 Flathead                  [LOW]
+    1.5  Goro Takemura: Hands Unclean     -> Nocturne OP55 N1                 [GS]
+
+Nodos centrales:
+    23.0  Wakako Okada: Peace and Harmony
+    16.0  Towerfall
+    11.0  MT0D12 Flathead
+     9.0  Dying Night: V's Pistol
+     8.0  MaxTac AV
+     7.0  Maman Brigitte: Spirit of Death
+     7.0  Chrome Reverie
+     7.0  Pyramid Song
+
+Vulnerabilidades (nº de cartas): {'atacantes (se quedan gastados)': 20, 'poder >=8': 3, 'unidades de poder <=5 (barridas por Towerfall)': 10, 'Adrenaline / Go Solo (anulables por MaxTac Suppression, Riot Shield)': 3}
+Respuestas que lleva (peso): {'BIGK': 8.0, 'NOGS': 7.0, 'CREDX': 6.0, 'SWEEP': 9.0, 'KSPENT': 1.0}

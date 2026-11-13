@@ -13,3 +13,4 @@ test-results
 __pycache__/
 *.pyc
 tools/deckforge/out/
+tools/deckforge/data/human/

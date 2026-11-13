@@ -1,0 +1,78 @@
+=== Verde2/Azul4 tempo: Goro Hands Unclean + Wakako + V Corp (mejor sin Lucyna): 73.8% de victorias en 240 partidas contra 4 mazos (±5.6%) ===
+Empezando 75% · de segundo 72% · duración media 6.1 turnos por jugador
+
+1) FACTORES (media por partida: tú / rival; y tú cuando ganas / cuando pierdes)
+   Ventaja de cartas (robos extra)                   1.11 /  3.60   (ganando  1.06 · perdiendo  1.25)  <- desventaja
+   Cartas jugadas gratis                             0.00 /  0.80   (ganando  0.00 · perdiendo  0.00)  <- desventaja
+   Eliminación (derrotar + fondo de mazo)            2.22 /  2.55   (ganando  2.19 · perdiendo  2.32)
+   Control de tempo (gastar/bloquear rivales)        0.27 /  0.53   (ganando  0.21 · perdiendo  0.43)  <- desventaja
+   Gigs robados                                      5.97 /  4.58   (ganando  5.45 · perdiendo  7.41)  <- ventaja
+   Ataques de doble robo (poder 10+)                 0.07 /  1.04   (ganando  0.06 · perdiendo  0.10)  <- desventaja
+   Defensa (bloqueos, reacciones, Gigs salvados)     0.06 /  0.90   (ganando  0.05 · perdiendo  0.08)  <- desventaja
+   Manipulación de dados                             1.77 /  3.30   (ganando  1.49 · perdiendo  2.57)  <- desventaja
+   Descartes forzados al rival                       0.00 /  0.12   (ganando  0.00 · perdiendo  0.00)
+   Subidas de poder                                  0.00 /  0.38   (ganando  0.00 · perdiendo  0.00)  <- desventaja
+   Unidades/Eddies preparados de más                 0.38 /  0.40   (ganando  0.41 · perdiendo  0.30)
+   Calls y Go Solo                                   4.51 /  3.01   (ganando  4.38 · perdiendo  4.87)  <- ventaja
+   Desarrollo (final de tu turno N): poder en mesa · cartas en mano · Eddies · Gigs tuyos-rival
+     turno 2: tú  6.0 poder, 4.8 cartas, 2.0 €, Gigs 2.2-1.3   | rival  4.0 poder, 5.0 cartas, 2.0 €
+     turno 3: tú 10.0 poder, 4.0 cartas, 3.0 €, Gigs 3.7-1.8   | rival  6.0 poder, 4.2 cartas, 3.0 €
+     turno 4: tú 14.1 poder, 3.5 cartas, 3.8 €, Gigs 5.6-1.9   | rival  9.1 poder, 3.5 cartas, 3.9 €
+     turno 5: tú 17.6 poder, 3.0 cartas, 4.7 €, Gigs 7.2-2.2   | rival 12.7 poder, 2.5 cartas, 4.8 €
+   Condiciones de dados cumplidas al empezar tus turnos: tener una pareja de Gigs 40% · tener un Gig al mínimo 42% · tener menos Street Cred 37% · tener un Gig de 8+ 33%
+
+2) DE DÓNDE SALE CADA COSA (tus fuentes principales, por partida)
+   Ventaja de cartas (robos extra): Wakako Okada: Peace and Harmony 0.97; NetWatch Netdriver 0.08; Nocturne OP55 N1 0.06
+   Eliminación (derrotar + fondo de mazo): Maman Brigitte: Spirit of Death 0.44; Les Élémens 0.29; Goro Takemura: Hands Unclean 0.26; MaxTac AV 0.26
+   Control de tempo (gastar/bloquear rivales): Pyramid Song 0.10; Towerfall 0.07; Chrome Reverie 0.05; Nocturne OP55 N1 0.05
+   Gigs robados: Goro Takemura: Hands Unclean 1.12; V: Corporate Exile 0.94; Valentino Street Racer 0.88; Psycho Squad 0.75
+   Ataques de doble robo (poder 10+): MaxTac AV 0.05; V: Corporate Exile 0.03
+   Defensa (bloqueos, reacciones, Gigs salvados): Goro Takemura: Hands Unclean 0.05; MaxTac AV 0.01
+
+3) CARTAS: victorias cuando la ves pronto (mano inicial o tus 3 primeros turnos) frente a cuando no (Δ), y cuántas veces se juega
+   *  +13.7% (±10.8%)  2x MT0D12 Flathead                            jugada el 14% de las veces
+   *  +12.8% (±11.4%)  1x Synapse Burnout                            jugada el 0% de las veces
+       +7.8% (±12.0%)  3x Maman Brigitte: Spirit of Death            jugada el 59% de las veces
+       +7.0% (±12.0%)  3x Les Élémens                                jugada el 35% de las veces
+       +5.6% (±11.4%)  3x Dying Night: V's Pistol                    jugada el 4% de las veces
+       +2.7% (±11.2%)  2x Pyramid Song                               jugada el 16% de las veces
+       +1.9% (±11.1%)  2x Nocturne OP55 N1                           jugada el 9% de las veces
+       +0.6% (±12.7%)  1x NetWatch Netdriver                         jugada el 8% de las veces
+       +0.3% (±12.1%)  1x Westbrook Netrunner                        jugada el 32% de las veces
+       -0.2% (±12.3%)  3x Chrome Reverie                             jugada el 6% de las veces
+       -1.5% (±11.2%)  2x Pepe Najarro: Working Doubles              jugada el 85% de las veces
+       -2.8% (±13.1%)  1x Riot Shield                                jugada el 2% de las veces
+       -4.7% (±11.4%)  3x Valentino Street Racer                     jugada el 86% de las veces
+       -4.8% (±11.1%)  3x Psycho Squad                               jugada el 75% de las veces
+       -6.0% (±11.1%)  3x Towerfall                                  jugada el 12% de las veces
+   *  -11.5% (±12.6%)  1x Unlikely Bond                              jugada el 0% de las veces
+   *  -11.6% (±10.9%)  3x Emergency Atlus                            jugada el 59% de las veces
+   ** -15.2% (±10.7%)  3x MaxTac AV                                  jugada el 78% de las veces
+   (** = diferencia clara, * = probable; sin marca = dentro del ruido)
+
+4) SINERGIAS Y ANTISINERGIAS entre pares de cartas (cuánto rinden JUNTAS por encima de lo esperado por separado)
+   Ninguna pareja se separa del ruido con estas partidas (sube --games para afinar).
+
+5) CRUCES: contra quién ganas o pierdes y qué factor lo decide
+    57%  vs Meta · River's Closet (River/Muamar/Dexter)
+          te da ventaja: control de tempo (0.3 vs 0.0); calls y go solo (4.7 vs 3.0)
+          te supera en: ataques de doble robo (0.2 vs 2.4); subidas de poder (0.0 vs 0.9)
+          sus cartas que más te hunden cuando las juega: Jackie Welles: Ride or Die Choom (-32%)
+          te elimina con: Johnny Silverhand: Never Stop Fighting 0.9; Live with the Aftermath 0.3; 6th Street Recruits 0.2 · te roba Gigs con: Johnny Silverhand: Never Stop Fighting 2.4; Gorilla Arms 1.6; 6th Street Recruits 1.5
+    68%  vs Meta · Red Aggro (Smasher/V/Dum Dum)
+          te da ventaja: unidades/eddies preparados de más (0.5 vs 0.0); control de tempo (0.3 vs 0.0)
+          te supera en: ataques de doble robo (0.0 vs 1.4); cartas jugadas gratis (0.0 vs 0.7)
+          sus cartas que más te hunden cuando las juega: Animals Wrecker (-26%)
+          te elimina con: Bonnie and Clyde 0.8; Carnage at the Colosseum 0.7; Yorinobu Arasaka: Steel Dragon 0.3 · te roba Gigs con: Animals Wrecker 1.4; Rockn' Rockerboy 0.8; 6th Street Recruits 0.8
+    82%  vs Meta · BBG Control (Hanako/Alt/Jackie)
+          te da ventaja: gigs robados (4.6 vs 2.7); calls y go solo (4.5 vs 3.0)
+          te supera en: defensa (0.0 vs 1.4); control de tempo (0.1 vs 1.6)
+          sus cartas que más te hunden cuando las juega: Nocturne OP55 N1 (-22%)
+          te elimina con: Les Élémens 1.0; Maman Brigitte: Spirit of Death 1.0; Pyramid Song 0.5 · te roba Gigs con: Maman Brigitte: Spirit of Death 1.0; Jacked-In Voodoo Boy 0.8; Pepe Najarro: Working Doubles 0.6
+    88%  vs Meta · Judy Mono-Blue (Alt/Jackie/Judy)
+          te da ventaja: unidades/eddies preparados de más (0.3 vs 0.0); gigs robados (4.5 vs 2.4)
+          te supera en: cartas jugadas gratis (0.0 vs 1.4); defensa (0.0 vs 0.9)
+          sus cartas que más te hunden cuando las juega: Les Élémens (-17%)
+          te elimina con: Les Élémens 0.7; Maman Brigitte: Spirit of Death 0.5; Towerfall 0.4 · te roba Gigs con: Placide: Voodoo Sentinel 0.7; Maman Brigitte: Spirit of Death 0.6; Psycho Squad 0.4
+
+[ · 60 partidas por rival · es un modelo: sirve para comparar y entender, no como probabilidad real]

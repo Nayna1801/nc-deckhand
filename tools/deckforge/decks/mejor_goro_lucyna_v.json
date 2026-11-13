@@ -1,0 +1,29 @@
+{
+ "name": "Verde2/Azul4 tempo: Goro Hands Unclean + Lucyna + V Corp (mejor, valores medidos)",
+ "legends": [
+  "goro_takemura_hands_unclean",
+  "lucyna_kushinada_fresh_beginnings",
+  "v_corporate_exile"
+ ],
+ "main": {
+  "pepe_najarro_working_doubles": 2,
+  "les_elemens": 3,
+  "psycho_squad": 3,
+  "chrome_reverie": 3,
+  "maxtac_av": 3,
+  "towerfall": 3,
+  "emergency_atlus": 3,
+  "pyramid_song": 2,
+  "westbrook_netrunner": 1,
+  "maman_brigitte_spirit_of_death": 3,
+  "dying_night_v_s_pistol": 3,
+  "mt0d12_flathead": 2,
+  "valentino_street_racer": 3,
+  "unlikely_bond": 1,
+  "nocturne_op55_n1": 2,
+  "netwatch_netdriver": 1,
+  "synapse_burnout": 1,
+  "riot_shield": 1
+ },
+ "side": {}
+}

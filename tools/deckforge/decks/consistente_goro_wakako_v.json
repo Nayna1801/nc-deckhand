@@ -1,0 +1,25 @@
+{
+ "name": "Goro HU + Wakako + V · 16 Unidades (consistente)",
+ "legends": [
+  "goro_takemura_hands_unclean",
+  "v_corporate_exile",
+  "wakako_okada_peace_and_harmony"
+ ],
+ "main": {
+  "psycho_squad": 3,
+  "les_elemens": 3,
+  "pepe_najarro_working_doubles": 3,
+  "pyramid_song": 3,
+  "maxtac_av": 3,
+  "towerfall": 3,
+  "emergency_atlus": 3,
+  "dying_night_v_s_pistol": 3,
+  "westbrook_netrunner": 1,
+  "chrome_reverie": 3,
+  "unlikely_bond": 3,
+  "take_control": 3,
+  "we_gotta_live_together": 3,
+  "maman_brigitte_spirit_of_death": 3
+ },
+ "side": {}
+}

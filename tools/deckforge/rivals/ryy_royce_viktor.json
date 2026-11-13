@@ -1,0 +1,31 @@
+{
+ "name": "RYY (Royce/River/Viktor) · variante de la lista del usuario",
+ "legends": [
+  "viktor_vektor_sit_down_and_relax",
+  "river_ward_detective_on_the_hunt",
+  "royce_psycho_on_the_edge"
+ ],
+ "main": {
+  "6th_street_recruits": 3,
+  "adrenaline_converter": 3,
+  "all_is_lost": 3,
+  "bootleg_black_sapphire_show": 3,
+  "industrial_assembly": 3,
+  "jackie_welles_ride_or_die_choom": 3,
+  "johnny_silverhand_never_stop_fighting": 2,
+  "live_with_the_aftermath": 2,
+  "mandibular_upgrade": 3,
+  "mantis_blades": 3,
+  "meredith_stout_stone_cold_corpo": 3,
+  "offduty_malfini": 3,
+  "over_the_edge": 3,
+  "safety_override": 3,
+  "satori_sword_of_saburo": 3,
+  "secondhand_bombus": 2
+ },
+ "side": {
+  "chrome_fang": 2,
+  "screw_lovelorn_fool": 2,
+  "valentino_guerrera": 2
+ }
+}

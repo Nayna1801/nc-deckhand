@@ -54,6 +54,28 @@ npm run verify     # build + tests + navegador: lo que conviene pasar antes de s
 ```
 La primera vez, `npx playwright install chromium`. Detalles y lista de suites en [`e2e/README.md`](e2e/README.md); `npm run e2e:live` las pasa contra la web publicada.
 
+### Laboratorio (solo en desarrollo)
+Con `npm run dev` aparece en el menú «Laboratorio» (`#/lab`): elige dos mazos (los tuyos, los de `tools/deckforge/decks` o el meta), pulsa **Simular** y
+reproduce la partida paso a paso (tablero con mano, Legends, Eddies, dados, Gigs y Unidades, y una consola con cada acción). El simulador es el de
+[`tools/deckforge`](tools/deckforge/README.md) (Python): lo ejecuta el servidor de desarrollo (`scripts/lab-api.mjs`, definir `NCD_PYTHON` si `python` no está
+en el PATH). **No existe en la web compilada ni publicada** (comprobado: `dist/` no contiene nada suyo). Los Eddies que enseña cuentan 1 por cada Legend de la
+zona de Legends más los sueltos por vender cartas, como el simulador oficial.
+
+La pestaña **Jugar contra el piloto** te sienta a jugar contra el piloto del simulador. La mesa ocupa toda la pantalla (las cartas se agrandan con la altura de la
+ventana): el piloto arriba, tú abajo con tu mano, la consola a la derecha y **abajo a la derecha las acciones**. El rival solo enseña dorsos y tus Legends boca abajo
+van a ciegas, como en las reglas.
+
+- **Pasa el ratón** por una carta para verla en grande.
+- **Toca una carta** tuya (las que tienen acciones se resaltan en verde) y abajo a la derecha salen solo sus acciones; con una Unidad, sus ataques.
+- **Arrastra:** una carta de la mano a la mesa la juega, a tus Eddies la vende; un Gear soltado sobre una Unidad se equipa a esa; una Unidad a los Gigs rivales o a una
+  Unidad rival ataca; una Legend boca arriba a la mesa hace Go Solo. Las zonas válidas se iluminan mientras arrastras.
+- **Al pagar** (si hay más de una forma) tocas las Legends que quieres gastar y el resto sale de tus Eddies sueltos, que no se distinguen entre sí; hay una casilla para
+  dejar que se pague solo. Las cifras 1-9 eligen el botón de esa posición del panel.
+
+Al terminar ves la partida entera con las manos de los dos y se guardan tus decisiones en `tools/deckforge/data/human/`; `python tools/deckforge/forge.py humanlog` las
+compara con lo que habría hecho el piloto (ver [el README de deckforge](tools/deckforge/README.md#jugar-tú-contra-el-piloto-laboratorio)). Con `npm run dev` en marcha,
+`node e2e/lab-dev.mjs [--size 1366x768]` comprueba toda esta interfaz en un navegador real (no forma parte de `npm run e2e`: el Laboratorio no existe en la web compilada).
+
 ## Actualizar el catálogo (cuando salgan sets nuevos)
 ```bash
 npm run sync       # baja el catálogo y solo las imágenes nuevas
