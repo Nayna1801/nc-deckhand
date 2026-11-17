@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { PlayOption } from './play'
-import { actorKeys, candidateKeys, dropOption, globalOptions, optionForRef, optionsFor, payHint, payOption, refKey, zoneOptions } from './playTable'
+import { actorKeys, candidateKeys, cardMenu, dropOption, globalOptions, optionForRef, optionsFor, payLimits, payOption, payPick, refKey, togglePay, zoneOptions } from './playTable'
 
 const hand = (id: string) => ({ z: 'h', side: 0, id })
 const unit = (i: number, side = 0) => ({ z: 'f', side, i })
@@ -52,6 +52,36 @@ describe('opciones por carta', () => {
   })
 })
 
+describe('menú de una carta: acciones y subacciones', () => {
+  it('atacar los Gigs es directo; atacar a una Unidad abre la lista de Unidades', () => {
+    const menu = cardMenu(optionsFor(OPTIONS, unit(0)))
+    expect(menu).toEqual([
+      { kind: 'direct', index: 3, label: 'Atacar con A → Gigs' },
+      { kind: 'sub', key: 'atacar-unidad', title: 'Atacar a una Unidad', items: [{ index: 4, label: 'Meredith', to: unit(2, 1) }] },
+    ])
+  })
+
+  it('aunque solo haya una Unidad a la que atacar, no se elige sola', () => {
+    const menu = cardMenu(optionsFor(OPTIONS, unit(1)))
+    expect(menu).toHaveLength(1)
+    expect(menu[0].kind).toBe('sub')
+  })
+
+  it('vender y jugar una carta son acciones distintas y directas', () => {
+    expect(cardMenu(optionsFor(OPTIONS, hand('floor_it'))).map((m) => m.kind)).toEqual(['direct', 'direct'])
+  })
+
+  it('varias habilidades de la misma carta se agrupan en una acción con su lista', () => {
+    const alt: PlayOption[] = [
+      { label: 'Alt: gastarla', group: 'habilidad', src: leg(0) },
+      { label: 'Alt: jugar Trust No One', group: 'habilidad', src: leg(0) },
+      { label: 'Go Solo con Alt', group: 'legend', src: leg(0) },
+    ]
+    const menu = cardMenu(optionsFor(alt, leg(0)))
+    expect(menu.map((m) => (m.kind === 'sub' ? [m.title, m.items.map((i) => i.index)] : m.label))).toEqual([['Habilidades', [0, 1]], 'Go Solo con Alt'])
+  })
+})
+
 describe('arrastrar y soltar', () => {
   it('una carta de la mano: a la mesa se juega y a los Eddies se vende', () => {
     expect(dropOption(OPTIONS, hand('floor_it'), { z: 'field' })?.option.label).toBe('Jugar Floor It')
@@ -62,6 +92,12 @@ describe('arrastrar y soltar', () => {
   it('soltar un Gear sobre una de tus Unidades lo juega (y la interfaz le contesta que se equipa a esa)', () => {
     expect(dropOption(OPTIONS, hand('floor_it'), { z: 'unit', side: 0, i: 1 })?.option.label).toBe('Jugar Floor It')
     expect(dropOption(OPTIONS, hand('floor_it'), { z: 'unit', side: 1, i: 1 })).toBeNull()
+  })
+
+  it('y sobre una de tus Legends boca arriba, igual', () => {
+    expect(dropOption(OPTIONS, hand('floor_it'), { z: 'legend', side: 0, i: 2 })?.option.label).toBe('Jugar Floor It')
+    expect(dropOption(OPTIONS, hand('floor_it'), { z: 'legend', side: 1, i: 2 })).toBeNull()
+    expect(dropOption(OPTIONS, unit(0), { z: 'legend', side: 0, i: 2 })).toBeNull()
   })
 
   it('una Unidad ataca a los Gigs rivales o a la Unidad rival en la que se suelta', () => {
@@ -91,10 +127,32 @@ describe('pagar con Legends concretas', () => {
     expect(payOption(pay, [])).toBeNull()
   })
 
-  it('dice qué falta o sobra', () => {
-    expect(payHint(pay, [2], 3, 2)).toBe('1 Legends + 2 Eddies sueltos')
-    expect(payHint(pay, [], 3, 2)).toBe('Faltan 1 €: marca más Legends')
-    expect(payHint(pay, [0, 1, 2, 3], 3, 2)).toBe('Sobran 1 Legends: solo se pagan 3 €')
-    expect(payHint(pay, [0], 3, 2)).toBe('Esa combinación no es posible')
+  it('sabe con qué Legends y con cuántos Eddies sueltos se puede pagar', () => {
+    const lim = payLimits(pay)
+    expect([...lim.legs].sort()).toEqual([1, 2])
+    expect(lim.eddies).toBe(2)
+  })
+
+  it('tocando Eddies y Legends se marca lo que se gasta, y al llegar al precio sale la opción', () => {
+    let m = { legs: [] as number[], eddies: [] as number[] }
+    m = togglePay(pay, m, 'l', 2, 3)
+    expect(payPick(pay, m, 3)).toBeNull() // falta por marcar
+    m = togglePay(pay, m, 'e', 0, 3)
+    m = togglePay(pay, m, 'e', 3, 3)
+    expect(m).toEqual({ legs: [2], eddies: [0, 3] })
+    expect(payPick(pay, m, 3)).toBe(0) // Wakako + 2 Eddies
+    expect(payPick(pay, { legs: [1, 2], eddies: [1] }, 3)).toBe(2)
+  })
+
+  it('no deja marcar lo que no vale ni pasarse del precio, y un segundo toque desmarca', () => {
+    const none = { legs: [], eddies: [] }
+    expect(togglePay(pay, none, 'l', 0, 3)).toBe(none) // esa Legend no puede pagar (gastada o reservada)
+    const two = { legs: [], eddies: [0, 1] }
+    expect(togglePay(pay, two, 'e', 2, 3)).toBe(two) // solo hay 2 Eddies preparados
+    const full = { legs: [1, 2], eddies: [0] }
+    expect(togglePay(pay, full, 'e', 1, 3)).toBe(full) // ya están los 3 €
+    expect(togglePay(pay, full, 'l', 1, 3)).toEqual({ legs: [2], eddies: [0] })
+    expect(togglePay(pay, full, 'e', 0, 3)).toEqual({ legs: [1, 2], eddies: [] })
+    expect(payPick(pay, { legs: [], eddies: [0, 1, 2] }, 3)).toBeNull() // 3 Eddies sueltos no es una opción
   })
 })

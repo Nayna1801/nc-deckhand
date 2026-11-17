@@ -1,0 +1,39 @@
+{
+ "name": "Red-Yellow Gear Midrange (Smasher/River/Royce) · lista del usuario (2026-11-16)",
+ "legends": [
+  "adam_smasher_ender_of_legends",
+  "river_ward_detective_on_the_hunt",
+  "royce_psycho_on_the_edge"
+ ],
+ "main": {
+  "6th_street_recruits": 3,
+  "afterparty_at_lizzie_s": 2,
+  "all_is_lost": 1,
+  "animals_wrecker": 2,
+  "bonnie_and_clyde": 3,
+  "chrome_fang": 2,
+  "detonate": 1,
+  "heywood_ripperdoc": 1,
+  "industrial_assembly": 1,
+  "johnny_silverhand_never_stop_fighting": 2,
+  "kerry_eurodyne_the_last_rockerboy": 1,
+  "la_llorona_ghost_of_the_past": 2,
+  "mandibular_upgrade": 1,
+  "mantis_blades": 3,
+  "maxtac_suppression_team": 3,
+  "meredith_stout_stone_cold_corpo": 3,
+  "rockn_rockerboy": 1,
+  "royce_don_t_call_me_simon": 1,
+  "satori_sword_of_saburo": 3,
+  "the_heist": 1,
+  "valentino_guerrera": 3
+ },
+ "side": {
+  "caliber_totentanz_s_top_dog": 1,
+  "carnage_at_the_colosseum": 1,
+  "cyberpsychosis": 1,
+  "kiroshi_optics": 1,
+  "minotaur": 1,
+  "offduty_malfini": 2
+ }
+}

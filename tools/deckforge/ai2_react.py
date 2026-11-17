@@ -85,10 +85,32 @@ def _plan(opts, need, money):
     return best
 
 
+PAID_REACTIONS = ('dum_dum_maelstrom_triggerman', 'goro_takemura_vengeful_bodyguard')    # Legends cuya reacción cuesta 1 €
+CALL_DEF_MIN = 0.9                                           # valor medio mínimo del Call para hacerlo al defender (el mismo que en su turno)
+
+
+def _call_when_attacked(g, df):
+    """Call al ser atacado (reglas 8.12 y 9.8: una vez por turno del rival, 1 €). El dinero que sobra en el turno del rival no sirve para
+    nada más, así que se llama siempre que el Call valga la pena y quede para las jugadas rápidas que se tengan. Se paga con Eddies
+    sueltos o Legends boca abajo: las que están boca arriba se guardan (sus habilidades de reacción necesitan que sigan preparadas)."""
+    if df.called_def == g.turn or not any(not l.up and not l.gone for l in df.legs):
+        return
+    reserve = max((g.ccost(df, c) for c in df.hand if c['quick']), default=0)
+    if any(df.leg(i) for i in PAID_REACTIONS) or any(x['id'] == 'overwatch_panam_s_gift' for u in df.field for x in u.gear):
+        reserve = max(reserve, 1)
+    up = tuple(l for l in df.legs if l.up and not l.gone)
+    if g.avail(df, keep=up) < 1 + reserve:
+        return
+    from ai2_cards import call_avg
+    if call_avg(g, df) > CALL_DEF_MIN:
+        g.call(df, react=True, keep=up)
+
+
 def react(g, df, at, a, tgt):
     """El defensor responde al ataque de `a`. Devuelve la Unidad que bloquea (o None)."""
     if g.slip(df):
         return None                                          # fallo humano: no reacciona ni bloquea
+    _call_when_attacked(g, df)
     b = _react(g, df, at, a, tgt)
     river = df.leg(RIVER)
     if river is not None and river.ready and df.field:

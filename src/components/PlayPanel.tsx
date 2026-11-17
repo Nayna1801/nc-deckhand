@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { playCommand, resultText, type DeckOption, type PlayAsk, type PlayEnd, type PlayMessage } from '../lib/play'
+import { IN_BROWSER, deckPayload as payload, playCommand } from '../lib/labEngine'
+import { recordFile, resultText, type DeckOption, type PlayAsk, type PlayEnd, type PlayMessage } from '../lib/play'
 import { LabDeckSelect } from './LabDeckSelect'
 import { PlayBoard } from './PlayBoard'
 import { ReplayBoard } from './ReplayBoard'
@@ -13,7 +14,17 @@ interface Props {
   onPlayingChange?: (playing: boolean) => void
 }
 
-const payload = (d: DeckOption) => ({ name: d.name, legends: d.legends, main: d.main })
+/** Descarga el registro de la partida (en el navegador no hay carpeta data/human/ donde dejarlo). */
+function download(end: PlayEnd) {
+  const file = recordFile(end, new Date())
+  if (!file) return
+  const url = URL.createObjectURL(new Blob([file.text], { type: 'application/json' }))
+  const a = document.createElement('a')
+  a.href = url
+  a.download = file.name
+  a.click()
+  URL.revokeObjectURL(url)
+}
 
 /** Modo «Jugar»: eliges dos mazos y juegas contra el piloto del simulador; cada decisión se guarda para compararla con la suya. */
 export function PlayPanel({ options, defaultMine, defaultRival, onPlayingChange }: Props) {
@@ -27,6 +38,7 @@ export function PlayPanel({ options, defaultMine, defaultRival, onPlayingChange 
   const [end, setEnd] = useState<PlayEnd | null>(null)
   const [lines, setLines] = useState<string[]>([])
   const [names, setNames] = useState<[string, string]>(['', ''])
+  const [warnings, setWarnings] = useState<string[]>([])
   const [myLegends, setMyLegends] = useState<string[]>([])
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
@@ -43,6 +55,7 @@ export function PlayPanel({ options, defaultMine, defaultRival, onPlayingChange 
       setAsk(msg)
       setLines((l) => [...l, ...msg.log])
       if (msg.names) setNames(msg.names)
+      if (msg.warnings) setWarnings(msg.warnings)
     } else if (msg.type === 'end') {
       setAsk(null)
       setEnd(msg)
@@ -73,6 +86,7 @@ export function PlayPanel({ options, defaultMine, defaultRival, onPlayingChange 
     setAsk(null)
     setEnd(null)
     setLines([])
+    setWarnings([])
     const humanFirst = first === 'me' ? true : first === 'pilot' ? false : Math.random() < 0.5
     void run(() => playCommand({ cmd: 'start', mine: payload(mine), rival: payload(rival), seed: seedNow, human_first: humanFirst, strong, choose_pay: choosePay }))
   }
@@ -134,7 +148,7 @@ export function PlayPanel({ options, defaultMine, defaultRival, onPlayingChange 
         </div>
       )}
 
-      {playing && ask && <PlayBoard ask={ask} names={names} myLegends={myLegends} lines={lines} busy={busy} onChoose={choose} onAbort={() => void leave()} />}
+      {playing && ask && <PlayBoard ask={ask} warnings={warnings} names={names} myLegends={myLegends} lines={lines} busy={busy} onChoose={choose} onAbort={() => void leave()} />}
 
       {!playing && end && (
         <>
@@ -142,11 +156,12 @@ export function PlayPanel({ options, defaultMine, defaultRival, onPlayingChange 
             <h3>{resultText(end)}</h3>
             <p className="muted small">
               Turno {end.game.turns} · Gigs {end.game.states[end.game.states.length - 1]?.p[0].g.length}–{end.game.states[end.game.states.length - 1]?.p[1].g.length} (J1–J2)
-              {end.saved ? <> · decisiones guardadas en <code>{end.saved}</code></> : ' · sin decisiones que guardar'}
+              {end.saved ? <> · decisiones guardadas en <code>{end.saved}</code></> : end.record ? ' · puedes descargar tus decisiones para compararlas con el piloto' : ' · sin decisiones que guardar'}
             </p>
             <div className="lab-actions">
               <button className="btn primary" onClick={() => start(seed + 1)} disabled={busy}>Otra partida (semilla {seed + 1})</button>
               <button className="btn" onClick={() => void leave()} disabled={busy}>Cambiar mazos</button>
+              {IN_BROWSER && end.record && <button className="btn" onClick={() => download(end)} title="El mismo fichero que el simulador guarda en tools/deckforge/data/human/ cuando se juega en local">Descargar partida (.json)</button>}
             </div>
           </div>
           <h3>Repaso de la partida (con las manos de los dos)</h3>

@@ -170,11 +170,15 @@ def t_go_solo_and_economy():
     v.up = True
     for l in me.legs:
         l.ready = True
+    me.E = me.Eready = 1
+    assert g.go_solo(me, v) is None, 'no alcanza: 1 € + 3 Legends < 5'
     me.E = me.Eready = 2
-    assert g.go_solo(me, v) is None, 'la Legend no puede pagar su propio Go Solo (2 € + 2 Legends < 5)'
-    me.E = me.Eready = 3
     u = g.go_solo(me, v)
-    assert u is not None and g.can_attack(u) and g.avail(me) == 0, 'Go Solo: entra preparada y puede atacar'
+    assert u is not None and g.avail(me) == 0, 'la propia Legend, preparada, se gasta como 1 € de su Go Solo (2 € + 3 Legends = 5)'
+    assert u.ready and g.can_attack(u) and u.lag, 'Go Solo: entra preparada y puede atacar, pero con Lag para las habilidades de gastarse'
+    unit(g, op, 'maxtac_suppression_team')
+    assert not g.can_attack(u), 'los «no puede atacar» (MaxTac Suppression Team) también paran a una Legend en Go Solo'
+    op.field.clear()
     g.bottom(u, 'les_elemens', by=op)
     assert v.gone and all(c['id'] != 'v_corporate_exile' for c in me.deck), 'una Legend que sale del campo se retira del juego'
     g, me, op = board()
@@ -527,7 +531,7 @@ def t_human_plan_never_asks():
     h, log = _human(g, 0)
     plan = HP.turn_plan(g, 0)
     assert not log, f'el cálculo del plan preguntó a la persona: {log}'
-    assert any(a[0] == 'play' for a in plan), 'el piloto juega algo con tres Legends y un Eddie'
+    assert any(a[0] in ('play', 'gosolo') for a in plan), 'el piloto hace algo con tres Legends y un Eddie (jugar una carta o Go Solo)'
     assert not me.field and len(me.hand) == 2, 'y la partida real no se toca'
 
 
@@ -699,7 +703,59 @@ def t_human_chooses_unit_effects():
     assert not weak.ready and strong.ready, 'se gasta la Unidad que elige la persona'
 
 
-TESTS = [t_steal_breakpoint, t_blocker_and_fights, t_targets_and_lag, t_bottom_is_not_defeat, t_pyramid_and_towerfall, t_overwatch_cost_order,
+def t_rules_audit():
+    """Correcciones de la auditoría de reglas (2026-11-17)."""
+    hanako = 'hanako_arasaka_daughter_of_the_emperor'
+    legs = [hanako, 'lucyna_kushinada_fresh_beginnings', 'wakako_okada_peace_and_harmony']
+
+    def hanako_turn(start, rolled):
+        """Un turno de J1 con Hanako boca arriba: `start` = sus Gigs al empezar, `rolled` = valor que saca el dado nuevo."""
+        g, me, op = board(legs_a=legs)
+        next(l for l in me.legs if l.c['id'] == hanako).up = True
+        gigs(me, *start)
+        me.fixer = [8]
+        g.rng.randint = lambda a, b: rolled
+        g.turn = 7
+        g.take_turn(me)
+        return g.st[0][('draw', hanako)]
+
+    assert hanako_turn([(4, 3), (6, 3)], 5) == 1, 'Hanako roba 1 por la pareja que ya tenía al empezar el turno'
+    assert hanako_turn([(4, 3)], 3) == 0, 'el dado que se tira ese turno no cuenta: los efectos de inicio de turno van antes de tirarlo (8.6.2)'
+
+    g, me, op = board()
+    me.deck = []
+    assert g.draw(me, 2, 'floor_it') == 0 and g.winner == op.pi, 'robar por un efecto con el mazo vacío hace perder (1.14)'
+    g, me, op = board()
+    me.deck = me.deck[:1]
+    g.draw(me, 1, 'floor_it')
+    assert g.winner is None, 'robar la última carta no hace perder'
+
+    g, me, op = board()
+    u = unit(g, me, 'modded_kusanagi')
+    u.gear.append(CARD['riot_shield'])
+    g.bounce(u)
+    assert sorted(c['id'] for c in me.hand) == ['modded_kusanagi', 'riot_shield'] and not me.trash, 'al volver a la mano, el Gear va con la Unidad (4.12.1)'
+
+    g, me, op = board()
+    mine = unit(g, me, 'psycho_squad', ready=False)
+    unit(g, op, 'psycho_squad')                      # rival preparada: no vale
+    g.fx.play_program(g, me, op, CARD['wild_in_the_streets'])
+    assert mine not in me.field and len(op.field) == 1, 'Wild in the Streets es obligatoria: sin rivales gastadas cae una tuya gastada'
+    g, me, op = board()
+    mine = unit(g, me, 'psycho_squad', ready=False)
+    theirs = unit(g, op, 'psycho_squad', ready=False)
+    g.fx.play_program(g, me, op, CARD['wild_in_the_streets'])
+    assert theirs not in op.field and mine in me.field, 'habiendo una rival gastada, cae esa'
+
+    g, me, op = board()
+    op.E = op.Eready = 3
+    op.called = True
+    assert g.call(op, react=True) and not g.call(op, react=True) and op.Eready == 2, 'Call al defender: una vez por turno del rival, 1 €'
+    g.turn += 1
+    assert g.call(op, react=True) and op.called, 'y otra vez en el turno siguiente; no toca el Call del turno propio'
+
+
+TESTS = [t_rules_audit, t_steal_breakpoint, t_blocker_and_fights, t_targets_and_lag, t_bottom_is_not_defeat, t_pyramid_and_towerfall, t_overwatch_cost_order,
          t_reactions, t_go_solo_and_economy, t_full_games, t_human_error, t_replay_dice, t_human_sell_and_play, t_human_attack_and_block,
          t_human_dice_and_targets, t_human_hidden_information, t_human_random_games, t_human_covers_the_pilot, t_human_pilot_diff,
          t_human_alt_and_overwatch, t_humanlog_report, t_human_pay_choice, t_human_plan_never_asks, t_human_option_sources, t_human_choose_one_effects,

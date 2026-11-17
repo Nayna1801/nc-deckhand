@@ -131,11 +131,10 @@ def _items(g, me, op):
             items.append((v, 1, 0, 'call', None))
     for l in me.legs:
         if l.up and not l.gone and l.c['gosolo']:
-            # la propia Legend no puede pagar su Go Solo: si está preparada cuenta como 1 € menos de presupuesto
-            gv = _gs_value(g, me, op, l)
+            gv = _gs_value(g, me, op, l)       # la propia Legend puede gastarse como 1 € de su Go Solo
             if GS_MODE != 'base':
                 gv = _gs_adjust(g, me, op, gv)
-            items.append((gv, fx.gs_cost(g, me, l) + (1 if l.ready else 0), 2, 'gs', l))
+            items.append((gv, fx.gs_cost(g, me, l), 2, 'gs', l))
     alt = me.leg(ALT)
     if alt is not None and alt.ready:
         best = None

@@ -120,19 +120,33 @@ def defense_tricks(g, df, at, a, tgt, fighter):
             a.tmp -= g.power(q)
             g.ev(df, 'react', ROGUE)
         add(f"Rogue Amendiares (2 €): -{g.power(q)} de poder a {a.c['name']}", f_q)
+    # Call al ser atacado: la regla lo permite una vez por turno en tu fase de juego O una vez por turno al defender (1 €). Va aparte del
+    # Call de tu propio turno (`called`), así que se anota en qué turno del rival se hizo.
+    down = [l for l in df.legs if not l.up and not l.gone]
+    if down and money >= 1 and df.called_def != g.turn:
+        def f_call(pick=None):
+            g.call(df, pick=pick if pick is not None else g.rng.choice([l for l in down if not l.known]), react=True)
+        for l in down:
+            if l.known:
+                add(f"Call (1 €): girar {l.c['name']} (la conoces)", lambda l=l: f_call(l))
+        unknown = sum(1 for l in down if not l.known)
+        if unknown:
+            add(f'Call (1 €): girar una Legend al azar ({unknown} desconocidas)', f_call)
     river = df.leg(RIVER)
-    if river is not None and river.ready and d is not None:
+    if river is not None and river.ready:
+        # el Gear gratis va a la Unidad o Legend boca arriba que elija la persona (primero, la Unidad que pelea)
+        targets = ([d] if d is not None else []) + [u for u in df.field if u is not d] + [l for l in df.legs if l.up and not l.gone]
         seen = set()
         for c in df.hand:
             if c['t'] == 'G' and c['cost'] <= 2 and c['id'] not in seen:
                 seen.add(c['id'])
-
-                def f_river(c=c):
-                    df.hand.remove(c)
-                    g.spend_leg(df, river)
-                    g.ev(df, 'react', RIVER)
-                    g.play_card(df, c, pay=False, target=d)
-                add(f"River Ward: jugar gratis {c['name']} sobre {d.c['name']}", f_river)
+                for t in targets:
+                    def f_river(c=c, t=t):
+                        df.hand.remove(c)
+                        g.spend_leg(df, river)
+                        g.ev(df, 'react', RIVER)
+                        g.play_card(df, c, pay=False, target=t)
+                    add(f"River Ward: jugar gratis {c['name']} sobre {t.c['name']}" + ('' if hasattr(t, 'owner') else ' (Legend)'), f_river)
     return out
 
 
@@ -163,13 +177,13 @@ def defend(ask, g, df, at, a, tgt):
     for _ in range(12):
         if g.winner is not None or a not in at.field:
             return None
-        blockers = _blockers(g, df, at, a, tgt)
+        blockers = [b for b in _blockers(g, df, at, a, tgt) if b is not blocker]     # también con el ataque ya redirigido (FAQ)
         fighter = blocker if blocker is not None else tgt
         tricks = defense_tricks(g, df, at, a, tgt, fighter)
         goros = goro_options(g, df, at, a, tgt) if blocker is None else []
         if blocker is None and not blockers and not tricks and not goros:
             return None                                          # nada que decidir
-        if blocker is not None and not tricks:
+        if blocker is not None and not tricks and not blockers:
             return blocker
         pa = g.power(a, atk=True, vs=fighter)
         target = 'los Gigs' if steals else unit_label(g, tgt, me)
@@ -179,10 +193,10 @@ def defend(ask, g, df, at, a, tgt):
         elif tgt is not None:
             prompt += f" · poder de la atacada {g.power(tgt, vs=a)}"
         opts, acts = [], []
-        if blocker is None:
-            for b in blockers:
-                opts.append(dict(label=f"Bloquear con {b.c['name']} (poder {g.power(b, vs=a)})", group='bloquear', ref=unit_ref(b)))
-                acts.append(('block', b))
+        for b in blockers:
+            verb = 'Bloquear' if blocker is None else 'Redirigir el ataque a'
+            opts.append(dict(label=f"{verb}{' con' if blocker is None else ''} {b.c['name']} (poder {g.power(b, vs=a)})", group='bloquear', ref=unit_ref(b)))
+            acts.append(('block', b))
         for label, fn, ends in tricks:
             opts.append(dict(label=label, group='reaccion'))
             acts.append(('trick', (fn, ends)))
@@ -195,6 +209,11 @@ def defend(ask, g, df, at, a, tgt):
         if kind == 'done':
             return blocker
         if kind == 'block':
+            if blocker is not None:                  # el Blocker anterior ya se gastó al redirigir; el ataque pasa al nuevo
+                g.ev(df, 'block', blocker.c['id'])
+                g.tr(df, f"bloquea con {blocker.c['name']} ({g.power(blocker)})")
+                g.spend_unit(blocker)
+                g.fx.on_block(g, df, at, blocker)
             blocker = data
         elif kind == 'goro':
             data[0]()

@@ -1,18 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { catalog } from '../lib/catalog'
 import type { PlayAsk } from '../lib/play'
-import { actorKeys, candidateKeys, canDrop, dropOption, optionForRef, zoneOptions, type Drop, type Ref } from '../lib/playTable'
+import { actorKeys, candidateKeys, canDrop, dropOption, optionForRef, optionsFor, refKey, sameRef, payLimits, payPick, togglePay, zoneOptions, type Drop, type PayMarks, type Ref } from '../lib/playTable'
 import { lineKinds, stepLabel, zoneCounts, type ReplayState } from '../lib/replay'
-import { currentPlayer } from '../lib/play'
+import { currentPlayer, isActionLike, picksOnTap } from '../lib/play'
 import { ActionPanel } from './play/ActionPanel'
 import { CardZoom, useHoverZoom } from './play/CardZoom'
 import { Side } from './play/Side'
+import { TrashList } from './play/TrashList'
 import type { TableUI } from './play/types'
 import '../playtable.css'
 
 interface Props {
   ask: PlayAsk
   names: [string, string] // [mi mazo, mazo rival]
+  warnings: string[] // mazos que no cumplen las reglas de construcción
   myLegends: string[] // las tres Legends de tu mazo: las conoces aunque estén boca abajo
   lines: string[]
   busy: boolean
@@ -22,17 +24,22 @@ interface Props {
 
 /**
  * Mesa de juego en vivo. Tú abajo, el piloto arriba. Toca una carta tuya para ver sus acciones (abajo a la derecha) o arrástrala:
- * a la mesa para jugarla, a tus Eddies para venderla; una Unidad a los Gigs rivales o a una Unidad rival para atacar. Pasa el ratón
- * por una carta para verla en grande.
+ * a la mesa para jugarla, a tus Eddies para venderla; un Gear sobre la Unidad o la Legend boca arriba a la que se equipa; una Unidad a
+ * los Gigs rivales o a una Unidad rival para atacar. Al pagar, tocas los Eddies y las Legends que gastas: con el último se paga. Pasa el
+ * ratón por una carta para verla en grande; toca una basura para ver sus cartas.
  */
-export function PlayBoard({ ask, names, myLegends, lines, busy, onChoose, onAbort }: Props) {
+const NO_MARKS: PayMarks = { legs: [], eddies: [] }
+
+export function PlayBoard({ ask, warnings, names, myLegends, lines, busy, onChoose, onAbort }: Props) {
   const me = ask.me
   const rival = (1 - me) as 0 | 1
   const [sel, setSel] = useState<Ref | null>(null)
   const [drag, setDragState] = useState<Ref | null>(null)
   const dragRef = useRef<Ref | null>(null) // lo que se arrastra, al instante (el estado llega tarde para decidir si se acepta una suelta)
-  const [payChosen, setPayChosen] = useState<number[]>([])
-  const pending = useRef<Ref | null>(null) // a qué Unidad se soltó un Gear: contesta solo a «¿a qué se equipa?»
+  const [marks, setMarks] = useState<PayMarks>(NO_MARKS)
+  const [trash, setTrash] = useState<0 | 1 | null>(null) // de quién es la basura que se está mirando
+  const [sub, setSub] = useState<string | null>(null) // subacción abierta de la carta seleccionada
+  const pending = useRef<Ref | null>(null) // a qué Unidad o Legend se soltó un Gear: contesta solo a «¿a qué se equipa?»
   const prevView = useRef<ReplayState | null>(null)
   const logRef = useRef<HTMLOListElement>(null)
   const { zoom, onHover } = useHoverZoom()
@@ -43,15 +50,23 @@ export function PlayBoard({ ask, names, myLegends, lines, busy, onChoose, onAbor
   const prev = prevView.current ? zoneCounts(prevView.current) : null
   const active = currentPlayer(lines)
 
-  const can = useMemo(() => (ask.kind === 'action' ? actorKeys(ask.options) : new Set<string>()), [ask])
-  const cand = useMemo(() => candidateKeys(ask.options), [ask])
+  const can = useMemo(() => (isActionLike(ask.kind) ? actorKeys(ask.options) : new Set<string>()), [ask])
+  // con «atacar a una Unidad» abierto, las Unidades rivales a las que puede atacar la seleccionada se eligen tocándolas en la mesa
+  const attackTargets = useMemo(
+    () => (sub === 'atacar-unidad' && isActionLike(ask.kind) ? optionsFor(ask.options, sel).filter((o) => o.option.group === 'atacar' && o.option.to?.z === 'f') : []),
+    [ask, sel, sub],
+  )
+  const cand = useMemo(() => new Set([...candidateKeys(ask.options), ...attackTargets.map((o) => refKey(o.option.to!))]), [ask, attackTargets])
   const call = useMemo(() => (ask.kind === 'action' ? zoneOptions(ask.options, 'lz').map((o) => ({ label: o.option.label, index: o.index })) : []), [ask])
+  const limits = useMemo(() => payLimits(ask.kind === 'pay' ? ask.options : []), [ask])
+  const need = ask.extra?.need ?? 0
 
   // cada pregunta nueva empieza sin selección; y si se soltó un Gear sobre una Unidad, se contesta a «¿a qué se equipa?»
   useEffect(() => {
     setSel(null)
+    setSub(null)
     setDrag(null)
-    setPayChosen([])
+    setMarks(NO_MARKS)
     prevView.current = ask.view
     const want = pending.current
     pending.current = null
@@ -73,25 +88,41 @@ export function PlayBoard({ ask, names, myLegends, lines, busy, onChoose, onAbor
     sel,
     can,
     cand,
-    pay: { active: ask.kind === 'pay', chosen: payChosen },
+    pickOnTap: picksOnTap(ask.kind),
+    pay: { active: ask.kind === 'pay', marks, legs: limits.legs, eddies: limits.eddies },
     drag,
     call,
     busy,
-    onSelect: setSel,
+    onSelect: (r) => {
+      setSel(r)
+      setSub(null)
+    },
     onPickCandidate: (ref) => {
-      const hit = optionForRef(ask.options, ref)
+      const hit = attackTargets.find((o) => sameRef(o.option.to, ref)) ?? optionForRef(ask.options, ref)
       if (hit) onChoose(hit.index)
     },
-    onTogglePay: (i) => setPayChosen((c) => (c.includes(i) ? c.filter((x) => x !== i) : [...c, i])),
+    onTogglePay: (kind, i) => {
+      const next = togglePay(ask.options, marks, kind, i, need)
+      setMarks(next)
+      const hit = payPick(ask.options, next, need) // con el último Eddie o Legend marcado, se paga
+      if (hit !== null) onChoose(hit)
+    },
     onChoose,
+    onTrash: setTrash,
     setDrag,
-    isDropOk: (d: Drop) => !!dragRef.current && ask.kind === 'action' && canDrop(ask.options, dragRef.current, d),
+    isDropOk: (d: Drop) => {
+      const dragged = dragRef.current
+      if (!dragged || !isActionLike(ask.kind)) return false
+      if (d.z === 'legend' && catalog.byId[dragged.id ?? '']?.type !== 'Gear') return false // sobre una Legend solo se suelta Gear
+      return canDrop(ask.options, dragged, d)
+    },
     onDrop: (d: Drop) => {
       const dragged = dragRef.current
       setDrag(null)
       const hit = dragged ? dropOption(ask.options, dragged, d) : null
       if (!hit || !dragged) return
       if (dragged.z === 'h' && d.z === 'unit') pending.current = { z: 'f', side: d.side, i: d.i }
+      if (dragged.z === 'h' && d.z === 'legend') pending.current = { z: 'l', side: d.side, i: d.i }
       onChoose(hit.index)
     },
     onHover,
@@ -108,6 +139,7 @@ export function PlayBoard({ ask, names, myLegends, lines, busy, onChoose, onAbor
         <b>Partida en vivo</b>
         <span className="muted small">Juegas como J{me + 1}{me === 0 ? ' (empiezas)' : ' (empieza el piloto)'} · Turno {ask.turn}</span>
         <span className="muted small pt-legends">Tus Legends (a ciegas): {legendNames}</span>
+        {warnings.length > 0 && <span className="pt-warn small" role="note" title={warnings.join('\n')}>⚠ Mazo no legal</span>}
         <span style={{ flex: 1 }} />
         <button className="btn" onClick={onAbort} disabled={busy}>Abandonar</button>
       </div>
@@ -129,10 +161,13 @@ export function PlayBoard({ ask, names, myLegends, lines, busy, onChoose, onAbor
               ))}
             </ol>
           </div>
-          <ActionPanel ask={ask} sel={sel} selName={selCard?.displayName ?? null} selRules={selCard?.rules ?? null} busy={busy} pay={{ chosen: payChosen, loose: mine.e[1] }} onChoose={onChoose} />
+          <ActionPanel ask={ask} sel={sel} selName={selCard?.displayName ?? null} selRules={selCard?.rules ?? null} busy={busy} paid={marks.legs.length + marks.eddies.length} sub={sub} onSub={setSub} onChoose={onChoose} />
         </aside>
       </div>
 
+      {trash !== null && (
+        <TrashList title={trash === me ? 'Tu basura' : 'Basura del piloto'} cards={ask.view.p[trash].tr ?? []} onClose={() => setTrash(null)} onHover={onHover} />
+      )}
       <CardZoom zoom={zoom} />
     </div>
   )

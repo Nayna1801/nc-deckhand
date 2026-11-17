@@ -41,6 +41,7 @@ const SUITES = [
   { name: 'visual', file: 'visual.mjs', info: 'fondos legibles en paneles con scroll (comprobación por píxeles)' },
   { name: 'auth', file: 'auth.mjs', info: 'alta, confirmación de email y vuelta desde el enlace' },
   { name: 'stepper', file: 'stepper.mjs', info: '+ y − con latencia, orden de escrituras y carga lenta' },
+  { name: 'lab', file: 'lab.mjs', info: 'Laboratorio: simulador en el navegador (Pyodide), simular, jugar contra el piloto, descargar la partida y móvil' },
   { name: 'version', file: 'version.mjs', info: 'sello de versión y aviso de versión nueva', localOnly: true },
 ]
 

@@ -18,6 +18,7 @@ LEGS_DUMDUM = ['dum_dum_maelstrom_triggerman', 'lucyna_kushinada_fresh_beginning
 LEGS_VIKTOR = ['viktor_vektor_sit_down_and_relax', 'lucyna_kushinada_fresh_beginnings', 'wakako_okada_peace_and_harmony']
 LEGS_PANAM = ['panam_palmer_nomad_cavalry', 'evelyn_parker_beautiful_enigma', 'wakako_okada_peace_and_harmony']
 LEGS_GORO = ['goro_takemura_vengeful_bodyguard', 'lucyna_kushinada_fresh_beginnings', 'wakako_okada_peace_and_harmony']
+LEGS_RIVER = ['river_ward_detective_on_the_hunt', 'lucyna_kushinada_fresh_beginnings', 'wakako_okada_peace_and_harmony']
 LEGS_DOWN = ['goro_takemura_hands_unclean', 'lucyna_kushinada_fresh_beginnings', 'wakako_okada_peace_and_harmony']
 
 
@@ -373,7 +374,112 @@ def t_choice_judy_and_kerry_units():
     assert not me.hand and k.ready and not any('Kerry' in o for opts in _asked(log, 'action') for o in opts), 'sin un Gig de 8 o más no se ofrece'
 
 
-TESTS = [t_choice_discards_by_effect, t_choice_shattered_memories, t_choice_detonate_and_bonnie, t_choice_heist, t_choice_calls_dum_dum_and_viktor,
+def t_choice_gear_on_legends():
+    """Un Gear se puede equipar a una Legend tuya boca arriba (cualquier Gear, no solo los que actúan al gastarse); a una boca abajo, no.
+    `to_legend`: la persona elige la Legend en vez de la Unidad."""
+    def play(up, with_unit, *script, to_legend=False):
+        g, me, op = board(legs_a=LEGS_GORO)
+        leg = me.legs[0]
+        leg.up = up
+        u = unit(g, me, 'psycho_squad') if with_unit else None
+        me.hand = [CARD['riot_shield']]
+        me.E = me.Eready = 2
+        h, log = _human(g, 0, *script, *([leg.c['name']] if to_legend else []))
+        h.main(g, me, op)
+        return g, me, leg, u, log
+
+    g, me, leg, u, log = play(True, True, 'Jugar Riot Shield', to_legend=True)
+    targets = _asked(log, 'target')[0]
+    assert any(t.endswith('(Legend)') for t in targets) and len(targets) == 2, targets
+    assert _ids(leg.gear) == ['riot_shield'] and not u.gear and not me.hand and me.Eready == 0, 'se equipa a la Legend que elige la persona'
+    g, me, leg, u, log = play(True, True, 'Jugar Riot Shield', 'Psycho Squad')
+    assert _ids(u.gear) == ['riot_shield'] and not leg.gear, 'y a la Unidad si elige la Unidad'
+    g, me, leg, u, log = play(True, False, 'Jugar Riot Shield')
+    assert _ids(leg.gear) == ['riot_shield'] and not _asked(log, 'target'), 'sin Unidades y con una Legend boca arriba: va a ella sin preguntar'
+    g, me, leg, u, log = play(False, False)
+    assert not any(o.startswith('Jugar') for o in log[0][1]) and _ids(me.hand) == ['riot_shield'], 'sin Unidades ni Legends boca arriba no se puede jugar'
+
+
+def t_choice_river_two_steps():
+    """River Ward en tu turno: primero se activa y luego se elige el Gear y a qué se equipa (Unidad o Legend boca arriba, River incluida);
+    se puede dejar sin usar y entonces no se gasta. Nada se equipa solo si hay más de un sitio."""
+    def river(*script):
+        g, me, op = board(legs_a=LEGS_RIVER)
+        leg = next(l for l in me.legs if l.c['id'] == LEGS_RIVER[0])
+        leg.up = leg.ready = True
+        u = unit(g, me, 'psycho_squad')
+        me.hand = [CARD['riot_shield'], CARD['kiroshi_optics']]
+        h, log = _human(g, 0, *script)
+        h.main(g, me, op)
+        return me, leg, u, log
+
+    me, leg, u, log = river('River Ward: gastarla', 'Jugar gratis Kiroshi', 'River Ward')
+    first = log[0][1]
+    assert sum(o.startswith('River Ward') for o in first) == 1, f'una sola acción para activar a River, no una por Gear: {first}'
+    assert log[1][0] == 'pick' and log[1][1] == ['Jugar gratis Riot Shield', 'Jugar gratis Kiroshi Optics', 'No usar a River Ward'], log[1]
+    assert log[2][0] == 'target' and len(log[2][1]) == 2 and any(o.endswith('(Legend)') for o in log[2][1]), log[2]
+    assert _ids(leg.gear) == ['kiroshi_optics'] and not u.gear and not leg.ready and _ids(me.hand) == ['riot_shield'], 'el Gear elegido va a River y River se gasta'
+    me, leg, u, log = river('River Ward: gastarla', 'Jugar gratis Riot', 'Psycho Squad')
+    assert _ids(u.gear) == ['riot_shield'] and not leg.gear and not leg.ready
+    me, leg, u, log = river('River Ward: gastarla', 'No usar')
+    assert leg.ready and not leg.gear and not u.gear and len(me.hand) == 2, 'si no se usa, River no se gasta y no se juega nada'
+
+
+def t_choice_call_when_attacked():
+    """Al ser atacada, la persona puede hacer Call (1 €): una vez por turno del rival, aparte del Call de su propio turno. Sin dinero o sin
+    Legends boca abajo no se ofrece. El piloto también lo hace cuando le sobra dinero."""
+    def attacked(money, *script, own_call=False, all_up=False):
+        g, me, op = board()
+        gigs(op, (4, 2), (6, 3))
+        a, b = unit(g, me, 'psycho_squad'), unit(g, me, 'psycho_squad')
+        op.E = op.Eready = money
+        op.called = own_call                       # ya hizo Call en su propio turno: no le quita el de la defensa
+        for l in op.legs:
+            l.up = all_up
+        h, log = _human(g, 1, *script)
+        g.attack(a, None)
+        first = len(log)
+        g.attack(b, None)                          # segundo ataque del mismo turno
+        return op, log, first
+
+    op, log, first = attacked(2, 'Call (1 €)', 'Seguir', 'Seguir', own_call=True)
+    assert any(o.startswith('Call (1 €)') for o in log[0][1]), log[0][1]
+    assert sum(l.up for l in op.legs) == 1 and op.Eready == 1 and op.called is True, 'gira una Legend, paga 1 € y no toca el Call de su turno'
+    assert not any(o.startswith('Call') for opts in [x[1] for x in log[1:]] for o in opts), 'solo un Call por turno del rival, también en el segundo ataque'
+    assert first >= 1 and len(log) == first, 'en el segundo ataque ya no queda nada que ofrecer: ni siquiera pregunta'
+    op, log, first = attacked(0)
+    assert not log, 'sin dinero no hay Call ni nada que decidir'
+    op, log, first = attacked(2, all_up=True)
+    assert not any(o.startswith('Call') for _, opts in log for o in opts), 'sin Legends boca abajo no hay Call'
+    g, me, op = board()
+    gigs(op, (4, 2))
+    a = unit(g, me, 'psycho_squad')
+    op.E = op.Eready = 2
+    for l in op.legs:
+        l.up = False
+    g.attack(a, None)
+    g.attack(unit(g, me, 'psycho_squad'), None)
+    assert sum(l.up for l in op.legs) == 1, 'el piloto hace Call al defender, una sola vez por turno'
+    assert g.avail(op) == 1, 'y le cuesta 1 €'
+
+
+def t_choice_chained_blockers():
+    """Un segundo Blocker puede redirigir un ataque que ya había redirigido otro (FAQ): el primero queda gastado y pelea el último."""
+    g, me, op = board()
+    gigs(op, (4, 2))
+    a = unit(g, me, 'psycho_squad')
+    b1 = unit(g, op, 'meredith_stout_stone_cold_corpo')
+    b2 = unit(g, op, 'meredith_stout_stone_cold_corpo')
+    h, log = _human(g, 1, 'Bloquear con Meredith', 'Redirigir el ataque a Meredith', 'Seguir')
+    g.attack(a, None)
+    assert any(o.startswith('Redirigir el ataque a') for o in log[1][1]), log[1][1]
+    assert not b1.ready and b1 in op.field, 'el primer Blocker se gastó al redirigir y no pelea'
+    assert b2 not in op.field or not b2.ready, 'pelea el segundo'
+    assert len(op.gigs) == 1 and not me.gigs, 'un ataque bloqueado no roba'
+    assert len(log) == 2 or not any(o.startswith(('Bloquear', 'Redirigir')) for o in log[2][1]), 'sin más Blockers preparados no se ofrece otro'
+
+
+TESTS = [t_choice_chained_blockers, t_choice_call_when_attacked, t_choice_river_two_steps, t_choice_gear_on_legends, t_choice_discards_by_effect, t_choice_shattered_memories, t_choice_detonate_and_bonnie, t_choice_heist, t_choice_calls_dum_dum_and_viktor,
          t_choice_panam_and_evelyn, t_choice_gunpoint_rival_chooses, t_choice_look_at_legends, t_choice_tetratronic_and_goro, t_choice_judy_and_kerry_units]
 
 

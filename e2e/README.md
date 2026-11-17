@@ -20,9 +20,10 @@ node e2e/run.mjs --url https://…/   # otra dirección
 Termina con código distinto de 0 si algo falla, así que sirve igual en CI (`.github/workflows/e2e.yml`).
 Las capturas de pantalla van a la carpeta temporal del sistema (se muestra al final; se puede cambiar con `E2E_SHOTS`).
 
-`node e2e/lab-dev.mjs` es aparte: prueba el modo «Jugar contra el piloto» del Laboratorio (zoom, acciones de la carta tocada, arrastrar para vender, jugar y atacar,
-pagar eligiendo Legends, que la mesa quepa sin desplazarse, y una partida entera con clics). El Laboratorio solo existe con `npm run dev`, así que hace falta tenerlo
-en marcha en otra terminal (`--size 1366x768` y `--url` se pueden cambiar).
+La suite `lab` prueba el Laboratorio de la web compilada, con el simulador de Python dentro del navegador (Pyodide): tarda más que las demás porque arranca Python
+varias veces. `node e2e/lab-dev.mjs` es aparte y más detallada: prueba la mesa del modo «Jugar contra el piloto» (zoom, acciones de la carta tocada, arrastrar para
+vender, jugar y atacar, pagar eligiendo Legends, que la mesa quepa sin desplazarse, y una partida entera con clics) contra el servidor de desarrollo, así que hace
+falta tener `npm run dev` en marcha en otra terminal (`--size 1366x768` y `--url` se pueden cambiar).
 
 ## Cómo funcionan
 

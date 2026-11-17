@@ -17,6 +17,7 @@ export interface ReplayPlayer {
   x: number[] // dados que aún están en el fixer (por su máximo)
   d: number // cartas en el mazo
   t: number // cartas en la basura
+  tr?: string[] // la basura, que es pública: ids en orden (la última es la de arriba); no está en partidas grabadas antiguas
 }
 
 export interface ReplayState {
@@ -46,6 +47,7 @@ export interface ReplayCardInfo {
 }
 
 export interface SimulateResponse {
+  warnings?: string[] // mazos que no cumplen las reglas de construcción (se simulan igual)
   game: ReplayGame
   cards: Record<string, ReplayCardInfo>
 }

@@ -71,11 +71,11 @@ def ask_may(g, p, text, why=None):
 
 
 def pick_gear_target(g, p, c):
-    """A quién se equipa un Gear que entra gratis por un efecto (The Heist, Judy): la persona elige entre sus Unidades (y sus Legends boca
-    arriba si el Gear actúa al gastarse). None = que lo decida el motor (el piloto, o un único objetivo)."""
+    """A quién se equipa un Gear que entra gratis por un efecto (The Heist, Judy): la persona elige entre sus Unidades y sus Legends boca
+    arriba. None = que lo decida el motor (el piloto, o un único objetivo)."""
     if not by_human(g, p):
         return None
-    targets = list(p.field) + ([l for l in p.legs if l.up and not l.gone] if c['id'] in ON_SPENT_GEAR else [])
+    targets = list(p.field) + [l for l in p.legs if l.up and not l.gone]
     return g.chooser(g, 'gear', targets, c['name'], p) if len(targets) > 1 else None
 
 

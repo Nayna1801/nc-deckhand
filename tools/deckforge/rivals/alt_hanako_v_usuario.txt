@@ -1,0 +1,32 @@
+# Name: Alt/Hanako/V · lista del usuario (2026-11-16)
+
+// Legends
+1 Alt Cunningham | Soulkiller Architect
+1 Hanako Arasaka | Daughter of the Emperor
+1 V | Corporate Exile
+
+// Main Deck
+3 Chrome Reverie
+3 Dying Night | V's Pistol
+2 Floor It
+3 Jacked-In Voodoo Boy
+3 Les Élémens
+3 Lizzy Wizzy | Delicate Weapon
+2 Maman Brigitte | Spirit of Death
+1 NetWatch Netdriver
+3 Nocturne OP55 N1
+2 Peace Offering
+3 Pepe Najarro | Working Doubles
+2 Placide | Voodoo Sentinel
+3 Pyramid Song
+1 Take Control
+3 Three Mouths, One Desire
+2 Towerfall
+3 Trust No One
+1 Unlikely Bond
+
+// Sideboard
+1 Corpo Security
+2 Unlikely Bond
+2 Valentino Street Racer
+2 Westbrook Netrunner

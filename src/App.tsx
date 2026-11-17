@@ -12,8 +12,8 @@ import { LoginPage } from './pages/LoginPage'
 import { ScanPage } from './pages/ScanPage'
 import { SharePage } from './pages/SharePage'
 
-// Laboratorio: simulador paso a paso. Solo existe con `npm run dev` (en la web compilada esta línea se elimina entera).
-const LabPage = import.meta.env.DEV ? lazy(() => import('./pages/LabPage')) : null
+// Laboratorio: simulador paso a paso y partidas contra el piloto. Va en un trozo aparte: solo se descarga al entrar.
+const LabPage = lazy(() => import('./pages/LabPage'))
 
 function Shell() {
   const { user, signOut, notice, dismissNotice } = useAuth()
@@ -27,7 +27,7 @@ function Shell() {
           <NavLink to="/" end>Cartas</NavLink>
           <NavLink to="/decks">Mazos</NavLink>
           <NavLink to="/collection">Colección</NavLink>
-          {LabPage && <NavLink to="/lab">Laboratorio</NavLink>}
+          <NavLink to="/lab">Laboratorio</NavLink>
         </nav>
         <div className="who">
           {user ? (
@@ -64,7 +64,7 @@ function Shell() {
           <Route path="/collection" element={<CollectionPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/scan" element={<ScanPage />} />
-          {LabPage && <Route path="/lab" element={<Suspense fallback={<p className="muted">Cargando…</p>}><LabPage /></Suspense>} />}
+          <Route path="/lab" element={<Suspense fallback={<p className="muted">Cargando…</p>}><LabPage /></Suspense>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

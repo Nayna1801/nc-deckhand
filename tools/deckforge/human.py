@@ -19,7 +19,7 @@ import human_react as HR
 from ai2_cards import _judy_leg, _tunable, _tune_cands
 from ai2_dice import _meredith
 from engine2 import CARD
-from fx2 import ALT, HANAKO, JUDY, ON_SPENT_GEAR, RIVER
+from fx2 import ALT, HANAKO, JUDY, RIVER
 from fx2_base import choose_mode, pick_gear_target
 from fx2_programs import PROG
 
@@ -255,10 +255,8 @@ class Human:
         return out
 
     def _gear_targets(self, me, c):
-        out = list(me.field)
-        if c['id'] in ON_SPENT_GEAR:
-            out += [l for l in me.legs if l.up and not l.gone]
-        return out
+        """Un Gear se equipa a una Unidad tuya o a una Legend tuya boca arriba (queda debajo y la acompaña si hace Go Solo)."""
+        return list(me.field) + [l for l in me.legs if l.up and not l.gone]
 
     def _play_actions(self, g, me):
         out = []
@@ -306,7 +304,7 @@ class Human:
         for l in me.legs:
             if l.up and not l.gone and l.c['gosolo']:
                 cost = fx.gs_cost(g, me, l)
-                if g.avail(me, keep=(l,)) >= cost:
+                if g.avail(me) >= cost:
                     out.append((dict(label=f"Go Solo con {l.c['name']} ({cost} €)", group='legend', card=l.c['id'], cost=cost, ctx=l.c['name'], src=_leg_ref(me, l)),
                                 lambda l=l: g.go_solo(me, l)))
         return out
@@ -339,10 +337,11 @@ class Human:
                 out.append((dict(label=f"{l.c['name']}: gastarla para cambiar el valor de un Gig", group='habilidad', card=l.c['id'], ctx=l.c['name'], src=_leg_ref(me, l)),
                             lambda l=l: self._tune(g, me, op, l)))
         river = me.leg(RIVER)
-        if river is not None and river.ready and me.field:
-            for c in _distinct(x for x in me.hand if x['t'] == 'G' and x['cost'] <= 2):
-                out.append((dict(label=f"River Ward: jugar gratis {c['name']}", group='habilidad', card=RIVER, ctx='River Ward', src=_leg_ref(me, river)),
-                            lambda c=c: self._river(g, me, river, c)))
+        if river is not None and river.ready:
+            gears = [c for c in _distinct(x for x in me.hand if x['t'] == 'G' and x['cost'] <= 2) if self._gear_targets(me, c)]
+            if gears:
+                out.append((dict(label='River Ward: gastarla para jugar gratis un Gear de coste 2 o menos', group='habilidad', card=RIVER, ctx='River Ward',
+                                 src=_leg_ref(me, river)), lambda: self._river(g, me, river, gears)))
         j = me.leg(JUDY)
         if j is not None and j.ready and me.deck:
             out.append((dict(label='Judy: gastarla, mirar la carta de arriba (si es Programa va a tu mano)', group='habilidad', card=JUDY, src=_leg_ref(me, j)),
@@ -447,8 +446,16 @@ class Human:
         if self.gig_change(g, me, _tune_cands(me, op, l), l.c['id']) is not None:
             g.spend_leg(me, l)
 
-    def _river(self, g, me, river, c):
-        targets = list(me.field)
+    def _river(self, g, me, river, gears):
+        """River Ward en tu turno, en dos pasos: activarla y después elegir qué Gear juegas gratis y a qué Unidad o Legend boca arriba se
+        equipa (en la mesa: arrastrando el Gear encima). Hasta que no eliges el Gear no se gasta: se puede dejar sin usar."""
+        opts = [dict(label=f"Jugar gratis {c['name']}", group='jugar', card=c['id'], cost=0, src=_hand_ref(me, c)) for c in gears]
+        opts.append(dict(label='No usar a River Ward', group='fin'))
+        i = self.ask(g, 'pick', 'River Ward: elige el Gear que juegas gratis', opts)
+        if i >= len(gears):
+            return
+        c = gears[i]
+        targets = self._gear_targets(me, c)
         tgt = targets[0] if len(targets) == 1 else targets[self.ask(
             g, 'target', f"{c['name']}: ¿a qué se equipa?", [self._target_option(g, me, t) for t in targets])]
         me.hand.remove(c)

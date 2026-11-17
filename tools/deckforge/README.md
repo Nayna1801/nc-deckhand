@@ -69,14 +69,32 @@ python tools/deckforge/forge.py export tools/deckforge/out/busqueda_1_....json -
 Los resultados nuevos se guardan en `tools/deckforge/out/` (no se sube al repositorio). `--procs` fija los procesos en paralelo
 (con poca memoria libre usa `--procs 2`).
 
+## Reglas: qué se ha contrastado
+
+El motor se repasó contra las Reglas Completas el 2026-11-17 (resumen numerado de rulespal.com, la actualización de octubre de 2026 y el FAQ). Lo que se corrigió
+entonces, con su prueba en `tests2.py` (`t_rules_audit`, `t_go_solo_and_economy`) y `tests_choices.py`:
+
+- **Inicio de turno (8.6.2):** los efectos de «al inicio de tu turno» van antes de enderezar, robar y tirar el Gig (Hanako cuenta las parejas que ya tenía).
+- **Mazo vacío (1.14):** robar de un mazo vacío hace perder al instante, también por un efecto.
+- **Call al defender (8.12, 9.8):** una vez por turno del rival, 1 €; lo hacen la persona y el piloto (este, solo con Eddies sueltos o Legends boca abajo que le sobren).
+- **Bloqueo encadenado (FAQ):** otro Blocker puede redirigir un ataque ya redirigido (solo la persona; el piloto bloquea una vez).
+- **Gear al volver a la mano (4.12.1):** va a la mano con su Unidad.
+- **Go Solo (FAQ):** la propia Legend puede gastarse como 1 € de su coste; entra preparada y ataca, pero ese turno no usa habilidades de gastarse y le afectan los «no puede atacar».
+- **Wild in the Streets (FAQ):** es obligatoria; sin Unidades rivales gastadas, cae una tuya gastada.
+- **Street Cred nulo (5.11.4):** sin Gigs cuenta como menor que cualquier valor.
+- **Mazo legal (7.3):** el Laboratorio avisa si un mazo no lo es (40-50 cartas, 3 copias, RAM, Legends de nombre distinto) y lo simula igual.
+
+Sin hacer: jugar una Legend pagando su coste sin Go Solo (regla 4.5; entra con Lag) y contrastar las 151 cartas una a una con las 269 aclaraciones del FAQ oficial.
+Estas correcciones cambiaron los resultados del piloto: la referencia de `golden/` se regeneró ese día y la red de valoración (`valfn`) sigue entrenada con el motor anterior.
+
 ## Jugar tú contra el piloto (Laboratorio)
 
-En la web, `npm run dev` → menú **Laboratorio** → pestaña **Jugar contra el piloto**: eliges tu mazo y el del piloto, quién empieza y si el piloto es el fuerte (red aprendida)
+En la web (la publicada o `npm run dev`) → menú **Laboratorio** → pestaña **Jugar contra el piloto**: eliges tu mazo y el del piloto, quién empieza y si el piloto es el fuerte (red aprendida)
 o el básico. Es el mismo motor y el mismo piloto de las simulaciones; solo cambia quién decide en un asiento.
 
-**Qué decides tú:** mulligan, qué dado tiras del fixer, vender, jugar (y a qué se equipa un Gear), **con qué Legends pagas** (los Eddies sueltos no se distinguen; se puede
+**Qué decides tú:** mulligan, qué dado tiras del fixer, vender, jugar (y a qué se equipa un Gear: una Unidad tuya o una Legend tuya boca arriba), **con qué Legends pagas** (los Eddies sueltos no se distinguen; se puede
 desactivar), Call (a ciegas, salvo las Legends que conoces), Go Solo, a quién atacas,
-cómo defiendes (bloquear, Overwatch, Take Control, Synapse Burnout, Floor It, Detonate, Safety Override, Reboot Optics, Dum Dum, River Ward, Goro, Rogue), cómo refuerzas
+cómo defiendes (bloquear —y redirigir de nuevo con otro Blocker—, **Call al ser atacado** —1 €, una vez por turno del rival, aparte del de tu turno—, Overwatch, Take Control, Synapse Burnout, Floor It, Detonate, Safety Override, Reboot Optics, Dum Dum, River Ward, Goro, Rogue), cómo refuerzas
 un ataque (Dum Dum, Synapse Burnout, Cyberpsychosis), los cambios y robos de dados, las habilidades de Hanako, los Tuners, River, Judy, Alt Cunningham y Overwatch en tu turno,
 el objetivo de los efectos que eligen entre varias Unidades o cartas y **qué efecto aplicas en las cartas de «elige uno»** (Nocturne, Pyramid Song, Towerfall y el Call de
 Dexter, Muamar, Padre y Wakako). También eliges si haces los efectos opcionales («puedes descartar…»: Maman Brigitte, Placide, Gilded Matón, Heywood) y lo que te quedas de las
@@ -93,10 +111,14 @@ pero **no es idéntica a jugar con las cartas reales**: si algo te parece mal, e
 **Cómo está hecho** (para no romper nada del piloto): `human.py` sustituye a `ai2` como `Game.ai` solo para tu asiento; las copias de previsión (`g.rollout`) siempre las
 decide el piloto, así que nunca te pregunta dentro de sus simulaciones (hay un test). Los objetivos de los efectos pasan por el gancho `Game.chooser` y el pago por `Game.payer` (apagados por defecto;
 con ellos apagados las partidas son idénticas a las de siempre). Cada opción que se le ofrece a la persona lleva su origen (`src`: mano, Unidad o Legend), su destino (`to`) o
-la carta que elige (`ref`): con eso la interfaz muestra solo las acciones de la carta tocada y traduce cada arrastre a una opción. `live.py` corre la partida en un hilo, enmascara lo que no ves (`replay.snapshot(..., viewer=)`) y guarda todo en
-`data/human/`; `lab_play.py` habla JSON por líneas con el servidor de desarrollo (`scripts/lab-api.mjs`).
+la carta que elige (`ref`): con eso la interfaz muestra solo las acciones de la carta tocada y traduce cada arrastre a una opción. `live.py` lleva la partida **sin hilos** (para que funcione igual dentro del navegador, donde Python no los tiene): el motor es determinista, así que cada vez
+que hace falta una decisión tuya corta la ejecución y, al llegar la respuesta, repite el turno en curso desde un punto de control con las respuestas ya dadas
+(`tests_live.py` comprueba que sale la misma partida que repitiéndola entera y que se detecta si el motor deja de ser determinista). Enmascara lo que no ves
+(`replay.snapshot(..., viewer=)`) y guarda todo en `data/human/`. `lab_play.py` habla JSON por líneas con el servidor de desarrollo (`scripts/lab-api.mjs`);
+`lab_web.py` es la misma entrada para la web publicada, donde el motor corre en el navegador con Pyodide: no guarda nada (la página ofrece descargar la partida) y
+calcula «el turno que habría jugado el piloto» en ratos muertos (`Session.idle()`), mientras piensas, en vez de hacerte esperar al empezar cada turno.
 
-**Qué se guarda** por partida (`data/human/AAAAMMDD-HHMMSS_seedN.json`): tus decisiones con el tablero de cada momento, **el turno que habría jugado el piloto** al empezar cada uno
+**Qué se guarda** por partida (`data/human/AAAAMMDD-HHMMSS_seedN.json`; en la web publicada, el fichero que descargas con ese mismo nombre): tus decisiones con el tablero de cada momento, **el turno que habría jugado el piloto** al empezar cada uno
 de tus turnos (calculado en una copia, sin tocar tu partida), la partida completa con las manos de los dos y las posiciones al final de cada turno en el mismo formato que usa `valfn.py`.
 
 ```bash

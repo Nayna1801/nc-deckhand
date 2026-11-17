@@ -8,6 +8,7 @@ import engine2 as X
 import tests2
 import tests_cards
 import tests_choices
+import tests_live
 from deckio import HERE, deck_to_text, ids_of, load_deck, rows_of, text_to_deck
 from forge_basic import deck_report
 from forge_sim import build_side
@@ -32,6 +33,7 @@ def cmd_selftest(a):
     print('6) reglas del motor:', tests2.run(), 'pruebas superadas')
     print('7) cartas una a una:', tests_cards.run(), 'grupos de pruebas superados')
     print('7b) cartas donde decide la persona:', tests_choices.run(), 'pruebas superadas')
+    print('7c) partida en vivo sin hilos:', tests_live.run(), 'pruebas superadas')
     G = CG.Graph()
     nd = G.nodes
     assert 'PAIR' in nd['hanako_arasaka_daughter_of_the_emperor']['need'] and 'LOWCRED' in nd['towerfall']['need']

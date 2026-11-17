@@ -8,6 +8,7 @@ código de salida 2 y el servidor de desarrollo los enseña tal cual.
 """
 import json
 import sys
+from collections import Counter
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -47,14 +48,43 @@ def _deck(d, label):
         raise ValueError(f'{label}: hacen falta 3 Legends (hay {len(legs)})')
     if not 1 <= len(main) <= MAX_CARDS:
         raise ValueError(f'{label}: el mazo debe tener entre 1 y {MAX_CARDS} cartas (hay {len(main)})')
-    return dict(name=str(d.get('name') or label)[:64], legs=legs, main=main)
+    name = str(d.get('name') or label)[:64]
+    return dict(name=name, legs=legs, main=main, issues=legality(legs, main))
+
+
+def legality(legs, main):
+    """Por qué un mazo no cumple las reglas de construcción (7.3): 40-50 cartas, 3 copias como mucho, límites de RAM de sus Legends y
+    Legends de nombre distinto. Lista vacía si es legal. No impide simularlo ni jugarlo (sirve para probar borradores): se avisa."""
+    out = []
+    if not 40 <= len(main) <= 50:
+        out.append(f'tiene {len(main)} cartas (deben ser entre 40 y 50)')
+    over = [f"{BY[i]['displayName']} ×{n}" for i, n in Counter(main).items() if n > 3]
+    if over:
+        out.append('más de 3 copias de ' + ', '.join(over[:4]))
+    ram = Counter()
+    for l in legs:
+        ram[BY[l]['color']] += BY[l]['ram'] or 0
+    no_ram = sorted({BY[i]['displayName'] for i in main if BY[i]['color'] and (BY[i]['ram'] or 0) > ram[BY[i]['color']]})
+    if no_ram:
+        out.append('sus Legends no dan RAM suficiente para ' + ', '.join(no_ram[:4]) + (f' y {len(no_ram) - 4} más' if len(no_ram) > 4 else ''))
+    if len({BY[l]['name'] for l in legs}) != len(legs):
+        out.append('lleva dos Legends con el mismo nombre')
+    not_legal = sorted({BY[i]['displayName'] for i in list(main) + list(legs) if BY[i].get('legality', 'legal') != 'legal'})
+    if not_legal:
+        out.append('cartas no legales en torneo: ' + ', '.join(not_legal[:4]))
+    return out
+
+
+def warnings(*decks):
+    """Avisos para la página: un texto por mazo que no es legal."""
+    return [f"{d['name']} no es un mazo legal: " + '; '.join(d['issues']) + '.' for d in decks if d.get('issues')]
 
 
 def simulate(req):
     a, b = _deck(req.get('a'), 'Mazo J1'), _deck(req.get('b'), 'Mazo J2')
     seed = int(req.get('seed', 1))
     game, ids = RP.record(a, b, seed, deep=bool(req.get('deep', True)))
-    return dict(game=game, cards=RP.card_table(ids))
+    return dict(game=game, cards=RP.card_table(ids), warnings=warnings(a, b))
 
 
 def list_decks():

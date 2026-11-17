@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { currentPlayer, groupOptions, resultText, type PlayEnd, type PlayOption } from './play'
+import { currentPlayer, groupOptions, isActionLike, picksOnTap, recordFile, resultText, type PlayEnd, type PlayOption } from './play'
 import { lineKinds, zoneCounts, type ReplayPlayer, type ReplayState } from './replay'
 
 const opt = (label: string, group?: string): PlayOption => ({ label, group })
@@ -47,6 +47,31 @@ describe('consola en vivo', () => {
     const m = zoneCounts(state)
     expect(m.get('0|h|a')).toBe(2)
     expect([...m.keys()].some((k) => k.includes('null'))).toBe(false)
+  })
+})
+
+describe('cómo se contesta cada pregunta', () => {
+  it('el turno y el segundo paso de una habilidad se juegan tocando o arrastrando cartas', () => {
+    expect(['action', 'pick'].map(isActionLike)).toEqual([true, true])
+    expect(['target', 'react', 'pay', 'mulligan'].map(isActionLike)).toEqual([false, false, false, false])
+  })
+  it('un clic en una carta solo la elige al escoger objetivo; al defender o reforzar la selecciona', () => {
+    expect(['target', 'pick', 'action'].map(picksOnTap)).toEqual([true, true, true])
+    expect(['react', 'pump'].map(picksOnTap)).toEqual([false, false])
+  })
+})
+
+describe('recordFile', () => {
+  const game = { seed: 7, turns: 9 } as PlayEnd['game']
+  const end = (record: PlayEnd['record']): PlayEnd => ({ type: 'end', winner: 0, won: true, me: 0, log: [], game, cards: {}, saved: null, record })
+  it('se llama como los ficheros de data/human y lleva las decisiones junto a la partida', () => {
+    const f = recordFile(end({ version: 2, seed: 7, decisions: [{ n: 1 }] }), new Date(2026, 10, 7, 9, 5, 3))
+    expect(f?.name).toBe('20261107-090503_seed7.json')
+    expect(JSON.parse(f?.text ?? '')).toEqual({ version: 2, seed: 7, decisions: [{ n: 1 }], game: { seed: 7, turns: 9 } })
+  })
+  it('sin decisiones no hay nada que guardar', () => {
+    expect(recordFile(end(null), new Date())).toBeNull()
+    expect(recordFile(end(undefined), new Date())).toBeNull()
   })
 })
 

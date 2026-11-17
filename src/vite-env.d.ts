@@ -8,4 +8,6 @@ declare const __APP_BUILT__: string
 interface ImportMetaEnv {
   readonly VITE_SUPABASE_URL?: string
   readonly VITE_SUPABASE_ANON_KEY?: string
+  /** 'pyodide' fuerza en `npm run dev` el simulador del navegador en vez del Python del equipo. */
+  readonly VITE_LAB_ENGINE?: string
 }

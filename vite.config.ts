@@ -3,11 +3,14 @@ import { execSync } from 'node:child_process'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import labApi from './scripts/lab-api.mjs'
+import labEngine from './scripts/lab-engine.mjs'
 
 /**
  * Content-Security-Policy para la web publicada (GitHub Pages no permite cabeceras, así que va en <meta>).
  * Solo se inyecta al compilar: en desarrollo Vite necesita scripts en línea para el HMR.
- *  - scripts: solo los propios (nada en línea, nada de terceros)
+ *  - scripts: solo los propios (nada en línea, nada de terceros). El simulador del Laboratorio es Python en WebAssembly, pero no
+ *    hace falta 'wasm-unsafe-eval': corre en un Worker servido desde esta misma web y los Workers no heredan esta política
+ *    (comprobado en Chromium, Firefox y WebKit)
  *  - conexiones: solo la propia web y Supabase
  *  - estilos: propios + Google Fonts; los atributos style="" de React se permiten solo como atributo
  */
@@ -56,6 +59,7 @@ const versionFile = (): Plugin => ({
 export default defineConfig({
   base: './',
   define: { __APP_VERSION__: JSON.stringify(version), __APP_BUILT__: JSON.stringify(built) },
-  plugins: [react(), securityHeaders(), versionFile(), labApi()],
+  plugins: [react(), securityHeaders(), versionFile(), labApi(), labEngine()],
+  worker: { format: 'es' }, // el Worker del Laboratorio carga Pyodide con import() dinámico
   test: { environment: 'node', include: ['src/**/*.test.ts'] },
 })

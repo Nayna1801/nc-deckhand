@@ -26,8 +26,9 @@ import lab_sim  # noqa: E402
 import live  # noqa: E402
 
 
-def handle(req, session):
-    """Devuelve (respuesta, sesión actual)."""
+def handle(req, session, save=True, plans=True):
+    """Devuelve (respuesta, sesión actual). `save` y `plans` son los de live.Session (el navegador no tiene disco y calcula los planes
+    en ratos muertos)."""
     cmd = req.get('cmd')
     if cmd == 'decks':
         return dict(type='decks', decks=lab_sim.list_decks()), session
@@ -36,7 +37,7 @@ def handle(req, session):
             session.abort()
         mine, rival = lab_sim._deck(req.get('mine'), 'Tu mazo'), lab_sim._deck(req.get('rival'), 'Mazo rival')
         session = live.Session(mine, rival, int(req.get('seed', 1)), bool(req.get('human_first', True)), bool(req.get('strong', True)),
-                                choose_pay=bool(req.get('choose_pay', True)))
+                                save=save, choose_pay=bool(req.get('choose_pay', True)), plans=plans)
         return session.start(), session
     if cmd == 'answer':
         if session is None:

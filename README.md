@@ -54,27 +54,43 @@ npm run verify     # build + tests + navegador: lo que conviene pasar antes de s
 ```
 La primera vez, `npx playwright install chromium`. Detalles y lista de suites en [`e2e/README.md`](e2e/README.md); `npm run e2e:live` las pasa contra la web publicada.
 
-### Laboratorio (solo en desarrollo)
-Con `npm run dev` aparece en el menú «Laboratorio» (`#/lab`): elige dos mazos (los tuyos, los de `tools/deckforge/decks` o el meta), pulsa **Simular** y
+### Laboratorio
+En el menú «Laboratorio» (`#/lab`): elige dos mazos (los tuyos, los de `tools/deckforge/decks` o el meta), pulsa **Simular** y
 reproduce la partida paso a paso (tablero con mano, Legends, Eddies, dados, Gigs y Unidades, y una consola con cada acción). El simulador es el de
-[`tools/deckforge`](tools/deckforge/README.md) (Python): lo ejecuta el servidor de desarrollo (`scripts/lab-api.mjs`, definir `NCD_PYTHON` si `python` no está
-en el PATH). **No existe en la web compilada ni publicada** (comprobado: `dist/` no contiene nada suyo). Los Eddies que enseña cuentan 1 por cada Legend de la
+[`tools/deckforge`](tools/deckforge/README.md) (Python). Los Eddies que enseña cuentan 1 por cada Legend de la
 zona de Legends más los sueltos por vender cartas, como el simulador oficial.
 
+**Dónde corre el simulador** (`src/lib/labEngine.ts` elige; la página es la misma):
+- **En la web publicada, dentro del navegador:** Python compilado a WebAssembly ([Pyodide](https://pyodide.org)) en un Worker (`src/lab/engine.worker.ts`), para que
+  la pantalla no se congele mientras el piloto piensa. Pyodide (~12 MB, solo la primera vez; luego queda en la caché del navegador) y el motor (`lab/engine.json`,
+  ~1 MB) se sirven desde la propia web y **solo se descargan al entrar en el Laboratorio**. Los publica `scripts/lab-engine.mjs` al compilar, a partir de
+  `node_modules/pyodide` y `tools/deckforge` (no hay copia en git). La Content-Security-Policy no cambia (los Workers no heredan la de la página).
+  Como no hay disco, al terminar una partida contra el piloto hay un botón **Descargar partida (.json)**: es el mismo fichero que en local se guarda solo.
+- **Con `npm run dev`, en el Python del equipo:** lo ejecuta el servidor de desarrollo (`scripts/lab-api.mjs`, definir `NCD_PYTHON` si `python` no está en el
+  PATH) y guarda las partidas en `tools/deckforge/data/human/`. Con `VITE_LAB_ENGINE=pyodide npm run dev` se usa también aquí el motor del navegador.
+
 La pestaña **Jugar contra el piloto** te sienta a jugar contra el piloto del simulador. La mesa ocupa toda la pantalla (las cartas se agrandan con la altura de la
-ventana): el piloto arriba, tú abajo con tu mano, la consola a la derecha y **abajo a la derecha las acciones**. El rival solo enseña dorsos y tus Legends boca abajo
-van a ciegas, como en las reglas.
+ventana): el piloto arriba, tú abajo, la consola a la derecha y **abajo a la derecha las acciones**. Tu lado tiene el fixer en vertical a la izquierda, el campo
+en el centro y a la derecha los Gigs sobre el mazo y la basura; debajo, en una fila, la mano, las Legends y los Eddies. El lado del piloto es el mismo invertido,
+con los dos campos enfrentados. El rival solo enseña dorsos y tus Legends boca abajo van a ciegas, como en las reglas.
+
+- **Mazo y basura:** el mazo es un dorso con las cartas que quedan; la basura enseña la última carta que cayó y al tocarla lista todas (la tuya y la del piloto).
 
 - **Pasa el ratón** por una carta para verla en grande.
-- **Toca una carta** tuya (las que tienen acciones se resaltan en verde) y abajo a la derecha salen solo sus acciones; con una Unidad, sus ataques.
-- **Arrastra:** una carta de la mano a la mesa la juega, a tus Eddies la vende; un Gear soltado sobre una Unidad se equipa a esa; una Unidad a los Gigs rivales o a una
-  Unidad rival ataca; una Legend boca arriba a la mesa hace Go Solo. Las zonas válidas se iluminan mientras arrastras.
-- **Al pagar** (si hay más de una forma) tocas las Legends que quieres gastar y el resto sale de tus Eddies sueltos, que no se distinguen entre sí; hay una casilla para
-  dejar que se pague solo. Las cifras 1-9 eligen el botón de esa posición del panel.
+- **Toca una carta** tuya (las que tienen acciones se resaltan en verde) y abajo a la derecha salen solo sus acciones. Un toque nunca ejecuta ni paga nada: solo
+  despliega. Las acciones van en dos niveles: con una Unidad sale «atacar los Gigs» y «atacar a una Unidad…», y solo al abrir esta última aparece la lista de
+  Unidades rivales (o la tocas en la mesa); las habilidades que piden algo más (River Ward: qué Gear y a qué se equipa) se activan primero y se resuelven después.
+- **Arrastra:** una carta de la mano a la mesa la juega, a tus Eddies la vende; un Gear soltado sobre una Unidad o sobre una Legend boca arriba se equipa a esa
+  (queda debajo de la carta, asomando, y se ve en grande al pasar el ratón); una Unidad a los Gigs rivales o a una Unidad rival ataca; una Legend boca arriba a la
+  mesa hace Go Solo. Las zonas válidas se iluminan mientras arrastras.
+- **Al pagar** (si hay más de una forma) tocas en la mesa los Eddies sueltos y las Legends que quieres gastar: al marcar el último se paga, sin más botones. Un
+  segundo toque desmarca. Hay un botón «que se pague solo» y una casilla para no preguntar nunca. Las cifras 1-9 eligen el botón de esa posición del panel.
 
 Al terminar ves la partida entera con las manos de los dos y se guardan tus decisiones en `tools/deckforge/data/human/`; `python tools/deckforge/forge.py humanlog` las
-compara con lo que habría hecho el piloto (ver [el README de deckforge](tools/deckforge/README.md#jugar-tú-contra-el-piloto-laboratorio)). Con `npm run dev` en marcha,
-`node e2e/lab-dev.mjs [--size 1366x768]` comprueba toda esta interfaz en un navegador real (no forma parte de `npm run e2e`: el Laboratorio no existe en la web compilada).
+compara con lo que habría hecho el piloto (ver [el README de deckforge](tools/deckforge/README.md#jugar-tú-contra-el-piloto-laboratorio)); en la web publicada, descarga
+la partida y déjala en esa carpeta. Pruebas: la suite `lab` de `npm run e2e` comprueba el simulador del navegador en la web compilada (carga, simular, una partida
+entera contra el piloto, la descarga y móvil) y, con `npm run dev` en marcha, `node e2e/lab-dev.mjs [--size 1366x768]` comprueba al detalle la mesa de juego.
+La mesa está pensada para pantalla grande: en móvil funciona, pero es una columna larga.
 
 ## Actualizar el catálogo (cuando salgan sets nuevos)
 ```bash

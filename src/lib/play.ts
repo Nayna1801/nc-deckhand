@@ -1,6 +1,6 @@
 /**
- * Partida en vivo contra el piloto del simulador (tools/deckforge: live.py). Aquí solo hay tipos, el cliente HTTP y funciones puras;
- * el dibujo está en components/PlayBoard.tsx y components/PlayPanel.tsx. Solo existe con `npm run dev` (scripts/lab-api.mjs).
+ * Partida en vivo contra el piloto del simulador (tools/deckforge: live.py). Aquí solo hay tipos y funciones puras; el dibujo está
+ * en components/PlayBoard.tsx y components/PlayPanel.tsx y la conexión con el motor en lib/labEngine.ts.
  */
 import { isTurnHeader, whoOf, type ReplayCardInfo, type ReplayGame, type ReplayState } from './replay'
 
@@ -39,7 +39,7 @@ export interface PlayOption {
 export interface PlayAsk {
   type: 'ask'
   n: number // número de la pregunta: la respuesta debe llevarlo
-  kind: string // mulligan, die, action, target, dice, steal, react, pump
+  kind: string // mulligan, die, action, pick, target, dice, steal, react, pump, pay
   prompt: string
   me: 0 | 1 // asiento de quien juega (0 = empieza)
   turn: number
@@ -50,6 +50,7 @@ export interface PlayAsk {
   cards?: Record<string, ReplayCardInfo> // solo en la primera pregunta
   names?: [string, string] // [mi mazo, mazo rival]
   seed?: number
+  warnings?: string[] // solo en la primera pregunta: mazos que no cumplen las reglas de construcción
 }
 
 export interface PlayEnd {
@@ -60,7 +61,8 @@ export interface PlayEnd {
   log: string[]
   game: ReplayGame // partida completa con las manos de los dos, para repasarla
   cards: Record<string, ReplayCardInfo>
-  saved: string | null // fichero con todas las decisiones tomadas
+  saved: string | null // fichero con todas las decisiones tomadas (solo con el Python del equipo: en el navegador no hay disco)
+  record?: Record<string, unknown> | null // decisiones tomadas y lo que habría hecho el piloto (lo que va en `saved`, sin la partida)
 }
 
 export type PlayMessage = PlayAsk | PlayEnd | { type: 'error'; message: string } | { type: 'aborted' }
@@ -105,6 +107,19 @@ export function groupOptions(options: PlayOption[]): OptionGroup[] {
   return [...by.values()].sort((a, b) => rank(a.group) - rank(b.group))
 }
 
+/**
+ * Preguntas que se contestan como el turno normal: tocando una carta para ver sus acciones o arrastrándola. `pick` es el segundo paso
+ * de una habilidad ya activada (River Ward: «elige el Gear que juegas gratis»), con una opción para dejarla sin usar.
+ */
+export const isActionLike = (kind: string): boolean => kind === 'action' || kind === 'pick'
+
+/**
+ * ¿Un clic en una carta resaltada la elige directamente? Sí cuando solo se está eligiendo un objetivo. Al defender o reforzar un ataque
+ * no: ahí cada carta resaltada es una jugada (bloquear, una habilidad que se gasta) y un clic sin querer no debe ejecutarla; el clic la
+ * selecciona y sus jugadas salen en el panel.
+ */
+export const picksOnTap = (kind: string): boolean => kind !== 'react' && kind !== 'pump'
+
 /** Jugador (1 o 2) al que le toca, según el último inicio de turno de la consola; 0 si aún no ha empezado ninguno. */
 export function currentPlayer(lines: string[]): 0 | 1 | 2 {
   for (let i = lines.length - 1; i >= 0; i--) if (isTurnHeader(lines[i])) return whoOf(lines[i])
@@ -117,10 +132,14 @@ export function resultText(end: PlayEnd): string {
   return end.won ? 'Has ganado' : 'Ha ganado el piloto'
 }
 
-/** Envía una orden a la partida en vivo y devuelve el siguiente mensaje. Lanza si el servidor de desarrollo falla. */
-export async function playCommand(cmd: Record<string, unknown>): Promise<PlayMessage> {
-  const res = await fetch('/__lab/play', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cmd) })
-  const data = (await res.json().catch(() => ({}))) as { error?: string }
-  if (!res.ok) throw new Error(data.error ?? `Error ${res.status} del simulador`)
-  return data as unknown as PlayMessage
+const two = (n: number) => String(n).padStart(2, '0')
+
+/**
+ * Fichero con el registro de una partida terminada, igual que los que el Python del equipo guarda en tools/deckforge/data/human/
+ * (mismo nombre y contenido: sirve para `forge.py humanlog`). null si no hubo decisiones que guardar.
+ */
+export function recordFile(end: PlayEnd, now: Date): { name: string; text: string } | null {
+  if (!end.record) return null
+  const stamp = `${now.getFullYear()}${two(now.getMonth() + 1)}${two(now.getDate())}-${two(now.getHours())}${two(now.getMinutes())}${two(now.getSeconds())}`
+  return { name: `${stamp}_seed${end.game.seed}.json`, text: JSON.stringify({ ...end.record, game: end.game }) }
 }

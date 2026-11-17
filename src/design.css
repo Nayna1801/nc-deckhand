@@ -161,6 +161,11 @@
   .topbar { position: static; padding: 0.55rem 0.8rem; }
   .topbar nav { order: 3; flex-basis: 100%; overflow-x: auto; scrollbar-width: none; }
   .topbar nav a { padding: 0.5rem 0.9rem; white-space: nowrap; }
+  /* móvil estrecho: los cuatro enlaces se reparten el ancho para que quepan sin desplazar el menú */
+  @media (max-width: 480px) {
+    .topbar nav { gap: 0; }
+    .topbar nav a { flex: 1 1 auto; text-align: center; padding: 0.5rem 0.2rem; font-size: clamp(0.68rem, 3.4vw, 0.85rem); letter-spacing: 0.03em; }
+  }
   .topbar .who { flex: 1 1 0; justify-content: flex-end; } /* ocupa el hueco que deja el logo; el correo se recorta con … en vez de saltar de fila */
   main { padding: 0.9rem 0.75rem 3rem; }
   h1 { font-size: 1.4rem; }

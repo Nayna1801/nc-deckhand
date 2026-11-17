@@ -95,6 +95,7 @@ class Player:
         s.drawn = set()
         s.early = set()
         s.played = Counter()
+        s.called_def = 0       # turno (del rival) en que hizo Call al defender: una vez por turno, aparte del Call de su turno
         s.fang = 0             # Chrome Fang activo hasta ese turno
         s.westbrook = 0
         s.reset_turn()
@@ -125,6 +126,9 @@ class Player:
 
     def cred(s):
         return sum(v for _, v in s.gigs)
+
+
+MAX_TURNS = 44
 
 
 class Game:
@@ -183,6 +187,9 @@ class Game:
         k = 0
         for _ in range(int(n)):
             if not p.deck:
+                if s.turn > 0 and s.winner is None:       # regla 1.14: robar de un mazo vacío es perder al instante, también por un efecto
+                    s.winner = p.op.pi
+                    s.tr(p, 'no puede robar: su mazo está vacío y pierde')
                 break
             c = p.deck.pop()
             p.hand.append(c)
@@ -357,9 +364,9 @@ class Game:
         if u not in p.field:
             return
         s._leave(u)
-        if u.leg is None:
+        if u.leg is None:                      # regla 4.12.1: el Gear va con ella a la mano (una Legend sale del juego, y su Gear con ella)
             p.hand.append(u.c)
-        p.trash.extend(u.gear)
+            p.hand.extend(u.gear)
 
     # ------------------------------------------------------------------ jugar cartas
     def ccost(s, p, c):
@@ -399,17 +406,22 @@ class Game:
             p.trash.append(c)
         return None
 
-    def call(s, p, free=False, pick=None):
-        if p.called:
+    def call(s, p, free=False, pick=None, react=False, keep=()):
+        """Call: girar una Legend boca abajo (1 €). Una vez por turno en tu fase principal o, con `react`, una vez por turno al ser
+        atacado (reglas 8.12 y 9.8)."""
+        if (p.called_def == s.turn) if react else p.called:
             return False
         down = [l for l in p.legs if not l.up and not l.gone]
         if not down:
             return False
         if not free:
-            if s.avail(p) < 1:
+            if s.avail(p, keep) < 1:
                 return False
-            s.pay(p, 1)
-        p.called = True
+            s.pay(p, 1, keep=keep)
+        if react:
+            p.called_def = s.turn
+        else:
+            p.called = True
         if pick not in down:
             known = [l for l in down if l.known]
             pick = None
@@ -430,15 +442,14 @@ class Game:
 
     def go_solo(s, p, l):
         cost = s.fx.gs_cost(s, p, l)
-        if s.avail(p, keep=(l,)) < cost:
+        if s.avail(p) < cost:                  # la propia Legend, si está preparada, puede gastarse como 1 € de su coste (FAQ)
             return None
-        s.pay(p, cost, keep=(l,))
+        s.pay(p, cost)
         p.gs_disc = 0
         l.gone = True
         l.ready = False
-        u = s.enter(p, l.c, leg=l)
-        u.lag = False
-        u.gear = l.gear
+        u = s.enter(p, l.c, leg=l)             # entra preparada y puede atacar ya (can_attack), pero con Lag para todo lo demás:
+        u.gear = l.gear                        # ese turno no usa habilidades de gastarse y le afectan los «no puede atacar» (FAQ)
         l.gear = []
         s.ev(p, 'gosolo', l.c['id'])
         s.tr(p, f"GO SOLO {l.c['name']}")
@@ -608,6 +619,9 @@ class Game:
             s.winner = me.pi
             return
         first_turn = me.first and s.turn == 1
+        s.fx.start_turn(s, me, op)             # regla 8.6.2: antes de enderezar, robar y tirar el Gig (Hanako cuenta las parejas de antes)
+        if s.winner is not None:
+            return
         if s.log is not None:
             s.log.append(f"T{s.turn} J{me.pi + 1}: {me.E}€ mano {len(me.hand) + 1} Gigs {sorted(v for _, v in me.gigs)} vs {sorted(v for _, v in op.gigs)} | mesa {[(u.c['name'][:14], s.power(u), 'R' if u.ready else 'g') for u in me.field]}")
         me.Eready = me.E
@@ -631,7 +645,8 @@ class Game:
             v = s.rng.randint(1, d)
             v = s.fx.on_roll(s, me, d, v)
             me.gigs.append([d, v])
-        s.fx.start_turn(s, me, op)
+        if s.winner is not None:
+            return
         s.finish_turn(me)
 
     def finish_turn(s, me, skip_main=False):
@@ -709,12 +724,14 @@ class Game:
             s.take_turn(s.p[i])
             i = 1 - i
 
-    def run(s, maxturns=44):
-        i = 0
+    def next_turn(s):
+        """Juega el turno siguiente: empieza J1 y se alternan."""
+        s.turn += 1
+        s.take_turn(s.p[(s.turn - 1) % 2])
+
+    def run(s, maxturns=MAX_TURNS):
         while s.winner is None and s.turn < maxturns:
-            s.turn += 1
-            s.take_turn(s.p[i])
-            i = 1 - i
+            s.next_turn()
         if s.winner is None:
             a, b = len(s.p[0].gigs), len(s.p[1].gigs)
             s.winner = 0 if a > b else 1 if b > a else -1

@@ -124,3 +124,10 @@
 .pb-result { margin: 0.8rem 0; }
 .pb-result h3 { margin: 0 0 0.2rem; }
 .pb-result code { overflow-wrap: anywhere; }
+
+/* Aviso mientras se descarga o arranca el simulador del navegador */
+.lab-loading { margin: 0.4rem 0 0.8rem; padding: 0.55rem 0.8rem; border: 1px dashed var(--line); color: var(--muted); font-size: 0.85rem; }
+
+/* Aviso de mazo que no cumple las reglas de construcción (se simula igual) */
+.lab-warning { margin: 0.4rem 0; padding: 0.5rem 0.8rem; border: 1px solid var(--yellow); color: var(--yellow); font-size: 0.85rem; overflow-wrap: anywhere; }
+.pt-warn { color: var(--yellow); cursor: help; }

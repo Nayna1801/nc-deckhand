@@ -162,7 +162,7 @@ def _pr_elemens(g, me, op, c):
 
 
 def _tower_plan(g, me, op):
-    both = bool(me.gigs and op.gigs and me.cred() < op.cred())
+    both = bool(op.gigs and me.cred() < op.cred())
     if both:
         return sum(uval(g, t) + 2.0 for t in op.field if g.power(t) <= 5), 'both'
     zero = [t for t in op.field if g.power(t) == 0]
@@ -173,7 +173,7 @@ def _tower_plan(g, me, op):
 
 def _pr_towerfall(g, me, op, c):
     if by_human(g, me):
-        both = bool(me.gigs and op.gigs and me.cred() < op.cred())             # con menos Street Cred se eligen los dos
+        both = bool(op.gigs and me.cred() < op.cred())             # con menos Street Cred se eligen los dos
         mode = 'both' if both else choose_mode(g, me, [('debuff', 'Dar -5 de poder a todas las Unidades rivales este turno'),
                                                        ('bottom', 'Mandar al fondo del mazo todas las Unidades rivales de poder 0')], 'Towerfall')
     else:
@@ -246,6 +246,8 @@ def _pr_wglt(g, me, op, c):
 
 def _pr_wild(g, me, op, c):
     t = pick(g, op.field, lambda t: not t.ready)
+    if t is None:                              # el efecto es obligatorio: si solo hay Unidades gastadas tuyas, cae una tuya (FAQ)
+        t = pick(g, me.field, lambda t: not t.ready, key=lambda u: -uval(g, u))
     if t is not None:
         g.defeat(t, c['id'], by=me)
 
@@ -349,7 +351,7 @@ def _pr_edge(g, me, op, c):
 
 def _gunpoint_plan(g, me, op):
     best = (0.0, None, None)
-    if me.gigs and op.gigs and me.cred() < op.cred():
+    if op.gigs and me.cred() < op.cred():
         return best
     for u in can_hit(g, me):
         P = g.power(u, atk=True)
@@ -377,7 +379,7 @@ def _gunpoint_by_hand(g, me, op, c):
     u = pick(g, me.field, lambda x: g.can_attack(x))
     if u is None:
         return
-    rival_chooses = me.gigs and op.gigs and me.cred() < op.cred()
+    rival_chooses = op.gigs and me.cred() < op.cred()
     effect = _gunpoint_rival_gives(g, op, u) if rival_chooses else 'both'
     if effect in ('both', 'pump'):
         u.tmp += 3

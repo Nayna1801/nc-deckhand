@@ -2,19 +2,21 @@ import { useEffect, useMemo, useState } from 'react'
 import { LabDeckSelect } from '../components/LabDeckSelect'
 import { PlayPanel } from '../components/PlayPanel'
 import { ReplayBoard } from '../components/ReplayBoard'
+import { IN_BROWSER, deckPayload, labDecks, labSimulate, useEngineState } from '../lib/labEngine'
 import type { DeckOption } from '../lib/play'
-import type { ReplayCardInfo, ReplayGame, SimulateResponse } from '../lib/replay'
+import type { ReplayCardInfo, ReplayGame } from '../lib/replay'
 import { useData } from '../state/DataContext'
 import '../lab.css'
 
 /**
  * Laboratorio: simula partidas con el motor de tools/deckforge y las enseña paso a paso, o te deja jugar contra su piloto.
- * SOLO existe con `npm run dev`
- * (el simulador es Python y corre en tu equipo a través del servidor de desarrollo: scripts/lab-api.mjs); no se compila.
+ * El simulador es Python: en la web publicada corre dentro del navegador (Pyodide, se descarga al entrar aquí) y con `npm run dev`
+ * en el Python del equipo (lib/labEngine.ts elige).
  */
 
 interface Played {
   id: number
+  warnings: string[] // mazos que no cumplen las reglas de construcción
   game: ReplayGame
   cards: Record<string, ReplayCardInfo>
 }
@@ -22,15 +24,9 @@ interface Played {
 const DEFAULT_A = 'decks/consistente_goro_wakako_v'
 const DEFAULT_B = 'meta/bbg_control'
 
-async function post(url: string, body: unknown): Promise<SimulateResponse> {
-  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
-  const data = (await res.json().catch(() => ({}))) as { error?: string }
-  if (!res.ok) throw new Error(data.error ?? `Error ${res.status} del simulador`)
-  return data as unknown as SimulateResponse
-}
-
 export function LabPage() {
   const { decks, guestDecks, loggedIn } = useData()
+  const engine = useEngineState()
   const [forge, setForge] = useState<DeckOption[]>([])
   const [engineError, setEngineError] = useState('')
   const [aKey, setAKey] = useState(DEFAULT_A)
@@ -46,12 +42,8 @@ export function LabPage() {
 
   useEffect(() => {
     let cancelled = false
-    fetch('/__lab/decks')
-      .then(async (r) => {
-        const data = (await r.json()) as DeckOption[] | { error: string }
-        if (!r.ok || !Array.isArray(data)) throw new Error(Array.isArray(data) ? `Error ${r.status}` : data.error)
-        if (!cancelled) setForge(data)
-      })
+    labDecks()
+      .then((data) => !cancelled && setForge(data))
       .catch((e: unknown) => !cancelled && setEngineError(e instanceof Error ? e.message : String(e)))
     return () => {
       cancelled = true
@@ -86,9 +78,8 @@ export function LabPage() {
     setBusy(true)
     setError('')
     try {
-      const payload = (d: DeckOption) => ({ name: d.name, legends: d.legends, main: d.main })
-      const res = await post('/__lab/simulate', { a: payload(a), b: payload(b), seed: seedNow, deep })
-      const entry: Played = { id: Date.now(), game: res.game, cards: res.cards }
+      const res = await labSimulate({ a: deckPayload(a), b: deckPayload(b), seed: seedNow, deep })
+      const entry: Played = { id: Date.now(), game: res.game, cards: res.cards, warnings: res.warnings ?? [] }
       setPlayed((list) => [entry, ...list].slice(0, 30))
       setCurrent(entry.id)
       setSeed(seedNow)
@@ -105,8 +96,8 @@ export function LabPage() {
     <div className={`lab${playing ? ' playing' : ''}`}>
       {!playing && <h2>Laboratorio</h2>}
       {!playing && <p className="muted small">
-        Solo visible mientras ejecutas <code>npm run dev</code>: no existe en la web publicada. Simula una partida completa con el motor de
-        <code> tools/deckforge</code> y la reproduce paso a paso, o juegas tú contra su piloto. Para ver un mazo contra sí mismo, elige el mismo en los dos lados.
+        Simula una partida completa con el motor de <code>tools/deckforge</code> y la reproduce paso a paso, o juegas tú contra su piloto.
+        Para ver un mazo contra sí mismo, elige el mismo en los dos lados. En pruebas: el piloto aún no está calibrado con partidas reales.
       </p>}
 
       {!playing && (
@@ -118,8 +109,14 @@ export function LabPage() {
 
       {engineError && (
         <div className="banner" role="alert">
-          No se pudo conectar con el simulador: {engineError}. Comprueba que Python está instalado (o define NCD_PYTHON con su ruta).
+          No se pudo conectar con el simulador: {engineError}.{' '}
+          {IN_BROWSER ? 'Recarga la página para volver a intentarlo.' : 'Comprueba que Python está instalado (o define NCD_PYTHON con su ruta).'}
         </div>
+      )}
+      {!engineError && (engine.status === 'loading' || engine.status === 'starting') && (
+        <p className="lab-loading" role="status">
+          {engine.status === 'loading' ? 'Descargando el simulador (unos 12 MB la primera vez; después queda guardado en el navegador)…' : 'Arrancando el simulador…'}
+        </p>
       )}
 
       <div hidden={mode !== 'play'}>
@@ -160,6 +157,7 @@ export function LabPage() {
 
       {shown ? (
         <>
+          {shown.warnings.map((w) => <p className="lab-warning" role="note" key={w}>⚠ {w} Se ha simulado igualmente.</p>)}
           <p className="lab-result">
             <b>{shown.game.winner < 0 ? 'Empate' : `Gana J${shown.game.winner + 1}`}</b> en el turno {shown.game.turns} · semilla {shown.game.seed} · {shown.game.steps.length} pasos
           </p>

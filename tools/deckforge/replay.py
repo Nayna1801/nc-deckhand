@@ -6,6 +6,7 @@ El fichero resultante lo lee la página visor (viewer.html); las manos de los do
 
     python tools/deckforge/forge.py replay <mazo A> <mazo B> --games 2 --seed 3 --out out/replay.json [--append]
 """
+import copy
 import json
 import re
 from pathlib import Path
@@ -46,7 +47,8 @@ def _player(g, p, owner, viewer=None):
     hand = [None] * len(p.hand) if secret and p.pi != viewer else [c['id'] for c in p.hand]
     legs = [_legend(l, secret and not l.up and not (p.pi == viewer and l.known)) for l in p.legs]
     return dict(h=hand, f=[_unit(g, u) for u in p.field], l=legs,
-                e=[p.E, p.Eready], g=[[x[0], x[1], owner(x, p.pi)] for x in p.gigs], x=list(p.fixer), d=len(p.deck), t=len(p.trash))
+                e=[p.E, p.Eready], g=[[x[0], x[1], owner(x, p.pi)] for x in p.gigs], x=list(p.fixer), d=len(p.deck), t=len(p.trash),
+                tr=[c['id'] for c in p.trash])       # la basura es pública: en orden, la última es la de arriba
 
 
 def snapshot(g, owner=lambda die, holder: holder, viewer=None):
@@ -91,6 +93,22 @@ class _Rec(list):
         self._owner = {}         # id(dado) -> jugador que lo tiró por primera vez (su dueño)
         self._refs = []          # referencias a los dados vistos, para que su id no se reutilice
         self._dice = {}          # {(dueño, máximo): (quién lo tiene, valor)} en la última comprobación
+
+    def __deepcopy__(self, memo):
+        """Copia para los puntos de control de live.py. Los dueños de los dados van por id(): se rehacen con los dados copiados.
+        Las fotos del tablero no cambian una vez guardadas, así que se comparten."""
+        new = _Rec.__new__(_Rec)
+        memo[id(self)] = new
+        list.extend(new, self)
+        new.g = copy.deepcopy(self.g, memo)
+        new.steps = [list(s) for s in self.steps]
+        new.states = list(self.states)
+        new._idx = dict(self._idx)
+        new.header = self.header
+        new._refs = copy.deepcopy(self._refs, memo)
+        new._owner = {id(n): self._owner[id(o)] for o, n in zip(self._refs, new._refs)}
+        new._dice = dict(self._dice)
+        return new
 
     def owner(self, die, holder):
         k = id(die)

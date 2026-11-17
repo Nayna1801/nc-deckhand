@@ -70,15 +70,28 @@ def _traced(game, pi, out):
         ai2_turn._do_action, X.Game.attack, ai2_turn._sell = do, attack, sell
 
 
-def turn_plan(g, pi):
-    """Acciones que haría el piloto en el turno que empieza ahora para la mano `pi` (con su previsión y su valoración)."""
-    c = g.clone()
+def plan_copy(g, seed=None):
+    """Copia de la partida donde el piloto jugará solo el turno que empieza ahora (ver turn_plan). Hacerla es barato; live.py la guarda
+    y deja el cálculo (plan_run) para cuando la persona está pensando.
+    Con `seed`, la copia lleva su propio azar y la partida real no gasta ni un número del suyo (live.py lo necesita para poder
+    repetir la partida sin volver a calcular esto)."""
+    c = g.clone(seed)
     c.rollout, c.ai, c.chooser, c.payer, c.rec = False, ai2, None, None, None     # la copia juega sola: sin ganchos de la persona
+    return c
+
+
+def plan_run(c, pi):
+    """Acciones que hace el piloto en la copia de plan_copy para la mano `pi`."""
     me = c.p[pi]
     out = []
     with _traced(c, pi, out):
         ai2.main(c, me, me.op)
     return out
+
+
+def turn_plan(g, pi, seed=None):
+    """Acciones que haría el piloto en el turno que empieza ahora para la mano `pi` (con su previsión y su valoración)."""
+    return plan_run(plan_copy(g, seed), pi)
 
 
 def describe(option):

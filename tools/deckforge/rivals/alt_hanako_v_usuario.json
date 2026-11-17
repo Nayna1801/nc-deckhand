@@ -1,0 +1,34 @@
+{
+ "name": "Alt/Hanako/V · lista del usuario (2026-11-16)",
+ "legends": [
+  "alt_cunningham_soulkiller_architect",
+  "hanako_arasaka_daughter_of_the_emperor",
+  "v_corporate_exile"
+ ],
+ "main": {
+  "chrome_reverie": 3,
+  "dying_night_v_s_pistol": 3,
+  "floor_it": 2,
+  "jacked_in_voodoo_boy": 3,
+  "les_elemens": 3,
+  "lizzy_wizzy_delicate_weapon": 3,
+  "maman_brigitte_spirit_of_death": 2,
+  "netwatch_netdriver": 1,
+  "nocturne_op55_n1": 3,
+  "peace_offering": 2,
+  "pepe_najarro_working_doubles": 3,
+  "placide_voodoo_sentinel": 2,
+  "pyramid_song": 3,
+  "take_control": 1,
+  "three_mouths_one_desire": 3,
+  "towerfall": 2,
+  "trust_no_one": 3,
+  "unlikely_bond": 1
+ },
+ "side": {
+  "corpo_security": 1,
+  "unlikely_bond": 2,
+  "valentino_street_racer": 2,
+  "westbrook_netrunner": 2
+ }
+}

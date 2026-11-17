@@ -16,7 +16,7 @@ def start_turn(g, me, op):
             g.draw(me, n, HANAKO)
     g.ev(me, 'cond_ok' if pairs(me) else 'cond_no', 'pareja')
     g.ev(me, 'cond_ok' if mins(me) else 'cond_no', 'min')
-    g.ev(me, 'cond_ok' if me.gigs and op.gigs and me.cred() < op.cred() else 'cond_no', 'menos_cred')
+    g.ev(me, 'cond_ok' if op.gigs and me.cred() < op.cred() else 'cond_no', 'menos_cred')
     g.ev(me, 'cond_ok' if n8(me) else 'cond_no', 'gig8')
 
 
